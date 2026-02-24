@@ -43,6 +43,7 @@ body{
 /* 左側ダミー(中央維持用) */
 .left-space{
   width:28px;
+}
   
 .logo{
   font-family:'Galada', cursive;

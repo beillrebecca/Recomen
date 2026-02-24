@@ -1,1 +1,978 @@
+body, .showcase, .card {
+  font-family: var(--font-family, 'Source Han Sans JP', sans-serif);
+}
 
+body {
+  padding-bottom: 60px; /* bottom-menu の高さと同じ */
+}
+
+:root{
+  --bg-color:#f6f6f6;
+  --font-family:Arial,sans-serif;
+  --font-color:#000;
+  --profile-bg:#fff;
+  --showcase-bg:#f6f6f6;
+  --card-bg:#ffffff;
+}
+
+
+/* ===== 全体 ===== */
+body{
+  margin:0;
+  font-family:var(--font-family);
+  background:var(--bg-color);
+  color:var(--font-color);
+}
+
+/* ===== トップバー ===== */
+.top-bar{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  height:70px;
+  background:#fff9c4; /* カスタムバーより少し濃い黄色 */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:1000;
+  box-shadow:0 2px 6px rgba(0,0,0,0.1);
+  padding:0 16px;
+}
+.logo{
+  font-family:'Galada', cursive;
+  font-size:35px;
+  color: #000000 /* 黒で固定 */
+}
+.hamburger{
+  position:absolute;
+  right:16px;
+  width:28px;
+  height:20px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  cursor:pointer;
+}
+.hamburger span{
+  display:block;
+  height:3px;
+  background:#000;
+  border-radius:2px;
+}
+
+.header,
+#announcementBar,
+.profile,
+.showcase {
+  margin: 0;       /* 上下余白ゼロ */
+  padding: 0;      /* 必要なところだけ個別に残す */
+}
+
+/* ===== ヘッダー ===== */
+.header{
+  margin-top:70px;
+  height:260px;
+  cursor:pointer;
+  margin-bottom: 0px;
+}
+.header img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* ===== メインコンテンツ（プロフィール＋ショーケース） ===== */
+.main-content {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;       /* 幅が狭いと折り返す */
+  max-width: 1400px;     /* 最大横幅を設定 */
+  margin: 0 auto;        /* 中央に寄せる */
+}
+
+/* プロフィール欄 */
+.profile {
+  flex: 1; 
+  display: flex;
+  gap: 16px;
+  flex-direction: column;
+  padding: 16px;
+  background: var(--profile-bg);
+  align-items: flex-start;
+  max-width: 700px;
+}
+
+@media (max-width: 768px) {
+  .main-content { /* ヘッダー下にラップ用の div を作る場合 */
+  display: flex;
+  gap: 16px;        /* 左右の間隔 */
+  margin: 0;
+  margin-top: 0;
+}
+
+  .profile, .showcase {
+    flex: 1 1 100%;
+  }
+}
+
+.avatar-container{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  margin-top: 12px;
+}
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  border: 0.5px solid #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #d8ebfa; /* 背景色 */
+}
+
+.avatar img{
+  width: 100%;
+  height: 100%;
+  filter: none;
+  object-fit: cover; /* アイコンを枠内に収める */
+  border-radius: 50%;
+}
+
+/* 上段 */
+.profile-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+/* 下段 */
+.profile-bottom {
+  display: flex;
+  flex-direction: row; /* 横幅いっぱいに広げる場合 */
+  width: 100%;
+  margin-top: 12px;
+}
+
+.profile-name {
+  flex: 0 0 auto;
+  font-weight: 400;
+  font-size: 16px;
+  min-width: auto;
+  margin-right: 12px;
+  text-align: left;  /* 中央寄せ解除 */
+  margin: 0;
+}
+
+.profile-desc {
+  flex: 1;             /* 親の横幅いっぱいを使う */
+  min-height: 120px;   /* 縦幅 */
+  width: 100%;         /* 横幅を確保 */
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box; /* パディング込みでサイズ計算 */
+  font-size: 13px;
+  line-height: 1.4px;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;  /* 名前の下にフォロー/フォロワー */
+  justify-content: center;
+  gap: 4px;               /* 名前とフォロー/フォロワーの間隔 */
+  margin-top: 8px;
+  margin-left: 12px;
+}
+
+/* ===== フォロー/フォロワー横並び ===== */
+.profile-stats {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+  margin: 0;
+  flex: 0 0 auto;
+  color: var(--font-color #555); /* ポップアップで選んだ色が反映 */
+}
+
+.stat-item {
+  cursor: pointer;
+  font-size: 13px;
+  color: #555;
+  display: flex;
+  align-items: center;
+  gap: 4px;             /* 数字と文字の間 */
+}
+
+.stat-item strong {
+  font-weight: bold;
+}
+
+/* ===== モーダル ===== */
+.modal {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  max-height: 400px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.close-btn {
+  align-self: flex-end;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  margin: 8px;
+}
+
+.modal-title {
+  text-align: center;
+  font-weight: bold;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.user-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;  /* 縦スクロール */
+  flex: 1;
+}
+
+.user-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-bottom: 1px solid #eee;
+  cursor: default;
+}
+
+.user-list li img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* ===== ショーケース ===== */
+.showcase {
+  flex: 1; /* 残りのスペースをカード欄に */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  padding: 16px;
+  justify-content: center;
+  background: var(--showcase-bg);
+}
+
+.slide-arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:20px;
+  color:rgba(200,200,200,0.8);
+  padding:2px 6px;
+  cursor:pointer;
+  user-select:none;
+}
+.slide-left{left:4px;}
+.slide-right{right:4px;}
+.card-name{
+  min-height:32px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:14px;
+  text-align:center;
+}
+.link-wrapper{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.link-display{
+  padding:5px;
+  border:1px solid #ccc;
+  border-radius:6px;
+  background:#f9f9f9;
+  cursor:pointer;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-size:13px;
+}
+
+.card-actions{
+  display:flex;
+  gap:14px;
+  align-items:center;
+}
+/* アイコン共通 */
+.card-actions svg {
+  width:26px;
+  height:26px;
+  cursor:pointer;
+  stroke:#000;
+  fill:none;
+  transition: transform 0.25s ease, fill 0.25s ease, stroke 0.25s ease;
+}
+
+/* ポップアニメーション */
+@keyframes popAnim {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+
+.card-actions svg.pop {
+  animation: popAnim 0.25s ease;
+}
+.icon-heart.liked .heart-shape {
+  fill: red !important;
+  stroke: red !important;
+}
+
+
+.card-actions svg.pop{
+  animation: popAnim 0.25s ease;
+}
+
+.card-actions svg.liked{
+  fill:red;
+  stroke:red;
+}
+
+.card-actions svg.saved.active{
+  fill:#000;
+  stroke:#000;
+}
+
+
+/* =========================
+   共通スタイル
+========================= */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+  aspect-ratio: 1/1;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+}
+
+.image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* クリック数（右上） */
+.modern-clicks {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  background: rgba(0,0,0,0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: #fff;
+  pointer-events: none;
+}
+
+/* アイテム名（画像下） */
+.card-name {
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 400;
+  color: #000;
+  text-align: center;
+  margin-top: 4px; /* 画像との間隔 */
+  cursor: text;
+}
+
+/* 値段とリンク */
+.price-link-wrapper {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.card-price {
+  flex: 1;
+  font-weight: 500;
+  font-size: 14px;
+  color: #333;
+}
+
+.link-display {
+  flex: 2;
+  font-size: 14px;
+  color: #0066cc;
+  text-decoration: underline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* アクションボタン */
+.card-actions {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-top: 4px;
+}
+
+/* 編集ボタンは非表示 */
+.edit-link-btn {
+  display: none;
+  position: absolute;
+  z-index: 100;
+}
+
+/* =========================
+   ナチュラルテーマ
+========================= */
+body.theme-natural .card {
+  background: #fff;
+  box-shadow: 0 4px 10px rgba(0,0,0,.12);
+  padding: 10px;
+  border-radius: 16px;
+}
+
+/* =========================
+   モダンテーマ
+========================= */
+body.theme-modern .card {
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  border-radius: 0;
+}
+
+body.theme-modern .card-actions {
+  justify-content: space-evenly;
+  padding: 0;
+  margin: 8px 0 0 0;
+}
+
+body.theme-modern .card-actions svg {
+  width: 26px;
+  height: 26px;
+}
+
+
+/* カスタムバー全体 */
+.custom-bar {
+  position: relative;
+  display: flex;
+  justify-content: center; /* 横方向中央寄せ */
+  align-items: center;     /* 縦方向中央寄せ */
+  gap: 12px;               /* ボタン間の隙間 */
+  padding: 6px 16px;       /* 上下狭め */
+  background: #fffde7; /* ← 優しい薄いパステルイエロー */
+  border-bottom: 1px solid #ddd;
+  position: sticky;
+  top: 70px;
+  z-index: 10;
+  overflow: visible;
+}
+
+/* 編集ボタン */
+.edit-toggle-btn {
+  white-space: nowrap;
+  padding: 10px 28px;       /* 小さめに調整 */
+  font-size: 14px;          /* 少し小さく */
+  font-weight: 400;
+  cursor: pointer;
+  background: #fff;
+  border: none;
+  border-radius: 999px;
+  color: #333;
+  box-shadow: 0 4px 12px rgba(203, 163, 232, 0.3); /* 控えめ影 */
+}
+
+.center-edit-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 18px rgba(203, 163, 232, 0.3); /* ホバー時は少し濃く */
+}
+
+/* 編集項目コンテナ（スライド部分） */
+.edit-items {
+  position: absolute;
+  top: 100%;
+  left: 0;               
+  width: 100%;           
+  display: flex;
+  flex-direction: row;
+  justify-content: center;  
+  align-items: center;
+  gap: 8px;
+  
+  max-height: 0;          /* 初期は閉じる */
+  overflow: hidden;       
+  padding: 0;             
+  box-sizing: border-box;
+  z-index: 20;
+
+  background: #fffde7;    /* カスタムバーと同じ黄色 */
+  border-radius: 0;      
+  box-shadow: none;      
+  transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+/* スライド開いたとき */
+.edit-items.active {
+  max-height: 60px;       /* ボタンの高さ + ギャップを考慮 */
+  padding: 6px 0;
+  overflow: visible;
+}
+
+/* 各ボタン */
+.edit-item {
+  position: relative; /* 子の absolute を基準にする */
+  flex: none;
+  width: 120px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  background: #fff;
+  border: 2px solid rgba(203, 163, 232, 0.5);
+  border-radius: 12px;                   /* 丸み */
+  color: #000;               /* 文字は黒 */
+  box-sizing: border-box;
+  padding: 0;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* 各ボタンの背景を統一（テーマ・スタイル・アナウンスバー） */
+.edit-item span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  font-size: 14px;
+  font-weight: 400;
+  background: none;           /* 背景は親の白が担当 */
+  color: #555;  /* プロフィール編集ボタンと同じグレー */
+  border-radius: 12px; /* 親の角丸に合わせる */
+}
+
+.edit-item span:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(203, 163, 232, 0.3); /* 影でぷっくり感 */
+}
+
+
+/* =========================
+   ポップアップ共通
+========================= */
+.popup {
+  position: fixed;      /* 画面基準 */
+  display: none;        /* 初期非表示 */
+  width: 160px;
+  padding: 6px;
+  background-color: #e6f9d9;
+  border: 1px solid #c5e5b1;
+  border-radius: 6px;
+  font-size: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  z-index: 999;
+}
+
+/* スライド中だけポップアップを隠す */
+.edit-items.active .popup {
+  display: none;
+}
+
+/* 吹き出し矢印の縁 */
+.popup::before {
+  content: "";
+  position: absolute;
+  top: -9px;   /* 縁用は少し大きめ */
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 9px 9px 9px;
+  border-style: solid;
+  border-color: transparent transparent #c5e5b1 transparent;
+  z-index: 1;
+}
+
+/* 吹き出し矢印の本体 */
+.popup::after {
+  content: "";
+  position: absolute;
+  top: -8px;   /* 縁の内側に重ねる */
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 8px 8px 8px;
+  border-style: solid;
+  border-color: transparent transparent #e6f9d9 transparent;
+  z-index: 2;
+}
+
+.popup.active {
+  display: block;
+}
+
+
+/* カラーピッカー関連 */
+.color-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 12px;
+}
+
+.color-ui {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  position: relative; /* これ大事 */
+}
+
+.color-hex {
+  border: none;
+  background: #f4f4f4;
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  text-align: center;
+}
+
+.color-panel {
+  width: 100%;
+  height: 60px;              
+  border-radius: 8px;
+  cursor: crosshair;
+  position: relative;
+}
+
+.hue-slider {
+  width: 100%;
+  height: 4px;
+  border-radius: 6px;
+  appearance: none;
+  outline: none;
+}
+
+.color-ui input[type="color"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.color-code {
+  font-family: monospace;
+}
+
+/* 元の長方形カラーピッカーを表示 */
+.color-preview {
+  display: block;   /* 非表示にしていたのを元に戻す */
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #f6f6f6;
+}
+
+/* Pickr は小さな正方形にせず、nanoテーマ scale は戻す */
+.pickr {
+  width: auto;
+  height: auto;
+  transform: scale(0.85); /* 必要なら元の scale に戻す */
+}
+
+.pickr .pcr-button {
+  width: auto;
+  height: auto;
+  border-radius: 6px;
+  padding: 0;
+}
+
+/* パネルやスライダーは表示してもOK */
+.pickr .pcr-app,
+.pickr .pcr-picker {
+  display: block;
+}
+
+/* Background */
+.showcase {
+  background-color: var(--showcase-bg, #fff);
+}
+
+/* Font Color */
+body {
+  color: var(--font-color, #333);
+}
+
+/* Profile Background */
+.profile {
+  background-color: var(--profile-bg, #fff);
+}
+
+#fontSelect {
+  width: 180px;    /* お好みの横幅に調整 */
+  font-size: 12px; /* フォントサイズはお好みで */
+}
+
+#themePopup {
+  display: none;              /* 初期は非表示にする */
+  flex-direction: column;     /* ラベル縦並び */
+  align-items: center;        /* ラベル列を水平方向中央に */
+  padding: 4px;
+  width: 90px;
+  font-size: 11px;
+}
+
+#themePopup button {
+  all: unset;                 
+  display: block;
+  width: 100%;
+  padding: 4px 6px;    /* ボタン小さく */
+  margin-bottom: 3px;
+  font-size: 11px;
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+  background: rgba(255,255,255,0.85);
+  border-radius: 10px;
+  color: #333;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+#themePopup button:hover {
+  background: rgba(230,230,250,0.9);
+  transform: scale(1.03);
+}
+
+#themePopup button:last-child {
+  margin-bottom: 0;
+}
+
+/* テーマポップアップ内のラベル横並び */
+#themePopup .theme-option {
+  display: flex;         /* 横並び */
+  align-items: center;   /* 縦中央揃え */
+  gap: 4px;              /* ボタンと文字の間隔 */
+  margin-bottom: 3px;
+  font-size: 10px;
+}
+
+#themePopup .theme-option input[type="radio"] {
+  width: 12px;
+  height: 12px;
+  margin: 0;
+  cursor: pointer;
+}
+
+#themePopup .theme-option .label-text {
+  display: inline-block; /* 文字を横に */
+}
+
+
+/* ===== スタイルポップアップ ===== */
+#stylePopup {
+  width: 180px;        /* 幅を少し大きく */
+  padding: 8px;        /* 内側の余白も増やす */
+  font-size: 12px;     /* 中身の文字サイズ */
+}
+
+#stylePopup button {
+  all: unset;
+  display: block;
+  width: 100%;
+  padding: 6px 8px;    /* ボタンも少し大きく */
+  margin-bottom: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+  background: rgba(255,255,255,0.85);
+  border-radius: 10px;
+  color: #333;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+#stylePopup button:hover {
+  background: rgba(230,230,250,0.9);
+  transform: scale(1.03);
+}
+
+#stylePopup button:last-child {
+  margin-bottom: 0;
+}
+
+/* ===== アナウンスバー用ポップアップ ===== */
+#announcementPopup {
+  width: 200px;        /* 幅をさらに大きく */
+  padding: 8px;
+  font-size: 12px;
+}
+
+#announcementPopup button {
+  all: unset;
+  display: block;
+  width: 100%;
+  padding: 6px 8px;
+  margin-bottom: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+  background: rgba(255,255,255,0.85);
+  border-radius: 10px;
+  color: #333;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+#announcementPopup button:hover {
+  background: rgba(230,230,250,0.9);
+  transform: scale(1.03);
+}
+
+#announcementPopup button:last-child {
+  margin-bottom: 0;
+}
+
+/* アナウンスバーのラベルとチェックボックスを横並びに */
+#announcementPopup .toggle-field {
+  display: flex;          /* 横並び */
+  align-items: center;    /* 縦中央揃え */
+  gap: 6px;               /* ボタンと文字の間隔 */
+  margin-bottom: 6px;
+}
+
+#announcementPopup .toggle-field {
+  display: flex;          
+  align-items: center;    
+  gap: 2px;  /* 文字とチェックボックスの間隔を狭く */
+  margin-bottom: 6px;
+}
+
+#announcementPopup .toggle-field input[type="checkbox"] {
+  margin: 0;
+  cursor: pointer;
+}
+
+#announcementPopup input#bannerTextInput {
+  width: 200px;   /* お好みの横幅に調整 */
+  box-sizing: border-box; /* 内側のpaddingも含めて幅を調整 */
+}
+
+/* アナウンスバー */
+#announcementBar {
+  display: flex;
+  align-items: center;
+  height: 40px;        /* 高さ自動にしてテキストに合わせる */
+  padding: 0;      /* 上下余白を少しだけ */
+  position: relative;
+  overflow: hidden;
+  margin: 0;           /* 上下の余白をなくす */
+  background: transparent;
+  margin-bottom: 0;
+}
+
+/* 流れるテキスト */
+#announcementBar .banner-text {
+  position: absolute;
+  white-space: nowrap;
+  left: 100%;           
+  top: 0;               
+  height: 100%;         
+  display: flex;
+  align-items: center;  
+}
+
+/* スクロールのアニメーション */
+@keyframes scroll-text {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-100%); }
+}
+
+
+/* ===== ボトムメニュー固定 ===== */
+.bottom-menu {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background: #fff;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 1px solid #ddd;
+  box-shadow: 0 -1px 5px rgba(0,0,0,0.1);
+  z-index: 1000; /* すべてのコンテンツの上に表示 */
+}
+
+.bottom-menu .menu-btn {
+  background: none;
+  border: none;
+  outline: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.bottom-menu .menu-btn svg {
+  width: 28px;
+  height: 28px;
+  fill: #333;
+  transition: fill 0.2s;
+}
+
+.bottom-menu .menu-btn:hover svg,
+.bottom-menu .menu-btn.active svg {
+  fill: #E1306C; /* Instagram風ピンク */
+}

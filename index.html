@@ -1,1 +1,537 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recomen</title>
 
+<!-- Google Fonts -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Galada&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Source+Han+Sans+JP&family=IPAex+Mincho&family=Sawarabi+Gothic&display=swap" rel="stylesheet">
+
+<!-- アイコン -->
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<!-- カラーピッカー -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/nano.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
+
+<!-- ★ 追加（これが超重要） -->
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+
+</head>
+
+</head><body class="theme-natural">
+
+  <!-- ===== トップバー ===== -->
+  <div class="top-bar">
+    <div class="logo">Recomen</div>
+    <div class="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <!-- ===== カスタムバー（編集バー） ===== -->
+<div class="custom-bar">
+
+  <!-- 編集ボタン -->
+  <button id="editToggle" class="edit-toggle-btn">
+    ショーケースを編集
+  </button>
+
+  <!-- 編集項目（スライドする中身） -->
+  <div class="edit-items" id="editItems">
+    
+    <!-- テーマボタン -->
+    <div class="edit-item" id="themeButton">
+      <span>テーマ</span>
+      <div class="popup" id="themePopup">
+        <label class="theme-option">
+          <input type="radio" name="theme" value="natural" checked="">
+          <span class="label-text">ナチュラル</span>
+        </label>
+        <label class="theme-option">
+          <input type="radio" name="theme" value="modern">
+          <span class="label-text">モダン</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- スタイルボタン -->
+<div class="edit-item" id="styleButton">
+  <span>スタイル</span>
+
+  <div class="popup" id="stylePopup" style="display: none;">
+
+    <!-- Background -->
+    <label class="color-field">
+      <span class="label">Background</span>
+      <div class="pickr">
+
+        <button type="button" class="pcr-button" role="button" aria-label="toggle color picker dialog" style="--pcr-color: rgba(246, 246, 246, 1);"></button>
+
+        
+      </div>
+    </label>
+
+    <!-- Font -->
+    <label>
+      <span class="label">Font</span>
+      <select id="fontSelect">
+        <option value="'Source Han Sans JP', sans-serif">Source Han Sans JP</option>
+        <option value="'IPAex Mincho', serif">IPAex Mincho</option>
+        <option value="'Sawarabi Gothic', sans-serif">Sawarabi Gothic</option>
+      </select>
+    </label>
+
+    <!-- Font Color -->
+    <label class="color-field">
+      <span class="label">Font Color</span>
+      <div class="pickr">
+
+        <button type="button" class="pcr-button" role="button" aria-label="toggle color picker dialog" style="--pcr-color: rgba(246, 246, 246, 1);"></button>
+
+        
+      </div>
+    </label>
+
+    <!-- Profile Background -->
+    <label class="color-field">
+      <span class="label">Profile Background</span>
+      <div class="pickr">
+
+        <button type="button" class="pcr-button" role="button" aria-label="toggle color picker dialog" style="--pcr-color: rgba(246, 246, 246, 1);"></button>
+
+        
+      </div>
+    </label>
+
+  </div>
+</div>
+
+    <!-- アナウンスバー -->
+    <div class="edit-item" id="announcementButton">
+      <span>アナウンスバー</span>
+      <div class="popup" id="announcementPopup" style="display: none;">
+        <!-- ON / OFF -->
+        <label class="toggle-field">
+          <span class="label">Show Announcement</span>
+          <input type="checkbox" id="announcementToggle" checked="">
+        </label>
+
+        <!-- Text -->
+        <label>
+          <span class="label">Text</span>
+          <input type="text" id="bannerTextInput" placeholder="アナウンスバーのテキスト" value="アナウンスバーのテキスト">
+        </label>
+
+        <!-- Background -->
+        <label class="color-field">
+  <span class="label">Background</span>
+ <div class="pickr">
+
+        <button type="button" class="pcr-button" role="button" aria-label="toggle color picker dialog" style="--pcr-color: rgba(246, 246, 246, 1);"></button>
+
+        
+      </div>
+      </label></div>
+    </div>
+
+  </div> <!-- /edit-items -->
+
+</div> <!-- /custom-bar -->
+
+  <!-- ===== ヘッダー ===== -->
+  <div class="header">
+    <img id="headerImg" src="https://via.placeholder.com/1200x260">
+  </div>
+  <input type="file" id="headerImgInput" style="display:none;">
+
+
+<!-- ===== メインコンテンツ ===== -->
+<div class="main-content-wrapper">
+
+  <!-- ===== アナウンスバー ===== -->
+  <div id="announcementBar" class="announcement-bar" style="display: flex; align-items: center; overflow: hidden; position: relative; height: 40px; padding: 0px 10px;">
+    <span class="banner-text" style="position: absolute; white-space: nowrap; top: 50%; transform: translateY(-50%); font-size: 16px; line-height: 1; left: 122px;">アナウンスバーのテキスト</span>
+  </div>
+
+  <!-- ===== プロフィール ===== -->
+<div class="profile">
+
+  <!-- 上段：画像＋名前とフォロー/フォロワー -->
+  <div class="profile-top">
+    
+    <!-- 画像 -->
+    <div class="avatar">
+  <img id="avatarImg" src="https://example.com/blue-user-icon.png" alt="プロフィールアイコン">
+  <input type="file" id="avatarImgInput" accept="image/*" style="display:none;">
+    </div>
+
+    <!-- 名前とフォロー/フォロワーを縦並びにする -->
+    <div class="profile-info">
+      <div class="profile-name" contenteditable="true">プロフィール名</div>
+      <div class="profile-stats">
+        <span id="followingBtn" class="stat-item"><strong>123</strong> フォロー中</span>
+        <span id="followersBtn" class="stat-item"><strong>456</strong> フォロワー</span>
+      </div>
+    </div>
+
+  </div> <!-- /.profile-top -->
+
+  <!-- 下段：紹介文 -->
+  <div class="profile-bottom">
+    <div class="profile-desc" contenteditable="true">プロフィール紹介文</div>
+  </div>
+
+</div>
+
+<!-- モーダルは profile の外に置く -->
+<div class="modal" id="followModal">
+  <div class="modal-content">
+    <button class="close-btn">×</button>
+    <div class="modal-title"></div>
+    <ul class="user-list"></ul>
+  </div>
+</div>
+
+  <!-- ===== カード欄（ショーケース） ===== -->
+  <div id="showcase" class="showcase"><div class="card">
+    <div class="image">
+      <img src="https://dummyimage.com/300x300/eeeeee/999999&amp;text=%F0%9F%93%B7" alt="">
+      <span class="modern-clicks">0</span>
+    </div>
+
+    <div class="card-name" contenteditable="true">
+      アイテム1
+    </div>
+
+    <div class="price-link-wrapper">
+      <div class="card-price">¥0</div>
+      <a class="link-display" href="商品リンク" target="_blank">商品リンク</a>
+    </div>
+
+    <div class="card-actions">
+      <svg class="icon-heart" viewBox="0 0 24 24" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20.8 4.6 a5 5 0 0 0-7.1 0L12 6.3l-1.7-1.7 a5 5 0 0 0-7.1 7.1L12 21l8.8-9.3 a5 5 0 0 0 0-7.1z"></path>
+    </svg>
+      <svg viewBox="0 0 24 24"><path d="M21 15a4 4 0 01-4 4H8l-5 3V7a4 4 0 014-4h10a4 4 0 014 4z"></path></svg>
+      <svg viewBox="0 0 24 24"><path d="M22 2L11 13"></path><path d="M22 2L15 22l-4-9-9-4z"></path></svg>
+      <svg class="icon-save" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"></path></svg>
+    </div>
+
+    <button class="edit-link-btn" style="display:none;">編集</button>
+  </div><div class="card">
+    <div class="image">
+      <img src="https://dummyimage.com/300x300/eeeeee/999999&amp;text=%F0%9F%93%B7" alt="">
+      <span class="modern-clicks">0</span>
+    </div>
+
+    <div class="card-name" contenteditable="true">
+      アイテム2
+    </div>
+
+    <div class="price-link-wrapper">
+      <div class="card-price">¥0</div>
+      <a class="link-display" href="商品リンク" target="_blank">商品リンク</a>
+    </div>
+
+    <div class="card-actions">
+      <svg class="icon-heart" viewBox="0 0 24 24" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20.8 4.6 a5 5 0 0 0-7.1 0L12 6.3l-1.7-1.7 a5 5 0 0 0-7.1 7.1L12 21l8.8-9.3 a5 5 0 0 0 0-7.1z"></path>
+    </svg>
+      <svg viewBox="0 0 24 24"><path d="M21 15a4 4 0 01-4 4H8l-5 3V7a4 4 0 014-4h10a4 4 0 014 4z"></path></svg>
+      <svg viewBox="0 0 24 24"><path d="M22 2L11 13"></path><path d="M22 2L15 22l-4-9-9-4z"></path></svg>
+      <svg class="icon-save" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"></path></svg>
+    </div>
+
+    <button class="edit-link-btn" style="display:none;">編集</button>
+  </div><div class="card">
+    <div class="image">
+      <img src="https://dummyimage.com/300x300/eeeeee/999999&amp;text=%F0%9F%93%B7" alt="">
+      <span class="modern-clicks">0</span>
+    </div>
+
+    <div class="card-name" contenteditable="true">
+      アイテム3
+    </div>
+
+    <div class="price-link-wrapper">
+      <div class="card-price">¥0</div>
+      <a class="link-display" href="商品リンク" target="_blank">商品リンク</a>
+    </div>
+
+    <div class="card-actions">
+      <svg class="icon-heart" viewBox="0 0 24 24" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20.8 4.6 a5 5 0 0 0-7.1 0L12 6.3l-1.7-1.7 a5 5 0 0 0-7.1 7.1L12 21l8.8-9.3 a5 5 0 0 0 0-7.1z"></path>
+    </svg>
+      <svg viewBox="0 0 24 24"><path d="M21 15a4 4 0 01-4 4H8l-5 3V7a4 4 0 014-4h10a4 4 0 014 4z"></path></svg>
+      <svg viewBox="0 0 24 24"><path d="M22 2L11 13"></path><path d="M22 2L15 22l-4-9-9-4z"></path></svg>
+      <svg class="icon-save" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"></path></svg>
+    </div>
+
+    <button class="edit-link-btn" style="display:none;">編集</button>
+  </div><div class="card">
+    <div class="image">
+      <img src="https://dummyimage.com/300x300/eeeeee/999999&amp;text=%F0%9F%93%B7" alt="">
+      <span class="modern-clicks">0</span>
+    </div>
+
+    <div class="card-name" contenteditable="true">
+      アイテム4
+    </div>
+
+    <div class="price-link-wrapper">
+      <div class="card-price">¥0</div>
+      <a class="link-display" href="商品リンク" target="_blank">商品リンク</a>
+    </div>
+
+    <div class="card-actions">
+      <svg class="icon-heart" viewBox="0 0 24 24" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20.8 4.6 a5 5 0 0 0-7.1 0L12 6.3l-1.7-1.7 a5 5 0 0 0-7.1 7.1L12 21l8.8-9.3 a5 5 0 0 0 0-7.1z"></path>
+    </svg>
+      <svg viewBox="0 0 24 24"><path d="M21 15a4 4 0 01-4 4H8l-5 3V7a4 4 0 014-4h10a4 4 0 014 4z"></path></svg>
+      <svg viewBox="0 0 24 24"><path d="M22 2L11 13"></path><path d="M22 2L15 22l-4-9-9-4z"></path></svg>
+      <svg class="icon-save" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"></path></svg>
+    </div>
+
+    <button class="edit-link-btn" style="display:none;">編集</button>
+  </div><div class="card">
+    <div class="image">
+      <img src="https://dummyimage.com/300x300/eeeeee/999999&amp;text=%F0%9F%93%B7" alt="">
+      <span class="modern-clicks">0</span>
+    </div>
+
+    <div class="card-name" contenteditable="true">
+      アイテム5
+    </div>
+
+    <div class="price-link-wrapper">
+      <div class="card-price">¥0</div>
+      <a class="link-display" href="商品リンク" target="_blank">商品リンク</a>
+    </div>
+
+    <div class="card-actions">
+      <svg class="icon-heart" viewBox="0 0 24 24" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20.8 4.6 a5 5 0 0 0-7.1 0L12 6.3l-1.7-1.7 a5 5 0 0 0-7.1 7.1L12 21l8.8-9.3 a5 5 0 0 0 0-7.1z"></path>
+    </svg>
+      <svg viewBox="0 0 24 24"><path d="M21 15a4 4 0 01-4 4H8l-5 3V7a4 4 0 014-4h10a4 4 0 014 4z"></path></svg>
+      <svg viewBox="0 0 24 24"><path d="M22 2L11 13"></path><path d="M22 2L15 22l-4-9-9-4z"></path></svg>
+      <svg class="icon-save" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"></path></svg>
+    </div>
+
+    <button class="edit-link-btn" style="display:none;">編集</button>
+  </div><div class="card">
+    <div class="image">
+      <img src="https://dummyimage.com/300x300/eeeeee/999999&amp;text=%F0%9F%93%B7" alt="">
+      <span class="modern-clicks">0</span>
+    </div>
+
+    <div class="card-name" contenteditable="true">
+      アイテム6
+    </div>
+
+    <div class="price-link-wrapper">
+      <div class="card-price">¥0</div>
+      <a class="link-display" href="商品リンク" target="_blank">商品リンク</a>
+    </div>
+
+    <div class="card-actions">
+      <svg class="icon-heart" viewBox="0 0 24 24" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20.8 4.6 a5 5 0 0 0-7.1 0L12 6.3l-1.7-1.7 a5 5 0 0 0-7.1 7.1L12 21l8.8-9.3 a5 5 0 0 0 0-7.1z"></path>
+    </svg>
+      <svg viewBox="0 0 24 24"><path d="M21 15a4 4 0 01-4 4H8l-5 3V7a4 4 0 014-4h10a4 4 0 014 4z"></path></svg>
+      <svg viewBox="0 0 24 24"><path d="M22 2L11 13"></path><path d="M22 2L15 22l-4-9-9-4z"></path></svg>
+      <svg class="icon-save" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"></path></svg>
+    </div>
+
+    <button class="edit-link-btn" style="display:none;">編集</button>
+  </div><div class="card">
+    <div class="image">
+      <img src="https://dummyimage.com/300x300/eeeeee/999999&amp;text=%F0%9F%93%B7" alt="">
+      <span class="modern-clicks">0</span>
+    </div>
+
+    <div class="card-name" contenteditable="true">
+      アイテム7
+    </div>
+
+    <div class="price-link-wrapper">
+      <div class="card-price">¥0</div>
+      <a class="link-display" href="商品リンク" target="_blank">商品リンク</a>
+    </div>
+
+    <div class="card-actions">
+      <svg class="icon-heart" viewBox="0 0 24 24" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20.8 4.6 a5 5 0 0 0-7.1 0L12 6.3l-1.7-1.7 a5 5 0 0 0-7.1 7.1L12 21l8.8-9.3 a5 5 0 0 0 0-7.1z"></path>
+    </svg>
+      <svg viewBox="0 0 24 24"><path d="M21 15a4 4 0 01-4 4H8l-5 3V7a4 4 0 014-4h10a4 4 0 014 4z"></path></svg>
+      <svg viewBox="0 0 24 24"><path d="M22 2L11 13"></path><path d="M22 2L15 22l-4-9-9-4z"></path></svg>
+      <svg class="icon-save" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"></path></svg>
+    </div>
+
+    <button class="edit-link-btn" style="display:none;">編集</button>
+  </div><div class="card">
+    <div class="image">
+      <img src="https://dummyimage.com/300x300/eeeeee/999999&amp;text=%F0%9F%93%B7" alt="">
+      <span class="modern-clicks">0</span>
+    </div>
+
+    <div class="card-name" contenteditable="true">
+      アイテム8
+    </div>
+
+    <div class="price-link-wrapper">
+      <div class="card-price">¥0</div>
+      <a class="link-display" href="商品リンク" target="_blank">商品リンク</a>
+    </div>
+
+    <div class="card-actions">
+      <svg class="icon-heart" viewBox="0 0 24 24" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20.8 4.6 a5 5 0 0 0-7.1 0L12 6.3l-1.7-1.7 a5 5 0 0 0-7.1 7.1L12 21l8.8-9.3 a5 5 0 0 0 0-7.1z"></path>
+    </svg>
+      <svg viewBox="0 0 24 24"><path d="M21 15a4 4 0 01-4 4H8l-5 3V7a4 4 0 014-4h10a4 4 0 014 4z"></path></svg>
+      <svg viewBox="0 0 24 24"><path d="M22 2L11 13"></path><path d="M22 2L15 22l-4-9-9-4z"></path></svg>
+      <svg class="icon-save" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"></path></svg>
+    </div>
+
+    <button class="edit-link-btn" style="display:none;">編集</button>
+  </div><div class="card">
+    <div class="image">
+      <img src="https://dummyimage.com/300x300/eeeeee/999999&amp;text=%F0%9F%93%B7" alt="">
+      <span class="modern-clicks">0</span>
+    </div>
+
+    <div class="card-name" contenteditable="true">
+      アイテム9
+    </div>
+
+    <div class="price-link-wrapper">
+      <div class="card-price">¥0</div>
+      <a class="link-display" href="商品リンク" target="_blank">商品リンク</a>
+    </div>
+
+    <div class="card-actions">
+      <svg class="icon-heart" viewBox="0 0 24 24" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20.8 4.6 a5 5 0 0 0-7.1 0L12 6.3l-1.7-1.7 a5 5 0 0 0-7.1 7.1L12 21l8.8-9.3 a5 5 0 0 0 0-7.1z"></path>
+    </svg>
+      <svg viewBox="0 0 24 24"><path d="M21 15a4 4 0 01-4 4H8l-5 3V7a4 4 0 014-4h10a4 4 0 014 4z"></path></svg>
+      <svg viewBox="0 0 24 24"><path d="M22 2L11 13"></path><path d="M22 2L15 22l-4-9-9-4z"></path></svg>
+      <svg class="icon-save" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"></path></svg>
+    </div>
+
+    <button class="edit-link-btn" style="display:none;">編集</button>
+  </div><div class="card">
+    <div class="image">
+      <img src="https://dummyimage.com/300x300/eeeeee/999999&amp;text=%F0%9F%93%B7" alt="">
+      <span class="modern-clicks">0</span>
+    </div>
+
+    <div class="card-name" contenteditable="true">
+      アイテム10
+    </div>
+
+    <div class="price-link-wrapper">
+      <div class="card-price">¥0</div>
+      <a class="link-display" href="商品リンク" target="_blank">商品リンク</a>
+    </div>
+
+    <div class="card-actions">
+      <svg class="icon-heart" viewBox="0 0 24 24" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20.8 4.6 a5 5 0 0 0-7.1 0L12 6.3l-1.7-1.7 a5 5 0 0 0-7.1 7.1L12 21l8.8-9.3 a5 5 0 0 0 0-7.1z"></path>
+    </svg>
+      <svg viewBox="0 0 24 24"><path d="M21 15a4 4 0 01-4 4H8l-5 3V7a4 4 0 014-4h10a4 4 0 014 4z"></path></svg>
+      <svg viewBox="0 0 24 24"><path d="M22 2L11 13"></path><path d="M22 2L15 22l-4-9-9-4z"></path></svg>
+      <svg class="icon-save" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"></path></svg>
+    </div>
+
+    <button class="edit-link-btn" style="display:none;">編集</button>
+  </div><div class="card">
+    <div class="image">
+      <img src="https://dummyimage.com/300x300/eeeeee/999999&amp;text=%F0%9F%93%B7" alt="">
+      <span class="modern-clicks">0</span>
+    </div>
+
+    <div class="card-name" contenteditable="true">
+      アイテム11
+    </div>
+
+    <div class="price-link-wrapper">
+      <div class="card-price">¥0</div>
+      <a class="link-display" href="商品リンク" target="_blank">商品リンク</a>
+    </div>
+
+    <div class="card-actions">
+      <svg class="icon-heart" viewBox="0 0 24 24" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20.8 4.6 a5 5 0 0 0-7.1 0L12 6.3l-1.7-1.7 a5 5 0 0 0-7.1 7.1L12 21l8.8-9.3 a5 5 0 0 0 0-7.1z"></path>
+    </svg>
+      <svg viewBox="0 0 24 24"><path d="M21 15a4 4 0 01-4 4H8l-5 3V7a4 4 0 014-4h10a4 4 0 014 4z"></path></svg>
+      <svg viewBox="0 0 24 24"><path d="M22 2L11 13"></path><path d="M22 2L15 22l-4-9-9-4z"></path></svg>
+      <svg class="icon-save" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"></path></svg>
+    </div>
+
+    <button class="edit-link-btn" style="display:none;">編集</button>
+  </div><div class="card">
+    <div class="image">
+      <img src="https://dummyimage.com/300x300/eeeeee/999999&amp;text=%F0%9F%93%B7" alt="">
+      <span class="modern-clicks">0</span>
+    </div>
+
+    <div class="card-name" contenteditable="true">
+      アイテム12
+    </div>
+
+    <div class="price-link-wrapper">
+      <div class="card-price">¥0</div>
+      <a class="link-display" href="商品リンク" target="_blank">商品リンク</a>
+    </div>
+
+    <div class="card-actions">
+      <svg class="icon-heart" viewBox="0 0 24 24" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20.8 4.6 a5 5 0 0 0-7.1 0L12 6.3l-1.7-1.7 a5 5 0 0 0-7.1 7.1L12 21l8.8-9.3 a5 5 0 0 0 0-7.1z"></path>
+    </svg>
+      <svg viewBox="0 0 24 24"><path d="M21 15a4 4 0 01-4 4H8l-5 3V7a4 4 0 014-4h10a4 4 0 014 4z"></path></svg>
+      <svg viewBox="0 0 24 24"><path d="M22 2L11 13"></path><path d="M22 2L15 22l-4-9-9-4z"></path></svg>
+      <svg class="icon-save" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"></path></svg>
+    </div>
+
+    <button class="edit-link-btn" style="display:none;">編集</button>
+  </div></div>
+  <input type="file" id="itemImgInput" style="display:none;">
+
+  <!-- ===== ボトムメニュー ===== -->
+  <div class="bottom-menu">
+    <!-- ホーム -->
+    <button class="menu-btn" id="homeBtn">
+      <svg viewBox="0 0 24 24">
+        <path d="M3 12 L12 3 L21 12 V21 H3 Z" stroke="#333" stroke-width="2" fill="none"></path>
+      </svg>
+    </button>
+
+    <!-- いいね -->
+    <button class="menu-btn" id="likeBtn">
+      <svg viewBox="0 0 24 24">
+        <path d="M12 21s-6-4.5-9-9a5 5 0 0 1 7-7l2 2 2-2a5 5 0 0 1 7 7c-3 4.5-9 9-9 9z" stroke="#333" stroke-width="2" fill="none"></path>
+      </svg>
+    </button>
+
+    <!-- 検索 -->
+    <button class="menu-btn" id="searchBtn">
+      <svg viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="7" stroke="#333" stroke-width="2" fill="none"></circle>
+        <line x1="16" y1="16" x2="22" y2="22" stroke="#333" stroke-width="2"></line>
+      </svg>
+    </button>
+
+    <!-- プロフィール -->
+    <button class="menu-btn" id="profileBtn">
+      <svg viewBox="0 0 24 24">
+        <circle cx="12" cy="8" r="4" stroke="#333" stroke-width="2" fill="none"></circle>
+        <path d="M4 20c0-4 8-4 8-4s8 0 8 4" stroke="#333" stroke-width="2" fill="none"></path>
+      </svg>
+    </button>
+  </div>
+
+</body>
+</html>

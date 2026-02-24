@@ -41,17 +41,24 @@ body{
 }
 
 /* 左側ダミー */
-.top-bar::before{
-  content:"";
-  width:28px; /* ハンバーガーと同じ幅 */
+.top-left{
+  flex:1;
 }
   
 .logo{
+  flex:0 0 auto;
   font-family:'Galada', cursive;
   font-size:35px;
   color: #000000;
-  margin:0;
+  margin:0 auto;
 }
+
+/* 右エリア */
+.top-right{
+  flex:1;
+  disply:flex;
+  justify-content:flex-end;
+  
 .hamburger{
   width:28px;
   height:20px;

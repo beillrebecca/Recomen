@@ -512,7 +512,7 @@ body.theme-modern .card-actions svg {
   align-items: center;     /* 縦方向中央寄せ */
   gap: 12px;               /* ボタン間の隙間 */
   padding: 6px 16px;       /* 上下狭め */
-  background: #fffde7; /* ← 優しい薄いパステルイエロー */
+  background: #f3e8ff;
   border-bottom: 1px solid #ddd;
   position: sticky;
   top: 70px;

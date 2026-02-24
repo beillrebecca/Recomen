@@ -15,7 +15,6 @@ body, .showcase, .card {
 /* ===== 全体 ===== */
 body{
   margin:0;
-  padding-top:70px; /* ヘッダー分 */
   padding-bottom:60px;
   font-family:var(--font-family);
   background:var(--bg-color);
@@ -36,7 +35,7 @@ html, body{
   background:#ffffff;
   display:flex;
   align-items:center;
-  justify-content:space-between; /* 重要 */
+  justify-content:flex-end;
   z-index:1000;
   box-shadow:0 2px 6px rgba(0,0,0,0.1);
   padding:0 16px;
@@ -76,7 +75,6 @@ html, body{
 
 /* ===== ヘッダー ===== */
 .header{
-  margin-top:70px;
   height:260px;
   cursor:pointer;
   margin-bottom: 0px;
@@ -513,7 +511,6 @@ body.theme-modern .card-actions svg {
   padding: 6px 16px;       /* 上下狭め */
   background: #f3e8ff; !important;
   border-bottom: 1px solid #ddd;
-  position: sticky;
   top: 70px;
   z-index: 10;
   overflow: visible;

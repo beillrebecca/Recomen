@@ -5,12 +5,13 @@ body, .showcase, .card {
 body {
   padding-bottom: 60px; /* bottom-menu の高さと同じ */
   margin:0;
-  padding-top;70%; /* ヘッダーの高さ分 */
+  padding-top:70px; /* ヘッダーの高さ分 */
 }
 
 html, body{
   overflow-x:hidden;
-  
+}
+
 :root{
   --bg-color:#f6f6f6;
   --font-family:Arial,sans-serif;

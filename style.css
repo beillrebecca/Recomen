@@ -44,8 +44,9 @@ body{
   font-size:35px;
   color: #000000 /* 黒で固定 */
   position:absolute;
-  left:50%;
-  transform:translateX(-50%);
+  left:0;
+  right:0;
+  text-align:center;
   margin:0;
 }
 .hamburger{

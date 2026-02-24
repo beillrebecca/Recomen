@@ -2,16 +2,6 @@ body, .showcase, .card {
   font-family: var(--font-family, 'Source Han Sans JP', sans-serif);
 }
 
-body {
-  padding-bottom: 60px; /* bottom-menu の高さと同じ */
-  margin:0;
-  padding-top:70px;/* ヘッダー分 */
-}
-
-html, body{
-  overflow-x:hidden;
-}
-
 :root{
   --bg-color:#f6f6f6;
   --font-family:Arial,sans-serif;
@@ -25,9 +15,15 @@ html, body{
 /* ===== 全体 ===== */
 body{
   margin:0;
+  padding-top:70px; /* ヘッダー分 */
+  padding-bottom:60px;
   font-family:var(--font-family);
   background:var(--bg-color);
   color:var(--font-color);
+}
+
+html, body{
+  overflow-x:hidden;
 }
 
 /* ===== トップバー ===== */
@@ -49,6 +45,7 @@ body{
 .logo{
   position:absolute;
   left:50%;
+  transform:translateX(-50%);
   font-family:'Galada', cursive;
   font-size:35px;
   color: #000000;

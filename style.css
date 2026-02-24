@@ -46,10 +46,13 @@ body{
   position:absolute;
   left:50%;
   transform:translateX(-50%);
+  margin:0;
 }
 .hamburger{
   position:absolute;
   right:16px;
+  top:50%;
+  transform:translateY(-50%);
   width:28px;
   height:20px;
   display:flex;

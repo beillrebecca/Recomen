@@ -503,13 +503,13 @@ body.theme-modern .card-actions svg {
 
 /* カスタムバー全体 */
 .custom-bar {
-  position: relative;
+  position:sticky;
   display: flex;
   justify-content: center; /* 横方向中央寄せ */
   align-items: center;     /* 縦方向中央寄せ */
   gap: 12px;               /* ボタン間の隙間 */
   padding: 6px 16px;       /* 上下狭め */
-  background: #f3e8ff; !important;
+  background: #f3e8ff !important;
   border-bottom: 1px solid #ddd;
   top: 70px;
   z-index: 10;

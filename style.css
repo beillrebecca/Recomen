@@ -5,7 +5,7 @@ body, .showcase, .card {
 body {
   padding-bottom: 60px; /* bottom-menu の高さと同じ */
   margin:0;
-  padding-top:70px; /* ヘッダーの高さ分 */
+  padding-top:0;
 }
 
 html, body{
@@ -40,7 +40,7 @@ body{
   background:#ffffff;
   display:flex;
   align-items:center;
-　justify-content:flex-end;
+  justify-content:space-between;
   z-index:1000;
   box-shadow:0 2px 6px rgba(0,0,0,0.1);
   padding:0 16px;
@@ -50,9 +50,6 @@ body{
   font-family:'Galada', cursive;
   font-size:35px;
   color: #000000;
-  position:absolute;
-  left:50%;
-  transform:tranlateX(-50%);
 }
   
 .hamburger{

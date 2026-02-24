@@ -39,19 +39,21 @@ body{
   box-shadow:0 2px 6px rgba(0,0,0,0.1);
   padding:0 16px;
 }
-
-/* 左側ダミー(中央維持用) */
-.left-space{
-  width:28px;
-}
   
 .logo{
   font-family:'Galada', cursive;
   font-size:35px;
   color: #000000;
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
   margin:0;
 }
 .hamburger{
+  position:absolute;
+  right:16px;
+  top:50%;
+  transform:translateY(-50%);
   width:28px;
   height:20px;
   display:flex;

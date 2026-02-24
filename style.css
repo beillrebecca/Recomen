@@ -31,7 +31,7 @@ body{
   left:0;
   right:0;
   height:70px;
-  background:#fff9c4; /* カスタムバーより少し濃い黄色 */
+  background:#ffffff
   display:flex;
   align-items:center;
   justify-content:center;

@@ -36,7 +36,7 @@ html, body{
   background:#ffffff;
   display:flex;
   align-items:center;
-  justify-content:center;
+  justify-content:center; /* ロゴ中央用 */
   z-index:1000;
   box-shadow:0 2px 6px rgba(0,0,0,0.1);
   padding:0 16px;

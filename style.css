@@ -43,17 +43,12 @@ html, body{
 }
   
 .logo{
-  position:absolute;
-  left:50%;
-  transform:translateX(-50%);
   font-family:'Galada', cursive;
   font-size:35px;
   color: #000000;
 }
   
 .hamburger{
-  position:absolute;
-  right:16px;
   width:28px;
   height:20px;
   display:flex;

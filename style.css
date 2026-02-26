@@ -53,6 +53,8 @@ html, body{
 }
   
 .hamburger{
+  position:absolute;
+  right:16px;
   width:28px;
   height:20px;
   display:flex;

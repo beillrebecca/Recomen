@@ -1010,3 +1010,12 @@ body {
 .bottom-menu .menu-btn.active svg {
   fill: #E1306C; /* Instagram風ピンク */
 }
+
+.showcase {
+  color: var(--font-color);
+}
+
+.card {
+  color: var(--font-color);
+  }
+

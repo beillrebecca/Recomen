@@ -316,6 +316,7 @@ html, body{
   justify-content: center;
   background: var(--showcase-bg);
   font-family: ver(--font-family);
+  color: var(--font-color);
 }
 
 .slide-arrow{
@@ -353,6 +354,7 @@ html, body{
   text-overflow:ellipsis;
   white-space:nowrap;
   font-size:13px;
+  color: var(--font-color);
 }
 
 .card-actions{

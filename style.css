@@ -18,7 +18,7 @@ body{
   padding-top:70px;
   padding-bottom:60px;
   font-family:var(--font-family);
-  background:var(--bg-color);
+  background:#ffffff; /* 固定色にする */
   color:var(--font-color);
 }
 

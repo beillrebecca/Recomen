@@ -558,6 +558,11 @@ body.theme-modern .card-actions svg {
   transition: max-height 0.3s ease, padding 0.3s ease;
 }
 
+.edit-item.open{
+  max-height:200px;
+  padding:10px 0;
+}
+
 /* スライド開いたとき */
 .edit-items.active {
   max-height: 60px;       /* ボタンの高さ + ギャップを考慮 */

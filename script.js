@@ -548,7 +548,7 @@ createPicker('fontColorPicker', (hex) => {
 
 // 2. 背景色
 createPicker('bgPicker', (color) => {
-  document.documentElement.style.setProperty('--showcase-bg', color);
+  document.documentElement.style.setProperty('--bg-color', color);
 });
 
 // 3. フォントカラー（トップバーには影響させない）

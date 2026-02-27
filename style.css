@@ -1,4 +1,4 @@
-body, .showcase, .card {
+.showcase, .card {
   font-family: var(--font-family, 'Source Han Sans JP', sans-serif);
 }
 

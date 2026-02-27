@@ -8,11 +8,6 @@
 #announcementBar * {
   font-family: var(--font-family, 'Source Han Sans JP', sans-serif);
 }
-
-.showcase,
-.card,
-.card-name{
-  color: var(--font-color) !important;
   
 :root{
   --bg-color:#f6f6f6;

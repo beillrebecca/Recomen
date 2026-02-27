@@ -11,8 +11,8 @@
 
 .showcase,
 .card,
-.card * {
-  color: var(--font-color);
+.card-name{
+  color: var(--font-color) !important;
   
 :root{
   --bg-color:#f6f6f6;

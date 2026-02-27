@@ -317,7 +317,8 @@ html, body{
   padding: 16px;
   justify-content: center;
   background: var(--showcase-bg);
-  font-family: ver(--font-family);
+  font-family: var(--font-family);
+  color: var(--font-color);
 }
 
 .slide-arrow{

@@ -38,7 +38,7 @@ body{
 .top-bar *,
 .bottom-bar
 .bottom-bar * {
-  font-family:system-ui !important;
+  font-family:system-ui;
 }
 
 html, body{

@@ -1,4 +1,11 @@
-.showcase, .card {
+.profile,
+.profile *,
+.showcase, 
+.showcase *,
+.card,
+.card *,
+#announcementBar
+#announcementBar * {
   font-family: var(--font-family, 'Source Han Sans JP', sans-serif);
 }
 

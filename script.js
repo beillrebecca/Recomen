@@ -548,12 +548,8 @@ createPicker('fontColorPicker', (hex) => {
 
 // 2. 背景色
 createPicker('bgPicker', (color) => {
-  const showcase = document.querySelector('.showcase');
-  if (showcase) {
-    showcase.style.backgroundColor = color;
-  }
+  document.documentElement.style.setProperty('--showcase-bg', color);
 });
-
 // 3. フォントカラー（トップバーには影響させない）
 createPicker('fontColorPicker', (color) => {
   document.documentElement.style.setProperty('--font-color', color);

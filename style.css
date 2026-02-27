@@ -22,11 +22,17 @@ body{
 }
 
 .custom-bar,
+.custom-bar *,
 .edit-items,
+.edit-items *,
 .popup,
+.popup *,
 .top-bar,
-.bottom-bar{
-  font-family:sans-serif; /* または system-ui */
+.top-bar *,
+.bottom-bar
+.bottom-bar * {
+  font-family:system-ui !important;
+}
 
 html, body{
   overflow-x:hidden;

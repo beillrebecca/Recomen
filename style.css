@@ -17,10 +17,16 @@ body{
   margin:0;
   padding-top:70px;
   padding-bottom:60px;
-  font-family:var(--font-family);
   background:#ffffff; /* 固定色にする */
   color:var(--font-color);
 }
+
+.custom-bar,
+.edit-items,
+.popup,
+.top-bar,
+.bottom-bar{
+  font-family:sans-serif; /* または system-ui */
 
 html, body{
   overflow-x:hidden;
@@ -291,6 +297,7 @@ html, body{
   padding: 16px;
   justify-content: center;
   background: var(--showcase-bg);
+  font-family: ver(--font-family);
 }
 
 .slide-arrow{

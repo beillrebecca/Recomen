@@ -1,3 +1,5 @@
+console.log("JSは動いています");
+
 document.addEventListener('DOMContentLoaded', () => {
 
   /* =========================

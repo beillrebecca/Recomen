@@ -540,6 +540,7 @@ body.theme-modern .card-actions svg {
   padding: 6px 16px;       /* 上下狭め */
   background: #f3e8ff !important;
   border-bottom: 1px solid #ddd;
+  z-index:999;
 }
 
 /* 編集ボタン */
@@ -1022,11 +1023,5 @@ body {
   color: var(--font-color) !important;
 }
 
-.custom-bar {
-  position: fixed;
-  top: 70px;      /* ←トップバーの高さに合わせる */
-  left: 0;
-  width: 100%;
-  z-index: 999;
-}
+
 

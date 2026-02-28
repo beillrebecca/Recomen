@@ -696,7 +696,4 @@ function loadAppState() {
   renderCards();
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  loadAppState();
-});
   

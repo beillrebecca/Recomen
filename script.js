@@ -3,6 +3,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const showcase = document.getElementById('showcase');
 
+function getAppState() {
+  return {
+    headerImg: document.getElementById('headerImg')?.src || '',
+    avatarImg: document.getElementById('avatarImg')?.src || '',
+    announcementText: document.querySelector('.banner-text')?.textContent || '',
+    announcementBg: document.getElementById('announcementBar')?.style.background || '',
+    profileName: document.getElementById('profileName')?.textContent || '',
+    profileBio: document.getElementById('profileBio')?.textContent || '',
+    items: items
+  };
+}
   /* =========================
      データ
   ========================= */

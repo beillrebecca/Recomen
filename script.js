@@ -1,4 +1,4 @@
-console.log("JSはここまで動いている");
+console.log("TEST123");
 document.addEventListener('DOMContentLoaded', () => {
 
   const showcase = document.getElementById('showcase');

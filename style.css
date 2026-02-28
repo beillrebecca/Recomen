@@ -15,6 +15,9 @@
   color: var(--font-color);
 }
 
+.card-name{
+  color: var(--font-color);
+}
   
   
 :root{

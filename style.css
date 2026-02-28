@@ -9,11 +9,6 @@
   font-family: var(--font-family, 'Source Han Sans JP', sans-serif);
 }
 
-.showcase,
-.card,
-.card-name{
-  color: var(--font-color);
-}
   
   
 :root{
@@ -318,7 +313,6 @@ html, body{
   justify-content: center;
   background: var(--showcase-bg);
   font-family: var(--font-family);
-  color: var(--font-color);
 }
 
 .slide-arrow{
@@ -472,7 +466,6 @@ html, body{
   flex: 1;
   font-weight: 500;
   font-size: 14px;
-  color: #333;
 }
 
 .link-display {
@@ -1012,11 +1005,4 @@ body {
   fill: #E1306C; /* Instagram風ピンク */
 }
 
-.showcase {
-  color: var(--font-color);
-}
-
-.card {
-  color: var(--font-color);
-  }
 

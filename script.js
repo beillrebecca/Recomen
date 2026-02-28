@@ -36,6 +36,44 @@ if (saveBtn) {
     alert('保存しました');
   });
 }
+
+function loadAppState() {
+  const saved = localStorage.getItem('recomenState');
+  if (!saved) return;
+
+  const state = JSON.parse(saved);
+
+  // ヘッダー画像
+  if (state.headerImg) {
+    const header = document.getElementById('headerImg');
+    if (header) header.src = state.headerImg;
+  }
+
+  // プロフィール画像
+  if (state.avatarImg) {
+    const avatar = document.getElementById('avatarImg');
+    if (avatar) avatar.src = state.avatarImg;
+  }
+
+  // アナウンスバー背景
+  if (state.announcementBg) {
+    const bar = document.getElementById('announcementBar');
+    if (bar) bar.style.background = state.announcementBg;
+  }
+
+  // アナウンス文字
+  if (state.announcementText) {
+    const text = document.querySelector('.banner-text');
+    if (text) text.textContent = state.announcementText;
+  }
+
+  // カードデータ
+  if (state.items) {
+    items = state.items;
+  }
+}
+
+
   /* =========================
      データ
   ========================= */

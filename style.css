@@ -14,10 +14,6 @@
 .profile-stats .stat-item strong {
   color: var(--font-color);
 }
-
-.card-name{
-  color: var(--font-color);
-}
   
   
 :root{
@@ -1012,6 +1008,18 @@ body {
 .bottom-menu .menu-btn:hover svg,
 .bottom-menu .menu-btn.active svg {
   fill: #E1306C; /* Instagram風ピンク */
+}
+
+/* ===== フォントカラー強制反映 ===== */
+
+.profile-stats,
+.profile-stats .stat-item,
+.profile-stats .stat-item strong {
+  color: var(--font-color) !important;
+}
+
+.card-name {
+  color: var(--font-color) !important;
 }
 
 

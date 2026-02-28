@@ -14,6 +14,28 @@ function getAppState() {
     items: items
   };
 }
+
+// ==== 保存機能 ====
+function saveAppState() {
+  const state = {
+    items: items,
+    headerImg: document.getElementById('headerImg')?.src || '',
+    avatarImg: document.getElementById('avatarImg')?.src || '',
+    announcementText: document.querySelector('.banner-text')?.textContent || '',
+    announcementBg: document.getElementById('announcementBar')?.style.background || ''
+  };
+
+  localStorage.setItem('recomenState', JSON.stringify(state));
+}
+
+const saveBtn = document.getElementById('saveBtn');
+
+if (saveBtn) {
+  saveBtn.addEventListener('click', () => {
+    saveAppState();
+    alert('保存しました');
+  });
+}
   /* =========================
      データ
   ========================= */

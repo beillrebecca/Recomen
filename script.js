@@ -597,40 +597,40 @@ createPicker('announcementBgPicker', (color) => {
 const followingBtn = document.getElementById('followingBtn');
 const followersBtn = document.getElementById('followersBtn');
 const modal = document.getElementById('followModal');
-const modalTitle = modal.querySelector('.modal-title');
-const userList = modal.querySelector('.user-list');
-const closeBtn = modal.querySelector('.close-btn');
 
-// 仮データ
-const following = [
-  { name: 'ユーザーA', img: 'https://via.placeholder.com/32' },
-  { name: 'ユーザーB', img: 'https://via.placeholder.com/32' }
-];
+if (modal) {
 
-const followers = [
-  { name: 'ユーザーC', img: 'https://via.placeholder.com/32' },
-  { name: 'ユーザーD', img: 'https://via.placeholder.com/32' }
-];
+  const modalTitle = modal.querySelector('.modal-title');
+  const userList = modal.querySelector('.user-list');
+  const closeBtn = modal.querySelector('.close-btn');
 
-// モーダル表示関数
-function showModal(type) {
-  userList.innerHTML = '';
-  let list = type === 'following' ? following : followers;
-  modalTitle.textContent = type === 'following' ? 'フォロー中' : 'フォロワー';
-  list.forEach(user => {
-    const li = document.createElement('li');
-    li.innerHTML = `<img src="${user.img}" alt="${user.name}"><span>${user.name}</span>`;
-    userList.appendChild(li);
-  });
-  modal.style.display = 'block';
+  // 仮データ
+  const following = [
+    { name: 'ユーザーA', img: 'https://via.placeholder.com/32' },
+    { name: 'ユーザーB', img: 'https://via.placeholder.com/32' }
+  ];
+
+  const followers = [
+    { name: 'ユーザーC', img: 'https://via.placeholder.com/32' },
+    { name: 'ユーザーD', img: 'https://via.placeholder.com/32' }
+  ];
+
+  function showModal(type) {
+    userList.innerHTML = '';
+    let list = type === 'following' ? following : followers;
+    modalTitle.textContent = type === 'following' ? 'フォロー中' : 'フォロワー';
+
+    list.forEach(user => {
+      const li = document.createElement('li');
+      li.innerHTML = `<img src="${user.img}" alt="${user.name}"><span>${user.name}</span>`;
+      userList.appendChild(li);
+    });
+
+    modal.style.display = 'block';
+  }
+
+  followingBtn?.addEventListener('click', () => showModal('following'));
+  followersBtn?.addEventListener('click', () => showModal('followers'));
+  closeBtn?.addEventListener('click', () => modal.style.display = 'none');
+
 }
-
-// ボタンクリックでモーダル表示
-followingBtn.addEventListener('click', () => showModal('following'));
-followersBtn.addEventListener('click', () => showModal('followers'));
-
-// モーダル閉じるボタン
-closeBtn.addEventListener('click', () => modal.style.display = 'none');
-
-
-  

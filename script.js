@@ -634,5 +634,6 @@ if (modal) {
   followingBtn?.addEventListener('click', () => showModal('following'));
   followersBtn?.addEventListener('click', () => showModal('followers'));
   closeBtn?.addEventListener('click', () => modal.style.display = 'none');
-
+  
+}
 });

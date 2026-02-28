@@ -1,4 +1,4 @@
-alert("JS読み込み成功");
+console.log("JSはここまで動いている");
 document.addEventListener('DOMContentLoaded', () => {
 
   const showcase = document.getElementById('showcase');

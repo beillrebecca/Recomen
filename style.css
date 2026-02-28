@@ -988,8 +988,8 @@ body {
   font-size: 16px;
   border: none;
   border-radius: 10px;
-  background: #a8e6ff;   /* 水色 */
-  color: #fff;
+  background: #cfefff !important;
+  color: #003b5c !important;
   font-weight: bold;
   cursor: pointer;
 }

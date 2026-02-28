@@ -6,6 +6,20 @@ window.onerror = function(message, source, lineno) {
 
 document.addEventListener('DOMContentLoaded', () => {
 
+/* =========================
+     データ
+  ========================= */
+  let items = [];
+  for (let i = 1; i <= 12; i++) {
+    items.push({
+      name: 'アイテム' + i,
+      img: 'https://dummyimage.com/300x300/eeeeee/999999&text=%F0%9F%93%B7',
+      link: '商品リンク',
+      clicks: 0
+    });
+  }
+  
+  
   const showcase = document.getElementById('showcase');
 
 function getAppState() {
@@ -45,6 +59,7 @@ if (saveBtn) {
 loadAppState();
 renderCards();
 
+
 function loadAppState() {
   const saved = localStorage.getItem('recomenState');
   if (!saved) return;
@@ -81,19 +96,6 @@ function loadAppState() {
   }
 }
 
-
-  /* =========================
-     データ
-  ========================= */
-  let items = [];
-  for (let i = 1; i <= 12; i++) {
-    items.push({
-      name: 'アイテム' + i,
-      img: 'https://dummyimage.com/300x300/eeeeee/999999&text=%F0%9F%93%B7',
-      link: '商品リンク',
-      clicks: 0
-    });
-  }
 
   /* =========================
      SVG アイコン

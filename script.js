@@ -29,6 +29,8 @@ function saveAppState() {
 }
 
 const saveBtn = document.getElementById('saveBtn');
+loadAppState();
+renderCards();
 
 if (saveBtn) {
   saveBtn.addEventListener('click', () => {

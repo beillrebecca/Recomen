@@ -980,20 +980,19 @@ body {
 
 /* ==== 保存ボタン ==== */
 .save-btn{
-  display: block;
-  width: 80%;            /* 横幅を広げる */
-  max-width: 300px;      /* 大きくなりすぎ防止 */
-  margin: 30px auto 40px; /* 上30px / 下40px / 中央寄せ */
-  padding: 14px 0;       /* 高さアップ */
-  font-size: 16px;
-  border: none;
-  border-radius: 10px;
-  background: #cfefff !important;
+  display: block !important;
+  width: 80% !important;
+  max-width: 300px !important;
+  margin: 30px auto 40px !important;
+  padding: 14px 0 !important;
+  font-size: 16px !important;
+  border: none !important;
+  border-radius: 10px !important;
+  background-color: #cfefff !important;
   color: #003b5c !important;
-  font-weight: bold;
-  cursor: pointer;
+  font-weight: bold !important;
+  cursor: pointer !important;
 }
-
 
 /* ===== ボトムメニュー固定 ===== */
 .bottom-menu {

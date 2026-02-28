@@ -605,16 +605,13 @@ document.addEventListener('click', closeAllPopups);
 });
 
 function saveData() {
-  const cards = [];
+  const appState = {
+    items: items,
+    profileName: document.querySelector('.profile-name')?.innerText || '',
+    profileBio: document.querySelector('.profile-bio')?.innerText || '',
+    announcementText: document.querySelector('.announcement-bar')?.innerText || '',
+    bodyClass: document.body.className
+  };
 
-  document.querySelectorAll('.card').forEach(card => {
-    const img = card.querySelector('img')?.src || '';
-    const title = card.querySelector('.item-name')?.innerText || '';
-    const price = card.querySelector('.price')?.innerText || '';
-
-    cards.push({ img, title, price });
-  });
-
-  localStorage.setItem('myCards', JSON.stringify(cards));
+  localStorage.setItem('appState', JSON.stringify(appState));
 }
-

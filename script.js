@@ -603,3 +603,18 @@ closeBtn.addEventListener('click', () => modal.style.display = 'none');
 // 全ポップアップ閉じるイベント
 document.addEventListener('click', closeAllPopups);
 });
+
+function saveData() {
+  const cards = [];
+
+  document.querySelectorAll('.card').forEach(card => {
+    const img = card.querySelector('img')?.src || '';
+    const title = card.querySelector('.item-name')?.innerText || '';
+    const price = card.querySelector('.price')?.innerText || '';
+
+    cards.push({ img, title, price });
+  });
+
+  localStorage.setItem('myCards', JSON.stringify(cards));
+}
+

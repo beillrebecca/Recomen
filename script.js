@@ -52,8 +52,16 @@ function createCard(item, theme) {
     </div>
 
     <div class="price-link-wrapper">
-      <div class="card-price">¥0</div>
-      <a class="link-display" href="${item.link}" target="_blank">${item.link}</a>
+      <div class="card-price" contenteditable="true">
+        ${item.price || '¥0'}
+      </div>
+
+      <a class="link-display"
+         href="${item.link}"
+         target="_blank"
+         contenteditable="true">
+         ${item.link}
+      </a>
     </div>
 
     <div class="card-actions">
@@ -65,6 +73,31 @@ function createCard(item, theme) {
 
     <button class="edit-link-btn" style="display:none;">編集</button>
   `;
+
+
+  /* =========================
+     編集されたら items を更新
+  ========================= */
+
+  // 商品名
+  card.querySelector('.card-name').addEventListener('input', e => {
+    item.name = e.target.innerText.trim();
+    saveAppState();
+  });
+
+  // 値段
+  card.querySelector('.card-price').addEventListener('input', e => {
+    item.price = e.target.innerText.trim();
+    saveAppState();
+  });
+
+  // 商品リンク
+  card.querySelector('.link-display').addEventListener('input', e => {
+    const newLink = e.target.innerText.trim();
+    item.link = newLink;
+    e.target.href = newLink; // クリック先も更新
+    saveAppState();
+  });
 
   return card;
 }
@@ -604,14 +637,66 @@ closeBtn.addEventListener('click', () => modal.style.display = 'none');
 document.addEventListener('click', closeAllPopups);
 });
 
-function saveData() {
+/* =========================
+   アプリ全体保存
+========================= */
+
+function saveAppState() {
   const appState = {
-    items: items,
+    headerImage: document.querySelector('.header img')?.src || '',
+
+    announcementText: document.querySelector('.announcement-bar')?.innerText || '',
+    announcementBg: document.querySelector('.announcement-bar')?.style.backgroundColor || '',
+
     profileName: document.querySelector('.profile-name')?.innerText || '',
     profileBio: document.querySelector('.profile-bio')?.innerText || '',
-    announcementText: document.querySelector('.announcement-bar')?.innerText || '',
-    bodyClass: document.body.className
+    profileImage: document.querySelector('.profile img')?.src || '',
+
+    items: items
   };
 
   localStorage.setItem('appState', JSON.stringify(appState));
 }
+
+function loadAppState() {
+  const saved = localStorage.getItem('appState');
+  if (!saved) return;
+
+  const appState = JSON.parse(saved);
+
+  // ヘッダー
+  if (appState.headerImage) {
+    document.querySelector('.header img').src = appState.headerImage;
+  }
+
+  // アナウンスバー
+  if (appState.announcementText) {
+    document.querySelector('.announcement-bar').innerText = appState.announcementText;
+  }
+
+  if (appState.announcementBg) {
+    document.querySelector('.announcement-bar').style.backgroundColor = appState.announcementBg;
+  }
+
+  // プロフィール
+  if (appState.profileName) {
+    document.querySelector('.profile-name').innerText = appState.profileName;
+  }
+
+  if (appState.profileBio) {
+    document.querySelector('.profile-bio').innerText = appState.profileBio;
+  }
+
+  if (appState.profileImage) {
+    document.querySelector('.profile img').src = appState.profileImage;
+  }
+
+  // カード
+  if (appState.items) {
+    items = appState.items;
+  }
+
+  renderCards();
+}
+
+loadAppState();

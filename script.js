@@ -1,4 +1,4 @@
-console.log("TEST123");
+console.log("SCRIPT START");
 document.addEventListener('DOMContentLoaded', () => {
 
   const showcase = document.getElementById('showcase');
@@ -712,3 +712,5 @@ if (modal) {
   
 }
 });
+
+console.log("SCRIPT END");

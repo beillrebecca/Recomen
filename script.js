@@ -19,6 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
   
+loadAppState();
+renderCards();
+
+
   
   const showcase = document.getElementById('showcase');
 
@@ -56,8 +60,6 @@ if (saveBtn) {
   });
 }
 
-loadAppState();
-renderCards();
 
 
 function loadAppState() {

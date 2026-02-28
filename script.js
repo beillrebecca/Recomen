@@ -6,6 +6,8 @@ window.onerror = function(message, source, lineno) {
 
 document.addEventListener('DOMContentLoaded', () => {
 
+const showcase = document.getElementById('showcase');
+
 /* =========================
      データ
   ========================= */
@@ -19,12 +21,113 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
   
-loadAppState();
-renderCards();
+ /* =========================
+     ローカル保存 読み込み
+  ========================= */
 
+  function loadAppState() {
+    const saved = localStorage.getItem('recomenState');
+    if (!saved) return;
 
-  
-  const showcase = document.getElementById('showcase');
+    const state = JSON.parse(saved);
+
+    // ヘッダー画像
+    if (state.headerImg) {
+      const header = document.getElementById('headerImg');
+      if (header) header.src = state.headerImg;
+    }
+
+    // プロフィール画像
+    if (state.avatarImg) {
+      const avatar = document.getElementById('avatarImg');
+      if (avatar) avatar.src = state.avatarImg;
+    }
+
+    // アナウンスバー背景
+    if (state.announcementBg) {
+      const bar = document.getElementById('announcementBar');
+      if (bar) bar.style.background = state.announcementBg;
+    }
+
+    // アナウンス文字
+    if (state.announcementText) {
+      const text = document.querySelector('.banner-text');
+      if (text) text.textContent = state.announcementText;
+    }
+
+    // カードデータ
+    if (state.items && Array.isArray(state.items)) {
+      items = state.items;
+    }
+  }
+
+  /* =========================
+     保存機能
+  ========================= */
+
+  function saveAppState() {
+    const state = {
+      items: items,
+      headerImg: document.getElementById('headerImg')?.src || '',
+      avatarImg: document.getElementById('avatarImg')?.src || '',
+      announcementText: document.querySelector('.banner-text')?.textContent || '',
+      announcementBg: document.getElementById('announcementBar')?.style.background || ''
+    };
+
+    localStorage.setItem('recomenState', JSON.stringify(state));
+  }
+
+  const saveBtn = document.getElementById('saveBtn');
+
+  if (saveBtn) {
+    saveBtn.addEventListener('click', () => {
+      saveAppState();
+      alert('保存しました');
+    });
+  }
+
+/* =========================
+     カード描画
+  ========================= */
+
+  function renderCards() {
+    if (!showcase) return;
+
+    showcase.innerHTML = '';
+
+    items.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      card.innerHTML = `
+        <div class="image">
+          <img src="${item.img}" alt="">
+        </div>
+
+        <div class="card-name">
+          ${item.name}
+        </div>
+
+        <div class="price-link-wrapper">
+          <a class="link-display" href="${item.link}" target="_blank">
+            ${item.link}
+          </a>
+        </div>
+      `;
+
+      showcase.appendChild(card);
+    });
+  }
+
+/* =========================
+     実行順番（超重要）
+  ========================= */
+
+  loadAppState();   // ② 保存データを読み込む
+  renderCards();    // ③ 描画する
+
+});
+
 
 function getAppState() {
   return {
@@ -36,66 +139,6 @@ function getAppState() {
     profileBio: document.getElementById('profileBio')?.textContent || '',
     items: items
   };
-}
-
-// ==== 保存機能 ====
-function saveAppState() {
-  const state = {
-    items: items,
-    headerImg: document.getElementById('headerImg')?.src || '',
-    avatarImg: document.getElementById('avatarImg')?.src || '',
-    announcementText: document.querySelector('.banner-text')?.textContent || '',
-    announcementBg: document.getElementById('announcementBar')?.style.background || ''
-  };
-
-  localStorage.setItem('recomenState', JSON.stringify(state));
-}
-
-const saveBtn = document.getElementById('saveBtn');
-
-if (saveBtn) {
-  saveBtn.addEventListener('click', () => {
-    saveAppState();
-    alert('保存しました');
-  });
-}
-
-
-
-function loadAppState() {
-  const saved = localStorage.getItem('recomenState');
-  if (!saved) return;
-
-  const state = JSON.parse(saved);
-
-  // ヘッダー画像
-  if (state.headerImg) {
-    const header = document.getElementById('headerImg');
-    if (header) header.src = state.headerImg;
-  }
-
-  // プロフィール画像
-  if (state.avatarImg) {
-    const avatar = document.getElementById('avatarImg');
-    if (avatar) avatar.src = state.avatarImg;
-  }
-
-  // アナウンスバー背景
-  if (state.announcementBg) {
-    const bar = document.getElementById('announcementBar');
-    if (bar) bar.style.background = state.announcementBg;
-  }
-
-  // アナウンス文字
-  if (state.announcementText) {
-    const text = document.querySelector('.banner-text');
-    if (text) text.textContent = state.announcementText;
-  }
-
-  // カードデータ
-  if (state.items) {
-    items = state.items;
-  }
 }
 
 
@@ -188,26 +231,6 @@ function createCard(item, theme) {
   return card;
 }
 
-/* =========================
-   カード描画
-========================= */
-function renderCards() {
-  if (!showcase) return;
-
-  console.log("itemsの中身", items);
-
-  // 古いカードを消す
-  showcase.innerHTML = '';
-
-  // 現在のテーマ
-  const theme = document.body.classList.contains('theme-modern') ? 'modern' : 'natural';
-
-  // 新しいカードを追加
-  items.forEach(item => {
-    const card = createCard(item, theme);
-    showcase.appendChild(card);
-  });
-}
 
 renderCards(); // 初期描画
 

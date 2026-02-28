@@ -1,4 +1,9 @@
 console.log("SCRIPT START");
+
+window.onerror = function(message, source, lineno) {
+  alert("JSエラー: " + message + " (line: " + lineno + ")");
+};
+
 document.addEventListener('DOMContentLoaded', () => {
 
   const showcase = document.getElementById('showcase');

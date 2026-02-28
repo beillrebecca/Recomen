@@ -29,8 +29,6 @@ function saveAppState() {
 }
 
 const saveBtn = document.getElementById('saveBtn');
-loadAppState();
-renderCards();
 
 if (saveBtn) {
   saveBtn.addEventListener('click', () => {
@@ -38,6 +36,9 @@ if (saveBtn) {
     alert('保存しました');
   });
 }
+
+loadAppState();
+renderCards();
 
 function loadAppState() {
   const saved = localStorage.getItem('recomenState');

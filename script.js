@@ -1,3 +1,4 @@
+alert("JS読み込み成功");
 document.addEventListener('DOMContentLoaded', () => {
 
   const showcase = document.getElementById('showcase');

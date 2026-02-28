@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   /* =========================
      データ
   ========================= */
-  const items = [];
+  let items = [];
   for (let i = 1; i <= 12; i++) {
     items.push({
       name: 'アイテム' + i,
@@ -633,9 +633,6 @@ followersBtn.addEventListener('click', () => showModal('followers'));
 closeBtn.addEventListener('click', () => modal.style.display = 'none');
 
 
-// 全ポップアップ閉じるイベント
-document.addEventListener('click', closeAllPopups);
-});
 
 /* =========================
    アプリ全体保存
@@ -699,4 +696,7 @@ function loadAppState() {
   renderCards();
 }
 
-loadAppState();
+document.addEventListener('DOMContentLoaded', () => {
+  loadAppState();
+});
+  

@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+  const showcase = document.getElementById('showcase');
+
   /* =========================
      データ
   ========================= */

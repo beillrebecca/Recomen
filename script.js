@@ -115,28 +115,6 @@ const showcase = document.getElementById('showcase');
     });
   }
 
-/* =========================
-     実行順番（超重要）
-  ========================= */
-
-  loadAppState();   // ② 保存データを読み込む
-  renderCards();    // ③ 描画する
-
-});
-
-
-function getAppState() {
-  return {
-    headerImg: document.getElementById('headerImg')?.src || '',
-    avatarImg: document.getElementById('avatarImg')?.src || '',
-    announcementText: document.querySelector('.banner-text')?.textContent || '',
-    announcementBg: document.getElementById('announcementBar')?.style.background || '',
-    profileName: document.getElementById('profileName')?.textContent || '',
-    profileBio: document.getElementById('profileBio')?.textContent || '',
-    items: items
-  };
-}
-
 
   /* =========================
      SVG アイコン
@@ -198,6 +176,18 @@ function createCard(item, theme) {
 
     <button class="edit-link-btn" style="display:none;">編集</button>
   `;
+
+    return card;
+}
+
+ /* =========================
+     実行順
+  ========================= */
+
+  loadAppState();
+  renderCards();
+
+});
 
 
   /* =========================

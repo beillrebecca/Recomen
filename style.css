@@ -29,7 +29,7 @@
 /* ===== 全体 ===== */
 body{
   margin:0;
-  padding-top:70px;
+  padding-top:0;
   padding-bottom:60px;
   background:#ffffff; /* 固定色にする */
   color:var(--font-color);
@@ -93,7 +93,7 @@ html, body{
   border-radius:2px;
 }
 
-.header,
+
 #announcementBar,
 .profile,
 .showcase {
@@ -105,7 +105,7 @@ html, body{
 .header{
   height:260px;
   cursor:pointer;
-  margin-top:100px;
+  margin-top:120px;
   margin-bottom: 0px;
 }
 .header img{

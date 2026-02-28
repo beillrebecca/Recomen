@@ -534,6 +534,10 @@ body.theme-modern .card-actions svg {
 /* カスタムバー全体 */
 .custom-bar {
   position:fixed;
+  top:70px;
+  left:0;
+  width:100%;
+  box-sizing:border-box;
   display: flex;
   justify-content: center; /* 横方向中央寄せ */
   align-items: center;     /* 縦方向中央寄せ */

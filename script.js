@@ -535,37 +535,28 @@ function createPicker(id, onSave) {
    Picker生成例（関数外で呼び出す）
 =============================== */
 
-// フォロー/フォロワー文字色反映（Pickr）
-createPicker('fontColorPicker', (hex) => {
-  document.documentElement.style.setProperty('--font-color', hex);
-
-  // profile-stats の子要素にも直接 color を反映
-  const statsItems = document.querySelectorAll('.profile-stats .stat-item, .profile-stats .stat-item strong');
-  statsItems.forEach(el => {
-    el.style.color = hex;
-  });
-});
-
-// 2. 背景色
-createPicker('bgPicker', (color) => {
-  document.documentElement.style.setProperty('--showcase-bg', color);
-});
-// 3. フォントカラー（トップバーには影響させない）
+// 1. フォントカラー
 createPicker('fontColorPicker', (color) => {
   document.documentElement.style.setProperty('--font-color', color);
 });
 
-// 4. プロフィール背景色
+// 2. ショーケース背景色
+createPicker('bgPicker', (color) => {
+  document.documentElement.style.setProperty('--showcase-bg', color);
+});
+
+// 3. プロフィール背景色
 createPicker('profileBgPicker', (color) => {
   document.documentElement.style.setProperty('--profile-bg', color);
 });
 
-// 5. アナウンスバー背景色
+// 4. アナウンスバー背景色
 createPicker('announcementBgPicker', (color) => {
   const bar = document.getElementById('announcementBar');
-  if(bar) bar.style.background = color;
+  if (bar) bar.style.background = color;
 });
 
+  
   /* ===============================
    フォロー / フォロワーモーダル制御
    （プロフィール画面用）

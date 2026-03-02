@@ -156,7 +156,7 @@ function createCard(item, theme) {
   });
 }
 
-    card.innerHTML = `
+
       <div class="image">
         <img src="${item.img}" alt="">
         <span class="modern-clicks">${item.clicks || 0}</span>
@@ -190,11 +190,10 @@ function createCard(item, theme) {
       </button>
     `;
 
-    showcase.appendChild(card);
   });
 }
 
-  loadAppState();
+loadAppState();
 
 // 保存データが無いときだけ初期データ作成
 if (items.length === 0) {

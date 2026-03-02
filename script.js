@@ -48,4 +48,24 @@ function renderCards() {
 }
 
 renderCards();
+
+function saveAppState() {
+  const state = {
+    items: items
+  };
+
+  localStorage.setItem("recomenState", JSON.stringify(state));
+  console.log("保存完了");
+}
+
+const saveBtn = document.getElementById("saveBtn");
+
+if (saveBtn) {
+  saveBtn.addEventListener("click", () => {
+    saveAppState();
+    alert("保存しました");
+  });
+}
+
+
 });

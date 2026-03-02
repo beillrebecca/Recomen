@@ -16,6 +16,17 @@ document.addEventListener("DOMContentLoaded", () => {
 ========================= */
 
 function loadAppState() {
+  // 保存データが無い場合のみ初期データ作成
+if (items.length === 0) {
+  for (let i = 1; i <= 12; i++) {
+    items.push({
+      name: "アイテム" + i,
+      img: "https://dummyimage.com/300x300/eeeeee/999999&text=%F0%9F%93%B7",
+      link: "商品リンク",
+      clicks: 0
+    });
+  }
+}
   const saved = localStorage.getItem("recomenState");
   if (!saved) return;
 

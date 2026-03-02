@@ -16,8 +16,6 @@ alert("showcaseは: " + showcase);
 
 });
 
-const showcase = document.getElementById('showcase');
-
 /* =========================
      データ
   ========================= */

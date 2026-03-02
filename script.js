@@ -1,5 +1,4 @@
-alert("JSロード成功");
-console.log("JS最初まで来た");
+alert("JSテスト");
 
 document.addEventListener('DOMContentLoaded', () => {
 

@@ -44,6 +44,8 @@ function loadAppState() {
       items = state.items;
     }
   }
+  
+  loadAppState();
 
   // 🔥 保存データが無いときだけ初期データ作成
   if (items.length === 0) {

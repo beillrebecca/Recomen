@@ -1,4 +1,5 @@
-console.log("SCRIPT START");
+console.log("JS START");
+alert("JS動いてる");
 
 document.addEventListener('DOMContentLoaded', () => {
 

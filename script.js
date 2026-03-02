@@ -193,6 +193,7 @@ if (showcase) {
   ========================= */
 
   function renderCards() {
+    console.log("render実行");
     const showcase = document.getElementById('showcase');
     if (!showcase) return;
 

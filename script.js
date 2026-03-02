@@ -11,38 +11,47 @@ document.addEventListener("DOMContentLoaded", () => {
   // =========================
   let items = [];
 
-  // =========================
-  // 保存データ読み込み
-  // =========================
-  function loadAppState() {
-    const saved = localStorage.getItem("recomenState");
-    if (!saved) return;
+  /* =========================
+   ローカル保存 読み込み
+========================= */
 
-    const state = JSON.parse(saved);
+function loadAppState() {
+  const saved = localStorage.getItem("recomenState");
+  if (!saved) return;
 
-    if (state.items && Array.isArray(state.items)) {
-      items = state.items;
-    }
+  const state = JSON.parse(saved);
 
-    console.log("保存データ読み込み完了");
+  // ヘッダー画像
+  if (state.headerImg) {
+    const header = document.getElementById("headerImg");
+    if (header) header.src = state.headerImg;
   }
 
-  // ① まず保存データを読む
-  loadAppState();
-
-  // ② 保存データが無いときだけ初期データを作る
-  if (items.length === 0) {
-    for (let i = 1; i <= 12; i++) {
-      items.push({
-        name: "アイテム" + i,
-        img: "https://dummyimage.com/300x300/eeeeee/999999&text=%F0%9F%93%B7",
-        link: "商品リンク",
-        clicks: 0
-      });
-    }
+  // プロフィール画像
+  if (state.avatarImg) {
+    const avatar = document.getElementById("avatarImg");
+    if (avatar) avatar.src = state.avatarImg;
   }
 
-  console.log("items準備完了", items);
+  // アナウンスバー背景
+  if (state.announcementBg) {
+    const bar = document.getElementById("announcementBar");
+    if (bar) bar.style.background = state.announcementBg;
+  }
+
+  // アナウンス文字
+  if (state.announcementText) {
+    const text = document.querySelector(".banner-text");
+    if (text) text.textContent = state.announcementText;
+  }
+
+  // カードデータ
+  if (state.items && Array.isArray(state.items)) {
+    items = state.items;
+  }
+
+  console.log("保存データ読み込み完了");
+}
 
   // =========================
   // カード描画

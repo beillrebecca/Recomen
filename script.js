@@ -1,1 +1,1 @@
-console.log("script開始");
+alert("本当に読み込まれてる？");

@@ -17,4 +17,35 @@ for (let i = 1; i <= 12; i++) {
 }
 
 console.log("items準備完了", items);
+
+function renderCards() {
+  if (!showcase) return;
+
+  showcase.innerHTML = "";
+
+  items.forEach(item => {
+    const card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `
+      <div class="image">
+        <img src="${item.img}" alt="">
+      </div>
+
+      <div class="card-name">
+        ${item.name}
+      </div>
+
+      <div class="price-link-wrapper">
+        <a class="link-display" href="${item.link}" target="_blank">
+          ${item.link}
+        </a>
+      </div>
+    `;
+
+    showcase.appendChild(card);
+  });
+}
+
+renderCards();
 });

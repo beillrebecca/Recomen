@@ -199,6 +199,7 @@ if (showcase) {
   ========================= */
 
   function renderCards() {
+    const showcase = document.getElementById('showcase');
     if (!showcase) return;
 
     showcase.innerHTML = '';

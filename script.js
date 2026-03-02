@@ -467,7 +467,7 @@ themeRadios.forEach(radio => {
       document.body.classList.add('theme-modern');
     }
 
-    renderCards(); // 再描画
+
 
     // 再描画後に画像を復元（カードはそのまま）
     const cardImgs = showcase.querySelectorAll('.card img');

@@ -1,5 +1,10 @@
 console.log("JS START");
-alert("JS動いてる");
+
+window.onerror = function (msg, url, line, col, error) {
+  alert("JSエラー発生:\n" + msg + "\n行:" + line);
+};
+
+alert("JS動いてるよ");
 
 document.addEventListener('DOMContentLoaded', () => {
 

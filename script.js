@@ -100,4 +100,28 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+
+  /* =========================
+     ショーケースクリック処理
+  ========================= */
+  if (showcase) {
+    showcase.addEventListener("click", e => {
+
+      // ハート
+      const heart = e.target.closest(".icon-heart");
+      if (heart) {
+        heart.classList.toggle("liked");
+        return;
+      }
+
+      // 保存アイコン
+      const save = e.target.closest(".icon-save");
+      if (save) {
+        save.classList.toggle("saved");
+        return;
+      }
+
+    });
+  }
+
 });

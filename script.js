@@ -98,6 +98,50 @@ function saveIcon() {
   `;
 }
 
+/* =========================
+   カード作成（テーマ別生成）
+========================= */
+function createCard(item, theme) {
+  const card = document.createElement('div');
+  card.className = 'card';
+
+  card.innerHTML = `
+    <div class="image">
+      <img src="${item.img}" alt="">
+      <span class="modern-clicks">${item.clicks || 0}</span>
+    </div>
+
+    <div class="card-name" contenteditable="true">
+      ${item.name}
+    </div>
+
+    <div class="price-link-wrapper">
+      <div class="card-price" contenteditable="true">
+        ${item.price || '¥0'}
+      </div>
+
+      <a class="link-display"
+         href="${item.link}"
+         target="_blank">
+         ${item.link}
+      </a>
+    </div>
+
+    <div class="card-actions">
+      ${heartIcon()}
+      ${commentIcon()}
+      ${shareIcon()}
+      ${saveIcon()}
+    </div>
+
+    <button class="edit-link-btn" style="display:none;">
+      編集
+    </button>
+  `;
+
+  return card;
+}
+
   // =========================
   // カード描画
   // =========================

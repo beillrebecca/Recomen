@@ -10,9 +10,111 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 const showcase = document.getElementById('showcase');
-alert("showcaseは: " + showcase);
+// =========================
+// ショーケースクリック処理（名前編集＆画像アップロード両立）
+// =========================
+if (showcase) {
+  showcase.addEventListener('click', e => {
 
+    // --- ハートアイコン ---
+    const heart = e.target.closest('.icon-heart');
+    if (heart) {
+      heart.classList.toggle('liked');
+      const path = heart.querySelector('path');
+      path.setAttribute('fill', heart.classList.contains('liked') ? 'red' : 'none');
+      path.setAttribute('stroke', heart.classList.contains('liked') ? 'red' : '#000');
+      heart.classList.remove('pop');
+      void heart.offsetWidth;
+      heart.classList.add('pop');
+      return;
+    }
+
+    // --- 保存アイコン ---
+    const save = e.target.closest('.icon-save');
+    if (save) {
+      save.classList.toggle('saved');
+      const path = save.querySelector('path');
+      path.setAttribute('fill', save.classList.contains('saved') ? '#000' : 'none');
+      path.setAttribute('stroke', '#000');
+      save.classList.remove('pop');
+      void save.offsetWidth;
+      save.classList.add('pop');
+      return;
+    }
+
+    // --- 編集ボタン ---
+    const editBtn = e.target.closest('.edit-link-btn');
+    if (editBtn) {
+      e.stopPropagation();
+      const card = editBtn.closest('.card');
+      const linkEl = card.querySelector('.link-display');
+      const currentLink = linkEl.getAttribute('href');
+      const newLink = prompt('商品リンクを入力してください', currentLink);
+      if (newLink) {
+        linkEl.setAttribute('href', newLink);
+        linkEl.textContent = newLink;
+      }
+      return;
+    }
+
+    // --- 商品リンククリック ---
+    const linkEl = e.target.closest('.link-display');
+    if (linkEl) {
+      e.preventDefault();
+      const card = linkEl.closest('.card');
+      const editBtn = card.querySelector('.edit-link-btn');
+
+      // 編集ボタンを一時表示（ポップアップ代わり）
+      editBtn.style.display = 'inline-block';
+      editBtn.style.position = 'absolute';
+      editBtn.style.top = linkEl.offsetTop + linkEl.offsetHeight + 4 + 'px';
+      editBtn.style.left = linkEl.offsetLeft + 'px';
+
+      const currentLink = linkEl.getAttribute('href');
+      const newLink = prompt('商品リンクを入力してください', currentLink);
+      if (newLink) {
+        linkEl.setAttribute('href', newLink);
+        linkEl.textContent = newLink;
+      }
+
+      editBtn.style.display = 'none';
+      return;
+    }
+
+     // --- 名前編集をクリックした場合はアップロード処理を止める ---
+  const nameEl = e.target.closest('.card-name, .modern-name');
+  if (nameEl) {
+    // 名前部分にクリックが来たらここで処理を止める
+    return; 
+  }
+
+  // --- 画像クリック（名前以外） ---
+  const imageEl = e.target.closest('.image');
+  if (!imageEl) return;
+
+  const cardEl = imageEl.closest('.card');
+  const imgEl = imageEl.querySelector('img');
+  if (!imgEl) return;
+
+  itemImgInput.onchange = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      imgEl.src = ev.target.result;
+
+      const index = Array.from(showcase.children).indexOf(cardEl);
+      if (index >= 0) items[index].img = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+
+    itemImgInput.value = '';
+  };
+
+  itemImgInput.click();
 });
+}
 
 /* =========================
      データ
@@ -229,111 +331,6 @@ function createCard(item, theme) {
 
 renderCards(); // 初期描画
 
-// =========================
-// ショーケースクリック処理（名前編集＆画像アップロード両立）
-// =========================
-if (showcase) {
-  showcase.addEventListener('click', e => {
-
-    // --- ハートアイコン ---
-    const heart = e.target.closest('.icon-heart');
-    if (heart) {
-      heart.classList.toggle('liked');
-      const path = heart.querySelector('path');
-      path.setAttribute('fill', heart.classList.contains('liked') ? 'red' : 'none');
-      path.setAttribute('stroke', heart.classList.contains('liked') ? 'red' : '#000');
-      heart.classList.remove('pop');
-      void heart.offsetWidth;
-      heart.classList.add('pop');
-      return;
-    }
-
-    // --- 保存アイコン ---
-    const save = e.target.closest('.icon-save');
-    if (save) {
-      save.classList.toggle('saved');
-      const path = save.querySelector('path');
-      path.setAttribute('fill', save.classList.contains('saved') ? '#000' : 'none');
-      path.setAttribute('stroke', '#000');
-      save.classList.remove('pop');
-      void save.offsetWidth;
-      save.classList.add('pop');
-      return;
-    }
-
-    // --- 編集ボタン ---
-    const editBtn = e.target.closest('.edit-link-btn');
-    if (editBtn) {
-      e.stopPropagation();
-      const card = editBtn.closest('.card');
-      const linkEl = card.querySelector('.link-display');
-      const currentLink = linkEl.getAttribute('href');
-      const newLink = prompt('商品リンクを入力してください', currentLink);
-      if (newLink) {
-        linkEl.setAttribute('href', newLink);
-        linkEl.textContent = newLink;
-      }
-      return;
-    }
-
-    // --- 商品リンククリック ---
-    const linkEl = e.target.closest('.link-display');
-    if (linkEl) {
-      e.preventDefault();
-      const card = linkEl.closest('.card');
-      const editBtn = card.querySelector('.edit-link-btn');
-
-      // 編集ボタンを一時表示（ポップアップ代わり）
-      editBtn.style.display = 'inline-block';
-      editBtn.style.position = 'absolute';
-      editBtn.style.top = linkEl.offsetTop + linkEl.offsetHeight + 4 + 'px';
-      editBtn.style.left = linkEl.offsetLeft + 'px';
-
-      const currentLink = linkEl.getAttribute('href');
-      const newLink = prompt('商品リンクを入力してください', currentLink);
-      if (newLink) {
-        linkEl.setAttribute('href', newLink);
-        linkEl.textContent = newLink;
-      }
-
-      editBtn.style.display = 'none';
-      return;
-    }
-
-     // --- 名前編集をクリックした場合はアップロード処理を止める ---
-  const nameEl = e.target.closest('.card-name, .modern-name');
-  if (nameEl) {
-    // 名前部分にクリックが来たらここで処理を止める
-    return; 
-  }
-
-  // --- 画像クリック（名前以外） ---
-  const imageEl = e.target.closest('.image');
-  if (!imageEl) return;
-
-  const cardEl = imageEl.closest('.card');
-  const imgEl = imageEl.querySelector('img');
-  if (!imgEl) return;
-
-  itemImgInput.onchange = (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      imgEl.src = ev.target.result;
-
-      const index = Array.from(showcase.children).indexOf(cardEl);
-      if (index >= 0) items[index].img = ev.target.result;
-    };
-    reader.readAsDataURL(file);
-
-    itemImgInput.value = '';
-  };
-
-  itemImgInput.click();
-});
-}
 
 // =========================
 // 名前編集の反映

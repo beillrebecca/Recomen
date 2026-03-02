@@ -1,6 +1,4 @@
-document.body.style.background = "yellow";
-alert("外部JSからこんにちは");
-console.log("script開始");
+console.log("STEP1 OK");
 
 document.addEventListener("DOMContentLoaded", () => {
   console.log("DOM OK");

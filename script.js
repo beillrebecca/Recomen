@@ -6,6 +6,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const showcase = document.getElementById("showcase");
   console.log("showcase:", showcase);
   let items = [];
+  
+  function loadAppState() {
+  const saved = localStorage.getItem("recomenState");
+  if (!saved) return;
+
+  const state = JSON.parse(saved);
+
+  if (state.items && Array.isArray(state.items)) {
+    items = state.items;
+  }
+
+  console.log("保存データ読み込み完了");
+}
 
 for (let i = 1; i <= 12; i++) {
   items.push({
@@ -47,6 +60,7 @@ function renderCards() {
   });
 }
 
+loadAppState();
 renderCards();
 
 function saveAppState() {

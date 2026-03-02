@@ -86,6 +86,7 @@ function loadAppState() {
   }
 
   // ③ 描画
+  loadAppState();
   renderCards();
 
   // =========================

@@ -151,8 +151,10 @@ function createCard(item, theme) {
   showcase.innerHTML = "";
 
   items.forEach(item => {
-    const card = document.createElement("div");
-    card.className = "card";
+    const card = createCard(item);
+    showcase.appendChild(card);
+  });
+}
 
     card.innerHTML = `
       <div class="image">

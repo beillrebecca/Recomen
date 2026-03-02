@@ -1,2 +1,1 @@
-document.body.innerHTML += "<h1>JS動いてる</h1>";
-});
+alert("JS実行確認");

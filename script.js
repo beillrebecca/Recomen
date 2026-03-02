@@ -7,9 +7,7 @@ window.onerror = function (msg, url, line, col, error) {
 alert("JS動いてるよ");
 
 document.addEventListener('DOMContentLoaded', () => {
-  document.addEventListener('DOMContentLoaded', () => {
 
-alert("DOM読み込み成功");
 
 const showcase = document.getElementById('showcase');
 alert("showcaseは: " + showcase);

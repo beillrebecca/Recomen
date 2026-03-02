@@ -329,8 +329,6 @@ function createCard(item, theme) {
 }
 
 
-renderCards(); // 初期描画
-
 
 // =========================
 // 名前編集の反映

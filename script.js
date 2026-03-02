@@ -60,37 +60,104 @@ function loadAppState() {
   console.log("保存データ読み込み完了");
 }
 
+/* =========================
+   SVG アイコン
+========================= */
+
+function heartIcon() {
+  return `
+    <svg class="icon-heart" viewBox="0 0 24 24" stroke-width="1.3"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20.8 4.6a5 5 0 0 0-7.1 0L12 6.3l-1.7-1.7
+        a5 5 0 0 0-7.1 7.1L12 21l8.8-9.3
+        a5 5 0 0 0 0-7.1z"/>
+    </svg>
+  `;
+}
+
+function commentIcon() {
+  return `
+    <svg class="icon-comment" viewBox="0 0 24 24"
+      stroke-width="1.3" stroke-linecap="round"
+      stroke-linejoin="round">
+      <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7
+        a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/>
+    </svg>
+  `;
+}
+
+function shareIcon() {
+  return `
+    <svg class="icon-share" viewBox="0 0 24 24"
+      stroke-width="1.3" stroke-linecap="round"
+      stroke-linejoin="round">
+      <path d="M22 2L11 13"/>
+      <path d="M22 2L15 22l-4-9-9-4z"/>
+    </svg>
+  `;
+}
+
+function saveIcon() {
+  return `
+    <svg class="icon-save" viewBox="0 0 24 24"
+      stroke-width="1.3" stroke-linecap="round"
+      stroke-linejoin="round">
+      <path d="M19 21l-7-5-7 5V5
+        a2 2 0 0 1 2-2h10
+        a2 2 0 0 1 2 2z"/>
+    </svg>
+  `;
+}
+
   // =========================
   // カード描画
   // =========================
   function renderCards() {
-    if (!showcase) return;
+  if (!showcase) return;
 
-    showcase.innerHTML = "";
+  showcase.innerHTML = "";
 
-    items.forEach(item => {
-      const card = document.createElement("div");
-      card.className = "card";
+  items.forEach(item => {
+    const card = document.createElement("div");
+    card.className = "card";
 
-      card.innerHTML = `
-        <div class="image">
-          <img src="${item.img}" alt="">
+    card.innerHTML = `
+      <div class="image">
+        <img src="${item.img}" alt="">
+        <span class="modern-clicks">${item.clicks || 0}</span>
+      </div>
+
+      <div class="card-name" contenteditable="true">
+        ${item.name}
+      </div>
+
+      <div class="price-link-wrapper">
+        <div class="card-price" contenteditable="true">
+          ${item.price || "¥0"}
         </div>
 
-        <div class="card-name">
-          ${item.name}
-        </div>
+        <a class="link-display"
+           href="${item.link}"
+           target="_blank">
+           ${item.link}
+        </a>
+      </div>
 
-        <div class="price-link-wrapper">
-          <a class="link-display" href="${item.link}" target="_blank">
-            ${item.link}
-          </a>
-        </div>
-      `;
+      <div class="card-actions">
+        ${heartIcon()}
+        ${commentIcon()}
+        ${shareIcon()}
+        ${saveIcon()}
+      </div>
 
-      showcase.appendChild(card);
-    });
-  }
+      <button class="edit-link-btn" style="display:none;">
+        編集
+      </button>
+    `;
+
+    showcase.appendChild(card);
+  });
+}
 
   // ③ 描画
   loadAppState();

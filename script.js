@@ -1,10 +1,4 @@
-console.log("JS START");
-
-window.onerror = function (msg, url, line, col, error) {
-  alert("JSエラー発生:\n" + msg + "\n行:" + line);
-};
-
-alert("JS動いてるよ");
+alert("JS読み込み成功");
 
 document.addEventListener('DOMContentLoaded', () => {
 

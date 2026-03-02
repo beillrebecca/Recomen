@@ -203,10 +203,6 @@ function createCard(item, theme) {
 
 });
 
-if (showcase) {
-  showcase.addEventListener('click', e => {
-    console.log("クリック検出");
-  });
-}
+
 
 

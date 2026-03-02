@@ -1,4 +1,4 @@
-alert("script読み込みテスト");
+alert("外部JSからこんにちは");
 console.log("script開始");
 
 document.addEventListener("DOMContentLoaded", () => {

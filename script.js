@@ -14,48 +14,48 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =========================
    ローカル保存 読み込み
 ========================= */
-
 function loadAppState() {
   const saved = localStorage.getItem("recomenState");
-  if (!saved) return;
 
-  const state = JSON.parse(saved);
+  if (saved) {
+    const state = JSON.parse(saved);
 
-  if (state.headerImg) {
-    const header = document.getElementById("headerImg");
-    if (header) header.src = state.headerImg;
+    if (state.headerImg) {
+      const header = document.getElementById("headerImg");
+      if (header) header.src = state.headerImg;
+    }
+
+    if (state.avatarImg) {
+      const avatar = document.getElementById("avatarImg");
+      if (avatar) avatar.src = state.avatarImg;
+    }
+
+    if (state.announcementBg) {
+      const bar = document.getElementById("announcementBar");
+      if (bar) bar.style.background = state.announcementBg;
+    }
+
+    if (state.announcementText) {
+      const text = document.querySelector(".banner-text");
+      if (text) text.textContent = state.announcementText;
+    }
+
+    if (state.items && Array.isArray(state.items)) {
+      items = state.items;
+    }
   }
 
-  if (state.avatarImg) {
-    const avatar = document.getElementById("avatarImg");
-    if (avatar) avatar.src = state.avatarImg;
+  // 🔥 保存データが無いときだけ初期データ作成
+  if (items.length === 0) {
+    for (let i = 1; i <= 12; i++) {
+      items.push({
+        name: "アイテム" + i,
+        img: "https://dummyimage.com/300x300/eeeeee/999999&text=%F0%9F%93%B7",
+        link: "商品リンク",
+        clicks: 0
+      });
+    }
   }
-
-  if (state.announcementBg) {
-    const bar = document.getElementById("announcementBar");
-    if (bar) bar.style.background = state.announcementBg;
-  }
-
-  if (state.announcementText) {
-    const text = document.querySelector(".banner-text");
-    if (text) text.textContent = state.announcementText;
-  }
-
-  if (state.items && Array.isArray(state.items)) {
-    items = state.items;
-  }
-
-  // 保存データが無い場合のみ初期データ作成
-if (items.length === 0) {
-  for (let i = 1; i <= 12; i++) {
-    items.push({
-      name: "アイテム" + i,
-      img: "https://dummyimage.com/300x300/eeeeee/999999&text=%F0%9F%93%B7",
-      link: "商品リンク",
-      clicks: 0
-    });
-  }
-}
 
   console.log("保存データ読み込み完了");
 }

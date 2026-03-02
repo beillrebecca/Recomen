@@ -45,19 +45,6 @@ function loadAppState() {
     }
   }
   
-  loadAppState();
-
-  // 🔥 保存データが無いときだけ初期データ作成
-  if (items.length === 0) {
-    for (let i = 1; i <= 12; i++) {
-      items.push({
-        name: "アイテム" + i,
-        img: "https://dummyimage.com/300x300/eeeeee/999999&text=%F0%9F%93%B7",
-        link: "商品リンク",
-        clicks: 0
-      });
-    }
-  }
 
   console.log("保存データ読み込み完了");
 }
@@ -161,8 +148,21 @@ function saveIcon() {
   });
 }
 
-  // ③ 描画
-  renderCards();
+  loadAppState();
+
+// 保存データが無いときだけ初期データ作成
+if (items.length === 0) {
+  for (let i = 1; i <= 12; i++) {
+    items.push({
+      name: "アイテム" + i,
+      img: "https://dummyimage.com/300x300/eeeeee/999999&text=%F0%9F%93%B7",
+      link: "商品リンク",
+      clicks: 0
+    });
+  }
+}
+
+renderCards();
 
   // =========================
   // 保存機能

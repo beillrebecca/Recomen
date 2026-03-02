@@ -16,47 +16,31 @@ document.addEventListener("DOMContentLoaded", () => {
 ========================= */
 
 function loadAppState() {
-  // 保存データが無い場合だけ初期データを作る
-if (items.length === 0) {
-  for (let i = 1; i <= 12; i++) {
-    items.push({
-      name: "アイテム" + i,
-      img: "https://dummyimage.com/300x300/eeeeee/999999&text=%F0%9F%93%B7",
-      link: "商品リンク",
-      clicks: 0
-    });
-  }
-}
   const saved = localStorage.getItem("recomenState");
   if (!saved) return;
 
   const state = JSON.parse(saved);
 
-  // ヘッダー画像
   if (state.headerImg) {
     const header = document.getElementById("headerImg");
     if (header) header.src = state.headerImg;
   }
 
-  // プロフィール画像
   if (state.avatarImg) {
     const avatar = document.getElementById("avatarImg");
     if (avatar) avatar.src = state.avatarImg;
   }
 
-  // アナウンスバー背景
   if (state.announcementBg) {
     const bar = document.getElementById("announcementBar");
     if (bar) bar.style.background = state.announcementBg;
   }
 
-  // アナウンス文字
   if (state.announcementText) {
     const text = document.querySelector(".banner-text");
     if (text) text.textContent = state.announcementText;
   }
 
-  // カードデータ
   if (state.items && Array.isArray(state.items)) {
     items = state.items;
   }

@@ -663,3 +663,5 @@ if (modal) {
 }
 
 });
+
+console.log("JS最後まで到達");

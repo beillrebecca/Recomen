@@ -177,6 +177,7 @@ renderCards();
    編集されたら items を更新
 ========================= */
 
+if (showcase) {
 showcase.addEventListener('input', (e) => {
   const card = e.target.closest('.card');
   if (!card) return;

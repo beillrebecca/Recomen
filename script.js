@@ -10,7 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // データ
   // =========================
   let items = [];
-
+  
+  
   /* =========================
    ローカル保存 読み込み
 ========================= */
@@ -40,11 +41,21 @@ function loadAppState() {
       if (text) text.textContent = state.announcementText;
     }
 
+    // ⭐ テーマ復元（追加）
+    if (state.theme) {
+      document.body.classList.remove('theme-natural', 'theme-modern');
+      document.body.classList.add(`theme-${state.theme}`);
+    }
+
+    // ⭐ フォント復元（追加）
+    if (state.fontFamily) {
+      document.documentElement.style.setProperty('--font-family', state.fontFamily);
+    }
+
     if (state.items && Array.isArray(state.items)) {
       items = state.items;
     }
   }
-  
 
   console.log("保存データ読み込み完了");
 }

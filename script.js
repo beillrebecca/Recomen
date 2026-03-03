@@ -317,7 +317,7 @@ if (editToggle && editItems) {
   const GAP = 6;
 
   let left = btnRect.left + (btnRect.width - popupWidth) / 2;
-  let top  = btnRect.bottom + GAP;
+  let top = btnRect.top + btn.offsetHeight + 2;
 
   if (left < 4) left = 4;
   if (left + popupWidth > window.innerWidth - 4) {

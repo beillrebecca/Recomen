@@ -174,25 +174,38 @@ if (items.length === 0) {
 renderCards();
 
 // =========================
-  // 保存機能
-  // =========================
-  function saveAppState() {
-    const state = {
-      items: items
-    };
+// 保存機能（強化版）
+// =========================
+function saveAppState() {
 
-    localStorage.setItem("recomenState", JSON.stringify(state));
-    console.log("保存完了");
-  }
+  const state = {
+    items: items,
 
-  const saveBtn = document.getElementById("saveBtn");
+    // ヘッダー画像
+    headerImg: document.getElementById('headerImg')?.src || null,
 
-  if (saveBtn) {
-    saveBtn.addEventListener("click", () => {
-      saveAppState();
-      alert("保存しました");
-    });
-  }
+    // プロフィール画像
+    avatarImg: document.getElementById('avatarImg')?.src || null,
+
+    // アナウンスバー背景色
+    announcementBg: document.getElementById('announcementBar')?.style.background || null,
+
+    // アナウンス文字
+    announcementText: document.querySelector('.banner-text')?.textContent || "",
+
+    // テーマ
+    theme: document.body.classList.contains('theme-natural')
+      ? 'natural'
+      : 'modern',
+
+    // フォント
+    fontFamily: getComputedStyle(document.documentElement)
+      .getPropertyValue('--font-family')
+  };
+
+  localStorage.setItem("recomenState", JSON.stringify(state));
+  console.log("全部保存完了");
+}
 
 // =========================
 // 編集されたら items を更新

@@ -304,25 +304,21 @@ if (editToggle && editItems) {
   });
 }
 
-
  // ポップアップ位置関数はここで一度だけ定義
-function positionPopup(btn, popup) {
+ function positionPopup(btn, popup) {
   if (!btn || !popup) return;
 
-  popup.style.display = 'block';
-
+  // active前提でサイズ取得
   const popupWidth = popup.offsetWidth;
   const popupHeight = popup.offsetHeight;
 
   const btnRect = btn.getBoundingClientRect();
 
-  // 🔥 余白を統一（ここが重要）
   const GAP = 6;
 
-  let left = btnRect.left + (btnRect.width / 2) - (popupWidth / 2);
+  let left = btnRect.left + (btnRect.width - popupWidth) / 2;
   let top  = btnRect.bottom + GAP;
 
-  // 画面はみ出し防止
   if (left < 4) left = 4;
   if (left + popupWidth > window.innerWidth - 4) {
     left = window.innerWidth - popupWidth - 4;
@@ -334,10 +330,6 @@ function positionPopup(btn, popup) {
 
   popup.style.left = `${left}px`;
   popup.style.top = `${top}px`;
-
-  if (!popup.classList.contains('active')) {
-    popup.style.display = 'none';
-  }
 }
 
 // 各ボタンのポップアップ表示

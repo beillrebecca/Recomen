@@ -174,6 +174,27 @@ if (items.length === 0) {
 renderCards();
 
 // =========================
+  // 保存機能
+  // =========================
+  function saveAppState() {
+    const state = {
+      items: items
+    };
+
+    localStorage.setItem("recomenState", JSON.stringify(state));
+    console.log("保存完了");
+  }
+
+  const saveBtn = document.getElementById("saveBtn");
+
+  if (saveBtn) {
+    saveBtn.addEventListener("click", () => {
+      saveAppState();
+      alert("保存しました");
+    });
+  }
+
+// =========================
 // 編集されたら items を更新
 // =========================
 if (showcase) {
@@ -206,28 +227,6 @@ if (showcase) {
     saveAppState();
   });
 }
-
-  // =========================
-  // 保存機能
-  // =========================
-  function saveAppState() {
-    const state = {
-      items: items
-    };
-
-    localStorage.setItem("recomenState", JSON.stringify(state));
-    console.log("保存完了");
-  }
-
-  const saveBtn = document.getElementById("saveBtn");
-
-  if (saveBtn) {
-    saveBtn.addEventListener("click", () => {
-      saveAppState();
-      alert("保存しました");
-    });
-  }
-
 
   /* =========================
    ショーケースクリック処理

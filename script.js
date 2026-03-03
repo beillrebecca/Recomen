@@ -444,4 +444,79 @@ if (showcase && itemImgInput) {
 
     itemImgInput.click();
   });
+  
+  /* ===============================
+   アナウンスバー
+=============================== */
+
+const announcementToggle = document.getElementById('announcementToggle');
+const bannerTextInput = document.getElementById('bannerTextInput');
+const announcementBar = document.getElementById('announcementBar');
+const bannerText = announcementBar?.querySelector('.banner-text');
+
+if (announcementToggle && announcementBar) {
+
+  // 初期表示状態
+  announcementBar.style.display =
+    announcementToggle.checked ? 'flex' : 'none';
+
+  // ON/OFF切り替え
+  announcementToggle.addEventListener('change', e => {
+    announcementBar.style.display =
+      e.target.checked ? 'flex' : 'none';
+  });
 }
+
+if (announcementBar && bannerText && bannerTextInput) {
+
+  // スタイル初期化（安全に）
+  announcementBar.style.alignItems = 'center';
+  announcementBar.style.overflow = 'hidden';
+  announcementBar.style.position = 'relative';
+  announcementBar.style.height = '40px';
+  announcementBar.style.padding = '0 10px';
+
+  bannerText.style.position = 'absolute';
+  bannerText.style.whiteSpace = 'nowrap';
+  bannerText.style.top = '50%';
+  bannerText.style.transform = 'translateY(-50%)';
+  bannerText.style.fontSize = '16px';
+  bannerText.style.lineHeight = '1';
+
+  // 初期テキスト反映
+  bannerText.textContent = bannerTextInput.value;
+
+  let pos = announcementBar.offsetWidth;
+  const speed = 1.0;
+
+  function startScroll() {
+    const textWidth = bannerText.offsetWidth;
+
+    function scroll() {
+      pos -= speed;
+
+      if (pos <= -textWidth) {
+        pos = announcementBar.offsetWidth;
+      }
+
+      bannerText.style.left = pos + 'px';
+      requestAnimationFrame(scroll);
+    }
+
+    scroll();
+  }
+
+  requestAnimationFrame(startScroll);
+
+  // テキスト変更時
+  bannerTextInput.addEventListener('input', () => {
+    bannerText.textContent = bannerTextInput.value;
+    pos = announcementBar.offsetWidth;
+  });
+
+  // リサイズ対応
+  window.addEventListener('resize', () => {
+    pos = announcementBar.offsetWidth;
+  });
+}
+});

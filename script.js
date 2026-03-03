@@ -228,6 +228,112 @@ if (showcase) {
   });
 }
 
+/* =========================
+   編集バー・ポップアップ最適化版
+========================= */
+
+const editToggle = document.getElementById('editToggle');
+const editItems = document.getElementById('editItems');
+
+const popupMap = {
+  themeButton: 'themePopup',
+  styleButton: 'stylePopup',
+  announcementButton: 'announcementPopup'
+};
+
+// 全ポップアップを閉じる
+function closeAllPopups() {
+  Object.values(popupMap).forEach(popupId => {
+    const popup = document.getElementById(popupId);
+    if (popup) {
+      popup.classList.remove('active');
+      popup.style.display = 'none';
+    }
+  });
+}
+
+// 編集バーの開閉
+if (editToggle && editItems) {
+  editItems.classList.remove('active'); // 初期は閉じる
+
+  editToggle.addEventListener('click', e => {
+    e.stopPropagation();
+    editItems.classList.toggle('active');
+
+    // スライド中は全ポップアップを隠す
+    Object.values(popupMap).forEach(popupId => {
+      const popup = document.getElementById(popupId);
+      if (popup) popup.style.display = 'none';
+    });
+  });
+}
+
+
+ // ポップアップ位置関数はここで一度だけ定義
+function positionPopup(btn, popup) {
+  if (!btn || !popup) return;
+
+  popup.style.display = 'block'; // 一旦表示してサイズを取得
+
+  const popupWidth = popup.offsetWidth;
+  const popupHeight = popup.offsetHeight;
+
+  const btnRect = btn.getBoundingClientRect();
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
+
+  // 左右位置：ボタンの中央に揃える
+  let left = btnRect.left + (btnRect.width - popupWidth) / 2;
+
+  // 画面左にはみ出さないよう調整
+  if (left < 4) left = 4;
+  // 画面右にはみ出さないよう調整
+  if (left + popupWidth > viewportWidth - 4) left = viewportWidth - popupWidth - 4;
+
+  // 上下位置：ボタンの真下
+  let top = btnRect.bottom + 6;
+
+  // 画面下にはみ出す場合はボタンの上に表示
+  if (top + popupHeight > viewportHeight - 4) {
+    top = btnRect.top - popupHeight - 6;
+  }
+
+  popup.style.left = `${left}px`;
+  popup.style.top = `${top}px`;
+
+  // active クラスで表示を制御
+  if (!popup.classList.contains('active')) {
+    popup.style.display = 'none';
+  }
+}
+
+// 各ボタンのポップアップ表示
+Object.entries(popupMap).forEach(([btnId, popupId]) => {
+  const btn = document.getElementById(btnId);
+  const popup = document.getElementById(popupId);
+  if (!btn || !popup) return;
+
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+
+    const isActive = popup.classList.contains('active');
+    closeAllPopups();
+
+    if (!isActive) {
+      popup.classList.add('active');
+      positionPopup(btn, popup);
+    }
+  });
+
+  popup.addEventListener('click', e => e.stopPropagation());
+
+  window.addEventListener('resize', () => {
+    if (popup.classList.contains('active')) {
+      positionPopup(btn, popup);
+    }
+  });
+});
+
   /* =========================
    ショーケースクリック処理
    （名前編集＆画像アップロード両立）

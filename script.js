@@ -334,6 +334,44 @@ Object.entries(popupMap).forEach(([btnId, popupId]) => {
   });
 });
 
+// =========================
+// テーマ切替（カード画像保持版）
+// =========================
+const themeRadios = document.querySelectorAll('input[name="theme"]');
+themeRadios.forEach(radio => {
+  radio.addEventListener('change', e => {
+    const showcase = document.getElementById('showcase');
+    if (!showcase) return;
+
+    // カード内の既存画像を保持
+    const existingImages = Array.from(showcase.querySelectorAll('.card img')).map(img => img.src);
+
+    // ボディクラス切替
+    if (e.target.value === 'natural') {
+      document.body.classList.remove('theme-modern');
+      document.body.classList.add('theme-natural');
+    } else {
+      document.body.classList.remove('theme-natural');
+      document.body.classList.add('theme-modern');
+    }
+
+
+    // 再描画後に画像を復元（カードはそのまま）
+    const cardImgs = showcase.querySelectorAll('.card img');
+    cardImgs.forEach((img, i) => {
+      if (existingImages[i]) img.src = existingImages[i];
+    });
+  });
+});
+
+// フォント変更でもカード再描画する場合も同様に対応
+const fontSelect = document.getElementById('fontSelect');
+if (fontSelect) {
+  fontSelect.addEventListener('change', e => {
+    document.documentElement.style.setProperty('--font-family', e.target.value);
+  });
+}
+
   /* =========================
    ショーケースクリック処理
    （名前編集＆画像アップロード両立）

@@ -372,6 +372,74 @@ if (fontSelect) {
   });
 }
 
+// ===============================
+  // 画像アップロード 共通関数
+  // ===============================
+  function setupImageUpload(imgEl, inputEl) {
+    if (!imgEl || !inputEl) return;
+
+    imgEl.addEventListener('click', () => inputEl.click());
+
+
+    inputEl.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        imgEl.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+
+      // クリアして次回に備える
+      inputEl.value = '';
+    });
+  }
+
+  // ヘッダーとプロフィール画像
+  setupImageUpload(
+    document.getElementById('headerImg'),
+    document.getElementById('headerImgInput')
+  );
+
+  setupImageUpload(
+    document.getElementById('avatarImg'),
+    document.getElementById('avatarImgInput')
+  );
+
+  // すでにある input
+const itemImgInput = document.getElementById('itemImgInput');
+
+// showcase のクリックをまとめて処理
+showcase.addEventListener('click', (e) => {
+
+  // 画像エリア以外は無視
+  const imageEl = e.target.closest('.image');
+  if (!imageEl) return;
+
+  const cardEl = imageEl.closest('.card');
+  const imgEl = imageEl.querySelector('img');
+  if (!imgEl) return;
+
+  itemImgInput.onchange = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      imgEl.src = ev.target.result;
+
+      const index = Array.from(showcase.children).indexOf(cardEl);
+      if (index >= 0) items[index].img = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+
+    itemImgInput.value = '';
+  };
+
+  itemImgInput.click();
+});
+
   /* =========================
    ショーケースクリック処理
    （名前編集＆画像アップロード両立）

@@ -173,6 +173,38 @@ if (items.length === 0) {
 
 renderCards();
 
+/* =========================
+   編集されたら items を更新
+========================= */
+
+showcase.addEventListener('input', (e) => {
+  const card = e.target.closest('.card');
+  if (!card) return;
+
+  const index = Array.from(showcase.children).indexOf(card);
+  if (index < 0) return;
+
+  // 名前
+  if (e.target.classList.contains('card-name')) {
+    items[index].name = e.target.innerText.trim();
+  }
+
+  // 値段
+  if (e.target.classList.contains('card-price')) {
+    items[index].price = e.target.innerText.trim();
+  }
+
+  // リンク
+  if (e.target.classList.contains('link-display')) {
+    const newLink = e.target.innerText.trim();
+    items[index].link = newLink;
+    e.target.href = newLink;
+  }
+
+  saveAppState();
+});
+
+
   // =========================
   // 保存機能
   // =========================

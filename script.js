@@ -173,6 +173,24 @@ if (items.length === 0) {
 
 renderCards();
 
+// =========================
+// 名前編集の反映
+// =========================
+if (showcase) {
+  showcase.addEventListener('input', (e) => {
+    const nameEl = e.target.closest('.card-name, .modern-name');
+    if (!nameEl) return;
+
+    const cardEl = nameEl.closest('.card');
+    const index = Array.from(showcase.children).indexOf(cardEl);
+
+    if (index >= 0) {
+      items[index].name = nameEl.textContent.trim();
+      saveAppState(); // ← 必ず入れる
+    }
+  });
+}
+
 /* =========================
    編集されたら items を更新
 ========================= */

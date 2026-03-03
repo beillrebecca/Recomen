@@ -373,164 +373,62 @@ if (fontSelect) {
 }
 
 // ===============================
-  // 画像アップロード 共通関数
-  // ===============================
-  function setupImageUpload(imgEl, inputEl) {
-    if (!imgEl || !inputEl) return;
+// 画像アップロード 共通関数
+// ===============================
+function setupImageUpload(imgEl, inputEl, onSave) {
+  if (!imgEl || !inputEl) return;
 
-    imgEl.addEventListener('click', () => inputEl.click());
+  imgEl.addEventListener('click', () => inputEl.click());
 
-
-    inputEl.addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = function(ev) {
-        imgEl.src = ev.target.result;
-      };
-      reader.readAsDataURL(file);
-
-      // クリアして次回に備える
-      inputEl.value = '';
-    });
-  }
-
-  // ヘッダーとプロフィール画像
-  setupImageUpload(
-    document.getElementById('headerImg'),
-    document.getElementById('headerImgInput')
-  );
-
-  setupImageUpload(
-    document.getElementById('avatarImg'),
-    document.getElementById('avatarImgInput')
-  );
-
-  // すでにある input
-const itemImgInput = document.getElementById('itemImgInput');
-
-// showcase のクリックをまとめて処理
-showcase.addEventListener('click', (e) => {
-
-  // 画像エリア以外は無視
-  const imageEl = e.target.closest('.image');
-  if (!imageEl) return;
-
-  const cardEl = imageEl.closest('.card');
-  const imgEl = imageEl.querySelector('img');
-  if (!imgEl) return;
-
-  itemImgInput.onchange = (event) => {
-    const file = event.target.files[0];
+  inputEl.addEventListener('change', (e) => {
+    const file = e.target.files[0];
     if (!file) return;
 
     const reader = new FileReader();
     reader.onload = (ev) => {
       imgEl.src = ev.target.result;
 
-      const index = Array.from(showcase.children).indexOf(cardEl);
-      if (index >= 0) items[index].img = ev.target.result;
+      // 保存処理（必要な場合だけ）
+      if (onSave) onSave(ev.target.result);
     };
+
     reader.readAsDataURL(file);
+    inputEl.value = '';
+  });
+}
 
-    itemImgInput.value = '';
-  };
+// ===============================
+// ヘッダー・プロフィール画像
+// ===============================
+setupImageUpload(
+  document.getElementById('headerImg'),
+  document.getElementById('headerImgInput')
+);
 
-  itemImgInput.click();
-});
+setupImageUpload(
+  document.getElementById('avatarImg'),
+  document.getElementById('avatarImgInput')
+);
 
-  /* =========================
-   ショーケースクリック処理
-   （名前編集＆画像アップロード両立）
-========================= */
+// ===============================
+// ショーケース画像アップロード
+// ===============================
+const itemImgInput = document.getElementById('itemImgInput');
 
-const itemImgInput = document.getElementById("itemImgInput");
-
-if (showcase) {
-  showcase.addEventListener("click", e => {
-
-    // --- ハートアイコン ---
-    const heart = e.target.closest(".icon-heart");
-    if (heart) {
-      heart.classList.toggle("liked");
-
-      const path = heart.querySelector("path");
-      const isLiked = heart.classList.contains("liked");
-
-      if (path) {
-        path.setAttribute("fill", isLiked ? "red" : "none");
-        path.setAttribute("stroke", isLiked ? "red" : "#000");
-      }
-
-      heart.classList.remove("pop");
-      void heart.offsetWidth;
-      heart.classList.add("pop");
-
-      return;
-    }
-
-    // --- 保存アイコン ---
-    const save = e.target.closest(".icon-save");
-    if (save) {
-      save.classList.toggle("saved");
-
-      const path = save.querySelector("path");
-      const isSaved = save.classList.contains("saved");
-
-      if (path) {
-        path.setAttribute("fill", isSaved ? "#000" : "none");
-        path.setAttribute("stroke", "#000");
-      }
-
-      save.classList.remove("pop");
-      void save.offsetWidth;
-      save.classList.add("pop");
-
-      return;
-    }
-
-    // --- 編集ボタン ---
-    const editBtn = e.target.closest(".edit-link-btn");
-    if (editBtn) {
-      e.stopPropagation();
-
-      const card = editBtn.closest(".card");
-      const linkEl = card?.querySelector(".link-display");
-      if (!linkEl) return;
-
-      const currentLink = linkEl.getAttribute("href");
-      const newLink = prompt("商品リンクを入力してください", currentLink);
-
-      if (newLink) {
-        linkEl.setAttribute("href", newLink);
-        linkEl.textContent = newLink;
-
-        const index = Array.from(showcase.children).indexOf(card);
-        if (index >= 0) items[index].link = newLink;
-      }
-
-      return;
-    }
-
-    // --- 名前編集はここでは何もしない ---
-    const nameEl = e.target.closest(".card-name, .modern-name");
-    if (nameEl) return;
-
-    // --- 画像クリック（名前以外） ---
-    const imageEl = e.target.closest(".image");
+if (showcase && itemImgInput) {
+  showcase.addEventListener('click', (e) => {
+    const imageEl = e.target.closest('.image');
     if (!imageEl) return;
 
-    const cardEl = imageEl.closest(".card");
-    const imgEl = imageEl.querySelector("img");
-    if (!imgEl || !itemImgInput) return;
+    const cardEl = imageEl.closest('.card');
+    const imgEl = imageEl.querySelector('img');
+    if (!imgEl) return;
 
     itemImgInput.onchange = (event) => {
       const file = event.target.files[0];
       if (!file) return;
 
       const reader = new FileReader();
-
       reader.onload = (ev) => {
         imgEl.src = ev.target.result;
 
@@ -541,11 +439,9 @@ if (showcase) {
       };
 
       reader.readAsDataURL(file);
-      itemImgInput.value = "";
+      itemImgInput.value = '';
     };
 
     itemImgInput.click();
   });
 }
-
-});

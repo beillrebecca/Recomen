@@ -664,4 +664,4 @@ if (modal) {
 
 });
 
-console.log("JS最後まで到達");
+alert("JSは最後まで動いてる！");

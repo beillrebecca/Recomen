@@ -312,7 +312,7 @@ if (editToggle && editItems) {
   const popupHeight = popup.offsetHeight;
 
   const rect = btn.getBoundingClientRect();
-  const GAP = 2;
+  const GAP = -4;
 
   // 🔥 ボタン中心を正確に使う
   const centerX = rect.left + rect.width / 2;

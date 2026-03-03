@@ -346,6 +346,7 @@ Object.entries(popupMap).forEach(([btnId, popupId]) => {
 
     if (!isActive) {
       popup.classList.add('active');
+      popup.style.display = 'block';   // ← ここ追加（表示をここで統一）
       positionPopup(btn, popup);
     }
   });

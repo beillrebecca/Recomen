@@ -328,8 +328,8 @@ if (editToggle && editItems) {
     top = btnRect.top - popupHeight - GAP;
   }
 
-  popup.style.left = `${left}px`;
-  popup.style.top = `${top}px`;
+  popup.style.top = "0px";
+  popup.style.left = "0px";
 }
 
 // 各ボタンのポップアップ表示

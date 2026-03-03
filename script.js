@@ -444,6 +444,7 @@ if (showcase && itemImgInput) {
 
     itemImgInput.click();
   });
+  }
   
   /* ===============================
    アナウンスバー

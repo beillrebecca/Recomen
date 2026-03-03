@@ -310,21 +310,20 @@ if (editToggle && editItems) {
 
   const popupWidth = popup.offsetWidth;
   const popupHeight = popup.offsetHeight;
-
   const rect = btn.getBoundingClientRect();
-  const GAP = -4;
 
-  // 🔥 ボタン中心を正確に使う
   const centerX = rect.left + rect.width / 2;
 
-  let left = centerX - popupWidth / 2;
-  let top  = rect.bottom + GAP;
+  // 🔥 bottomを使わない
+  const visualBottom = rect.top + btn.offsetHeight;
 
-  // 画面はみ出し防止
+  let left = centerX - popupWidth / 2;
+  let top  = visualBottom - 6; // ← 上に6px補正
+
   left = Math.max(4, Math.min(left, window.innerWidth - popupWidth - 4));
 
   if (top + popupHeight > window.innerHeight - 4) {
-    top = rect.top - popupHeight - GAP;
+    top = rect.top - popupHeight - 4;
   }
 
   popup.style.left = `${Math.round(left)}px`;

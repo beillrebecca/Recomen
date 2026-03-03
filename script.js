@@ -219,6 +219,18 @@ function saveAppState() {
 }
 
 // =========================
+// 保存ボタン
+// =========================
+const saveBtn = document.getElementById("saveBtn");
+
+if (saveBtn) {
+  saveBtn.addEventListener("click", () => {
+    saveAppState();
+    alert("保存しました");
+  });
+}
+
+// =========================
 // 編集されたら items を更新
 // =========================
 if (showcase) {

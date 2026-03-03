@@ -204,7 +204,7 @@ showcase.addEventListener('input', (e) => {
 
   saveAppState();
 });
-
+}
 
   // =========================
   // 保存機能

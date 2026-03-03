@@ -304,20 +304,20 @@ if (editToggle && editItems) {
   });
 }
 
- // ポップアップ位置関数はここで一度だけ定義
+ // ポップアップ位置関数
  function positionPopup(btn, popup) {
   if (!btn || !popup) return;
 
-  // active前提でサイズ取得
   const popupWidth = popup.offsetWidth;
   const popupHeight = popup.offsetHeight;
 
-  const btnRect = btn.getBoundingClientRect();
+  // 🔥 ボタンではなく「親要素」を基準にする
+  const parentRect = btn.parentElement.getBoundingClientRect();
 
-  const GAP = 6;
+  const GAP = 2;
 
-  let left = btnRect.left + (btnRect.width - popupWidth) / 2;
-  let top = btnRect.top + btn.offsetHeight + 2;
+  let left = parentRect.left + (parentRect.width - popupWidth) / 2;
+  let top  = parentRect.bottom + GAP;
 
   if (left < 4) left = 4;
   if (left + popupWidth > window.innerWidth - 4) {
@@ -325,11 +325,11 @@ if (editToggle && editItems) {
   }
 
   if (top + popupHeight > window.innerHeight - 4) {
-    top = btnRect.top - popupHeight - GAP;
+    top = parentRect.top - popupHeight - GAP;
   }
 
-  popup.style.top = "0px";
-  popup.style.left = "0px";
+  popup.style.left = `${left}px`;
+  popup.style.top = `${top}px`;
 }
 
 // 各ボタンのポップアップ表示

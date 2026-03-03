@@ -590,4 +590,52 @@ createPicker('announcementBgPicker', (color) => {
   if (bar) bar.style.background = color;
 });
 
+/* ===============================
+   フォロー / フォロワーモーダル制御
+=============================== */
+
+const followingBtn = document.getElementById('followingBtn');
+const followersBtn = document.getElementById('followersBtn');
+const modal = document.getElementById('followModal');
+
+if (modal) {
+
+  const modalTitle = modal.querySelector('.modal-title');
+  const userList = modal.querySelector('.user-list');
+  const closeBtn = modal.querySelector('.close-btn');
+
+  const following = [
+    { name: 'ユーザーA', img: 'https://via.placeholder.com/32' },
+    { name: 'ユーザーB', img: 'https://via.placeholder.com/32' }
+  ];
+
+  const followers = [
+    { name: 'ユーザーC', img: 'https://via.placeholder.com/32' },
+    { name: 'ユーザーD', img: 'https://via.placeholder.com/32' }
+  ];
+
+  function showModal(type) {
+    userList.innerHTML = '';
+    const list = type === 'following' ? following : followers;
+
+    modalTitle.textContent =
+      type === 'following' ? 'フォロー中' : 'フォロワー';
+
+    list.forEach(user => {
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <img src="${user.img}" alt="${user.name}">
+        <span>${user.name}</span>
+      `;
+      userList.appendChild(li);
+    });
+
+    modal.style.display = 'block';
+  }
+
+  followingBtn?.addEventListener('click', () => showModal('following'));
+  followersBtn?.addEventListener('click', () => showModal('followers'));
+  closeBtn?.addEventListener('click', () => modal.style.display = 'none');
+}
+
 });

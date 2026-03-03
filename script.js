@@ -311,25 +311,24 @@ if (editToggle && editItems) {
   const popupWidth = popup.offsetWidth;
   const popupHeight = popup.offsetHeight;
 
-  // 🔥 ボタンではなく「親要素」を基準にする
-  const parentRect = btn.parentElement.getBoundingClientRect();
-
+  const rect = btn.getBoundingClientRect();
   const GAP = 2;
 
-  let left = parentRect.left + (parentRect.width - popupWidth) / 2;
-  let top  = parentRect.bottom + GAP;
+  // 🔥 ボタン中心を正確に使う
+  const centerX = rect.left + rect.width / 2;
 
-  if (left < 4) left = 4;
-  if (left + popupWidth > window.innerWidth - 4) {
-    left = window.innerWidth - popupWidth - 4;
-  }
+  let left = centerX - popupWidth / 2;
+  let top  = rect.bottom + GAP;
+
+  // 画面はみ出し防止
+  left = Math.max(4, Math.min(left, window.innerWidth - popupWidth - 4));
 
   if (top + popupHeight > window.innerHeight - 4) {
-    top = parentRect.top - popupHeight - GAP;
+    top = rect.top - popupHeight - GAP;
   }
 
-  popup.style.left = `${left}px`;
-  popup.style.top = `${top}px`;
+  popup.style.left = `${Math.round(left)}px`;
+  popup.style.top  = `${Math.round(top)}px`;
 }
 
 // 各ボタンのポップアップ表示

@@ -309,35 +309,32 @@ if (editToggle && editItems) {
 function positionPopup(btn, popup) {
   if (!btn || !popup) return;
 
-  popup.style.display = 'block'; // 一旦表示してサイズを取得
+  popup.style.display = 'block';
 
   const popupWidth = popup.offsetWidth;
   const popupHeight = popup.offsetHeight;
 
   const btnRect = btn.getBoundingClientRect();
-  const viewportWidth = window.innerWidth;
-  const viewportHeight = window.innerHeight;
 
-  // 左右位置：ボタンの中央に揃える
-  let left = btnRect.left + (btnRect.width - popupWidth) / 2;
+  // 🔥 余白を統一（ここが重要）
+  const GAP = 6;
 
-  // 画面左にはみ出さないよう調整
+  let left = btnRect.left + (btnRect.width / 2) - (popupWidth / 2);
+  let top  = btnRect.bottom + GAP;
+
+  // 画面はみ出し防止
   if (left < 4) left = 4;
-  // 画面右にはみ出さないよう調整
-  if (left + popupWidth > viewportWidth - 4) left = viewportWidth - popupWidth - 4;
+  if (left + popupWidth > window.innerWidth - 4) {
+    left = window.innerWidth - popupWidth - 4;
+  }
 
-  // 上下位置：ボタンの真下
-  let top = btnRect.bottom +4;
-
-  // 画面下にはみ出す場合はボタンの上に表示
-  if (top + popupHeight > viewportHeight - 4) {
-    top = btnRect.top - popupHeight - 6;
+  if (top + popupHeight > window.innerHeight - 4) {
+    top = btnRect.top - popupHeight - GAP;
   }
 
   popup.style.left = `${left}px`;
   popup.style.top = `${top}px`;
 
-  // active クラスで表示を制御
   if (!popup.classList.contains('active')) {
     popup.style.display = 'none';
   }

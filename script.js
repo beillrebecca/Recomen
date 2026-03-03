@@ -174,54 +174,37 @@ if (items.length === 0) {
 renderCards();
 
 // =========================
-// 名前編集の反映
+// 編集されたら items を更新
 // =========================
 if (showcase) {
   showcase.addEventListener('input', (e) => {
-    const nameEl = e.target.closest('.card-name, .modern-name');
-    if (!nameEl) return;
 
-    const cardEl = nameEl.closest('.card');
-    const index = Array.from(showcase.children).indexOf(cardEl);
+    const card = e.target.closest('.card');
+    if (!card) return;
 
-    if (index >= 0) {
-      items[index].name = nameEl.textContent.trim();
-      saveAppState(); // ← 必ず入れる
+    const index = Array.from(showcase.children).indexOf(card);
+    if (index < 0) return;
+
+    // 名前（モダン対応）
+    if (e.target.classList.contains('card-name') ||
+        e.target.classList.contains('modern-name')) {
+      items[index].name = e.target.innerText.trim();
     }
+
+    // 値段
+    if (e.target.classList.contains('card-price')) {
+      items[index].price = e.target.innerText.trim();
+    }
+
+    // リンク
+    if (e.target.classList.contains('link-display')) {
+      const newLink = e.target.innerText.trim();
+      items[index].link = newLink;
+      e.target.href = newLink;
+    }
+
+    saveAppState();
   });
-}
-
-/* =========================
-   編集されたら items を更新
-========================= */
-
-if (showcase) {
-showcase.addEventListener('input', (e) => {
-  const card = e.target.closest('.card');
-  if (!card) return;
-
-  const index = Array.from(showcase.children).indexOf(card);
-  if (index < 0) return;
-
-  // 名前
-  if (e.target.classList.contains('card-name')) {
-    items[index].name = e.target.innerText.trim();
-  }
-
-  // 値段
-  if (e.target.classList.contains('card-price')) {
-    items[index].price = e.target.innerText.trim();
-  }
-
-  // リンク
-  if (e.target.classList.contains('link-display')) {
-    const newLink = e.target.innerText.trim();
-    items[index].link = newLink;
-    e.target.href = newLink;
-  }
-
-  saveAppState();
-});
 }
 
   // =========================

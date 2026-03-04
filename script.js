@@ -314,11 +314,10 @@ if (editToggle && editItems) {
 
   const centerX = rect.left + rect.width / 2;
 
-  // 🔥 bottomを使わない
-  const visualBottom = rect.top + btn.offsetHeight;
-
   let left = centerX - popupWidth / 2;
-  let top  = visualBottom - 6; // ← 上に6px補正
+
+  // 🔥 ここを変える
+  let top = rect.bottom - 12;   // ← 数字を直接調整
 
   left = Math.max(4, Math.min(left, window.innerWidth - popupWidth - 4));
 

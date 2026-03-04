@@ -317,7 +317,7 @@ if (editToggle && editItems) {
   let left = centerX - popupWidth / 2;
 
   // 🔥 ここを変える
-  let top = rect.bottom - 12;   // ← 数字を直接調整
+  let top = rect.bottom - 16;   // ← 数字を直接調整
 
   left = Math.max(4, Math.min(left, window.innerWidth - popupWidth - 4));
 

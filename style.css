@@ -649,8 +649,10 @@ body.theme-modern .card-actions svg {
    ポップアップ共通
 ========================= */
 .popup {
-  position: fixed;      /* 画面基準 */
-  display: none;        /* 初期非表示 */
+  position: fixed;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
   width: 160px;
   padding: 6px;
   background-color: #e6f9d9;
@@ -660,6 +662,7 @@ body.theme-modern .card-actions svg {
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
   z-index: 999;
 }
+
 
 /* スライド中だけポップアップを隠す */
 .edit-items.active .popup {
@@ -693,7 +696,9 @@ body.theme-modern .card-actions svg {
 }
 
 .popup.active {
-  display: block;
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
 }
 
 

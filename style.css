@@ -664,6 +664,7 @@ body.theme-modern .card-actions svg {
 }
 
 
+
 /* スライド中だけポップアップを隠す */
 .edit-items.active .popup {
   display: none;

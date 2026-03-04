@@ -283,7 +283,6 @@ function closeAllPopups() {
     const popup = document.getElementById(popupId);
     if (popup) {
       popup.classList.remove('active');
-      popup.style.display = 'none';
     }
   });
 }

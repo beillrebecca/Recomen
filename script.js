@@ -336,17 +336,16 @@ Object.entries(popupMap).forEach(([btnId, popupId]) => {
   if (!btn || !popup) return;
 
   btn.addEventListener('click', e => {
-    e.stopPropagation();
+  e.stopPropagation();
 
-    const isActive = popup.classList.contains('active');
-    closeAllPopups();
+  const isActive = popup.classList.contains('active');
+  closeAllPopups();
 
-    if (!isActive) {
-      popup.classList.add('active');
-      popup.style.display = 'block';   // ← ここ追加（表示をここで統一）
-      positionPopup(btn, popup);
-    }
-  });
+  if (!isActive) {
+    popup.classList.add('active');
+    positionPopup(btn, popup);
+  }
+});
 
   popup.addEventListener('click', e => e.stopPropagation());
 

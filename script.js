@@ -307,16 +307,17 @@ if (editToggle && editItems) {
  function positionPopup(btn, popup) {
   if (!btn || !popup) return;
 
+  // 🔥 一時的に強制表示
+  popup.style.visibility = 'hidden';
+  popup.style.display = 'block';
+
   const popupWidth = popup.offsetWidth;
   const popupHeight = popup.offsetHeight;
   const rect = btn.getBoundingClientRect();
 
   const centerX = rect.left + rect.width / 2;
-
   let left = centerX - popupWidth / 2;
-
-  // 🔥 ここを変える
-  let top = rect.bottom - 16;   // ← 数字を直接調整
+  let top = rect.bottom - 16;
 
   left = Math.max(4, Math.min(left, window.innerWidth - popupWidth - 4));
 
@@ -326,6 +327,10 @@ if (editToggle && editItems) {
 
   popup.style.left = `${Math.round(left)}px`;
   popup.style.top  = `${Math.round(top)}px`;
+
+  // 🔥 表示を戻す
+  popup.style.display = '';
+  popup.style.visibility = '';
 }
 
 // 各ボタンのポップアップ表示

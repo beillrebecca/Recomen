@@ -303,6 +303,22 @@ if (editToggle && editItems) {
   });
 }
 
+// 各ボタンを押したらポップアップを開く
+Object.keys(popupMap).forEach(buttonId => {
+  const button = document.getElementById(buttonId);
+  const popup = document.getElementById(popupMap[buttonId]);
+
+  if (button && popup) {
+    button.addEventListener('click', e => {
+      e.stopPropagation();
+
+      closeAllPopups(); // 他を閉じる
+      popup.style.display = 'block';
+      popup.classList.add('active');
+    });
+  }
+});
+
  // ポップアップ位置関数
  function positionPopup(btn, popup) {
   if (!btn || !popup) return;

@@ -342,7 +342,10 @@ Object.entries(popupMap).forEach(([btnId, popupId]) => {
 
   if (!isActive) {
     popup.classList.add('active');
-    positionPopup(btn, popup);
+
+    requestAnimationFrame(() => {
+      positionPopup(btn, popup);
+    });
   }
 });
 

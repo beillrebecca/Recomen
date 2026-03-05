@@ -649,7 +649,7 @@ body.theme-modern .card-actions svg {
    ポップアップ共通
 ========================= */
 .popup {
-  position: fixed;
+  position: absolute;
   visibility: hidden;
   opacity: 0;
   pointer-events: none;

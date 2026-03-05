@@ -283,6 +283,7 @@ function closeAllPopups() {
     const popup = document.getElementById(popupId);
     if (popup) {
       popup.classList.remove('active');
+      popup.style.display = 'none';
     }
   });
 }
@@ -363,10 +364,8 @@ Object.entries(popupMap).forEach(([btnId, popupId]) => {
 
   if (!isActive) {
     popup.classList.add('active');
-
-    requestAnimationFrame(() => {
-      positionPopup(btn, popup);
-    });
+    popup.style.display = 'block';   // ← これ追加
+    positionPopup(btn, popup);
   }
 });
 

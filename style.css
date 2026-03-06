@@ -649,13 +649,11 @@ body.theme-modern .card-actions svg {
    ポップアップ共通
 ========================= */
 .popup {
-  position: absolute;
-  visibility: hidden;
-  opacity: 0;
-  pointer-events: none;
+  position: fixed;
+  display: none;
   width: 160px;
   padding: 6px;
-  background-color: #e6f9d9;
+  background: #e6f9d9;
   border: 1px solid #c5e5b1;
   border-radius: 6px;
   font-size: 12px;
@@ -697,10 +695,8 @@ body.theme-modern .card-actions svg {
 }
 
 .popup.active {
-  visibility: visible;
-  opacity: 1;
-  pointer-events: auto;
-}
+  display:block;
+  }
 
 
 /* カラーピッカー関連 */

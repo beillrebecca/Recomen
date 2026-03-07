@@ -259,7 +259,8 @@ if (showcase) {
       items[index].link = newLink;
       e.target.href = newLink;
     }
-
+  });
+}
     
 /* =========================
    編集バー・ポップアップ

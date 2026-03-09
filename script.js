@@ -90,7 +90,7 @@ if (state.items && Array.isArray(state.items)) {
    アプリ状態 保存
 ========================= */
 
-function saveAppState() {
+
 
   const header = document.getElementById("headerImg");
   const avatar = document.getElementById("avatarImg");

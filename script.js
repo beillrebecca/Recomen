@@ -176,35 +176,36 @@ function createCard(item, theme) {
 
 
   // =========================
-  // カード描画
-  // =========================
-  function renderCards() {
-  if (!showcase) return;
+// DOM読み込み後に初期化
+// =========================
+document.addEventListener("DOMContentLoaded", () => {
 
-  showcase.innerHTML = "";
-
-  items.forEach(item => {
-    const card = createCard(item);
-    showcase.appendChild(card);
-  });
-}
-
-
-loadAppState();
-
-// 保存データが無いときだけ初期データ作成
-if (items.length === 0) {
-  for (let i = 1; i <= 12; i++) {
-    items.push({
-      name: "アイテム" + i,
-      img: "https://dummyimage.com/300x300/eeeeee/999999&text=%F0%9F%93%B7",
-      link: "商品リンク",
-      clicks: 0
-    });
+  // 保存データの読み込み
+  if (typeof loadAppState === "function") {
+    loadAppState();
   }
-}
 
-renderCards();
+  // 保存データが無いときだけ初期データ作成
+  if (!items || items.length === 0) {
+    items = [];
+    for (let i = 1; i <= 12; i++) {
+      items.push({
+        name: "アイテム" + i,
+        img: "https://dummyimage.com/300x300/eeeeee/999999&text=%F0%9F%93%B7",
+        link: "商品リンク",
+        clicks: 0,
+        liked: false,
+        saved: false
+      });
+    }
+  }
+
+  // カード描画
+  if (typeof renderCards === "function") {
+    renderCards();
+  }
+
+});
 
 // =========================
 // 保存機能（強化版）

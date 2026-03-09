@@ -56,6 +56,18 @@ function loadAppState() {
       items = state.items;
     }
   }
+  
+  // ⭐ プロフィール名前
+if (state.profileName) {
+  const name = document.getElementById("profileName");
+  if (name) name.textContent = state.profileName;
+}
+
+// ⭐ プロフィール紹介
+if (state.profileBio) {
+  const bio = document.getElementById("profileBio");
+  if (bio) bio.textContent = state.profileBio;
+}
 
   console.log("保存データ読み込み完了");
 }

@@ -255,9 +255,17 @@ if (showcase) {
 
     // リンク
     if (e.target.classList.contains('link-display')) {
-      const newLink = e.target.innerText.trim();
-      items[index].link = newLink;
-      e.target.href = newLink;
+
+    let newLink = e.target.innerText.trim();
+
+    // httpが無い場合は追加
+    if (!newLink.startsWith("http")) {
+      newLink = "https://" + newLink;
+    }
+
+    items[index].link = newLink;
+    e.target.href = newLink;
+
     }
   });
 }

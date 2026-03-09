@@ -61,6 +61,50 @@ function loadAppState() {
 }
 
 /* =========================
+   アプリ状態 保存
+========================= */
+
+function saveAppState() {
+
+  const header = document.getElementById("headerImg");
+  const avatar = document.getElementById("avatarImg");
+  const bar = document.getElementById("announcementBar");
+  const text = document.querySelector(".banner-text");
+
+  const name = document.getElementById("profileName");
+  const bio = document.getElementById("profileBio");
+
+  const state = {
+
+    headerImg: header ? header.src : null,
+    avatarImg: avatar ? avatar.src : null,
+
+    announcementBg: bar ? bar.style.background : null,
+    announcementText: text ? text.textContent : null,
+
+    profileName: name ? name.textContent : null,
+    profileBio: bio ? bio.textContent : null,
+
+    theme: document.body.classList.contains("theme-modern")
+      ? "modern"
+      : document.body.classList.contains("theme-natural")
+      ? "natural"
+      ? "natural"
+      : null,
+
+    fontFamily: getComputedStyle(document.documentElement)
+      .getPropertyValue("--font-family"),
+
+    items: items
+
+  };
+
+  localStorage.setItem("recomenState", JSON.stringify(state));
+
+}
+
+
+/* =========================
    SVG アイコン
 ========================= */
 

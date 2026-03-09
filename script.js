@@ -266,6 +266,15 @@ function saveAppState() {
     // アナウンス文字
     announcementText: document.querySelector('.banner-text')?.textContent || "",
 
+    // 背景カラー
+    bgColor: document.body.style.background || null,
+
+    // プロフィール背景
+    profileBg: document.querySelector('.profile')?.style.background || null,
+
+    // フォントカラー
+    fontColor: document.body.style.color || null,
+    
     // テーマ
     theme: document.body.classList.contains('theme-natural')
       ? 'natural'

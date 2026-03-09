@@ -315,41 +315,129 @@ if (showcase) {
   });
 }
 
-/* =========================
-   商品リンク編集
-========================= */
-
 if (showcase) {
-
   showcase.addEventListener("click", (e) => {
+    // =========================
+    // 1. ショーケース画像アップロード
+    // =========================
+    const imageEl = e.target.closest('.image');
+    if (imageEl) {
+      const cardEl = imageEl.closest('.card');
+      const imgEl = imageEl.querySelector('img');
+      if (imgEl && itemImgInput) {
 
+        itemImgInput.onchange = (event) => {
+          const file = event.target.files[0];
+          if (!file) return;
+
+          const reader = new FileReader();
+          reader.onload = (ev) => {
+            imgEl.src = ev.target.result;
+
+            const index = Array.from(showcase.children).indexOf(cardEl);
+            if (index >= 0) {
+              if (!items[index]) items[index] = {};
+              items[index].img = ev.target.result;
+            }
+
+            if (typeof saveAppState === 'function') {
+              saveAppState();
+            }
+          };
+
+          reader.readAsDataURL(file);
+          itemImgInput.value = '';
+        };
+
+        itemImgInput.click();
+        return; // ここで処理終了（他のクリック処理は無視）
+      }
+    }
+
+    // =========================
+    // 2. いいねアイコン
+    // =========================
+    const heart = e.target.closest(".icon-heart");
+    if (heart) {
+      const card = heart.closest(".card");
+      const index = Array.from(showcase.children).indexOf(card);
+      if (index >= 0) {
+        items[index].liked = !items[index].liked;
+        heart.classList.toggle("active", items[index].liked);
+
+        heart.classList.remove("icon-pop");
+        void heart.offsetWidth;
+        heart.classList.add("icon-pop");
+
+        if (typeof saveAppState === 'function') saveAppState();
+      }
+      return;
+    }
+
+    // =========================
+    // 3. 保存アイコン
+    // =========================
+    const save = e.target.closest(".icon-save");
+    if (save) {
+      const card = save.closest(".card");
+      const index = Array.from(showcase.children).indexOf(card);
+      if (index >= 0) {
+        items[index].saved = !items[index].saved;
+        save.classList.toggle("active", items[index].saved);
+
+        save.classList.remove("icon-pop");
+        void save.offsetWidth;
+        save.classList.add("icon-pop");
+
+        if (typeof saveAppState === 'function') saveAppState();
+      }
+      return;
+    }
+
+    // =========================
+    // 4. 商品リンク編集
+    // =========================
     const link = e.target.closest(".link-display");
-    if (!link) return;
+    if (link) {
+      e.preventDefault();
+      const card = link.closest(".card");
+      const index = Array.from(showcase.children).indexOf(card);
 
-    e.preventDefault(); // ページ移動を止める
+      let newLink = prompt("商品リンクを入力", link.textContent);
+      if (!newLink) return;
 
-    const card = link.closest(".card");
-    const index = Array.from(showcase.children).indexOf(card);
+      newLink = newLink.trim();
+      if (!newLink.startsWith("http")) newLink = "https://" + newLink;
 
-    let newLink = prompt("商品リンクを入力", link.textContent);
+      link.textContent = newLink;
+      link.href = newLink;
 
-    if (!newLink) return;
-
-    newLink = newLink.trim();
-
-    if (!newLink.startsWith("http")) {
-      newLink = "https://" + newLink;
+      if (index >= 0) items[index].link = newLink;
+      return;
     }
 
-    link.textContent = newLink;
-    link.href = newLink;
-
-    if (index >= 0) {
-      items[index].link = newLink;
+    // =========================
+    // 5. コメントアイコン
+    // =========================
+    const commentIcon = e.target.closest(".icon-comment");
+    if (commentIcon) {
+      const card = commentIcon.closest(".card");
+      currentCardIndex = Array.from(showcase.children).indexOf(card);
+      openComments();
+      return;
     }
 
-  });
+    // =========================
+    // 6. シェアアイコン
+    // =========================
+    const share = e.target.closest(".icon-share");
+    if (share && sharePopup) {
+      shareUrl = window.location.href;
+      sharePopup.style.display = "block";
+      return;
+    }
 
+  }); // showcase click 終了
 }
     
 /* =========================
@@ -559,47 +647,6 @@ setupImageUpload(
   document.getElementById('avatarImgInput')
 );
 
-// ===============================
-// ショーケース画像アップロード
-// ===============================
-const itemImgInput = document.getElementById('itemImgInput');
-
-if (showcase && itemImgInput) {
-  showcase.addEventListener('click', (e) => {
-    const imageEl = e.target.closest('.image');
-    if (!imageEl) return;
-
-    const cardEl = imageEl.closest('.card');
-    const imgEl = imageEl.querySelector('img');
-    if (!imgEl) return;
-
-    itemImgInput.onchange = (event) => {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        imgEl.src = ev.target.result;
-
-        const index = Array.from(showcase.children).indexOf(cardEl);
-        if (index >= 0) {
-          if (!items[index]) items[index] = {}; // 安全策：未定義なら初期化
-          items[index].img = ev.target.result;
-        }
-
-        // saveAppStateが存在すれば呼び出す
-        if (typeof saveAppState === 'function') {
-          saveAppState();
-        }
-      };
-
-      reader.readAsDataURL(file);
-      itemImgInput.value = '';
-    };
-
-    itemImgInput.click();
-  });
-}
   
   // ===============================
 // アナウンスバー安全スクロール
@@ -792,178 +839,6 @@ if (modal) {
 }
 
 
-
-/* =========================
-   いいね・保存アイコン
-========================= */
-
-if (showcase) {
-
-  showcase.addEventListener("click", (e) => {
-
-    const heart = e.target.closest(".icon-heart");
-    const save = e.target.closest(".icon-save");
-
-    // いいね
-    if (heart) {
-
-      heart.classList.toggle("liked");
-
-      heart.classList.remove("icon-pop");
-      void heart.offsetWidth;
-      heart.classList.add("icon-pop");
-
-    }
-
-    // 保存
-    if (save) {
-
-      save.classList.toggle("saved");
-
-      save.classList.remove("icon-pop");
-      void save.offsetWidth;
-      save.classList.add("icon-pop");
-
-    }
-
-  });
-
-}
-
-/* =========================
-   コメント機能
-========================= */
-
-const commentModal = document.getElementById("commentModal");
-const commentList = document.getElementById("commentList");
-const commentInput = document.getElementById("commentInput");
-const commentSend = document.getElementById("commentSend");
-const commentClose = document.getElementById("commentClose");
-
-let currentCardIndex = null;
-
-// コメントアイコンをクリック
-if (showcase) {
-
-  showcase.addEventListener("click", (e) => {
-
-    const commentIcon = e.target.closest(".icon-comment");
-
-    if (!commentIcon) return;
-
-    const card = commentIcon.closest(".card");
-
-    currentCardIndex = Array.from(showcase.children).indexOf(card);
-
-    openComments();
-
-  });
-
-}
-
-// コメント表示
-function openComments() {
-
-  commentModal.style.display = "flex";
-
-  commentList.innerHTML = "";
-
-  const comments = items[currentCardIndex]?.comments || [];
-
-  comments.forEach(c => {
-
-    const div = document.createElement("div");
-    div.textContent = c;
-    commentList.appendChild(div);
-
-  });
-
-}
-
-// コメント送信
-commentSend.onclick = () => {
-
-  const text = commentInput.value.trim();
-
-  if (!text) return;
-
-  if (!items[currentCardIndex].comments) {
-    items[currentCardIndex].comments = [];
-  }
-
-  items[currentCardIndex].comments.push(text);
-
-  commentInput.value = "";
-
-  openComments();
-
-};
-
-// モーダル閉じる
-commentClose.onclick = () => {
-
-  commentModal.style.display = "none";
-
-};
-
-
-/* =========================
-   シェア機能
-========================= */
-
-const sharePopup = document.getElementById("sharePopup");
-const copyLink = document.getElementById("copyLink");
-const shareX = document.getElementById("shareX");
-const shareLine = document.getElementById("shareLine");
-
-let shareUrl = "";
-
-if (showcase) {
-
-  showcase.addEventListener("click", (e) => {
-
-    const share = e.target.closest(".icon-share");
-
-    if (!share) return;
-
-    shareUrl = window.location.href;
-
-    sharePopup.style.display = "block";
-
-  });
-
-}
-
-//コピー
-if (copyLink) {
-  copyLink.onclick = () => {
-
-    navigator.clipboard.writeText(shareUrl);
-    alert("リンクをコピーしました");
-    sharePopup.style.display = "none";
-
-  };
-}
-
-if (shareX) {
-  shareX.onclick = () => {
-
-    window.open(
-      "https://twitter.com/intent/tweet?url=" + encodeURIComponent(shareUrl)
-    );
-
-  };
-}
-
-if (shareLine) {
-  shareLine.onclick = () => {
-
-    window.open(
-      "https://social-plugins.line.me/lineit/share?url=" + encodeURIComponent(shareUrl)
-    );
-
-  };
-}
 
 
 alert("JSは最後まで動いてる！");

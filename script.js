@@ -40,6 +40,18 @@ function loadAppState() {
       const text = document.querySelector(".banner-text");
       if (text) text.textContent = state.announcementText;
     }
+    
+    if (state.bgColor) {
+    document.body.style.background = state.bgColor;
+    }
+
+    if (state.profileBg) {
+    document.querySelector('.profile').style.background = state.profileBg;
+    }
+
+    if (state.fontColor) {
+    document.body.style.color = state.fontColor;
+    }
 
     // ⭐ テーマ復元（追加）
     if (state.theme) {

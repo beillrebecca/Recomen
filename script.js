@@ -369,7 +369,7 @@ if (editToggle && editItems) {
   const popupHeight = popup.offsetHeight;
 
   let left = rect.left + rect.width / 2 - popupWidth / 2;
-  let top = rect.top - popupHeight - 6;
+  let top = rect.top - popupHeight +2;
 
   // ⭐ 上に上げる調整
   const offsetY = -8;

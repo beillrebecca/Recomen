@@ -974,34 +974,36 @@ if (showcase) {
 
 }
 
-// コピー
-copyLink.onclick = () => {
+//コピー
+if (copyLink) {
+  copyLink.onclick = () => {
 
-  navigator.clipboard.writeText(shareUrl);
+    navigator.clipboard.writeText(shareUrl);
+    alert("リンクをコピーしました");
+    sharePopup.style.display = "none";
 
-  alert("リンクをコピーしました");
+  };
+}
 
-  sharePopup.style.display = "none";
+if (shareX) {
+  shareX.onclick = () => {
 
-};
+    window.open(
+      "https://twitter.com/intent/tweet?url=" + encodeURIComponent(shareUrl)
+    );
 
-// X
-shareX.onclick = () => {
+  };
+}
 
-  window.open(
-    "https://twitter.com/intent/tweet?url=" + encodeURIComponent(shareUrl)
-  );
+if (shareLine) {
+  shareLine.onclick = () => {
 
-};
+    window.open(
+      "https://social-plugins.line.me/lineit/share?url=" + encodeURIComponent(shareUrl)
+    );
 
-// LINE
-shareLine.onclick = () => {
-
-  window.open(
-    "https://social-plugins.line.me/lineit/share?url=" + encodeURIComponent(shareUrl)
-  );
-
-};
+  };
+}
 
 
 alert("JSは最後まで動いてる！");

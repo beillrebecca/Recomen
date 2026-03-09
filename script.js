@@ -52,10 +52,6 @@ function loadAppState() {
       document.documentElement.style.setProperty('--font-family', state.fontFamily);
     }
 
-    if (state.items && Array.isArray(state.items)) {
-      items = state.items;
-    }
-  }
   
   // ⭐ プロフィール名前
 if (state.profileName) {
@@ -68,6 +64,11 @@ if (state.profileBio) {
   const bio = document.getElementById("profileBio");
   if (bio) bio.textContent = state.profileBio;
 }
+
+if (state.items && Array.isArray(state.items)) {
+    items = state.items;
+  }
+
 
   console.log("保存データ読み込み完了");
 }

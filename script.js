@@ -868,4 +868,6 @@ commentClose.onclick = () => {
 
 };
 
+});
+
 alert("JSは最後まで動いてる！");

@@ -642,27 +642,25 @@ if (announcementBar && bannerText && bannerTextInput) {
   // 初期テキスト反映
   bannerText.textContent = bannerTextInput.value;
 
+  if (announcementBar && bannerText) {
+
   let pos = announcementBar.offsetWidth;
   const speed = 1.0;
 
-  function startScroll() {
+  function scroll() {
     const textWidth = bannerText.offsetWidth;
+    if (!textWidth) return; // 幅が0なら止める
 
-    function scroll() {
-      pos -= speed;
+    pos -= speed;
 
-      if (pos <= -textWidth) {
-        pos = announcementBar.offsetWidth;
-      }
+    if (pos <= -textWidth) pos = announcementBar.offsetWidth;
 
-      bannerText.style.left = pos + 'px';
-      requestAnimationFrame(scroll);
-    }
-
-    scroll();
+    bannerText.style.left = pos + 'px';
+    requestAnimationFrame(scroll);
   }
 
-  requestAnimationFrame(startScroll);
+  requestAnimationFrame(scroll); // 安全に開始
+}
 
   // テキスト変更時
   bannerTextInput.addEventListener('input', () => {

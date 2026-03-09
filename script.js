@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const showcase = document.getElementById("showcase");
   console.log("showcase:", showcase);
+  console.log("ここまでOK");
 
   // =========================
   // データ

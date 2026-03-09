@@ -17,75 +17,43 @@ document.addEventListener("DOMContentLoaded", () => {
   
   
   /* =========================
-   ローカル保存 読み込み（改善版）
+   ローカル保存 保存処理（改善版）
 ========================= */
-function loadAppState() {
-  const saved = localStorage.getItem("recomenState");
-  if (!saved) return;
+function saveAppState() {
+  const state = {
+    // アイテム配列
+    items: items || [],
 
-  let state;
+    // 画像系
+    headerImg: document.getElementById('headerImg')?.src || null,
+    avatarImg: document.getElementById('avatarImg')?.src || null,
+
+    // アナウンスバー
+    announcementBg: document.getElementById('announcementBar')?.style.backgroundColor || null,
+    announcementText: document.querySelector('.banner-text')?.textContent || "",
+
+    // 背景・プロフィール・フォント
+    bgColor: document.body.style.backgroundColor || null,
+    profileBg: document.querySelector('.profile')?.style.backgroundColor || null,
+    fontColor: document.body.style.color || null,
+
+    // テーマ・フォント
+    theme: document.body.classList.contains('theme-natural') ? 'natural' : 'modern',
+    fontFamily: getComputedStyle(document.documentElement).getPropertyValue('--font-family') || null,
+
+    // プロフィール情報
+    profileName: document.getElementById("profileName")?.textContent || "",
+    profileBio: document.getElementById("profileBio")?.textContent || ""
+  };
+
   try {
-    state = JSON.parse(saved);
+    localStorage.setItem("recomenState", JSON.stringify(state));
+    console.log("全部保存完了");
+    alert("保存しました！");
   } catch (e) {
-    console.error("保存データの読み込み失敗:", e);
-    return;
+    console.error("保存失敗:", e);
+    alert("保存に失敗しました");
   }
-
-  // -------------------------
-  // 画像系
-  // -------------------------
-  const header = document.getElementById("headerImg");
-  if (header && state.headerImg) header.src = state.headerImg;
-
-  const avatar = document.getElementById("avatarImg");
-  if (avatar && state.avatarImg) avatar.src = state.avatarImg;
-
-  // -------------------------
-  // アナウンスバー
-  // -------------------------
-  const bar = document.getElementById("announcementBar");
-  if (bar && state.announcementBg) bar.style.backgroundColor = state.announcementBg;
-
-  const bannerText = document.querySelector(".banner-text");
-  if (bannerText && state.announcementText) bannerText.textContent = state.announcementText;
-
-  // -------------------------
-  // 背景・プロフィール・フォント
-  // -------------------------
-  if (state.bgColor) document.body.style.backgroundColor = state.bgColor;
-
-  const profileEl = document.querySelector('.profile');
-  if (profileEl && state.profileBg) profileEl.style.backgroundColor = state.profileBg;
-
-  if (state.fontColor) document.body.style.color = state.fontColor;
-
-  // -------------------------
-  // テーマ・フォント
-  // -------------------------
-  if (state.theme) {
-    document.body.classList.remove('theme-natural', 'theme-modern');
-    document.body.classList.add(`theme-${state.theme}`);
-  }
-
-  if (state.fontFamily) {
-    document.documentElement.style.setProperty('--font-family', state.fontFamily);
-  }
-
-  // -------------------------
-  // プロフィール情報
-  // -------------------------
-  const profileNameEl = document.getElementById("profileName");
-  if (profileNameEl && state.profileName) profileNameEl.textContent = state.profileName;
-
-  const profileBioEl = document.getElementById("profileBio");
-  if (profileBioEl && state.profileBio) profileBioEl.textContent = state.profileBio;
-
-  // -------------------------
-  // アイテム配列
-  // -------------------------
-  if (state.items && Array.isArray(state.items)) items = state.items;
-
-  console.log("保存データ読み込み完了");
 }
 
 

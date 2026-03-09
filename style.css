@@ -364,8 +364,12 @@ html, body{
   gap:14px;
   align-items:center;
 }
-/* アイコン共通 */
-.card-actions svg {
+
+/* =========================
+   アイコン共通
+========================= */
+
+.card-actions svg{
   width:26px;
   height:26px;
   cursor:pointer;
@@ -374,32 +378,44 @@ html, body{
   transition: transform 0.25s ease, fill 0.25s ease, stroke 0.25s ease;
 }
 
-/* ポップアニメーション */
-@keyframes popAnim {
-  0%   { transform: scale(1); }
-  40%  { transform: scale(1.25); }
-  100% { transform: scale(1); }
-}
+/* =========================
+   ポップアニメーション
+========================= */
 
-.card-actions svg.pop {
-  animation: popAnim 0.25s ease;
-}
-.icon-heart.liked .heart-shape {
-  fill: red !important;
-  stroke: red !important;
-}
+@keyframes popAnim{
 
+  0%{
+    transform:scale(1);
+  }
+
+  40%{
+    transform:scale(1.25);
+  }
+
+  100%{
+    transform:scale(1);
+  }
+
+}
 
 .card-actions svg.pop{
-  animation: popAnim 0.25s ease;
+  animation:popAnim 0.25s ease;
 }
 
-.card-actions svg.liked{
+/* =========================
+   いいね状態
+========================= */
+
+.icon-heart.liked{
   fill:red;
   stroke:red;
 }
 
-.card-actions svg.saved.active{
+/* =========================
+   保存状態
+========================= */
+
+.icon-save.saved{
   fill:#000;
   stroke:#000;
 }

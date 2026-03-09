@@ -273,6 +273,44 @@ if (showcase) {
     }
   });
 }
+
+/* =========================
+   商品リンク編集
+========================= */
+
+if (showcase) {
+
+  showcase.addEventListener("click", (e) => {
+
+    if (!e.target.classList.contains("edit-link-btn")) return;
+
+    const card = e.target.closest(".card");
+    const linkEl = card.querySelector(".link-display");
+
+    const currentLink = linkEl.textContent;
+
+    let newLink = prompt("商品リンクを入力してください", currentLink);
+
+    if (!newLink) return;
+
+    newLink = newLink.trim();
+
+    // https補完
+    if (!newLink.startsWith("http")) {
+      newLink = "https://" + newLink;
+    }
+
+    linkEl.textContent = newLink;
+    linkEl.href = newLink;
+
+    const index = Array.from(showcase.children).indexOf(card);
+    if (index >= 0) {
+      items[index].link = newLink;
+    }
+
+  });
+
+}
     
 /* =========================
    編集バー・ポップアップ

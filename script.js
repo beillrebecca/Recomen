@@ -319,7 +319,7 @@ function positionPopup(btn, popup) {
   const popupHeight = popup.offsetHeight;
 
   let left = rect.left + rect.width / 2 - popupWidth / 2;
-  let top = rect.bottom + 4;
+  let top = rect.bottom - 4;
 
   if (left < 4) left = 4;
 

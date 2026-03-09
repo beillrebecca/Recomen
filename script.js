@@ -1,9 +1,16 @@
 console.log("Recomen JS 起動");
 
+// =========================
+// JS エラー捕捉
+// =========================
+window.onerror = function(msg, url, line, col) {
+  alert("JSエラー: " + msg + " 行:" + line);
+};
+
+// =========================
+// DOM読み込み後に初期化
+// =========================
 document.addEventListener("DOMContentLoaded", () => {
-  window.onerror = function(msg, url, line, col) {
-    alert("JSエラー: " + msg + " 行:" + line);
-  };
   console.log("DOM読み込みOK");
 
   const showcase = document.getElementById("showcase");
@@ -22,6 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const saved = localStorage.getItem("recomenState");
     if (!saved) return;
 
+  try {
     const state = JSON.parse(saved);
 
     // ヘッダー画像
@@ -79,6 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ローカル保存 保存処理
   // =========================
   function saveAppState() {
+  try {
     const state = {
       items: items || [],
 
@@ -104,9 +113,11 @@ document.addEventListener("DOMContentLoaded", () => {
       profileBio: document.getElementById("profileBio")?.textContent || ""
     };
 
-    try {
+    
       localStorage.setItem("recomenState", JSON.stringify(state));
       console.log("全部保存完了");
+      alert("保存しました！");
+      
     } catch (e) {
       console.error("保存失敗:", e);
       alert("保存に失敗しました");
@@ -199,22 +210,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // liked / saved 更新
     const heartEl = card.querySelector('.icon-heart');
-    if (heartEl) {
-      heartEl.addEventListener('click', () => {
-        item.liked = !item.liked;
-        heartEl.classList.toggle('active', item.liked);
-        saveAppState();
-      });
-    }
+    if (heartEl) heartEl.addEventListener('click', () => {
+      item.liked = !item.liked;
+      heartEl.classList.toggle('active', item.liked);
+      saveAppState();
+    });
 
     const saveEl = card.querySelector('.icon-save');
-    if (saveEl) {
-      saveEl.addEventListener('click', () => {
-        item.saved = !item.saved;
-        saveEl.classList.toggle('active', item.saved);
-        saveAppState();
-      });
-    }
+    if (saveEl) saveEl.addEventListener('click', () => {
+      item.saved = !item.saved;
+      saveEl.classList.toggle('active', item.saved);
+      saveAppState();
+    });
+
 
     return card;
   }

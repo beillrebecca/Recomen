@@ -164,22 +164,20 @@ function createCard(item, theme) {
         ${item.price || '¥0'}
       </div>
 
-      <a class="link-display"
-   href="${item.link}"
-   target="_blank">
-   ${item.link || "リンク未設定"}
-</a>
+      <a class="link-display" href="${item.link}" target="_blank">
+        ${item.link || "リンク未設定"}
+      </a>
 
-<button class="edit-link-btn">
-  リンク編集
-</button>
+      <button class="edit-link-btn">
+        リンク編集
+      </button>
     </div>
 
     <div class="card-actions">
-      ${heartIcon()}
+      ${heartIcon(item)}
       ${commentIcon()}
       ${shareIcon()}
-      ${saveIcon()}
+      ${saveIcon(item)}
     </div>
 
     <button class="edit-link-btn" style="display:none;">
@@ -187,8 +185,29 @@ function createCard(item, theme) {
     </button>
   `;
 
+  // ⭐ クリック時の liked / saved 更新
+  const heartEl = card.querySelector('.icon-heart');
+  if (heartEl) {
+    heartEl.addEventListener('click', () => {
+      item.liked = !item.liked;
+      heartEl.classList.toggle('active', item.liked);
+      saveAppState();
+    });
+  }
+
+  const saveEl = card.querySelector('.icon-save');
+  if (saveEl) {
+    saveEl.addEventListener('click', () => {
+      item.saved = !item.saved;
+      saveEl.classList.toggle('active', item.saved);
+      saveAppState();
+    });
+  }
+
   return card;
 }
+
+/*
 
   // =========================
   // カード描画

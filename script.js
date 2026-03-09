@@ -132,10 +132,14 @@ function createCard(item, theme) {
       </div>
 
       <a class="link-display"
-         href="${item.link}"
-         target="_blank">
-         ${item.link}
-      </a>
+   href="${item.link}"
+   target="_blank">
+   ${item.link || "リンク未設定"}
+</a>
+
+<button class="edit-link-btn">
+  リンク編集
+</button>
     </div>
 
     <div class="card-actions">

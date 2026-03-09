@@ -93,12 +93,12 @@ if (state.items && Array.isArray(state.items)) {
 
 
 /* =========================
-   SVG アイコン
+   SVG アイコン（状態反映版）
 ========================= */
 
-function heartIcon() {
+function heartIcon(item) {
   return `
-    <svg class="icon-heart" viewBox="0 0 24 24" stroke-width="1.3"
+    <svg class="icon-heart ${item.liked ? 'active' : ''}" viewBox="0 0 24 24" stroke-width="1.3"
       stroke-linecap="round" stroke-linejoin="round">
       <path d="M20.8 4.6a5 5 0 0 0-7.1 0L12 6.3l-1.7-1.7
         a5 5 0 0 0-7.1 7.1L12 21l8.8-9.3
@@ -129,9 +129,9 @@ function shareIcon() {
   `;
 }
 
-function saveIcon() {
+function saveIcon(item) {
   return `
-    <svg class="icon-save" viewBox="0 0 24 24"
+    <svg class="icon-save ${item.saved ? 'active' : ''}" viewBox="0 0 24 24"
       stroke-width="1.3" stroke-linecap="round"
       stroke-linejoin="round">
       <path d="M19 21l-7-5-7 5V5

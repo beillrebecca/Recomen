@@ -463,12 +463,6 @@ Object.entries(popupMap).forEach(([btnId, popupId]) => {
 
 });
 
-// =========================
-// 外クリックで閉じる
-// =========================
-document.addEventListener('click', () => {
-  closeAllPopups();
-});
 
 // =========================
 // リサイズ時再計算

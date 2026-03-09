@@ -684,29 +684,27 @@ if (announcementToggle && announcementBar && bannerText && bannerTextInput) {
   // 初期テキスト反映
   bannerText.textContent = bannerTextInput.value;
 
+  // スクロール変数
   let pos = announcementBar.offsetWidth;
-const speed = 1.0;
-let scrollAnimation;
+  const speed = 1.0;
+  let scrollAnimation;
 
-function scroll() {
-  const textWidth = bannerText.offsetWidth;
-  if (!textWidth) return; // 幅が0なら止める
+  function scroll() {
+    const textWidth = bannerText.offsetWidth;
+    if (!textWidth) return; // 幅が0なら止める
 
-  pos -= speed;
+    pos -= speed;
 
-  if (pos <= -textWidth) pos = announcementBar.offsetWidth;
+    if (pos <= -textWidth) pos = announcementBar.offsetWidth;
 
-  bannerText.style.left = pos + 'px';
-  scrollAnimation = requestAnimationFrame(scroll);
-}
+    bannerText.style.left = pos + 'px';
+    scrollAnimation = requestAnimationFrame(scroll);
+  }
 
-// DOM描画後に開始
-setTimeout(() => {
-  scroll();
-}, 100); // 100ms 遅延させるだけでブラウザフリーズを防げる
-
-  // 1回だけスクロール開始
-  requestAnimationFrame(scroll);
+  // DOM描画後に少し遅らせて開始（フリーズ防止）
+  setTimeout(() => {
+    scroll();
+  }, 100);
 
   // テキスト変更時
   bannerTextInput.addEventListener('input', () => {

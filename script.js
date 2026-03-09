@@ -109,6 +109,7 @@ function saveIcon() {
   `;
 }
 
+
 /* =========================
    カード作成（テーマ別生成）
 ========================= */
@@ -753,5 +754,42 @@ if (modal) {
 }
 
 });
+
+/* =========================
+   いいね・保存アイコン
+========================= */
+
+if (showcase) {
+
+  showcase.addEventListener("click", (e) => {
+
+    const heart = e.target.closest(".icon-heart");
+    const save = e.target.closest(".icon-save");
+
+    // いいね
+    if (heart) {
+
+      heart.classList.toggle("liked");
+
+      heart.classList.remove("icon-pop");
+      void heart.offsetWidth;
+      heart.classList.add("icon-pop");
+
+    }
+
+    // 保存
+    if (save) {
+
+      save.classList.toggle("saved");
+
+      save.classList.remove("icon-pop");
+      void save.offsetWidth;
+      save.classList.add("icon-pop");
+
+    }
+
+  });
+
+}
 
 alert("JSは最後まで動いてる！");

@@ -586,7 +586,7 @@ setupImageUpload(
 );
 
 // ===============================
-// ショーケース画像アップロード（安全版）
+// ショーケース画像アップロード
 // ===============================
 const itemImgInput = document.getElementById('itemImgInput');
 
@@ -605,32 +605,24 @@ if (showcase && itemImgInput) {
 
       const reader = new FileReader();
       reader.onload = (ev) => {
-        // 画像を即座に反映
         imgEl.src = ev.target.result;
 
-        // カードのインデックスを取得
         const index = Array.from(showcase.children).indexOf(cardEl);
-
-        // items 配列が存在しなければ初期化
-        if (!items) items = [];
-
         if (index >= 0) {
-          // items[index が未定義なら空オブジェクトを作る
-          if (!items[index]) items[index] = {};
+          if (!items[index]) items[index] = {}; // 安全策：未定義なら初期化
           items[index].img = ev.target.result;
-        } else {
-          console.warn('items 配列に対応する index がありません:', index);
         }
 
-        // 保存を呼び出す場合（必要に応じて）
-        saveAppState();
+        // saveAppStateが存在すれば呼び出す
+        if (typeof saveAppState === 'function') {
+          saveAppState();
+        }
       };
 
       reader.readAsDataURL(file);
       itemImgInput.value = '';
     };
 
-    // ファイル選択をトリガー
     itemImgInput.click();
   });
 }

@@ -282,28 +282,27 @@ if (showcase) {
 
   showcase.addEventListener("click", (e) => {
 
-    if (!e.target.classList.contains("edit-link-btn")) return;
+    const link = e.target.closest(".link-display");
+    if (!link) return;
 
-    const card = e.target.closest(".card");
-    const linkEl = card.querySelector(".link-display");
+    e.preventDefault(); // ページ移動を止める
 
-    const currentLink = linkEl.textContent;
+    const card = link.closest(".card");
+    const index = Array.from(showcase.children).indexOf(card);
 
-    let newLink = prompt("商品リンクを入力してください", currentLink);
+    let newLink = prompt("商品リンクを入力", link.textContent);
 
     if (!newLink) return;
 
     newLink = newLink.trim();
 
-    // https補完
     if (!newLink.startsWith("http")) {
       newLink = "https://" + newLink;
     }
 
-    linkEl.textContent = newLink;
-    linkEl.href = newLink;
+    link.textContent = newLink;
+    link.href = newLink;
 
-    const index = Array.from(showcase.children).indexOf(card);
     if (index >= 0) {
       items[index].link = newLink;
     }

@@ -4,7 +4,7 @@ console.log("Recomen JS 起動");
 // JS エラー捕捉
 // =========================
 window.onerror = function(msg, url, line, col) {
-  alert("JSエラー: " + msg + " 行:" + line);
+  console.error(`JSエラー: ${msg} 行:${line} URL:${url}`);
 };
 
 // =========================

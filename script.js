@@ -708,14 +708,15 @@ function createPicker(id, onSave) {
     picker.hide();
   });
 
-  picker.on('init', () => {
-    const btn = picker.root.querySelector('.pcr-button');
-    if (btn) {
-      btn.style.width = '24px';
-      btn.style.height = '24px';
-      btn.style.borderRadius = '6px';
-    }
-  });
+  picker.on('init', instance => {
+  if (!instance || !instance.root) return; // 安全チェック
+  const btn = instance.root.querySelector('.pcr-button');
+  if (btn) {
+    btn.style.width = '24px';
+    btn.style.height = '24px';
+    btn.style.borderRadius = '6px';
+  }
+});
 
   if (wasHidden && popup) popup.style.display = 'none';
   return picker;

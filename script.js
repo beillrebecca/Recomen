@@ -601,66 +601,61 @@ if (showcase && itemImgInput) {
   });
 }
   
-  /* ===============================
-   アナウンスバー
-=============================== */
-
+  // ===============================
+// アナウンスバー安全スクロール
+// ===============================
 const announcementToggle = document.getElementById('announcementToggle');
 const bannerTextInput = document.getElementById('bannerTextInput');
 const announcementBar = document.getElementById('announcementBar');
 const bannerText = announcementBar?.querySelector('.banner-text');
 
-if (announcementToggle && announcementBar) {
+if (announcementToggle && announcementBar && bannerText && bannerTextInput) {
 
-  // 初期表示状態
-  announcementBar.style.display =
-    announcementToggle.checked ? 'flex' : 'none';
+  // 初期表示
+  announcementBar.style.display = announcementToggle.checked ? 'flex' : 'none';
 
   // ON/OFF切り替え
   announcementToggle.addEventListener('change', e => {
-    announcementBar.style.display =
-      e.target.checked ? 'flex' : 'none';
+    announcementBar.style.display = e.target.checked ? 'flex' : 'none';
   });
-}
 
-if (announcementBar && bannerText && bannerTextInput) {
-
-  // スタイル初期化（安全に）
-  announcementBar.style.alignItems = 'center';
-  announcementBar.style.overflow = 'hidden';
+  // スタイル初期化
   announcementBar.style.position = 'relative';
+  announcementBar.style.overflow = 'hidden';
   announcementBar.style.height = '40px';
+  announcementBar.style.alignItems = 'center';
   announcementBar.style.padding = '0 10px';
 
   bannerText.style.position = 'absolute';
   bannerText.style.whiteSpace = 'nowrap';
   bannerText.style.top = '50%';
   bannerText.style.transform = 'translateY(-50%)';
+  bannerText.style.left = '0px';
   bannerText.style.fontSize = '16px';
   bannerText.style.lineHeight = '1';
 
   // 初期テキスト反映
   bannerText.textContent = bannerTextInput.value;
 
-  if (announcementBar && bannerText) {
-
-  let pos = announcementBar.offsetWidth;
+  let pos = announcementBar.offsetWidth; // テキスト開始位置
   const speed = 1.0;
+  let scrollRunning = true; // スクロール中か
 
   function scroll() {
+    if (!scrollRunning) return;
+
     const textWidth = bannerText.offsetWidth;
-    if (!textWidth) return; // 幅が0なら止める
+    if (!textWidth) return;
 
     pos -= speed;
-
     if (pos <= -textWidth) pos = announcementBar.offsetWidth;
 
     bannerText.style.left = pos + 'px';
     requestAnimationFrame(scroll);
   }
 
-  requestAnimationFrame(scroll); // 安全に開始
-}
+  // 1回だけスクロール開始
+  requestAnimationFrame(scroll);
 
   // テキスト変更時
   bannerTextInput.addEventListener('input', () => {

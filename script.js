@@ -753,7 +753,7 @@ if (modal) {
   closeBtn?.addEventListener('click', () => modal.style.display = 'none');
 }
 
-});
+
 
 /* =========================
    いいね・保存アイコン

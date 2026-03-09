@@ -115,7 +115,6 @@ function saveAppState() {
       ? "modern"
       : document.body.classList.contains("theme-natural")
       ? "natural"
-      ? "natural"
       : null,
 
     fontFamily: getComputedStyle(document.documentElement)

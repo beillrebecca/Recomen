@@ -1,6 +1,9 @@
 console.log("Recomen JS 起動");
 
 document.addEventListener("DOMContentLoaded", () => {
+  window.onerror = function(msg, url, line, col) {
+  alert("JSエラー: " + msg + " 行:" + line);
+};
   console.log("DOM読み込みOK");
 
   const showcase = document.getElementById("showcase");

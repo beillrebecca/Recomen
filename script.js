@@ -79,8 +79,9 @@ if (state.profileBio) {
 
 if (state.items && Array.isArray(state.items)) {
     items = state.items;
-  }
+}
 
+}
 
   console.log("保存データ読み込み完了");
 }

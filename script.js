@@ -17,75 +17,73 @@ document.addEventListener("DOMContentLoaded", () => {
   
   
   /* =========================
-   ローカル保存 読み込み
+   ローカル保存 読み込み（改善版）
 ========================= */
 function loadAppState() {
   const saved = localStorage.getItem("recomenState");
+  if (!saved) return;
 
-  if (saved) {
-    const state = JSON.parse(saved);
+  let state;
+  try {
+    state = JSON.parse(saved);
+  } catch (e) {
+    console.error("保存データの読み込み失敗:", e);
+    return;
+  }
 
-    if (state.headerImg) {
-      const header = document.getElementById("headerImg");
-      if (header) header.src = state.headerImg;
-    }
+  // -------------------------
+  // 画像系
+  // -------------------------
+  const header = document.getElementById("headerImg");
+  if (header && state.headerImg) header.src = state.headerImg;
 
-    if (state.avatarImg) {
-      const avatar = document.getElementById("avatarImg");
-      if (avatar) avatar.src = state.avatarImg;
-    }
+  const avatar = document.getElementById("avatarImg");
+  if (avatar && state.avatarImg) avatar.src = state.avatarImg;
 
-    if (state.announcementBg) {
-      const bar = document.getElementById("announcementBar");
-      if (bar) bar.style.background = state.announcementBg;
-    }
+  // -------------------------
+  // アナウンスバー
+  // -------------------------
+  const bar = document.getElementById("announcementBar");
+  if (bar && state.announcementBg) bar.style.backgroundColor = state.announcementBg;
 
-    if (state.announcementText) {
-      const text = document.querySelector(".banner-text");
-      if (text) text.textContent = state.announcementText;
-    }
-    
-    if (state.bgColor) {
-    document.body.style.background = state.bgColor;
-    }
+  const bannerText = document.querySelector(".banner-text");
+  if (bannerText && state.announcementText) bannerText.textContent = state.announcementText;
 
-    if (state.profileBg) {
-    document.querySelector('.profile').style.background = state.profileBg;
-    }
+  // -------------------------
+  // 背景・プロフィール・フォント
+  // -------------------------
+  if (state.bgColor) document.body.style.backgroundColor = state.bgColor;
 
-    if (state.fontColor) {
-    document.body.style.color = state.fontColor;
-    }
+  const profileEl = document.querySelector('.profile');
+  if (profileEl && state.profileBg) profileEl.style.backgroundColor = state.profileBg;
 
-    // ⭐ テーマ復元（追加）
-    if (state.theme) {
-      document.body.classList.remove('theme-natural', 'theme-modern');
-      document.body.classList.add(`theme-${state.theme}`);
-    }
+  if (state.fontColor) document.body.style.color = state.fontColor;
 
-    // ⭐ フォント復元（追加）
-    if (state.fontFamily) {
-      document.documentElement.style.setProperty('--font-family', state.fontFamily);
-    }
+  // -------------------------
+  // テーマ・フォント
+  // -------------------------
+  if (state.theme) {
+    document.body.classList.remove('theme-natural', 'theme-modern');
+    document.body.classList.add(`theme-${state.theme}`);
+  }
 
-  
-  // ⭐ プロフィール名前
-if (state.profileName) {
-  const name = document.getElementById("profileName");
-  if (name) name.textContent = state.profileName;
-}
+  if (state.fontFamily) {
+    document.documentElement.style.setProperty('--font-family', state.fontFamily);
+  }
 
-// ⭐ プロフィール紹介
-if (state.profileBio) {
-  const bio = document.getElementById("profileBio");
-  if (bio) bio.textContent = state.profileBio;
-}
+  // -------------------------
+  // プロフィール情報
+  // -------------------------
+  const profileNameEl = document.getElementById("profileName");
+  if (profileNameEl && state.profileName) profileNameEl.textContent = state.profileName;
 
-if (state.items && Array.isArray(state.items)) {
-    items = state.items;
-}
+  const profileBioEl = document.getElementById("profileBio");
+  if (profileBioEl && state.profileBio) profileBioEl.textContent = state.profileBio;
 
-}
+  // -------------------------
+  // アイテム配列
+  // -------------------------
+  if (state.items && Array.isArray(state.items)) items = state.items;
 
   console.log("保存データ読み込み完了");
 }

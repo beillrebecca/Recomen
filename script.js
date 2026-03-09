@@ -309,7 +309,7 @@ if (editToggle && editItems) {
 // =========================
 // ポップアップ位置
 // =========================
-function positionPopup(btn, popup) {
+  function positionPopup(btn, popup) {
 
   popup.style.display = 'block';
 
@@ -320,6 +320,10 @@ function positionPopup(btn, popup) {
 
   let left = rect.left + rect.width / 2 - popupWidth / 2;
   let top = rect.bottom - 4;
+
+  // ⭐ 上に上げる調整
+  const offsetY = -12;
+  top += offsetY;
 
   if (left < 4) left = 4;
 

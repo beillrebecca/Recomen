@@ -637,22 +637,26 @@ if (announcementToggle && announcementBar && bannerText && bannerTextInput) {
   // 初期テキスト反映
   bannerText.textContent = bannerTextInput.value;
 
-  let pos = announcementBar.offsetWidth; // テキスト開始位置
-  const speed = 1.0;
-  let scrollRunning = true; // スクロール中か
+  let pos = announcementBar.offsetWidth;
+const speed = 1.0;
+let scrollAnimation;
 
-  function scroll() {
-    if (!scrollRunning) return;
+function scroll() {
+  const textWidth = bannerText.offsetWidth;
+  if (!textWidth) return; // 幅が0なら止める
 
-    const textWidth = bannerText.offsetWidth;
-    if (!textWidth) return;
+  pos -= speed;
 
-    pos -= speed;
-    if (pos <= -textWidth) pos = announcementBar.offsetWidth;
+  if (pos <= -textWidth) pos = announcementBar.offsetWidth;
 
-    bannerText.style.left = pos + 'px';
-    requestAnimationFrame(scroll);
-  }
+  bannerText.style.left = pos + 'px';
+  scrollAnimation = requestAnimationFrame(scroll);
+}
+
+// DOM描画後に開始
+setTimeout(() => {
+  scroll();
+}, 100); // 100ms 遅延させるだけでブラウザフリーズを防げる
 
   // 1回だけスクロール開始
   requestAnimationFrame(scroll);

@@ -792,4 +792,80 @@ if (showcase) {
 
 }
 
+/* =========================
+   コメント機能
+========================= */
+
+const commentModal = document.getElementById("commentModal");
+const commentList = document.getElementById("commentList");
+const commentInput = document.getElementById("commentInput");
+const commentSend = document.getElementById("commentSend");
+const commentClose = document.getElementById("commentClose");
+
+let currentCardIndex = null;
+
+// コメントアイコンをクリック
+if (showcase) {
+
+  showcase.addEventListener("click", (e) => {
+
+    const commentIcon = e.target.closest(".icon-comment");
+
+    if (!commentIcon) return;
+
+    const card = commentIcon.closest(".card");
+
+    currentCardIndex = Array.from(showcase.children).indexOf(card);
+
+    openComments();
+
+  });
+
+}
+
+// コメント表示
+function openComments() {
+
+  commentModal.style.display = "flex";
+
+  commentList.innerHTML = "";
+
+  const comments = items[currentCardIndex]?.comments || [];
+
+  comments.forEach(c => {
+
+    const div = document.createElement("div");
+    div.textContent = c;
+    commentList.appendChild(div);
+
+  });
+
+}
+
+// コメント送信
+commentSend.onclick = () => {
+
+  const text = commentInput.value.trim();
+
+  if (!text) return;
+
+  if (!items[currentCardIndex].comments) {
+    items[currentCardIndex].comments = [];
+  }
+
+  items[currentCardIndex].comments.push(text);
+
+  commentInput.value = "";
+
+  openComments();
+
+};
+
+// モーダル閉じる
+commentClose.onclick = () => {
+
+  commentModal.style.display = "none";
+
+};
+
 alert("JSは最後まで動いてる！");

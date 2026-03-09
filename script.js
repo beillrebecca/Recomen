@@ -868,6 +868,63 @@ commentClose.onclick = () => {
 
 };
 
+
+/* =========================
+   シェア機能
+========================= */
+
+const sharePopup = document.getElementById("sharePopup");
+const copyLink = document.getElementById("copyLink");
+const shareX = document.getElementById("shareX");
+const shareLine = document.getElementById("shareLine");
+
+let shareUrl = "";
+
+if (showcase) {
+
+  showcase.addEventListener("click", (e) => {
+
+    const share = e.target.closest(".icon-share");
+
+    if (!share) return;
+
+    shareUrl = window.location.href;
+
+    sharePopup.style.display = "block";
+
+  });
+
+}
+
+// コピー
+copyLink.onclick = () => {
+
+  navigator.clipboard.writeText(shareUrl);
+
+  alert("リンクをコピーしました");
+
+  sharePopup.style.display = "none";
+
+};
+
+// X
+shareX.onclick = () => {
+
+  window.open(
+    "https://twitter.com/intent/tweet?url=" + encodeURIComponent(shareUrl)
+  );
+
+};
+
+// LINE
+shareLine.onclick = () => {
+
+  window.open(
+    "https://social-plugins.line.me/lineit/share?url=" + encodeURIComponent(shareUrl)
+  );
+
+};
+
 });
 
 alert("JSは最後まで動いてる！");

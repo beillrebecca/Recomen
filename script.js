@@ -207,7 +207,7 @@ function createCard(item, theme) {
   return card;
 }
 
-/*
+
 
   // =========================
   // カード描画

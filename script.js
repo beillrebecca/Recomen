@@ -15,6 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const showcase = document.getElementById("showcase");
 
+  let items = [];
+  
   if (showcase) {
 
     // =========================
@@ -189,10 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-  // =========================
-  // データ配列
-  // =========================
-  let items = [];
+  
 
   // =========================
   // ローカル保存 読み込み

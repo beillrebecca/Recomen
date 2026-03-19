@@ -89,6 +89,92 @@ if (showcase) {
         return; // ここで処理終了（他のクリック処理は無視）
       }
     }
+    
+    // =========================
+    // 2. いいねアイコン
+    // =========================
+    const heart = e.target.closest(".icon-heart");
+    if (heart) {
+      const card = heart.closest(".card");
+      const index = Array.from(showcase.children).indexOf(card);
+      if (index >= 0) {
+        items[index].liked = !items[index].liked;
+        heart.classList.toggle("active", items[index].liked);
+
+        heart.classList.remove("icon-pop");
+        void heart.offsetWidth;
+        heart.classList.add("icon-pop");
+
+        if (typeof saveAppState === 'function') saveAppState();
+      }
+      return;
+    }
+
+    // =========================
+    // 3. 保存アイコン
+    // =========================
+    const save = e.target.closest(".icon-save");
+    if (save) {
+      const card = save.closest(".card");
+      const index = Array.from(showcase.children).indexOf(card);
+      if (index >= 0) {
+        items[index].saved = !items[index].saved;
+        save.classList.toggle("active", items[index].saved);
+
+        save.classList.remove("icon-pop");
+        void save.offsetWidth;
+        save.classList.add("icon-pop");
+
+        if (typeof saveAppState === 'function') saveAppState();
+      }
+      return;
+    }
+
+    // =========================
+    // 4. 商品リンク編集
+    // =========================
+    const link = e.target.closest(".link-display");
+    if (link) {
+      e.preventDefault();
+      const card = link.closest(".card");
+      const index = Array.from(showcase.children).indexOf(card);
+
+      let newLink = prompt("商品リンクを入力", link.textContent);
+      if (!newLink) return;
+
+      newLink = newLink.trim();
+      if (!newLink.startsWith("http")) newLink = "https://" + newLink;
+
+      link.textContent = newLink;
+      link.href = newLink;
+
+      if (index >= 0) items[index].link = newLink;
+      return;
+    }
+
+    // =========================
+    // 5. コメントアイコン
+    // =========================
+    const commentIcon = e.target.closest(".icon-comment");
+    if (commentIcon) {
+      const card = commentIcon.closest(".card");
+      currentCardIndex = Array.from(showcase.children).indexOf(card);
+      openComments();
+      return;
+    }
+
+    // =========================
+    // 6. シェアアイコン
+    // =========================
+    const share = e.target.closest(".icon-share");
+    if (share && sharePopup) {
+      shareUrl = window.location.href;
+      sharePopup.style.display = "block";
+      return;
+    }
+
+  }); // showcase click 終了
+}
 
   // =========================
   // データ配列
@@ -347,91 +433,6 @@ if (showcase) {
 
 });
 
-    // =========================
-    // 2. いいねアイコン
-    // =========================
-    const heart = e.target.closest(".icon-heart");
-    if (heart) {
-      const card = heart.closest(".card");
-      const index = Array.from(showcase.children).indexOf(card);
-      if (index >= 0) {
-        items[index].liked = !items[index].liked;
-        heart.classList.toggle("active", items[index].liked);
-
-        heart.classList.remove("icon-pop");
-        void heart.offsetWidth;
-        heart.classList.add("icon-pop");
-
-        if (typeof saveAppState === 'function') saveAppState();
-      }
-      return;
-    }
-
-    // =========================
-    // 3. 保存アイコン
-    // =========================
-    const save = e.target.closest(".icon-save");
-    if (save) {
-      const card = save.closest(".card");
-      const index = Array.from(showcase.children).indexOf(card);
-      if (index >= 0) {
-        items[index].saved = !items[index].saved;
-        save.classList.toggle("active", items[index].saved);
-
-        save.classList.remove("icon-pop");
-        void save.offsetWidth;
-        save.classList.add("icon-pop");
-
-        if (typeof saveAppState === 'function') saveAppState();
-      }
-      return;
-    }
-
-    // =========================
-    // 4. 商品リンク編集
-    // =========================
-    const link = e.target.closest(".link-display");
-    if (link) {
-      e.preventDefault();
-      const card = link.closest(".card");
-      const index = Array.from(showcase.children).indexOf(card);
-
-      let newLink = prompt("商品リンクを入力", link.textContent);
-      if (!newLink) return;
-
-      newLink = newLink.trim();
-      if (!newLink.startsWith("http")) newLink = "https://" + newLink;
-
-      link.textContent = newLink;
-      link.href = newLink;
-
-      if (index >= 0) items[index].link = newLink;
-      return;
-    }
-
-    // =========================
-    // 5. コメントアイコン
-    // =========================
-    const commentIcon = e.target.closest(".icon-comment");
-    if (commentIcon) {
-      const card = commentIcon.closest(".card");
-      currentCardIndex = Array.from(showcase.children).indexOf(card);
-      openComments();
-      return;
-    }
-
-    // =========================
-    // 6. シェアアイコン
-    // =========================
-    const share = e.target.closest(".icon-share");
-    if (share && sharePopup) {
-      shareUrl = window.location.href;
-      sharePopup.style.display = "block";
-      return;
-    }
-
-  }); // showcase click 終了
-}
     
 /* =========================
    編集バー・ポップアップ

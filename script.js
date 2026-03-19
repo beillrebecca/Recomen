@@ -14,8 +14,81 @@ document.addEventListener("DOMContentLoaded", () => {
   console.log("DOM読み込みOK");
 
   const showcase = document.getElementById("showcase");
-  console.log("showcase:", showcase);
-  console.log("ここまでOK");
+  if (showcase) {
+  showcase.addEventListener('input', (e) => {
+
+    const card = e.target.closest('.card');
+    if (!card) return;
+
+    const index = Array.from(showcase.children).indexOf(card);
+    if (index < 0) return;
+
+    // 名前（モダン対応）
+    if (e.target.classList.contains('card-name') ||
+        e.target.classList.contains('modern-name')) {
+      items[index].name = e.target.innerText.trim();
+    }
+
+    // 値段
+    if (e.target.classList.contains('card-price')) {
+      items[index].price = e.target.innerText.trim();
+    }
+
+    // リンク
+    if (e.target.classList.contains('link-display')) {
+
+    let newLink = e.target.innerText.trim();
+
+    // httpが無い場合は追加
+    if (!newLink.startsWith("http")) {
+      newLink = "https://" + newLink;
+    }
+
+    items[index].link = newLink;
+    e.target.href = newLink;
+
+    }
+  });
+}
+
+if (showcase) {
+  showcase.addEventListener("click", (e) => {
+    // =========================
+    // 1. ショーケース画像アップロード
+    // =========================
+    const imageEl = e.target.closest('.image');
+    if (imageEl) {
+      const cardEl = imageEl.closest('.card');
+      const imgEl = imageEl.querySelector('img');
+      if (imgEl && itemImgInput) {
+
+        itemImgInput.onchange = (event) => {
+          const file = event.target.files[0];
+          if (!file) return;
+
+          const reader = new FileReader();
+          reader.onload = (ev) => {
+            imgEl.src = ev.target.result;
+
+            const index = Array.from(showcase.children).indexOf(cardEl);
+            if (index >= 0) {
+              if (!items[index]) items[index] = {};
+              items[index].img = ev.target.result;
+            }
+
+            if (typeof saveAppState === 'function') {
+              saveAppState();
+            }
+          };
+
+          reader.readAsDataURL(file);
+          itemImgInput.value = '';
+        };
+
+        itemImgInput.click();
+        return; // ここで処理終了（他のクリック処理は無視）
+      }
+    }
 
   // =========================
   // データ配列
@@ -273,86 +346,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 });
-
-
-// =========================
-// 編集されたら items を更新
-// =========================
-if (showcase) {
-  showcase.addEventListener('input', (e) => {
-
-    const card = e.target.closest('.card');
-    if (!card) return;
-
-    const index = Array.from(showcase.children).indexOf(card);
-    if (index < 0) return;
-
-    // 名前（モダン対応）
-    if (e.target.classList.contains('card-name') ||
-        e.target.classList.contains('modern-name')) {
-      items[index].name = e.target.innerText.trim();
-    }
-
-    // 値段
-    if (e.target.classList.contains('card-price')) {
-      items[index].price = e.target.innerText.trim();
-    }
-
-    // リンク
-    if (e.target.classList.contains('link-display')) {
-
-    let newLink = e.target.innerText.trim();
-
-    // httpが無い場合は追加
-    if (!newLink.startsWith("http")) {
-      newLink = "https://" + newLink;
-    }
-
-    items[index].link = newLink;
-    e.target.href = newLink;
-
-    }
-  });
-}
-
-if (showcase) {
-  showcase.addEventListener("click", (e) => {
-    // =========================
-    // 1. ショーケース画像アップロード
-    // =========================
-    const imageEl = e.target.closest('.image');
-    if (imageEl) {
-      const cardEl = imageEl.closest('.card');
-      const imgEl = imageEl.querySelector('img');
-      if (imgEl && itemImgInput) {
-
-        itemImgInput.onchange = (event) => {
-          const file = event.target.files[0];
-          if (!file) return;
-
-          const reader = new FileReader();
-          reader.onload = (ev) => {
-            imgEl.src = ev.target.result;
-
-            const index = Array.from(showcase.children).indexOf(cardEl);
-            if (index >= 0) {
-              if (!items[index]) items[index] = {};
-              items[index].img = ev.target.result;
-            }
-
-            if (typeof saveAppState === 'function') {
-              saveAppState();
-            }
-          };
-
-          reader.readAsDataURL(file);
-          itemImgInput.value = '';
-        };
-
-        itemImgInput.click();
-        return; // ここで処理終了（他のクリック処理は無視）
-      }
-    }
 
     // =========================
     // 2. いいねアイコン

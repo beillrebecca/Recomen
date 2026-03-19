@@ -16,7 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const showcase = document.getElementById("showcase");
   if (showcase) {
   showcase.addEventListener('input', (e) => {
-
+  showcase.addEventListener("click", (e) => {
+    
     const card = e.target.closest('.card');
     if (!card) return;
 
@@ -52,7 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
 }
 
 
-  showcase.addEventListener("click", (e) => {
     // =========================
     // 1. ショーケース画像アップロード
     // =========================

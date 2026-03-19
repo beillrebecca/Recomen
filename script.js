@@ -14,167 +14,180 @@ document.addEventListener("DOMContentLoaded", () => {
   console.log("DOM読み込みOK");
 
   const showcase = document.getElementById("showcase");
+
   if (showcase) {
-  showcase.addEventListener('input', (e) => {
-  showcase.addEventListener("click", (e) => {
-    
-    const card = e.target.closest('.card');
-    if (!card) return;
 
-    const index = Array.from(showcase.children).indexOf(card);
-    if (index < 0) return;
+    // =========================
+    // inputイベント
+    // =========================
+    showcase.addEventListener('input', (e) => {
 
-    // 名前（モダン対応）
-    if (e.target.classList.contains('card-name') ||
-        e.target.classList.contains('modern-name')) {
-      items[index].name = e.target.innerText.trim();
-    }
+      const card = e.target.closest('.card');
+      if (!card) return;
 
-    // 値段
-    if (e.target.classList.contains('card-price')) {
-      items[index].price = e.target.innerText.trim();
-    }
+      const index = Array.from(showcase.children).indexOf(card);
+      if (index < 0) return;
 
-    // リンク
-    if (e.target.classList.contains('link-display')) {
+      // 名前
+      if (e.target.classList.contains('card-name') ||
+          e.target.classList.contains('modern-name')) {
+        items[index].name = e.target.innerText.trim();
+      }
 
-    let newLink = e.target.innerText.trim();
+      // 値段
+      if (e.target.classList.contains('card-price')) {
+        items[index].price = e.target.innerText.trim();
+      }
 
-    // httpが無い場合は追加
-    if (!newLink.startsWith("http")) {
-      newLink = "https://" + newLink;
-    }
+      // リンク
+      if (e.target.classList.contains('link-display')) {
+        let newLink = e.target.innerText.trim();
 
-    items[index].link = newLink;
-    e.target.href = newLink;
+        if (!newLink.startsWith("http")) {
+          newLink = "https://" + newLink;
+        }
 
-    }
-  });
-}
+        items[index].link = newLink;
+        e.target.href = newLink;
+      }
+
+    });
 
 
     // =========================
-    // 1. ショーケース画像アップロード
+    // clickイベント
     // =========================
-    const imageEl = e.target.closest('.image');
-    if (imageEl) {
-      const cardEl = imageEl.closest('.card');
-      const imgEl = imageEl.querySelector('img');
-      if (imgEl && itemImgInput) {
+    showcase.addEventListener("click", (e) => {
 
-        itemImgInput.onchange = (event) => {
-          const file = event.target.files[0];
-          if (!file) return;
+      // =========================
+      // 1. 画像アップロード
+      // =========================
+      const imageEl = e.target.closest('.image');
+      if (imageEl) {
+        const cardEl = imageEl.closest('.card');
+        const imgEl = imageEl.querySelector('img');
 
-          const reader = new FileReader();
-          reader.onload = (ev) => {
-            imgEl.src = ev.target.result;
+        if (imgEl && itemImgInput) {
 
-            const index = Array.from(showcase.children).indexOf(cardEl);
-            if (index >= 0) {
-              if (!items[index]) items[index] = {};
-              items[index].img = ev.target.result;
-            }
+          itemImgInput.onchange = (event) => {
+            const file = event.target.files[0];
+            if (!file) return;
 
-            if (typeof saveAppState === 'function') {
-              saveAppState();
-            }
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+              imgEl.src = ev.target.result;
+
+              const index = Array.from(showcase.children).indexOf(cardEl);
+              if (index >= 0) {
+                if (!items[index]) items[index] = {};
+                items[index].img = ev.target.result;
+              }
+
+              if (typeof saveAppState === 'function') {
+                saveAppState();
+              }
+            };
+
+            reader.readAsDataURL(file);
+            itemImgInput.value = '';
           };
 
-          reader.readAsDataURL(file);
-          itemImgInput.value = '';
-        };
-
-        itemImgInput.click();
-        return; // ここで処理終了（他のクリック処理は無視）
+          itemImgInput.click();
+          return;
+        }
       }
-    }
-    
-    // =========================
-    // 2. いいねアイコン
-    // =========================
-    const heart = e.target.closest(".icon-heart");
-    if (heart) {
-      const card = heart.closest(".card");
-      const index = Array.from(showcase.children).indexOf(card);
-      if (index >= 0) {
-        items[index].liked = !items[index].liked;
-        heart.classList.toggle("active", items[index].liked);
 
-        heart.classList.remove("icon-pop");
-        void heart.offsetWidth;
-        heart.classList.add("icon-pop");
+      // =========================
+      // 2. いいね
+      // =========================
+      const heart = e.target.closest(".icon-heart");
+      if (heart) {
+        const card = heart.closest(".card");
+        const index = Array.from(showcase.children).indexOf(card);
 
-        if (typeof saveAppState === 'function') saveAppState();
+        if (index >= 0) {
+          items[index].liked = !items[index].liked;
+          heart.classList.toggle("active", items[index].liked);
+
+          heart.classList.remove("icon-pop");
+          void heart.offsetWidth;
+          heart.classList.add("icon-pop");
+
+          if (typeof saveAppState === 'function') saveAppState();
+        }
+        return;
       }
-      return;
-    }
 
-    // =========================
-    // 3. 保存アイコン
-    // =========================
-    const save = e.target.closest(".icon-save");
-    if (save) {
-      const card = save.closest(".card");
-      const index = Array.from(showcase.children).indexOf(card);
-      if (index >= 0) {
-        items[index].saved = !items[index].saved;
-        save.classList.toggle("active", items[index].saved);
+      // =========================
+      // 3. 保存
+      // =========================
+      const save = e.target.closest(".icon-save");
+      if (save) {
+        const card = save.closest(".card");
+        const index = Array.from(showcase.children).indexOf(card);
 
-        save.classList.remove("icon-pop");
-        void save.offsetWidth;
-        save.classList.add("icon-pop");
+        if (index >= 0) {
+          items[index].saved = !items[index].saved;
+          save.classList.toggle("active", items[index].saved);
 
-        if (typeof saveAppState === 'function') saveAppState();
+          save.classList.remove("icon-pop");
+          void save.offsetWidth;
+          save.classList.add("icon-pop");
+
+          if (typeof saveAppState === 'function') saveAppState();
+        }
+        return;
       }
-      return;
-    }
 
-    // =========================
-    // 4. 商品リンク編集
-    // =========================
-    const link = e.target.closest(".link-display");
-    if (link) {
-      e.preventDefault();
-      const card = link.closest(".card");
-      const index = Array.from(showcase.children).indexOf(card);
+      // =========================
+      // 4. リンク編集
+      // =========================
+      const link = e.target.closest(".link-display");
+      if (link) {
+        e.preventDefault();
 
-      let newLink = prompt("商品リンクを入力", link.textContent);
-      if (!newLink) return;
+        const card = link.closest(".card");
+        const index = Array.from(showcase.children).indexOf(card);
 
-      newLink = newLink.trim();
-      if (!newLink.startsWith("http")) newLink = "https://" + newLink;
+        let newLink = prompt("商品リンクを入力", link.textContent);
+        if (!newLink) return;
 
-      link.textContent = newLink;
-      link.href = newLink;
+        newLink = newLink.trim();
+        if (!newLink.startsWith("http")) newLink = "https://" + newLink;
 
-      if (index >= 0) items[index].link = newLink;
-      return;
-    }
+        link.textContent = newLink;
+        link.href = newLink;
 
-    // =========================
-    // 5. コメントアイコン
-    // =========================
-    const commentIcon = e.target.closest(".icon-comment");
-    if (commentIcon) {
-      const card = commentIcon.closest(".card");
-      currentCardIndex = Array.from(showcase.children).indexOf(card);
-      openComments();
-      return;
-    }
+        if (index >= 0) items[index].link = newLink;
+        return;
+      }
 
-    // =========================
-    // 6. シェアアイコン
-    // =========================
-    const share = e.target.closest(".icon-share");
-    if (share && sharePopup) {
-      shareUrl = window.location.href;
-      sharePopup.style.display = "block";
-      return;
-    }
+      // =========================
+      // 5. コメント
+      // =========================
+      const commentIcon = e.target.closest(".icon-comment");
+      if (commentIcon) {
+        const card = commentIcon.closest(".card");
+        currentCardIndex = Array.from(showcase.children).indexOf(card);
+        openComments();
+        return;
+      }
 
-  }); // showcase click 終了
-}
+      // =========================
+      // 6. シェア
+      // =========================
+      const share = e.target.closest(".icon-share");
+      if (share && sharePopup) {
+        shareUrl = window.location.href;
+        sharePopup.style.display = "block";
+        return;
+      }
+
+    });
+
+  }
+
+});
 
   // =========================
   // データ配列

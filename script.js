@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 }
 
-if (showcase) {
+
   showcase.addEventListener("click", (e) => {
     // =========================
     // 1. ショーケース画像アップロード

@@ -14,7 +14,8 @@ document.addEventListener("DOMContentLoaded", () => {
   console.log("DOM読み込みOK");
 
   const showcase = document.getElementById("showcase");
-
+  const itemImgInput = document.getElementById("itemImgInput");
+  
   let items = [];
   
   if (showcase) {

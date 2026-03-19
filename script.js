@@ -16,7 +16,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const showcase = document.getElementById("showcase");
   const itemImgInput = document.getElementById("itemImgInput");
   
-  let items = [];
+  let items = [
+  {
+    name: "テスト",
+    price: "¥1000",
+    link: "https://example.com",
+    img: "",
+    liked: false,
+    saved: false
+  }
+];
   
   if (showcase) {
 

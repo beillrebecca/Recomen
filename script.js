@@ -293,7 +293,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let left = btnRect.left + (btnRect.width - popupWidth) / 2;
     left = Math.max(4, Math.min(left, viewportWidth - popupWidth - 4));
 
-    let top = btnRect.bottom + 20;
+    let top = btnRect.bottom + 10;
 
     if (top + popupHeight > viewportHeight - 4) {
       top = btnRect.top - popupHeight - 6;

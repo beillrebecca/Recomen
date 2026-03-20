@@ -209,3 +209,23 @@ if (saveBtn && showcase) {
     console.log("保存完了", data);
   });
 }
+
+// =========================
+// ポップアップ土台
+// =========================
+
+const popupMap = {
+  themeButton: 'themePopup',
+  styleButton: 'stylePopup',
+  announcementButton: 'announcementPopup'
+};
+
+function closeAllPopups() {
+  Object.values(popupMap).forEach(popupId => {
+    const popup = document.getElementById(popupId);
+    if (popup) {
+      popup.classList.remove('active');
+      popup.style.display = 'none';
+    }
+  });
+}

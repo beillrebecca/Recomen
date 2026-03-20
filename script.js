@@ -191,11 +191,15 @@ if (saveBtn && showcase) {
       const img = card.querySelector("img")?.src || "";
       const name = card.querySelector(".card-name")?.textContent || "";
       const link = card.querySelector(".link-display")?.href || "";
-
+      const liked = card.querySelector(".icon-heart")?.classList.contains("liked") || false;
+      const saved = card.querySelector(".icon-save")?.classList.contains("saved") || false;
+      
       data.push({
         img,
         name,
         link
+        liked,
+        saved
       });
     });
 

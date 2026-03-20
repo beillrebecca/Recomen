@@ -163,11 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-const popupMap = {
-  themeButton: 'themePopup',
-  styleButton: 'stylePopup',
-  announcementButton: 'announcementPopup'
-};
+
 
 // =========================
 // ポップアップ位置
@@ -202,6 +198,12 @@ const popupMap = {
   popup.style.top = `${top}px`;
 
 }
+
+const popupMap = {
+  themeButton: 'themePopup',
+  styleButton: 'stylePopup',
+  announcementButton: 'announcementPopup'
+};
 
 // =========================
 // ポップアップ開閉

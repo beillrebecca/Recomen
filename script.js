@@ -280,43 +280,26 @@ document.addEventListener("DOMContentLoaded", () => {
 function positionPopup(btn, popup) {
   if (!btn || !popup) return;
 
-  // 一時的に表示してサイズ取得
-  popup.style.visibility = "hidden";
-  popup.style.display = "block";
-
   const rect = btn.getBoundingClientRect();
-  const popupWidth = popup.offsetWidth;
-  const popupHeight = popup.offsetHeight;
-  const viewportWidth = window.innerWidth;
 
-  // 🔥 高さ調整：編集項目直下にぴったり
-  const top = rect.top + rect.height; // ボタン上端 + ボタン高さ
+  // 親要素を基準にする場合
+  const parent = btn.offsetParent || document.body;
+  const parentRect = parent.getBoundingClientRect();
 
-  // 🔥 左右位置調整
-  let left = rect.left;
+  const top = rect.top - parentRect.top + rect.height; // ボタン下
+  let left = rect.left - parentRect.left; // 左端はボタンに合わせる
 
-  if (popup.id === "stylePopup") {
-    // 少し左に寄せる
-    left = left - 8; // 好みに合わせて微調整
-  }
-
+  // 個別微調整
+  if (popup.id === "stylePopup") left -= 8; // 左に微調整
   if (popup.id === "announcementPopup") {
-    // 画面端に収める
-    if (left + popupWidth > viewportWidth - 4) {
-      left = viewportWidth - popupWidth - 4;
-    }
+    // 右端補正
+    left = Math.min(left, parentRect.width - popup.offsetWidth - 4);
   }
 
-  // 左端チェック
-  left = Math.max(left, 4);
-
-  popup.style.position = "fixed";
+  popup.style.position = "absolute";
   popup.style.left = left + "px";
   popup.style.top = top + "px";
-  popup.style.visibility = "";
   popup.style.display = "block";
-
-  console.log("ポップアップ位置:", popup.id, left, top);
 }
 
   // ボタン処理

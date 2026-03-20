@@ -464,3 +464,98 @@ function createCard(item) {
 
   return card;
 }
+
+// ===============================
+// 画像アップロード 共通関数
+// ===============================
+function setupImageUpload(imgEl, inputEl, onSave) {
+  if (!imgEl || !inputEl) return;
+
+  imgEl.addEventListener('click', () => inputEl.click());
+
+  inputEl.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      imgEl.src = ev.target.result;
+
+      if (onSave) onSave(ev.target.result);
+    };
+
+    reader.readAsDataURL(file);
+    inputEl.value = '';
+  });
+}
+
+// ===============================
+// ヘッダー・プロフィール画像
+// ===============================
+setupImageUpload(
+  document.getElementById('headerImg'),
+  document.getElementById('headerImgInput')
+);
+
+setupImageUpload(
+  document.getElementById('avatarImg'),
+  document.getElementById('avatarImgInput')
+);
+
+
+// ===============================
+// アナウンスバー安全スクロール
+// ===============================
+const announcementToggle = document.getElementById('announcementToggle');
+const bannerTextInput = document.getElementById('bannerTextInput');
+const announcementBar = document.getElementById('announcementBar');
+const bannerText = announcementBar?.querySelector('.banner-text');
+
+if (announcementToggle && announcementBar && bannerText && bannerTextInput) {
+
+  announcementBar.style.display = announcementToggle.checked ? 'flex' : 'none';
+
+  announcementToggle.addEventListener('change', e => {
+    announcementBar.style.display = e.target.checked ? 'flex' : 'none';
+  });
+
+  announcementBar.style.position = 'relative';
+  announcementBar.style.overflow = 'hidden';
+  announcementBar.style.height = '40px';
+  announcementBar.style.alignItems = 'center';
+  announcementBar.style.padding = '0 10px';
+
+  bannerText.style.position = 'absolute';
+  bannerText.style.whiteSpace = 'nowrap';
+  bannerText.style.top = '50%';
+  bannerText.style.transform = 'translateY(-50%)';
+  bannerText.style.left = '0px';
+
+  bannerText.textContent = bannerTextInput.value;
+
+  let pos = announcementBar.offsetWidth;
+  const speed = 1.0;
+
+  function scroll() {
+    const textWidth = bannerText.offsetWidth;
+    if (!textWidth) return;
+
+    pos -= speed;
+
+    if (pos <= -textWidth) pos = announcementBar.offsetWidth;
+
+    bannerText.style.left = pos + 'px';
+    requestAnimationFrame(scroll);
+  }
+
+  setTimeout(scroll, 100);
+
+  bannerTextInput.addEventListener('input', () => {
+    bannerText.textContent = bannerTextInput.value;
+    pos = announcementBar.offsetWidth;
+  });
+
+  window.addEventListener('resize', () => {
+    pos = announcementBar.offsetWidth;
+  });
+}

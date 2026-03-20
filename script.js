@@ -280,20 +280,20 @@ document.addEventListener("DOMContentLoaded", () => {
 function positionPopup(btn, popup) {
   if (!btn || !popup) return;
 
-  const rect = btn.getBoundingClientRect(); // ボタン位置
+  const rect = btn.getBoundingClientRect();
   const popupWidth = popup.offsetWidth;
   const viewportWidth = window.innerWidth;
+
+  // 上端はボタン直下 + 6px
+  const top = rect.bottom + 6;
 
   // 左端はボタンに合わせる
   let left = rect.left;
 
-  // 右端は画面からはみ出さないよう調整
+  // 右端は画面をはみ出さないよう調整
   if (left + popupWidth > viewportWidth - 4) {
     left = viewportWidth - popupWidth - 4;
   }
-
-  // 上端はボタン下 + 6px
-  let top = rect.bottom + 6;
 
   popup.style.position = "fixed";
   popup.style.left = left + "px";

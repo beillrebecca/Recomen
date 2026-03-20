@@ -163,6 +163,134 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+
+
+// =========================
+// ポップアップ位置
+// =========================
+  function positionPopup(btn, popup) {
+
+  popup.style.display = 'block';
+
+  const rect = btn.getBoundingClientRect();
+
+  const popupWidth = popup.offsetWidth;
+  const popupHeight = popup.offsetHeight;
+
+  let left = rect.left + rect.width / 2 - popupWidth / 2;
+  let top = rect.top - popupHeight +2;
+
+  // ⭐ 上に上げる調整
+  const offsetY = -8;
+  top += offsetY;
+
+  if (left < 4) left = 4;
+
+  if (left + popupWidth > window.innerWidth - 4) {
+    left = window.innerWidth - popupWidth - 4;
+  }
+
+  if (top + popupHeight > window.innerHeight - 4) {
+    top = rect.top - popupHeight - 4;
+  }
+
+  popup.style.left = `${left}px`;
+  popup.style.top = `${top}px`;
+
+}
+
+// =========================
+// ポップアップ開閉
+// =========================
+Object.entries(popupMap).forEach(([btnId, popupId]) => {
+
+  const btn = document.getElementById(btnId);
+  const popup = document.getElementById(popupId);
+
+  if (!btn || !popup) return;
+
+  btn.addEventListener('click', e => {
+
+    e.stopPropagation();
+
+    const isActive = popup.classList.contains('active');
+
+    closeAllPopups();
+
+    if (!isActive) {
+
+      popup.classList.add('active');
+      popup.style.display = 'block';
+
+      positionPopup(btn, popup);
+
+    }
+
+  });
+
+  popup.addEventListener('click', e => e.stopPropagation());
+
+});
+
+
+// =========================
+// リサイズ時再計算
+// =========================
+window.addEventListener('resize', () => {
+
+  Object.entries(popupMap).forEach(([btnId, popupId]) => {
+
+    const btn = document.getElementById(btnId);
+    const popup = document.getElementById(popupId);
+
+    if (popup && popup.classList.contains('active')) {
+      positionPopup(btn, popup);
+    }
+
+  });
+
+});
+
+
+// =========================
+// テーマ切替（カード画像保持版）
+// =========================
+const themeRadios = document.querySelectorAll('input[name="theme"]');
+themeRadios.forEach(radio => {
+  radio.addEventListener('change', e => {
+    const showcase = document.getElementById('showcase');
+    if (!showcase) return;
+
+    // カード内の既存画像を保持
+    const existingImages = Array.from(showcase.querySelectorAll('.card img')).map(img => img.src);
+
+    // ボディクラス切替
+    if (e.target.value === 'natural') {
+      document.body.classList.remove('theme-modern');
+      document.body.classList.add('theme-natural');
+    } else {
+      document.body.classList.remove('theme-natural');
+      document.body.classList.add('theme-modern');
+    }
+
+
+    // 再描画後に画像を復元（カードはそのまま）
+    const cardImgs = showcase.querySelectorAll('.card img');
+    cardImgs.forEach((img, i) => {
+      if (existingImages[i]) img.src = existingImages[i];
+    });
+  });
+});
+
+// フォント変更でもカード再描画する場合も同様に対応
+const fontSelect = document.getElementById('fontSelect');
+if (fontSelect) {
+  fontSelect.addEventListener('change', e => {
+    document.documentElement.style.setProperty('--font-family', e.target.value);
+  });
+}
+
+
 // =========================
 // ローカル保存 読み込み
 // =========================

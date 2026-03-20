@@ -284,16 +284,15 @@ function positionPopup(btn, popup) {
   const popupWidth = popup.offsetWidth;
   const viewportWidth = window.innerWidth;
 
-  // 上端はボタン直下 + 6px
+  // topはボタン直下固定
   const top = rect.bottom + 6;
 
-  // 左端はボタンに合わせる
+  // leftはボタン左に合わせつつ画面端をはみ出さないよう調整
   let left = rect.left;
-
-  // 右端は画面をはみ出さないよう調整
   if (left + popupWidth > viewportWidth - 4) {
     left = viewportWidth - popupWidth - 4;
   }
+  left = Math.max(left, 4); // 左端も最低余白確保
 
   popup.style.position = "fixed";
   popup.style.left = left + "px";

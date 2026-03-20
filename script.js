@@ -239,45 +239,49 @@ if (saveBtn && showcase) {
 }
 
 // =========================
-// ポップアップ土台
+// ポップアップ土台（安全版）
 // =========================
 
-const popupMap = {
-  themeButton: 'themePopup',
-  styleButton: 'stylePopup',
-  announcementButton: 'announcementPopup'
-};
+document.addEventListener("DOMContentLoaded", () => {
 
-function closeAllPopups() {
-  Object.values(popupMap).forEach(popupId => {
+  const popupMap = {
+    themeButton: 'themePopup',
+    styleButton: 'stylePopup',
+    announcementButton: 'announcementPopup'
+  };
+
+  function closeAllPopups() {
+    Object.values(popupMap).forEach(popupId => {
+      const popup = document.getElementById(popupId);
+      if (popup) {
+        popup.classList.remove('active');
+        popup.style.display = 'none';
+      }
+    });
+  }
+
+  Object.entries(popupMap).forEach(([btnId, popupId]) => {
+    const btn = document.getElementById(btnId);
     const popup = document.getElementById(popupId);
-    if (popup) {
-      popup.classList.remove('active');
-      popup.style.display = 'none';
-    }
-  });
-}
 
-Object.entries(popupMap).forEach(([btnId, popupId]) => {
-  const btn = document.getElementById(btnId);
-  const popup = document.getElementById(popupId);
+    if (!btn || !popup) return;
 
-  if (!btn || !popup) return;
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
 
-  btn.addEventListener('click', (e) => {
-    e.stopPropagation();
+      const isActive = popup.classList.contains('active');
+      closeAllPopups();
 
-    const isActive = popup.classList.contains('active');
-    closeAllPopups();
+      if (!isActive) {
+        popup.classList.add('active');
+        popup.style.display = 'block';
+      }
+    });
 
-    if (!isActive) {
-      popup.classList.add('active');
-      popup.style.display = 'block';
-    }
+    popup.addEventListener('click', e => e.stopPropagation());
   });
 
-  popup.addEventListener('click', e => e.stopPropagation());
+  document.body.addEventListener('click', closeAllPopups);
+
 });
-
-document.body.addEventListener('click', closeAllPopups);
 

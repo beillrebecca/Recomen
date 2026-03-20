@@ -163,7 +163,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-
+const popupMap = {
+  themeButton: 'themePopup',
+  styleButton: 'stylePopup',
+  announcementButton: 'announcementPopup'
+};
 
 // =========================
 // ポップアップ位置

@@ -276,6 +276,36 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+  
+  function positionPopup(btn, popup) {
+  if (!btn || !popup) return;
+
+  popup.style.visibility = 'hidden';
+  positionPopup(btn, popup);
+
+  const popupWidth = popup.offsetWidth;
+  const popupHeight = popup.offsetHeight;
+
+  const btnRect = btn.getBoundingClientRect();
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
+
+  let left = btnRect.left + (btnRect.width - popupWidth) / 2;
+  left = Math.max(4, Math.min(left, viewportWidth - popupWidth - 4));
+
+  let top = btnRect.bottom + 20; // ←ここで高さ調整
+
+  if (top + popupHeight > viewportHeight - 4) {
+    top = btnRect.top - popupHeight - 6;
+    top = Math.max(4, top);
+  }
+
+  popup.style.left = `${left}px`;
+  popup.style.top = `${top}px`;
+
+  popup.style.visibility = '';
+  popup.style.display = 'block';
+}
 
   // ボタン処理
   Object.entries(popupMap).forEach(([btnId, popupId]) => {

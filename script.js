@@ -1,3 +1,9 @@
+alert("JSは読み込まれた！");
+console.log("JSは読み込まれた！");
+
+const editToggle = document.getElementById('editToggle');
+console.log('editToggle:', editToggle);
+
 // =========================
 // items 初期化（最初は空）
 // =========================

@@ -15,13 +15,41 @@ if (saved) {
     const img = card.querySelector("img");
     const name = card.querySelector(".card-name");
     const link = card.querySelector(".link-display");
+    const heart = card.querySelector(".icon-heart");
+    const saveIcon = card.querySelector(".icon-save");
 
+    // 🖼 画像
     if (img) img.src = item.img;
+
+    // 📝 名前
     if (name) name.textContent = item.name;
+
+    // 🔗 リンク
     if (link) {
       link.href = item.link;
       link.textContent = item.link;
     }
+
+    // ❤️ ハート復元
+    if (heart && item.liked) {
+      heart.classList.add("liked");
+      const path = heart.querySelector("path");
+      if (path) {
+        path.setAttribute("fill", "red");
+        path.setAttribute("stroke", "red");
+      }
+    }
+
+    // 💾 保存復元
+    if (saveIcon && item.saved) {
+      saveIcon.classList.add("saved");
+      const path = saveIcon.querySelector("path");
+      if (path) {
+        path.setAttribute("fill", "#000");
+        path.setAttribute("stroke", "#000");
+      }
+    }
+
   });
 
   console.log("読み込み完了");

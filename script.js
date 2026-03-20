@@ -277,29 +277,35 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // 🔥 位置調整関数（編集バー直下版）
-function positionPopup(btn, popup) {
+  function positionPopup(btn, popup) {
   if (!btn || !popup) return;
 
   const rect = btn.getBoundingClientRect();
 
-  // 親要素を基準にする場合
   const parent = btn.offsetParent || document.body;
   const parentRect = parent.getBoundingClientRect();
 
-  const top = rect.top - parentRect.top + rect.height; // ボタン下
-  let left = rect.left - parentRect.left; // 左端はボタンに合わせる
+  // ボタン直下
+  const top = rect.top - parentRect.top + rect.height;
+
+  // 左端はボタンに合わせる
+  let left = rect.left - parentRect.left;
+
+  // 右端補正（スタイル・アナウンスバーのみ）
+  if (popup.id === "stylePopup" || popup.id === "announcementPopup") {
+    const maxLeft = parentRect.width - popup.offsetWidth - 4; // 右端余白4px
+    if (left > maxLeft) left = maxLeft;
+  }
 
   // 個別微調整
-  if (popup.id === "stylePopup") left -= 8; // 左に微調整
-  if (popup.id === "announcementPopup") {
-    // 右端補正
-    left = Math.min(left, parentRect.width - popup.offsetWidth - 4);
-  }
+  if (popup.id === "stylePopup") left -= 4; // 必要に応じて微調整
 
   popup.style.position = "absolute";
   popup.style.left = left + "px";
   popup.style.top = top + "px";
   popup.style.display = "block";
+
+  console.log("ポップアップ位置:", popup.id, "top:", top, "left:", left);
 }
 
   // ボタン処理

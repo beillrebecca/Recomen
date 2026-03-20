@@ -281,13 +281,13 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!btn || !popup) return;
 
   const rect = btn.getBoundingClientRect();
-  const parentRect = btn.closest('.edit-bar')?.getBoundingClientRect(); // 編集バーの位置取得
 
   // 左端はボタンに合わせる
   popup.style.left = rect.left + "px";
 
-  // 上端はボタンの下、親バー基準で微調整
-  popup.style.top = (parentRect ? parentRect.bottom : rect.bottom) + 4 + "px"; // +4pxで少し余白
+  // 上端はボタンの下 + ボタンの高さ + 微調整
+  const topOffset = rect.height + 6; // ボタンの高さ分 + 6px余白
+  popup.style.top = rect.top + topOffset + "px";
 
   popup.style.position = "fixed";
   popup.style.display = "block";

@@ -276,36 +276,22 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 🔥 位置調整関数（修正版）
-  function positionPopup(btn, popup) {
-    if (!btn || !popup) return;
+  // 🔥 位置調整関数（シンプル版）
+function positionPopup(btn, popup) {
+  if (!btn || !popup) return;
 
-    popup.style.visibility = 'hidden';
-    popup.style.display = 'block';
+  const rect = btn.getBoundingClientRect();
 
-    const popupWidth = popup.offsetWidth;
-    const popupHeight = popup.offsetHeight;
+  popup.style.position = "fixed";
 
-    const btnRect = btn.getBoundingClientRect();
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
+  // 👇 左位置（ボタンの左に合わせる）
+  popup.style.left = rect.left + "px";
 
-    let left = btnRect.left + (btnRect.width - popupWidth) / 2;
-    left = Math.max(4, Math.min(left, viewportWidth - popupWidth - 4));
+  // 👇 真下に出す（ここが重要）
+  popup.style.top = rect.bottom + 8 + "px";
 
-    let top = btnRect.bottom + 10;
-
-    if (top + popupHeight > viewportHeight - 4) {
-      top = btnRect.top - popupHeight - 6;
-      top = Math.max(4, top);
-    }
-
-    popup.style.left = `${left}px`;
-    popup.style.top = `${top}px`;
-
-    popup.style.visibility = '';
-    popup.style.display = 'block';
-  }
+  popup.style.display = "block";
+}
 
   // ボタン処理
   Object.entries(popupMap).forEach(([btnId, popupId]) => {

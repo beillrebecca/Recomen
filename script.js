@@ -1,18 +1,14 @@
 alert("JS読み込まれてる！");
 
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("DOM読み込みOK");
+const showcase = document.getElementById("showcase");
 
-  const showcase = document.getElementById("showcase");
+console.log("showcase:", showcase);
 
-  if (!showcase) {
-    console.error("showcaseが見つからない");
-    return;
-  }
-
-  // 👇 まずはクリック確認だけ
+if (showcase) {
   showcase.addEventListener("click", (e) => {
     console.log("クリックされた！", e.target);
     alert("カードがクリックされた！");
   });
-});
+} else {
+  console.error("showcase取れてない");
+}

@@ -105,64 +105,130 @@ setupImageUpload(
   });
 
   // =========================
-  // clickイベント
-  // =========================
-  showcase.addEventListener("click", (e) => {
-    console.log("クリック検知");
+// ショーケースクリック処理（名前編集＆画像アップロード両立）
+// =========================
+if (showcase) {
+  showcase.addEventListener('click', e => {
 
-    // ① 画像アップロード
-    const imageEl = e.target.closest(".image");
-    if (imageEl && itemImgInput) {
-      const cardEl = imageEl.closest(".card");
-      const imgEl = imageEl.querySelector("img");
-
-      itemImgInput.onchange = (event) => {
-        const file = event.target.files[0];
-        if (!file) return;
-
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-          imgEl.src = ev.target.result;
-
-          const index = Array.from(showcase.children).indexOf(cardEl);
-          if (index >= 0) {
-            items[index].img = ev.target.result;
-          }
-        };
-
-        reader.readAsDataURL(file);
-      };
-
-      itemImgInput.click();
-      return;
-    }
-
-    // ② いいね
-    const heart = e.target.closest(".icon-heart");
+    // --- ハートアイコン ---
+    const heart = e.target.closest('.icon-heart');
     if (heart) {
-      const card = heart.closest(".card");
+      heart.classList.toggle('liked');
+      const path = heart.querySelector('path');
+      if (path) {
+        path.setAttribute('fill', heart.classList.contains('liked') ? 'red' : 'none');
+        path.setAttribute('stroke', heart.classList.contains('liked') ? 'red' : '#000');
+      }
+      heart.classList.remove('pop');
+      void heart.offsetWidth; // 再描画トリガー
+      heart.classList.add('pop');
+      const card = heart.closest('.card');
       const index = Array.from(showcase.children).indexOf(card);
+      if (index >= 0) items[index].liked = heart.classList.contains('liked');
+      return;
+    }
 
-      if (index >= 0) {
-        items[index].liked = !items[index].liked;
-        heart.classList.toggle("active");
+    // --- 保存アイコン ---
+    const save = e.target.closest('.icon-save');
+    if (save) {
+      save.classList.toggle('saved');
+      const path = save.querySelector('path');
+      if (path) {
+        path.setAttribute('fill', save.classList.contains('saved') ? '#000' : 'none');
+        path.setAttribute('stroke', '#000');
+      }
+      save.classList.remove('pop');
+      void save.offsetWidth;
+      save.classList.add('pop');
+      const card = save.closest('.card');
+      const index = Array.from(showcase.children).indexOf(card);
+      if (index >= 0) items[index].saved = save.classList.contains('saved');
+      return;
+    }
+
+    // --- 編集ボタン ---
+    const editBtn = e.target.closest('.edit-link-btn');
+    if (editBtn) {
+      e.stopPropagation();
+      const card = editBtn.closest('.card');
+      const linkEl = card.querySelector('.link-display');
+      const currentLink = linkEl.getAttribute('href');
+      const newLink = prompt('商品リンクを入力してください', currentLink);
+      if (newLink) {
+        linkEl.setAttribute('href', newLink);
+        linkEl.textContent = newLink;
+        const index = Array.from(showcase.children).indexOf(card);
+        if (index >= 0) items[index].link = newLink;
       }
       return;
     }
 
-    // ③ 保存
-    const save = e.target.closest(".icon-save");
-    if (save) {
-      const card = save.closest(".card");
-      const index = Array.from(showcase.children).indexOf(card);
-
-      if (index >= 0) {
-        items[index].saved = !items[index].saved;
-        save.classList.toggle("active");
+    // --- 商品リンククリック ---
+    const linkEl = e.target.closest('.link-display');
+    if (linkEl) {
+      e.preventDefault();
+      const card = linkEl.closest('.card');
+      const currentLink = linkEl.getAttribute('href');
+      const newLink = prompt('商品リンクを入力してください', currentLink);
+      if (newLink) {
+        linkEl.setAttribute('href', newLink);
+        linkEl.textContent = newLink;
+        const index = Array.from(showcase.children).indexOf(card);
+        if (index >= 0) items[index].link = newLink;
       }
       return;
+    }
+
+    // --- 名前編集クリック時はアップロードを止める ---
+    const nameEl = e.target.closest('.card-name, .modern-name');
+    if (nameEl) {
+      return; // 名前編集クリック時は処理を止める
+    }
+
+    // --- 画像クリック（名前以外） ---
+    const imageEl = e.target.closest('.image');
+    if (!imageEl || !itemImgInput) return;
+
+    const cardEl = imageEl.closest('.card');
+    const imgEl = imageEl.querySelector('img');
+    if (!imgEl) return;
+
+    itemImgInput.onchange = (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        imgEl.src = ev.target.result;
+
+        const index = Array.from(showcase.children).indexOf(cardEl);
+        if (index >= 0) items[index].img = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+
+      itemImgInput.value = '';
+    };
+
+    itemImgInput.click();
+  });
+}
+
+// =========================
+// 名前編集の反映
+// =========================
+if (showcase) {
+  showcase.addEventListener('input', (e) => {
+    const nameEl = e.target.closest('.card-name, .modern-name');
+    if (!nameEl) return;
+
+    const cardEl = nameEl.closest('.card');
+    const index = Array.from(showcase.children).indexOf(cardEl);
+
+    if (index >= 0) {
+      items[index].name = nameEl.textContent.trim();
     }
   });
+}
 
   // =========================
   // 保存ボタン ←★ここ追加

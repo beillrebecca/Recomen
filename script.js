@@ -1,4 +1,18 @@
 // =========================
+// 先にこれを一番上に置く
+// =========================
+let items = [
+  {
+    name: "テスト",
+    price: "¥1000",
+    link: "https://example.com",
+    img: "",
+    liked: false,
+    saved: false
+  }
+];
+
+// =========================
 // DOM読み込み後に初期化
 // =========================
 document.addEventListener("DOMContentLoaded", () => {
@@ -11,18 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.error("showcaseが見つからない");
     return;
   }
-
-  // ダミーデータ（必須）
-  let items = [
-    {
-      name: "テスト",
-      price: "¥1000",
-      link: "https://example.com",
-      img: "",
-      liked: false,
-      saved: false
-    }
-  ];
+  
 
   // =========================
   // inputイベント

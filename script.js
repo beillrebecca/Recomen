@@ -5,13 +5,19 @@ alert("JSは読み込まれた！");
 console.log("JSは読み込まれた！");
 
 // =========================
-// items初期化
+// items 初期化
 // =========================
 let items = [
   {
-    name: "テストアイテム",
-    img: "https://dummyimage.com/100x100/cccccc/000000&text=IMG",
-  }
+    name: "アイテム1",
+    price: "¥1000",
+    link: "https://example.com",
+    img: "https://dummyimage.com/300x300/eeeeee/999999&text=%F0%9F%93%B7",
+    clicks: 0,
+    liked: false,
+    saved: false
+  },
+  // 必要なら2〜12まで同様に追加
 ];
 
 // =========================

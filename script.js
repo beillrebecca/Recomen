@@ -103,35 +103,68 @@ if (showcase) {
       return;
     }
 
-    // 🖼 画像アップロード
-    const imageEl = e.target.closest(".image");
+    // 🖼 画像アップロード（軽量化版）
+const imageEl = e.target.closest(".image");
 
-    if (imageEl) {
-      const img = imageEl.querySelector("img");
-      const input = document.getElementById("itemImgInput");
+if (imageEl) {
+  const img = imageEl.querySelector("img");
+  const input = document.getElementById("itemImgInput");
 
-      if (!input || !img) return;
+  if (!input || !img) return;
 
-      input.onchange = (event) => {
-        const file = event.target.files[0];
-        if (!file) return;
+  input.onchange = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
 
-        const reader = new FileReader();
+    const reader = new FileReader();
 
-        reader.onload = (ev) => {
-          img.src = ev.target.result;
-        };
+    reader.onload = (ev) => {
+      const image = new Image();
 
-        reader.readAsDataURL(file);
+      image.onload = () => {
+        const canvas = document.createElement("canvas");
+        const maxSize = 200; // ← サイズ制限（ここが重要）
 
-        input.value = "";
+        let w = image.width;
+        let h = image.height;
+
+        if (w > h) {
+          if (w > maxSize) {
+            h = h * (maxSize / w);
+            w = maxSize;
+          }
+        } else {
+          if (h > maxSize) {
+            w = w * (maxSize / h);
+            h = maxSize;
+          }
+        }
+
+        canvas.width = w;
+        canvas.height = h;
+
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(image, 0, 0, w, h);
+
+        // 🔥 圧縮（超重要）
+        const compressed = canvas.toDataURL("image/jpeg", 0.6);
+
+        img.src = compressed;
       };
 
-      input.click();
+      image.src = ev.target.result;
+    };
 
-      console.log("画像変更");
-      return;
-    }
+    reader.readAsDataURL(file);
+
+    input.value = "";
+  };
+
+  input.click();
+
+  console.log("画像変更（軽量版）");
+  return;
+  }
 
   });
 }

@@ -29,6 +29,9 @@ if (saved) {
 
 const showcase = document.getElementById("showcase");
 
+// =========================
+// カード操作
+// =========================
 if (showcase) {
   showcase.addEventListener("click", (e) => {
 
@@ -54,7 +57,7 @@ if (showcase) {
       return;
     }
 
-    // 💾 保存 ← ★ここに追加！！
+    // 💾 保存アイコン
     const save = e.target.closest(".icon-save");
 
     if (save) {
@@ -74,63 +77,68 @@ if (showcase) {
       console.log("保存押された");
       return;
     }
-    
+
     // 🔗 リンク編集
-const linkEl = e.target.closest(".link-display");
-const editBtn = e.target.closest(".edit-link-btn");
+    const linkEl = e.target.closest(".link-display");
+    const editBtn = e.target.closest(".edit-link-btn");
 
-if (linkEl || editBtn) {
-  const card = e.target.closest(".card");
-  const target = linkEl || card.querySelector(".link-display");
+    if (linkEl || editBtn) {
+      const card = e.target.closest(".card");
+      const target = linkEl || card.querySelector(".link-display");
 
-  const current = target.getAttribute("href") || "";
+      const current = target.getAttribute("href") || "";
 
-  const newLink = prompt("商品リンクを入力してね", current);
+      const newLink = prompt("商品リンクを入力してね", current);
 
-  if (newLink) {
-    const finalLink = newLink.startsWith("http")
-      ? newLink
-      : "https://" + newLink;
+      if (newLink) {
+        const finalLink = newLink.startsWith("http")
+          ? newLink
+          : "https://" + newLink;
 
-    target.setAttribute("href", finalLink);
-    target.textContent = finalLink;
-  }
+        target.setAttribute("href", finalLink);
+        target.textContent = finalLink;
+      }
 
-  console.log("リンク編集された");
-  return;
-  } 
-  
-  // 🖼 画像アップロード
-const imageEl = e.target.closest(".image");
+      console.log("リンク編集された");
+      return;
+    }
 
-if (imageEl) {
-  const img = imageEl.querySelector("img");
-  const input = document.getElementById("itemImgInput");
+    // 🖼 画像アップロード
+    const imageEl = e.target.closest(".image");
 
-  if (!input || !img) return;
+    if (imageEl) {
+      const img = imageEl.querySelector("img");
+      const input = document.getElementById("itemImgInput");
 
-  input.onchange = (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
+      if (!input || !img) return;
 
-    const reader = new FileReader();
+      input.onchange = (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
 
-    reader.onload = (ev) => {
-      img.src = ev.target.result;
-    };
+        const reader = new FileReader();
 
-    reader.readAsDataURL(file);
+        reader.onload = (ev) => {
+          img.src = ev.target.result;
+        };
 
-    input.value = ""; // リセット
-  };
+        reader.readAsDataURL(file);
 
-  input.click();
+        input.value = "";
+      };
 
-  console.log("画像変更");
-  return;
-  }
-  
-  // 💾 保存ボタン
+      input.click();
+
+      console.log("画像変更");
+      return;
+    }
+
+  });
+}
+
+// =========================
+// 💾 保存ボタン（←外に出した）
+// =========================
 const saveBtn = document.getElementById("saveBtn");
 
 if (saveBtn && showcase) {
@@ -156,8 +164,5 @@ if (saveBtn && showcase) {
 
     alert("保存した！");
     console.log("保存完了", data);
-  });
-  }
-
   });
 }

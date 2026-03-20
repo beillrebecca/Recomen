@@ -250,6 +250,7 @@ document.addEventListener("DOMContentLoaded", () => {
     announcementButton: 'announcementPopup'
   };
 
+  // 全部閉じる
   function closeAllPopups() {
     Object.values(popupMap).forEach(popupId => {
       const popup = document.getElementById(popupId);
@@ -260,9 +261,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // ボタン処理
   Object.entries(popupMap).forEach(([btnId, popupId]) => {
     const btn = document.getElementById(btnId);
     const popup = document.getElementById(popupId);
+
+    console.log(btnId, btn); // ← デバッグ用
 
     if (!btn || !popup) return;
 
@@ -270,6 +274,7 @@ document.addEventListener("DOMContentLoaded", () => {
       e.stopPropagation();
 
       const isActive = popup.classList.contains('active');
+
       closeAllPopups();
 
       if (!isActive) {
@@ -281,6 +286,7 @@ document.addEventListener("DOMContentLoaded", () => {
     popup.addEventListener('click', e => e.stopPropagation());
   });
 
+  // 外クリックで閉じる
   document.body.addEventListener('click', closeAllPopups);
 
 });

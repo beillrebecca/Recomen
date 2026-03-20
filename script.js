@@ -197,7 +197,7 @@ if (saveBtn && showcase) {
       data.push({
         img,
         name,
-        link
+        link,
         liked,
         saved
       });

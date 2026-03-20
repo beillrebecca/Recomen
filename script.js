@@ -253,7 +253,6 @@ if (editToggle && editItems) {
   });
 }
 
-
 // =========================
 // ポップアップ土台（安全版）
 // =========================
@@ -276,43 +275,44 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-  
+
+  // 🔥 位置調整関数（修正版）
   function positionPopup(btn, popup) {
-  if (!btn || !popup) return;
+    if (!btn || !popup) return;
 
-  popup.style.visibility = 'hidden';
-  positionPopup(btn, popup);
+    popup.style.visibility = 'hidden';
+    popup.style.display = 'block';
 
-  const popupWidth = popup.offsetWidth;
-  const popupHeight = popup.offsetHeight;
+    const popupWidth = popup.offsetWidth;
+    const popupHeight = popup.offsetHeight;
 
-  const btnRect = btn.getBoundingClientRect();
-  const viewportWidth = window.innerWidth;
-  const viewportHeight = window.innerHeight;
+    const btnRect = btn.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
 
-  let left = btnRect.left + (btnRect.width - popupWidth) / 2;
-  left = Math.max(4, Math.min(left, viewportWidth - popupWidth - 4));
+    let left = btnRect.left + (btnRect.width - popupWidth) / 2;
+    left = Math.max(4, Math.min(left, viewportWidth - popupWidth - 4));
 
-  let top = btnRect.bottom + 20; // ←ここで高さ調整
+    let top = btnRect.bottom + 20;
 
-  if (top + popupHeight > viewportHeight - 4) {
-    top = btnRect.top - popupHeight - 6;
-    top = Math.max(4, top);
+    if (top + popupHeight > viewportHeight - 4) {
+      top = btnRect.top - popupHeight - 6;
+      top = Math.max(4, top);
+    }
+
+    popup.style.left = `${left}px`;
+    popup.style.top = `${top}px`;
+
+    popup.style.visibility = '';
+    popup.style.display = 'block';
   }
-
-  popup.style.left = `${left}px`;
-  popup.style.top = `${top}px`;
-
-  popup.style.visibility = '';
-  popup.style.display = 'block';
-}
 
   // ボタン処理
   Object.entries(popupMap).forEach(([btnId, popupId]) => {
     const btn = document.getElementById(btnId);
     const popup = document.getElementById(popupId);
 
-    console.log(btnId, btn); // ← デバッグ用
+    console.log(btnId, btn);
 
     if (!btn || !popup) return;
 
@@ -325,14 +325,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!isActive) {
         popup.classList.add('active');
-        popup.style.display = 'block';
+        positionPopup(btn, popup); // ← ここ重要！！
       }
     });
 
     popup.addEventListener('click', e => e.stopPropagation());
   });
 
-  // 外クリックで閉じる
   document.body.addEventListener('click', closeAllPopups);
 
 });

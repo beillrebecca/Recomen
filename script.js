@@ -5,7 +5,7 @@ const showcase = document.getElementById("showcase");
 if (showcase) {
   showcase.addEventListener("click", (e) => {
 
-    // ❤️ ハートだけ反応させる
+    // ❤️ ハート
     const heart = e.target.closest(".icon-heart");
 
     if (heart) {
@@ -24,6 +24,27 @@ if (showcase) {
       }
 
       console.log("ハート押された");
+      return;
+    }
+
+    // 💾 保存 ← ★ここに追加！！
+    const save = e.target.closest(".icon-save");
+
+    if (save) {
+      save.classList.toggle("saved");
+
+      const path = save.querySelector("path");
+
+      if (path) {
+        if (save.classList.contains("saved")) {
+          path.setAttribute("fill", "#000");
+        } else {
+          path.setAttribute("fill", "none");
+        }
+        path.setAttribute("stroke", "#000");
+      }
+
+      console.log("保存押された");
       return;
     }
 

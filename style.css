@@ -720,25 +720,23 @@ body.theme-modern .card-actions svg {
 .edit-items {
   position: absolute;
   top: 100%;
-  left: 0;               
-  width: 100%;           
+  left: 0;
+  width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: center;  
+  justify-content: center;
   align-items: center;
   gap: 8px;
-  
+
   max-height: 0;          /* 初期は閉じる */
   overflow: hidden;       
-  padding: 0;             
+  padding: 0;
   box-sizing: border-box;
-  z-index: 20;
-
-  background: #fffde7;    /* カスタムバーと同じ黄色 */
-  border-radius: 0;      
-  box-shadow: none;      
+  background: #fffde7;    /* カスタムバーと同じ色 */
+  border-radius: 0;
   transition: max-height 0.3s ease, padding 0.3s ease;
 }
+
 
 .edit-item.open{
   max-height:200px;
@@ -747,7 +745,7 @@ body.theme-modern .card-actions svg {
 
 /* スライド開いたとき */
 .edit-items.active {
-  max-height: 60px;       /* ボタンの高さ + ギャップを考慮 */
+  max-height: 150px;       /* ボタンの高さ + ギャップを考慮 */
   padding: 6px 0;
   overflow: visible;
 }

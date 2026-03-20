@@ -519,16 +519,43 @@ function setupImageUpload(imgEl, inputEl, onSave) {
 
     const reader = new FileReader();
     reader.onload = (ev) => {
-      imgEl.src = ev.target.result;
+      const img = new Image();
+      img.onload = () => {
+        // 画像を縮小
+        const canvas = document.createElement('canvas');
+        const maxSize = 300; // 300px
+        let width = img.width;
+        let height = img.height;
 
-      if (onSave) onSave(ev.target.result);
+        if (width > height) {
+          if (width > maxSize) {
+            height = Math.round(height * maxSize / width);
+            width = maxSize;
+          }
+        } else {
+          if (height > maxSize) {
+            width = Math.round(width * maxSize / height);
+            height = maxSize;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+
+        const smallDataUrl = canvas.toDataURL('image/jpeg', 0.8); // JPEGで圧縮
+        imgEl.src = smallDataUrl;
+
+        if (onSave) onSave(smallDataUrl);
+      };
+      img.src = ev.target.result;
     };
 
     reader.readAsDataURL(file);
     inputEl.value = '';
   });
 }
-
 
 
 // ===============================

@@ -304,7 +304,7 @@ function positionPopup(btn, popup) {
   if (left + popupWidth > viewportWidth - 4) left = viewportWidth - popupWidth - 4;
 
   // 上下位置：ボタンの下
-  let top = btnRect.bottom + 6;
+  let top = btnRect.bottom - 6;
   // 下にはみ出す場合は上に表示
   if (top + popupHeight > viewportHeight - 4) {
     top = btnRect.top - popupHeight - 6;

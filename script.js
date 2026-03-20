@@ -1,16 +1,7 @@
 // =========================
-// items 初期化
+// items 初期化（最初は空）
 // =========================
-let items = [
-  {
-    name: "テスト",
-    price: "¥1000",
-    link: "https://example.com",
-    img: "",
-    liked: false,
-    saved: false
-  }
-];
+let items = [];
 
 // =========================
 // DOM読み込み後に初期化
@@ -31,22 +22,21 @@ document.addEventListener("DOMContentLoaded", () => {
   // =========================
   loadAppState();
 
-  
   // ===============================
-// ヘッダー・プロフィール画像
-// ===============================
-setupImageUpload(
-  document.getElementById('headerImg'),
-  document.getElementById('headerImgInput')
-);
+  // ヘッダー・プロフィール画像
+  // ===============================
+  setupImageUpload(
+    document.getElementById('headerImg'),
+    document.getElementById('headerImgInput')
+  );
 
-setupImageUpload(
-  document.getElementById('avatarImg'),
-  document.getElementById('avatarImgInput')
-);
+  setupImageUpload(
+    document.getElementById('avatarImg'),
+    document.getElementById('avatarImgInput')
+  );
 
   // =========================
-  // 初期データ ←★ここ追加
+  // 初期データ生成（必要な場合のみ）
   // =========================
   if (!items || items.length === 0) {
     for (let i = 1; i <= 12; i++) {
@@ -62,17 +52,29 @@ setupImageUpload(
   }
 
   // =========================
-  // カード描画 ←★ここ追加
+  // カード描画（最適化版）
   // =========================
   function renderCards() {
+    // 古いカードを消す
     showcase.innerHTML = "";
+
+    // documentFragment にまとめて追加
+    const fragment = document.createDocumentFragment();
     items.forEach(item => {
       const card = createCard(item);
-      showcase.appendChild(card);
+
+      // 画像を遅延ロード
+      const img = card.querySelector("img");
+      if (img) img.loading = "lazy";
+
+      fragment.appendChild(card);
     });
+
+    showcase.appendChild(fragment);
   }
 
   renderCards();
+});
 
   
   // =========================

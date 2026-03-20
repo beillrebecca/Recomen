@@ -30,6 +30,20 @@ document.addEventListener("DOMContentLoaded", () => {
   // 保存データ読み込み ←★ここ追加
   // =========================
   loadAppState();
+  
+  
+  // ===============================
+// ヘッダー・プロフィール画像
+// ===============================
+setupImageUpload(
+  document.getElementById('headerImg'),
+  document.getElementById('headerImgInput')
+);
+
+setupImageUpload(
+  document.getElementById('avatarImg'),
+  document.getElementById('avatarImgInput')
+);
 
   // =========================
   // 初期データ ←★ここ追加
@@ -489,18 +503,6 @@ function setupImageUpload(imgEl, inputEl, onSave) {
   });
 }
 
-// ===============================
-// ヘッダー・プロフィール画像
-// ===============================
-setupImageUpload(
-  document.getElementById('headerImg'),
-  document.getElementById('headerImgInput')
-);
-
-setupImageUpload(
-  document.getElementById('avatarImg'),
-  document.getElementById('avatarImgInput')
-);
 
 
 // ===============================

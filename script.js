@@ -276,21 +276,25 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 🔥 位置調整関数（シンプル版）
+  // 🔥 位置調整関数（編集バー直下固定版）
 function positionPopup(btn, popup) {
   if (!btn || !popup) return;
 
   const rect = btn.getBoundingClientRect();
 
+  // いったんリセット
+  popup.style.left = "";
+  popup.style.top = "";
+  popup.style.transform = "";
+
+  // 強制位置
   popup.style.position = "fixed";
-
-  // 👇 左位置（ボタンの左に合わせる）
-  popup.style.left = rect.left + "px";
-
-  // 👇 真下に出す（ここが重要）
-  popup.style.top = rect.bottom + 8 + "px";
+  popup.style.left = rect.left + "px";       // 左端はボタンに合わせる
+  popup.style.top = rect.bottom + 8 + "px";  // 上端はボタンの下 + 8px
 
   popup.style.display = "block";
+
+  console.log("ポップアップ位置:", rect.left, rect.bottom);
 }
 
   // ボタン処理

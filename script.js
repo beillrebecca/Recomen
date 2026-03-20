@@ -25,7 +25,40 @@ document.addEventListener("DOMContentLoaded", () => {
     console.error("showcaseが見つからない");
     return;
   }
-  
+
+  // =========================
+  // 保存データ読み込み ←★ここ追加
+  // =========================
+  loadAppState();
+
+  // =========================
+  // 初期データ ←★ここ追加
+  // =========================
+  if (!items || items.length === 0) {
+    for (let i = 1; i <= 12; i++) {
+      items.push({
+        name: "アイテム" + i,
+        img: "https://dummyimage.com/300x300/eeeeee/999999&text=%F0%9F%93%B7",
+        link: "商品リンク",
+        clicks: 0,
+        liked: false,
+        saved: false
+      });
+    }
+  }
+
+  // =========================
+  // カード描画 ←★ここ追加
+  // =========================
+  function renderCards() {
+    showcase.innerHTML = "";
+    items.forEach(item => {
+      const card = createCard(item);
+      showcase.appendChild(card);
+    });
+  }
+
+  renderCards();
 
   // =========================
   // inputイベント
@@ -117,6 +150,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // =========================
+  // 保存ボタン ←★ここ追加
+  // =========================
+  const saveBtn = document.getElementById("saveBtn");
+  if (saveBtn) {
+    saveBtn.addEventListener("click", () => {
+      saveAppState();
+      alert("保存しました！");
+    });
+  }
+
 });
 
 // =========================
@@ -129,52 +173,40 @@ function loadAppState() {
   try {
     const state = JSON.parse(saved);
 
-    // ヘッダー画像
     const header = document.getElementById("headerImg");
     if (header && state.headerImg) header.src = state.headerImg;
 
-    // プロフィール画像
     const avatar = document.getElementById("avatarImg");
     if (avatar && state.avatarImg) avatar.src = state.avatarImg;
 
-    // アナウンスバー背景色
     const bar = document.getElementById("announcementBar");
     if (bar && state.announcementBg) bar.style.backgroundColor = state.announcementBg;
 
-    // アナウンスバー文字
     const bannerText = document.querySelector(".banner-text");
     if (bannerText && state.announcementText) bannerText.textContent = state.announcementText;
 
-    // 背景カラー
     if (state.bgColor) document.body.style.backgroundColor = state.bgColor;
 
-    // プロフィール背景
     const profileEl = document.querySelector('.profile');
     if (profileEl && state.profileBg) profileEl.style.backgroundColor = state.profileBg;
 
-    // フォントカラー
     if (state.fontColor) document.body.style.color = state.fontColor;
 
-    // テーマ
     if (state.theme) {
       document.body.classList.remove('theme-natural', 'theme-modern');
       document.body.classList.add(`theme-${state.theme}`);
     }
 
-    // フォント
     if (state.fontFamily) {
       document.documentElement.style.setProperty('--font-family', state.fontFamily);
     }
 
-    // プロフィール名前
     const profileNameEl = document.getElementById("profileName");
     if (profileNameEl && state.profileName) profileNameEl.textContent = state.profileName;
 
-    // プロフィール紹介
     const profileBioEl = document.getElementById("profileBio");
     if (profileBioEl && state.profileBio) profileBioEl.textContent = state.profileBio;
 
-    // アイテム配列
     if (state.items && Array.isArray(state.items)) items = state.items;
 
     console.log("保存データ読み込み完了");
@@ -216,6 +248,7 @@ function saveAppState() {
     console.error("保存失敗:", e);
   }
 }
+
 
 // =========================
 // SVG アイコン

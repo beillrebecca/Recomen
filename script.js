@@ -516,12 +516,11 @@ function createCard(item) {
 }
 
 // ===============================
-// 画像アップロード 共通関数
+// アイテム画像アップロード用
 // ===============================
-function setupImageUpload(imgEl, inputEl, onSave) {
-  if (!imgEl || !inputEl) return;
-
-  imgEl.addEventListener('click', () => inputEl.click());
+function setupItemImageUpload(itemIndex) {
+  const inputEl = document.getElementById('itemImgInput');
+  if (!inputEl) return;
 
   inputEl.addEventListener('change', (e) => {
     const file = e.target.files[0];
@@ -531,9 +530,8 @@ function setupImageUpload(imgEl, inputEl, onSave) {
     reader.onload = (ev) => {
       const img = new Image();
       img.onload = () => {
-        // 画像を縮小
         const canvas = document.createElement('canvas');
-        const maxSize = 300; // 300px
+        const maxSize = 300;
         let width = img.width;
         let height = img.height;
 
@@ -554,10 +552,13 @@ function setupImageUpload(imgEl, inputEl, onSave) {
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0, width, height);
 
-        const smallDataUrl = canvas.toDataURL('image/jpeg', 0.8); // JPEGで圧縮
-        imgEl.src = smallDataUrl;
+        const smallDataUrl = canvas.toDataURL('image/jpeg', 0.8);
 
-        if (onSave) onSave(smallDataUrl);
+        // 配列に保存
+        items[itemIndex].img = smallDataUrl;
+
+        // カード再描画
+        renderCards();
       };
       img.src = ev.target.result;
     };

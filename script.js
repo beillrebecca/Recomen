@@ -9,14 +9,15 @@ console.log('editToggle:', editToggle);
 // =========================
 let items = [];
 
+
 // =========================
-// DOM読み込み後に初期化
+// グローバルで使う変数
 // =========================
+const showcase = document.getElementById("showcase");
+const itemImgInput = document.getElementById("itemImgInput");
+
 document.addEventListener("DOMContentLoaded", () => {
   console.log("DOM読み込みOK");
-
-  const showcase = document.getElementById("showcase");
-  const itemImgInput = document.getElementById("itemImgInput");
 
   if (!showcase) {
     console.error("showcaseが見つからない");
@@ -82,10 +83,11 @@ document.addEventListener("DOMContentLoaded", () => {
   renderCards();
 });
 
-  
-  // =========================
-  // ショーケース編集＆画像アップロード
-  // =========================
+// =========================
+// ショーケース編集＆画像アップロード
+// (DOMContentLoaded の外でも使える)
+// =========================
+if (showcase) {
   showcase.addEventListener("click", e => {
     const card = e.target.closest(".card");
     if (!card) return;
@@ -169,6 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
       items[index].price = e.target.textContent.trim();
     }
   });
+}
 
 
   // =========================

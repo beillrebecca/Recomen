@@ -102,6 +102,35 @@ if (imageEl) {
   console.log("画像変更");
   return;
   }
+  
+  // 💾 保存ボタン
+const saveBtn = document.getElementById("saveBtn");
+
+if (saveBtn && showcase) {
+  saveBtn.addEventListener("click", () => {
+
+    const data = [];
+
+    const cards = showcase.querySelectorAll(".card");
+
+    cards.forEach(card => {
+      const img = card.querySelector("img")?.src || "";
+      const name = card.querySelector(".card-name")?.textContent || "";
+      const link = card.querySelector(".link-display")?.href || "";
+
+      data.push({
+        img,
+        name,
+        link
+      });
+    });
+
+    localStorage.setItem("myItems", JSON.stringify(data));
+
+    alert("保存した！");
+    console.log("保存完了", data);
+  });
+  }
 
   });
 }

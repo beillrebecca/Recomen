@@ -231,17 +231,33 @@ if (showcase) {
 }
 
   // =========================
-  // 保存ボタン ←★ここ追加
-  // =========================
-  const saveBtn = document.getElementById("saveBtn");
-  if (saveBtn) {
-    saveBtn.addEventListener("click", () => {
-      saveAppState();
-      alert("保存しました！");
-    });
-  }
+// 保存ボタンクリック時にショーケース内容を反映して保存
+// =========================
+const saveBtn = document.getElementById("saveBtn");
 
-});
+if (saveBtn && showcase) {
+  saveBtn.addEventListener("click", () => {
+    // ショーケース内のカードをループ
+    Array.from(showcase.children).forEach((card, index) => {
+      if (!items[index]) return;
+
+      const imgEl = card.querySelector("img");
+      const nameEl = card.querySelector(".card-name, .modern-name");
+      const priceEl = card.querySelector(".card-price");
+      const linkEl = card.querySelector(".link-display");
+
+      if (imgEl) items[index].img = imgEl.src;
+      if (nameEl) items[index].name = nameEl.textContent.trim();
+      if (priceEl) items[index].price = priceEl.textContent.trim();
+      if (linkEl) items[index].link = linkEl.getAttribute("href") || linkEl.textContent.trim();
+    });
+
+    // 保存処理
+    saveAppState();
+    alert("保存しました！");
+    console.log("ショーケース内容を反映して保存完了");
+  });
+}
 
 
 

@@ -195,9 +195,8 @@ if (saveBtn && showcase) {
 }
 
 
-
 /* =========================
-   編集バー・ポップアップ最適化版
+   編集バー・ポップアップ改良版
 ========================= */
 
 const editToggle = document.getElementById('editToggle');
@@ -227,20 +226,17 @@ if (editToggle && editItems) {
   editToggle.addEventListener('click', e => {
     e.stopPropagation();
     editItems.classList.toggle('active');
-
-    // スライド中は全ポップアップを隠す
-    Object.values(popupMap).forEach(popupId => {
-      const popup = document.getElementById(popupId);
-      if (popup) popup.style.display = 'none';
-    });
+    closeAllPopups(); // スライド中は全ポップアップを隠す
   });
 }
 
-// ポップアップ位置関数
+// ポップアップ位置関数（チラつき防止版）
 function positionPopup(btn, popup) {
   if (!btn || !popup) return;
 
-  popup.style.display = 'block'; // 一旦表示してサイズを取得
+  // 一旦非表示のままサイズを取得
+  popup.style.visibility = 'hidden';
+  popup.style.display = 'block';
 
   const popupWidth = popup.offsetWidth;
   const popupHeight = popup.offsetHeight;
@@ -251,24 +247,21 @@ function positionPopup(btn, popup) {
 
   // 左右位置：ボタン中央
   let left = btnRect.left + (btnRect.width - popupWidth) / 2;
-  if (left < 4) left = 4;
-  if (left + popupWidth > viewportWidth - 4) left = viewportWidth - popupWidth - 4;
+  left = Math.max(4, Math.min(left, viewportWidth - popupWidth - 4));
 
-  
-  // 上下位置：ボタンの下
+  // 上下位置：ボタン下、はみ出す場合は上に表示
   let top = btnRect.bottom + 6;
-  // 下にはみ出す場合は上に表示
   if (top + popupHeight > viewportHeight - 4) {
     top = btnRect.top - popupHeight - 6;
+    top = Math.max(4, top);
   }
 
   popup.style.left = `${left}px`;
   popup.style.top = `${top}px`;
 
-  // activeクラスで表示制御
-  if (!popup.classList.contains('active')) {
-    popup.style.display = 'none';
-  }
+  // 表示を戻す
+  popup.style.visibility = '';
+  popup.style.display = 'block';
 }
 
 // 各ボタンのポップアップ表示
@@ -290,9 +283,18 @@ Object.entries(popupMap).forEach(([btnId, popupId]) => {
   });
 
   popup.addEventListener('click', e => e.stopPropagation());
+});
 
-  window.addEventListener('resize', () => {
-    if (popup.classList.contains('active')) {
+// 画面空白タップで全ポップアップを閉じる
+document.body.addEventListener('click', closeAllPopups);
+
+// 画面リサイズ時にアクティブポップアップを再配置
+window.addEventListener('resize', () => {
+  Object.values(popupMap).forEach(popupId => {
+    const popup = document.getElementById(popupId);
+    if (popup && popup.classList.contains('active')) {
+      const btnId = Object.keys(popupMap).find(key => popupMap[key] === popupId);
+      const btn = document.getElementById(btnId);
       positionPopup(btn, popup);
     }
   });

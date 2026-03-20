@@ -1,5 +1,32 @@
 alert("JS読み込まれてる！");
 
+// 📦 読み込み
+const saved = localStorage.getItem("myItems");
+
+if (saved) {
+  const data = JSON.parse(saved);
+
+  const cards = document.querySelectorAll("#showcase .card");
+
+  data.forEach((item, i) => {
+    const card = cards[i];
+    if (!card) return;
+
+    const img = card.querySelector("img");
+    const name = card.querySelector(".card-name");
+    const link = card.querySelector(".link-display");
+
+    if (img) img.src = item.img;
+    if (name) name.textContent = item.name;
+    if (link) {
+      link.href = item.link;
+      link.textContent = item.link;
+    }
+  });
+
+  console.log("読み込み完了");
+}
+
 const showcase = document.getElementById("showcase");
 
 if (showcase) {

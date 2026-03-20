@@ -72,6 +72,36 @@ if (linkEl || editBtn) {
   console.log("リンク編集された");
   return;
   } 
+  
+  // 🖼 画像アップロード
+const imageEl = e.target.closest(".image");
+
+if (imageEl) {
+  const img = imageEl.querySelector("img");
+  const input = document.getElementById("itemImgInput");
+
+  if (!input || !img) return;
+
+  input.onchange = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = (ev) => {
+      img.src = ev.target.result;
+    };
+
+    reader.readAsDataURL(file);
+
+    input.value = ""; // リセット
+  };
+
+  input.click();
+
+  console.log("画像変更");
+  return;
+  }
 
   });
 }

@@ -280,26 +280,38 @@ document.addEventListener("DOMContentLoaded", () => {
 function positionPopup(btn, popup) {
   if (!btn || !popup) return;
 
+  // 一時的に表示して幅・高さを取得
+  popup.style.visibility = "hidden";
+  popup.style.display = "block";
+
   const rect = btn.getBoundingClientRect();
   const popupWidth = popup.offsetWidth;
+  const popupHeight = popup.offsetHeight;
   const viewportWidth = window.innerWidth;
 
-  // topはボタン直下固定
-  const top = rect.bottom + 6;
+  // ✨ 高さ調整：ボタン下 + 12px に設定
+  const top = rect.bottom + 12; 
 
-  // leftはボタン左に合わせつつ画面端をはみ出さないよう調整
+  // ✨ 左右位置調整
   let left = rect.left;
-  if (left + popupWidth > viewportWidth - 4) {
-    left = viewportWidth - popupWidth - 4;
+
+  // スタイル・アナウンスバーだけ右にずれやすいので画面端チェック
+  if (popup.id === "stylePopup" || popup.id === "announcementPopup") {
+    if (left + popupWidth > viewportWidth - 4) {
+      left = viewportWidth - popupWidth - 4;
+    }
   }
-  left = Math.max(left, 4); // 左端も最低余白確保
+
+  // 左端も画面内に収める
+  left = Math.max(left, 4);
 
   popup.style.position = "fixed";
   popup.style.left = left + "px";
   popup.style.top = top + "px";
+  popup.style.visibility = "";
   popup.style.display = "block";
 
-  console.log("ポップアップ位置:", left, top);
+  console.log("ポップアップ位置:", popup.id, left, top);
 }
 
   // ボタン処理

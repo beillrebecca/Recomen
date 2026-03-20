@@ -276,23 +276,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 🔥 位置調整関数（編集バー直下固定版）
-  function positionPopup(btn, popup) {
+  // 🔥 位置調整関数（編集バー直下版）
+function positionPopup(btn, popup) {
   if (!btn || !popup) return;
 
-  const rect = btn.getBoundingClientRect();
+  // 親要素を基準にする
+  const parent = btn.offsetParent || document.body;
 
-  // 左端はボタンに合わせる
-  popup.style.left = rect.left + "px";
+  const btnRect = btn.getBoundingClientRect();
+  const parentRect = parent.getBoundingClientRect();
 
-  // 上端はボタンの下 + ボタンの高さ + 微調整
-  const topOffset = rect.height + 6; // ボタンの高さ分 + 6px余白
-  popup.style.top = rect.top + topOffset + "px";
+  const left = btnRect.left - parentRect.left;
+  const top = btnRect.bottom - parentRect.top + 6; // ボタン直下 + 余白6px
 
-  popup.style.position = "fixed";
+  popup.style.position = "absolute";
+  popup.style.left = left + "px";
+  popup.style.top = top + "px";
   popup.style.display = "block";
-
-  console.log("ポップアップ位置:", popup.style.left, popup.style.top);
 }
 
   // ボタン処理

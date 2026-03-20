@@ -245,18 +245,23 @@ if (showcase) {
 
 
 
-// =========================
-// ポップアップ設定
-// =========================
+/* =========================
+   編集バー・ポップアップ最適化版
+========================= */
+
+const editToggle = document.getElementById('editToggle');
+const editItems = document.getElementById('editItems');
+
 const popupMap = {
   themeButton: 'themePopup',
   styleButton: 'stylePopup',
   announcementButton: 'announcementPopup'
 };
 
+// 全ポップアップを閉じる
 function closeAllPopups() {
-  Object.values(popupMap).forEach(id => {
-    const popup = document.getElementById(id);
+  Object.values(popupMap).forEach(popupId => {
+    const popup = document.getElementById(popupId);
     if (popup) {
       popup.classList.remove('active');
       popup.style.display = 'none';
@@ -264,78 +269,83 @@ function closeAllPopups() {
   });
 }
 
-// =========================
-// ポップアップ位置
-// =========================
+// 編集バーの開閉
+if (editToggle && editItems) {
+  editItems.classList.remove('active'); // 初期は閉じる
+
+  editToggle.addEventListener('click', e => {
+    e.stopPropagation();
+    editItems.classList.toggle('active');
+
+    // スライド中は全ポップアップを隠す
+    Object.values(popupMap).forEach(popupId => {
+      const popup = document.getElementById(popupId);
+      if (popup) popup.style.display = 'none';
+    });
+  });
+}
+
+// ポップアップ位置関数
 function positionPopup(btn, popup) {
+  if (!btn || !popup) return;
 
-  popup.style.display = 'block';
-
-  const rect = btn.getBoundingClientRect();
+  popup.style.display = 'block'; // 一旦表示してサイズを取得
 
   const popupWidth = popup.offsetWidth;
   const popupHeight = popup.offsetHeight;
 
-  let left = rect.left + rect.width / 2 - popupWidth / 2;
-  let top = rect.top - popupHeight - 8; // ←シンプルに調整
+  const btnRect = btn.getBoundingClientRect();
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
 
+  // 左右位置：ボタン中央
+  let left = btnRect.left + (btnRect.width - popupWidth) / 2;
   if (left < 4) left = 4;
+  if (left + popupWidth > viewportWidth - 4) left = viewportWidth - popupWidth - 4;
 
-  if (left + popupWidth > window.innerWidth - 4) {
-    left = window.innerWidth - popupWidth - 4;
+  // 上下位置：ボタンの下
+  let top = btnRect.bottom + 6;
+  // 下にはみ出す場合は上に表示
+  if (top + popupHeight > viewportHeight - 4) {
+    top = btnRect.top - popupHeight - 6;
   }
 
   popup.style.left = `${left}px`;
   popup.style.top = `${top}px`;
+
+  // activeクラスで表示制御
+  if (!popup.classList.contains('active')) {
+    popup.style.display = 'none';
+  }
 }
 
-// =========================
-// ポップアップ開閉
-// =========================
+// 各ボタンのポップアップ表示
 Object.entries(popupMap).forEach(([btnId, popupId]) => {
-
   const btn = document.getElementById(btnId);
   const popup = document.getElementById(popupId);
-
   if (!btn || !popup) return;
 
   btn.addEventListener('click', e => {
-
     e.stopPropagation();
 
     const isActive = popup.classList.contains('active');
-
     closeAllPopups();
 
     if (!isActive) {
       popup.classList.add('active');
-      popup.style.display = 'block';
       positionPopup(btn, popup);
     }
-
   });
 
   popup.addEventListener('click', e => e.stopPropagation());
 
-});
-
-// =========================
-// リサイズ時再計算
-// =========================
-window.addEventListener('resize', () => {
-
-  Object.entries(popupMap).forEach(([btnId, popupId]) => {
-
-    const btn = document.getElementById(btnId);
-    const popup = document.getElementById(popupId);
-
-    if (popup && popup.classList.contains('active')) {
+  window.addEventListener('resize', () => {
+    if (popup.classList.contains('active')) {
       positionPopup(btn, popup);
     }
-
   });
-
 });
+
 
 
 // =========================

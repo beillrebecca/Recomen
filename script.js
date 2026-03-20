@@ -78,30 +78,36 @@ if (showcase) {
       return;
     }
 
-    // 🔗 リンク編集
-    const linkEl = e.target.closest(".link-display");
-    const editBtn = e.target.closest(".edit-link-btn");
+    // 🔗 リンク編集（修正版）
+const linkEl = e.target.closest(".link-display");
+const editBtn = e.target.closest(".edit-link-btn");
 
-    if (linkEl || editBtn) {
-      const card = e.target.closest(".card");
-      const target = linkEl || card.querySelector(".link-display");
+if (linkEl || editBtn) {
+  const card = e.target.closest(".card");
 
-      const current = target.getAttribute("href") || "";
+  // 👇 何番目のカードか取得（重要）
+  const cards = Array.from(showcase.children);
+  const index = cards.indexOf(card);
 
-      const newLink = prompt("商品リンクを入力してね", current);
+  const target = card.querySelector(".link-display");
 
-      if (newLink) {
-        const finalLink = newLink.startsWith("http")
-          ? newLink
-          : "https://" + newLink;
+  const current = target.getAttribute("href") || "";
 
-        target.setAttribute("href", finalLink);
-        target.textContent = finalLink;
-      }
+  const newLink = prompt("商品リンクを入力してね", current);
 
-      console.log("リンク編集された");
-      return;
-    }
+  if (newLink) {
+    const finalLink = newLink.startsWith("http")
+      ? newLink
+      : "https://" + newLink;
+
+    target.setAttribute("href", finalLink);
+    target.textContent = finalLink;
+
+    console.log("リンク編集された:", index);
+  }
+
+  return;
+  }
 
     // 🖼 画像アップロード（軽量化版）
 const imageEl = e.target.closest(".image");

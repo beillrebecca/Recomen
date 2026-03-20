@@ -277,24 +277,22 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // 🔥 位置調整関数（編集バー直下固定版）
-function positionPopup(btn, popup) {
+  function positionPopup(btn, popup) {
   if (!btn || !popup) return;
 
   const rect = btn.getBoundingClientRect();
+  const parentRect = btn.closest('.edit-bar')?.getBoundingClientRect(); // 編集バーの位置取得
 
-  // いったんリセット
-  popup.style.left = "";
-  popup.style.top = "";
-  popup.style.transform = "";
+  // 左端はボタンに合わせる
+  popup.style.left = rect.left + "px";
 
-  // 強制位置
+  // 上端はボタンの下、親バー基準で微調整
+  popup.style.top = (parentRect ? parentRect.bottom : rect.bottom) + 4 + "px"; // +4pxで少し余白
+
   popup.style.position = "fixed";
-  popup.style.left = rect.left + "px";       // 左端はボタンに合わせる
-  popup.style.top = rect.bottom + 8 + "px";  // 上端はボタンの下 + 8px
-
   popup.style.display = "block";
 
-  console.log("ポップアップ位置:", rect.left, rect.bottom);
+  console.log("ポップアップ位置:", popup.style.left, popup.style.top);
 }
 
   // ボタン処理

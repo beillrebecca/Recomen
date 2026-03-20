@@ -74,161 +74,94 @@ setupImageUpload(
 
   renderCards();
 
+  
   // =========================
-  // inputイベント
+  // ショーケース編集＆画像アップロード
   // =========================
-  showcase.addEventListener("input", (e) => {
-    console.log("input発火");
-
+  showcase.addEventListener("click", e => {
     const card = e.target.closest(".card");
     if (!card) return;
+    const index = Array.from(showcase.children).indexOf(card);
+    if (index < 0) return;
 
+    // ハート
+    const heart = e.target.closest(".icon-heart");
+    if (heart) {
+      heart.classList.toggle("liked");
+      const fill = heart.classList.contains("liked") ? "red" : "none";
+      const stroke = heart.classList.contains("liked") ? "red" : "#000";
+      const path = heart.querySelector("path");
+      if (path) {
+        path.setAttribute("fill", fill);
+        path.setAttribute("stroke", stroke);
+      }
+      items[index].liked = heart.classList.contains("liked");
+      return;
+    }
+
+    // 保存アイコン
+    const save = e.target.closest(".icon-save");
+    if (save) {
+      save.classList.toggle("saved");
+      const path = save.querySelector("path");
+      if (path) {
+        path.setAttribute("fill", save.classList.contains("saved") ? "#000" : "none");
+        path.setAttribute("stroke", "#000");
+      }
+      items[index].saved = save.classList.contains("saved");
+      return;
+    }
+
+    // 商品リンク編集
+    const editBtn = e.target.closest(".edit-link-btn");
+    const linkEl = e.target.closest(".link-display");
+    if (editBtn || linkEl) {
+      const linkTarget = editBtn ? card.querySelector(".link-display") : linkEl;
+      const newLink = prompt("商品リンクを入力してください", linkTarget.getAttribute("href"));
+      if (newLink) {
+        const finalLink = newLink.startsWith("http") ? newLink : "https://" + newLink;
+        linkTarget.setAttribute("href", finalLink);
+        linkTarget.textContent = finalLink;
+        items[index].link = finalLink;
+      }
+      return;
+    }
+
+    // 画像アップロード
+    const imageEl = e.target.closest(".image");
+    if (!imageEl || !itemImgInput) return;
+    const imgEl = imageEl.querySelector("img");
+    itemImgInput.addEventListener("change", function handler(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        imgEl.src = ev.target.result;
+        items[index].img = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+      itemImgInput.value = "";
+      itemImgInput.removeEventListener("change", handler); // 一度きり
+    });
+    itemImgInput.click();
+  });
+
+  // 名前と値段の input 反映
+  showcase.addEventListener("input", e => {
+    const card = e.target.closest(".card");
+    if (!card) return;
     const index = Array.from(showcase.children).indexOf(card);
     if (index < 0) return;
 
     if (e.target.classList.contains("card-name")) {
-      items[index].name = e.target.innerText.trim();
+      items[index].name = e.target.textContent.trim();
     }
 
     if (e.target.classList.contains("card-price")) {
-      items[index].price = e.target.innerText.trim();
-    }
-
-    if (e.target.classList.contains("link-display")) {
-      let newLink = e.target.innerText.trim();
-      if (!newLink.startsWith("http")) {
-        newLink = "https://" + newLink;
-      }
-      items[index].link = newLink;
-      e.target.href = newLink;
+      items[index].price = e.target.textContent.trim();
     }
   });
 
-  // =========================
-// ショーケースクリック処理（名前編集＆画像アップロード両立）
-// =========================
-if (showcase) {
-  showcase.addEventListener('click', e => {
-
-    // --- ハートアイコン ---
-    const heart = e.target.closest('.icon-heart');
-    if (heart) {
-      heart.classList.toggle('liked');
-      const path = heart.querySelector('path');
-      if (path) {
-        path.setAttribute('fill', heart.classList.contains('liked') ? 'red' : 'none');
-        path.setAttribute('stroke', heart.classList.contains('liked') ? 'red' : '#000');
-      }
-      heart.classList.remove('pop');
-      void heart.offsetWidth; // 再描画トリガー
-      heart.classList.add('pop');
-      const card = heart.closest('.card');
-      const index = Array.from(showcase.children).indexOf(card);
-      if (index >= 0) items[index].liked = heart.classList.contains('liked');
-      return;
-    }
-
-    // --- 保存アイコン ---
-    const save = e.target.closest('.icon-save');
-    if (save) {
-      save.classList.toggle('saved');
-      const path = save.querySelector('path');
-      if (path) {
-        path.setAttribute('fill', save.classList.contains('saved') ? '#000' : 'none');
-        path.setAttribute('stroke', '#000');
-      }
-      save.classList.remove('pop');
-      void save.offsetWidth;
-      save.classList.add('pop');
-      const card = save.closest('.card');
-      const index = Array.from(showcase.children).indexOf(card);
-      if (index >= 0) items[index].saved = save.classList.contains('saved');
-      return;
-    }
-
-    // --- 編集ボタン ---
-    const editBtn = e.target.closest('.edit-link-btn');
-    if (editBtn) {
-      e.stopPropagation();
-      const card = editBtn.closest('.card');
-      const linkEl = card.querySelector('.link-display');
-      const currentLink = linkEl.getAttribute('href');
-      const newLink = prompt('商品リンクを入力してください', currentLink);
-      if (newLink) {
-        linkEl.setAttribute('href', newLink);
-        linkEl.textContent = newLink;
-        const index = Array.from(showcase.children).indexOf(card);
-        if (index >= 0) items[index].link = newLink;
-      }
-      return;
-    }
-
-    // --- 商品リンククリック ---
-    const linkEl = e.target.closest('.link-display');
-    if (linkEl) {
-      e.preventDefault();
-      const card = linkEl.closest('.card');
-      const currentLink = linkEl.getAttribute('href');
-      const newLink = prompt('商品リンクを入力してください', currentLink);
-      if (newLink) {
-        linkEl.setAttribute('href', newLink);
-        linkEl.textContent = newLink;
-        const index = Array.from(showcase.children).indexOf(card);
-        if (index >= 0) items[index].link = newLink;
-      }
-      return;
-    }
-
-    // --- 名前編集クリック時はアップロードを止める ---
-    const nameEl = e.target.closest('.card-name, .modern-name');
-    if (nameEl) {
-      return; // 名前編集クリック時は処理を止める
-    }
-
-    // --- 画像クリック（名前以外） ---
-    const imageEl = e.target.closest('.image');
-    if (!imageEl || !itemImgInput) return;
-
-    const cardEl = imageEl.closest('.card');
-    const imgEl = imageEl.querySelector('img');
-    if (!imgEl) return;
-
-    itemImgInput.onchange = (event) => {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        imgEl.src = ev.target.result;
-
-        const index = Array.from(showcase.children).indexOf(cardEl);
-        if (index >= 0) items[index].img = ev.target.result;
-      };
-      reader.readAsDataURL(file);
-
-      itemImgInput.value = '';
-    };
-
-    itemImgInput.click();
-  });
-}
-
-// =========================
-// 名前編集の反映
-// =========================
-if (showcase) {
-  showcase.addEventListener('input', (e) => {
-    const nameEl = e.target.closest('.card-name, .modern-name');
-    if (!nameEl) return;
-
-    const cardEl = nameEl.closest('.card');
-    const index = Array.from(showcase.children).indexOf(cardEl);
-
-    if (index >= 0) {
-      items[index].name = nameEl.textContent.trim();
-    }
-  });
-}
 
   // =========================
 // 保存ボタンクリック時にショーケース内容を反映して保存

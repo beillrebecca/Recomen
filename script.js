@@ -20,52 +20,42 @@ let items = [
   // 必要なら2〜12まで同様に追加
 ];
 
-// =========================
-// DOM読み込み後
-// =========================
 document.addEventListener("DOMContentLoaded", () => {
   const showcase = document.getElementById("showcase");
-  const itemImgInput = document.getElementById("itemImgInput");
+  if (!showcase) return;
 
-  // =========================
-  // 画像アップロード関数
-  // =========================
-  function setupImageUpload(imgEl, inputEl) {
-    if (!imgEl || !inputEl) return;
+  // 保存データ読み込み
+  loadAppState();
 
-    imgEl.addEventListener("click", () => inputEl.click());
+  // ヘッダー・アバター画像アップロード
+  setupImageUpload(
+    document.getElementById('headerImg'),
+    document.getElementById('headerImgInput')
+  );
+  setupImageUpload(
+    document.getElementById('avatarImg'),
+    document.getElementById('avatarImgInput')
+  );
 
-    inputEl.addEventListener("change", (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        imgEl.src = ev.target.result;
-      };
-      reader.readAsDataURL(file);
-      inputEl.value = '';
-    });
+  // 初期データが空の場合は追加
+  if (!items || items.length === 0) {
+    for (let i = 1; i <= 12; i++) {
+      items.push({
+        name: "アイテム" + i,
+        img: "https://dummyimage.com/300x300/eeeeee/999999&text=%F0%9F%93%B7",
+        link: "商品リンク",
+        clicks: 0,
+        liked: false,
+        saved: false
+      });
+    }
   }
 
-  // =========================
   // カード描画
-  // =========================
   function renderCards() {
     showcase.innerHTML = "";
-    items.forEach((item, index) => {
-      const card = document.createElement("div");
-      card.className = "card";
-
-      const imgEl = document.createElement("img");
-      imgEl.src = item.img;
-      setupImageUpload(imgEl, itemImgInput);
-
-      const nameEl = document.createElement("div");
-      nameEl.textContent = item.name;
-
-      card.appendChild(imgEl);
-      card.appendChild(nameEl);
+    items.forEach(item => {
+      const card = createCard(item);
       showcase.appendChild(card);
     });
   }

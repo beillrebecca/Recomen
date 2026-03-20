@@ -166,9 +166,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 // =========================
+// ポップアップ設定
+// =========================
+const popupMap = {
+  themeButton: 'themePopup',
+  styleButton: 'stylePopup',
+  announcementButton: 'announcementPopup'
+};
+
+function closeAllPopups() {
+  Object.values(popupMap).forEach(id => {
+    const popup = document.getElementById(id);
+    if (popup) {
+      popup.classList.remove('active');
+      popup.style.display = 'none';
+    }
+  });
+}
+
+// =========================
 // ポップアップ位置
 // =========================
-  function positionPopup(btn, popup) {
+function positionPopup(btn, popup) {
 
   popup.style.display = 'block';
 
@@ -178,11 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const popupHeight = popup.offsetHeight;
 
   let left = rect.left + rect.width / 2 - popupWidth / 2;
-  let top = rect.top - popupHeight +2;
-
-  // ⭐ 上に上げる調整
-  const offsetY = -8;
-  top += offsetY;
+  let top = rect.top - popupHeight - 8; // ←シンプルに調整
 
   if (left < 4) left = 4;
 
@@ -190,20 +205,9 @@ document.addEventListener("DOMContentLoaded", () => {
     left = window.innerWidth - popupWidth - 4;
   }
 
-  if (top + popupHeight > window.innerHeight - 4) {
-    top = rect.top - popupHeight - 4;
-  }
-
   popup.style.left = `${left}px`;
   popup.style.top = `${top}px`;
-
 }
-
-const popupMap = {
-  themeButton: 'themePopup',
-  styleButton: 'stylePopup',
-  announcementButton: 'announcementPopup'
-};
 
 // =========================
 // ポップアップ開閉
@@ -224,12 +228,9 @@ Object.entries(popupMap).forEach(([btnId, popupId]) => {
     closeAllPopups();
 
     if (!isActive) {
-
       popup.classList.add('active');
       popup.style.display = 'block';
-
       positionPopup(btn, popup);
-
     }
 
   });
@@ -237,7 +238,6 @@ Object.entries(popupMap).forEach(([btnId, popupId]) => {
   popup.addEventListener('click', e => e.stopPropagation());
 
 });
-
 
 // =========================
 // リサイズ時再計算

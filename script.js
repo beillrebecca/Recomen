@@ -229,3 +229,27 @@ function closeAllPopups() {
     }
   });
 }
+
+Object.entries(popupMap).forEach(([btnId, popupId]) => {
+  const btn = document.getElementById(btnId);
+  const popup = document.getElementById(popupId);
+
+  if (!btn || !popup) return;
+
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+
+    const isActive = popup.classList.contains('active');
+    closeAllPopups();
+
+    if (!isActive) {
+      popup.classList.add('active');
+      popup.style.display = 'block';
+    }
+  });
+
+  popup.addEventListener('click', e => e.stopPropagation());
+});
+
+document.body.addEventListener('click', closeAllPopups);
+

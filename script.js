@@ -280,14 +280,21 @@ document.addEventListener("DOMContentLoaded", () => {
 function positionPopup(btn, popup) {
   if (!btn || !popup) return;
 
-  // 親要素を基準にする
   const parent = btn.offsetParent || document.body;
-
   const btnRect = btn.getBoundingClientRect();
   const parentRect = parent.getBoundingClientRect();
 
-  const left = btnRect.left - parentRect.left;
-  const top = btnRect.bottom - parentRect.top + 6; // ボタン直下 + 余白6px
+  const popupWidth = popup.offsetWidth;
+  const viewportWidth = parentRect.width;
+
+  let left = btnRect.left - parentRect.left;  // 左端基準
+
+  // 右にはみ出す場合は左にずらす
+  if (left + popupWidth > viewportWidth - 4) {
+    left = viewportWidth - popupWidth - 4; // 右端から4px余白
+  }
+
+  const top = btnRect.bottom - parentRect.top + 6; // ボタン直下 + 6px
 
   popup.style.position = "absolute";
   popup.style.left = left + "px";

@@ -239,6 +239,22 @@ if (saveBtn && showcase) {
 }
 
 // =========================
+// カスタムバー開閉（これが足りない）
+// =========================
+const editToggle = document.getElementById('editToggle');
+const editItems = document.getElementById('editItems');
+
+if (editToggle && editItems) {
+  editItems.classList.remove('active'); // 初期閉じ
+
+  editToggle.addEventListener('click', (e) => {
+    e.stopPropagation(); // ← 超重要
+    editItems.classList.toggle('active');
+  });
+}
+
+
+// =========================
 // ポップアップ土台（安全版）
 // =========================
 

@@ -47,6 +47,31 @@ if (showcase) {
       console.log("保存押された");
       return;
     }
+    
+    // 🔗 リンク編集
+const linkEl = e.target.closest(".link-display");
+const editBtn = e.target.closest(".edit-link-btn");
+
+if (linkEl || editBtn) {
+  const card = e.target.closest(".card");
+  const target = linkEl || card.querySelector(".link-display");
+
+  const current = target.getAttribute("href") || "";
+
+  const newLink = prompt("商品リンクを入力してね", current);
+
+  if (newLink) {
+    const finalLink = newLink.startsWith("http")
+      ? newLink
+      : "https://" + newLink;
+
+    target.setAttribute("href", finalLink);
+    target.textContent = finalLink;
+  }
+
+  console.log("リンク編集された");
+  return;
+  } 
 
   });
 }

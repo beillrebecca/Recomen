@@ -277,8 +277,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // 🔥 位置調整関数（編集バー直下版）
-  // 🔥 位置調整関数（ボタン直下＆中央固定＆見切れ防止）
-function positionPopup(btn, popup) {
+  function positionPopup(btn, popup) {
   if (!btn || !popup) return;
 
   const rect = btn.getBoundingClientRect();
@@ -287,23 +286,16 @@ function positionPopup(btn, popup) {
   const viewportWidth = window.innerWidth;
   const viewportHeight = window.innerHeight;
 
-  // 1️⃣ 左右はボタン中央に合わせる
+  // 左右：ボタン中央、ビューポート内に収める
   let left = rect.left + rect.width / 2 - popupWidth / 2;
-
-  // 2️⃣ ビューポート内に収める
   left = Math.max(4, Math.min(left, viewportWidth - popupWidth - 4));
 
-  // 3️⃣ 高さはボタン直下
-  let top = rect.bottom + 8; // ボタンの下 + 8px
-
-  // 4️⃣ はみ出す場合はボタン上に
+  // 上下：ボタンの下 + 8px
+  let top = rect.bottom + 8;
   if (top + popupHeight > viewportHeight - 4) {
     top = rect.top - popupHeight - 6;
-    top = Math.max(4, top);
   }
 
-  // 5️⃣ 設定
-  popup.style.position = "fixed";
   popup.style.left = left + "px";
   popup.style.top = top + "px";
   popup.style.display = "block";

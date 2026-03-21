@@ -279,15 +279,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 🔥 位置調整関数（編集バー直下版）
   function positionPopup(btn, popup) {
-    alert("positionPopup動いた");
   if (!btn || !popup) return;
-
-  console.log("positionPopup 動いた");
 
   const rect = btn.getBoundingClientRect();
 
-  popup.style.visibility = "hidden";
+  // 👇 順番修正
   popup.style.display = "block";
+  popup.style.visibility = "hidden";
 
   const popupWidth = popup.offsetWidth;
 
@@ -296,13 +294,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const top = rect.bottom - 16;
 
-  // 🔥 全部強制上書き
   popup.style.position = "fixed";
   popup.style.left = left + "px";
   popup.style.top = top + "px";
-  popup.style.transform = "none"; // ←これ重要
+  popup.style.transform = "none";
 
+  // 👇 最後に表示確定
   popup.style.visibility = "visible";
+  popup.style.display = "block";
 }
 
   // ボタン処理

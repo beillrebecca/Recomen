@@ -291,6 +291,8 @@ document.addEventListener("DOMContentLoaded", () => {
   popup.style.position = "absolute";
   popup.style.top = top + "px";
   popup.style.left = left + "px";
+  
+  popup.style.visibility = "visible";
 }
 
   // ボタン処理

@@ -1,4 +1,5 @@
 alert("JS読み込まれてる！");
+console.log("このJS動いてる？");
 
 // 📦 読み込み
 const saved = localStorage.getItem("myItems");

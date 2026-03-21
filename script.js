@@ -285,8 +285,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const rect = btn.getBoundingClientRect();
 
-  const top = rect.bottom + window.scrollY - 8;
-  const left = rect.left + rect.width / 2 - popup.offsetWidth / 2 + window.scrollX;
+  const top = rect.bottom + window.scrollY - 16;
+  const left = rect.left + rect.width / 2 - popup.offsetWidth / 2 + window.scrollX - 10;
 
   popup.style.position = "absolute";
   popup.style.top = top + "px";

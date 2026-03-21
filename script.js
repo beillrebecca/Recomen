@@ -296,7 +296,7 @@ document.addEventListener("DOMContentLoaded", () => {
   left = Math.max(4, Math.min(left, window.innerWidth - popupWidth - 4));
 
   // 🔥 ボタンの真下にピッタリ
-  let top = rect.bottom; // ←ここ超重要（+いらない）
+  let top = rect.bottom - 6;
 
   popup.style.left = left + "px";
   popup.style.top = top + "px";

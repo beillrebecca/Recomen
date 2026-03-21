@@ -794,7 +794,7 @@ body.theme-modern .card-actions svg {
    ポップアップ共通
 ========================= */
 .popup {
-  position: absolute; /* fixed → absolute */
+  position: fixed; /* ←ここをabsolute→fixedに戻す */
   display: none;
   width: 160px;
   padding: 6px;
@@ -804,6 +804,8 @@ body.theme-modern .card-actions svg {
   font-size: 12px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
   z-index: 999;
+  top: auto;   /* ←追加 */
+  left: auto;  /* ←追加 */
 }
 
 

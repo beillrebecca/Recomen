@@ -281,7 +281,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function positionPopup(btn, popup) {
   if (!btn || !popup) return;
 
-  const rect = btn.getBoundingClientRect();
+  const rect = btn.closest('.edit-item')?.getBoundingClientRect() || btn.getBoundingClientRect();
 
   // 👇 順番修正
   popup.style.display = "block";

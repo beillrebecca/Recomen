@@ -282,27 +282,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const rect = btn.getBoundingClientRect();
 
-  // 🔥 先に表示してサイズを正しく取得する
+  // 一旦表示してサイズ取得
   popup.style.visibility = "hidden";
   popup.style.display = "block";
 
   const popupWidth = popup.offsetWidth;
   const popupHeight = popup.offsetHeight;
 
-  // 🔥 ボタン中央に合わせる
+  // 中央
   let left = rect.left + rect.width / 2 - popupWidth / 2;
-
-  // 🔥 画面内に収める
   left = Math.max(4, Math.min(left, window.innerWidth - popupWidth - 4));
 
-  // 🔥 ボタンの真下にピッタリ
-  let top = rect.bottom - 10;
+  // 🔥 ここ調整（確実に効く）
+  const offsetY = -12; // ←ここだけ触ればOK
+  let top = rect.bottom + offsetY;
 
+  // 位置セット
   popup.style.left = left + "px";
   popup.style.top = top + "px";
 
-  // 🔥 表示戻す
-  popup.style.visibility = "";
+  // 表示確定（←これ重要）
+  popup.style.visibility = "visible";
+  popup.style.display = "block";
 }
 
   // ボタン処理

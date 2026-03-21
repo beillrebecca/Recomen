@@ -319,17 +319,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   e.stopPropagation();
 
-  // 👇 先に表示する
-  popup.classList.add('active');
+  const isActive = popup.classList.contains('active');
 
-  // 👇 位置決め
-  positionPopup(btn, popup);
-
-  // 👇 最後に他を閉じる（ここ重要）
+  // 👇 まず全部閉じる
   closeAllPopups();
 
-  // 👇 自分はもう一回表示
-  popup.classList.add('active');
+  if (!isActive) {
+    popup.classList.add('active');
+
+    alert("positionPopup動いた"); // ←確認用
+    positionPopup(btn, popup);
+  }
 });
 
     popup.addEventListener('click', e => e.stopPropagation());

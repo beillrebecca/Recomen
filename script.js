@@ -294,7 +294,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let left = rect.left + rect.width / 2 - popupWidth / 2;
   left = Math.max(4, Math.min(left, window.innerWidth - popupWidth - 4));
 
-  const top = rect.bottom - 12;
+  const top = rect.bottom - 14;
 
   // 🔥 全部強制上書き
   popup.style.position = "fixed";

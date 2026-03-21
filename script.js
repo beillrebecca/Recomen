@@ -315,15 +315,22 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!btn || !popup) return;
 
     btn.addEventListener('click', (e) => {
-  alert("クリックされた"); // ←追加
+  alert("クリックされた");
 
   e.stopPropagation();
 
+  // 👇 先に表示する
+  popup.classList.add('active');
+
+  // 👇 位置決め
+  positionPopup(btn, popup);
+
+  // 👇 最後に他を閉じる（ここ重要）
   closeAllPopups();
 
+  // 👇 自分はもう一回表示
   popup.classList.add('active');
-  positionPopup(btn, popup);
-  });
+});
 
     popup.addEventListener('click', e => e.stopPropagation());
   });

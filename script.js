@@ -286,12 +286,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const viewportWidth = window.innerWidth;
   const viewportHeight = window.innerHeight;
 
-  // 左右：ボタン中央、ビューポート内に収める
+  // 左右：ボタン中央、画面内に収める
   let left = rect.left + rect.width / 2 - popupWidth / 2;
+
+  // 見切れ防止（左端4px、右端4px）
   left = Math.max(4, Math.min(left, viewportWidth - popupWidth - 4));
 
   // 上下：ボタンの下 + 8px
   let top = rect.bottom + 8;
+
+  // 下端が画面外なら上に表示
   if (top + popupHeight > viewportHeight - 4) {
     top = rect.top - popupHeight - 6;
   }

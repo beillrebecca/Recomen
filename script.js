@@ -281,27 +281,16 @@ document.addEventListener("DOMContentLoaded", () => {
   function positionPopup(btn, popup) {
   if (!btn || !popup) return;
 
-  const rect = btn.closest('.edit-item')?.getBoundingClientRect() || btn.getBoundingClientRect();
-
-  // 👇 順番修正
   popup.style.display = "block";
-  popup.style.visibility = "hidden";
 
-  const popupWidth = popup.offsetWidth;
+  const rect = btn.getBoundingClientRect();
 
-  let left = rect.left + rect.width / 2 - popupWidth / 2;
-  left = Math.max(4, Math.min(left, window.innerWidth - popupWidth - 4));
+  const top = rect.bottom + window.scrollY - 8;
+  const left = rect.left + rect.width / 2 - popup.offsetWidth / 2 + window.scrollX;
 
-  const top = rect.bottom - 20;
-
-  popup.style.position = "fixed";
-  popup.style.left = left + "px";
+  popup.style.position = "absolute";
   popup.style.top = top + "px";
-  popup.style.transform = "none";
-
-  // 👇 最後に表示確定
-  popup.style.visibility = "visible";
-  popup.style.display = "block";
+  popup.style.left = left + "px";
 }
 
   // ボタン処理

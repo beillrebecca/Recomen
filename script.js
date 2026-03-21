@@ -282,25 +282,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const rect = btn.getBoundingClientRect();
 
-  const parent = btn.offsetParent || document.body;
-  const parentRect = parent.getBoundingClientRect();
-
   // ボタン直下
-  const top = rect.top - parentRect.top + rect.height;
+  const top = rect.bottom + 8; // 高さは8px下げ
 
   // 左端はボタンに合わせる
-  let left = rect.left - parentRect.left;
+  let left = rect.left;
 
   // 右端補正（スタイル・アナウンスバーのみ）
   if (popup.id === "stylePopup" || popup.id === "announcementPopup") {
-    const maxLeft = parentRect.width - popup.offsetWidth - 4; // 右端余白4px
+    const maxLeft = window.innerWidth - popup.offsetWidth - 4; // 右端余白4px
     if (left > maxLeft) left = maxLeft;
   }
 
-  // 個別微調整
-  if (popup.id === "stylePopup") left -= 4; // 必要に応じて微調整
-
-  popup.style.position = "absolute";
+  popup.style.position = "fixed"; // ビューポート基準
   popup.style.left = left + "px";
   popup.style.top = top + "px";
   popup.style.display = "block";

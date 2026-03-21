@@ -1,5 +1,5 @@
 alert("JS読み込まれてる！");
-console.log("このJS動いてる？");
+
 
 // 📦 読み込み
 const saved = localStorage.getItem("myItems");
@@ -314,15 +314,15 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!btn || !popup) return;
 
     btn.addEventListener('click', (e) => {
-  console.log("クリックされた:", btnId); // ←追加
+  alert("クリックされた"); // ←追加
 
   e.stopPropagation();
 
   closeAllPopups();
 
   popup.classList.add('active');
-  positionPopup(btn, popup); // ←必ず実行
-});
+  positionPopup(btn, popup);
+  });
 
     popup.addEventListener('click', e => e.stopPropagation());
   });

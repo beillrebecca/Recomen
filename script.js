@@ -282,21 +282,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const rect = btn.getBoundingClientRect();
 
-  // ① 高さを上げる（全ポップアップ共通）
-  let top = rect.bottom + 4; // 以前の +8 → +4 にして少し上げる
+  // ① 上下位置（ボタンの真下）
+  let top = rect.bottom + 4; // ボタンのすぐ下 + 4px
 
-  // ② 横位置は基本ボタン左端
-  let left = rect.left;
+  // ② 左右位置（ボタン中央に合わせる）
+  let left = rect.left + rect.width / 2 - popup.offsetWidth / 2;
 
-  // スタイル・アナウンスバーだけ左に寄せる
-  if (popup.id === "stylePopup") left -= 12;       // ←微調整
-  if (popup.id === "announcementPopup") left -= 8; // ←微調整
-
-  // 右端をはみ出さない補正
+  // ③ 右端にはみ出さないよう調整
   const maxLeft = window.innerWidth - popup.offsetWidth - 4;
   if (left > maxLeft) left = maxLeft;
 
-  // ポップアップ表示
+  // ④ 左端にはみ出さないよう調整
+  if (left < 4) left = 4;
+
+  // ⑤ ポップアップ表示
   popup.style.position = "fixed";
   popup.style.left = left + "px";
   popup.style.top = top + "px";

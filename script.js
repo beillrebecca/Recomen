@@ -283,10 +283,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const rect = btn.getBoundingClientRect();
 
   // ① 上下位置（ボタンの真下）
-  let top = rect.bottom + 4; // ボタンのすぐ下 + 4px
+  let top = rect.bottom + 0; // ボタンのすぐ下
 
   // ② 左右位置（ボタン中央に合わせる）
-  let left = rect.left + rect.width / 2 - popup.offsetWidth / 2;
+  let left = rect.left + rect.width / 2 - popup.offsetWidth / 2 - 10;
 
   // ③ 右端にはみ出さないよう調整
   const maxLeft = window.innerWidth - popup.offsetWidth - 4;

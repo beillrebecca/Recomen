@@ -292,7 +292,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let left = rect.left + rect.width / 2 - popupWidth / 2;
   left = Math.max(4, Math.min(left, window.innerWidth - popupWidth - 4));
 
-  const top = rect.bottom - 16;
+  const top = rect.bottom - 20;
 
   popup.style.position = "fixed";
   popup.style.left = left + "px";

@@ -1,4 +1,5 @@
 alert("JS読み込まれてる！");
+console.log("positionPopup 動いた");
 
 // 📦 読み込み
 const saved = localStorage.getItem("myItems");
@@ -280,30 +281,27 @@ document.addEventListener("DOMContentLoaded", () => {
   function positionPopup(btn, popup) {
   if (!btn || !popup) return;
 
+  console.log("positionPopup 動いた");
+
   const rect = btn.getBoundingClientRect();
 
-  // 一旦表示してサイズ取得
   popup.style.visibility = "hidden";
   popup.style.display = "block";
 
   const popupWidth = popup.offsetWidth;
-  const popupHeight = popup.offsetHeight;
 
-  // 中央
   let left = rect.left + rect.width / 2 - popupWidth / 2;
   left = Math.max(4, Math.min(left, window.innerWidth - popupWidth - 4));
 
-  // 🔥 ここ調整（確実に効く）
-  const offsetY = -12; // ←ここだけ触ればOK
-  let top = rect.bottom + offsetY;
+  const top = rect.bottom - 12;
 
-  // 位置セット
+  // 🔥 全部強制上書き
+  popup.style.position = "fixed";
   popup.style.left = left + "px";
   popup.style.top = top + "px";
+  popup.style.transform = "none"; // ←これ重要
 
-  // 表示確定（←これ重要）
   popup.style.visibility = "visible";
-  popup.style.display = "block";
 }
 
   // ボタン処理

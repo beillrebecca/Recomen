@@ -279,6 +279,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 🔥 位置調整関数（編集バー直下版）
   function positionPopup(btn, popup) {
+    alert("positionPopup動いた");
   if (!btn || !popup) return;
 
   console.log("positionPopup 動いた");

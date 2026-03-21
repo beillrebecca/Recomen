@@ -293,11 +293,11 @@ document.addEventListener("DOMContentLoaded", () => {
   left = Math.max(4, Math.min(left, viewportWidth - popupWidth - 4));
 
   // 上下：ボタンの下 + 8px
-  let top = rect.bottom + 8;
+  let top = rect.bottom + 4;
 
   // 下端が画面外なら上に表示
   if (top + popupHeight > viewportHeight - 4) {
-    top = rect.top - popupHeight - 6;
+    top = rect.top - popupHeight - 4;
   }
 
   popup.style.left = left + "px";

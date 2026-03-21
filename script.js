@@ -281,28 +281,28 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!btn || !popup) return;
 
   const rect = btn.getBoundingClientRect();
+
+  // 🔥 先に表示してサイズを正しく取得する
+  popup.style.visibility = "hidden";
+  popup.style.display = "block";
+
   const popupWidth = popup.offsetWidth;
   const popupHeight = popup.offsetHeight;
-  const viewportWidth = window.innerWidth;
-  const viewportHeight = window.innerHeight;
 
-  // 左右：ボタン中央、画面内に収める
+  // 🔥 ボタン中央に合わせる
   let left = rect.left + rect.width / 2 - popupWidth / 2;
 
-  // 見切れ防止（左端4px、右端4px）
-  left = Math.max(4, Math.min(left, viewportWidth - popupWidth - 4));
+  // 🔥 画面内に収める
+  left = Math.max(4, Math.min(left, window.innerWidth - popupWidth - 4));
 
-  // 上下：ボタンの下 + 8px
-  let top = rect.bottom + 4;
-
-  // 下端が画面外なら上に表示
-  if (top + popupHeight > viewportHeight - 4) {
-    top = rect.top - popupHeight - 4;
-  }
+  // 🔥 ボタンの真下にピッタリ
+  let top = rect.bottom; // ←ここ超重要（+いらない）
 
   popup.style.left = left + "px";
   popup.style.top = top + "px";
-  popup.style.display = "block";
+
+  // 🔥 表示戻す
+  popup.style.visibility = "";
 }
 
   // ボタン処理

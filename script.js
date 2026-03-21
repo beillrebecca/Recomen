@@ -1,5 +1,4 @@
 alert("JS読み込まれてる！");
-console.log("positionPopup 動いた");
 
 // 📦 読み込み
 const saved = localStorage.getItem("myItems");
@@ -314,17 +313,15 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!btn || !popup) return;
 
     btn.addEventListener('click', (e) => {
-      e.stopPropagation();
+  console.log("クリックされた:", btnId); // ←追加
 
-      const isActive = popup.classList.contains('active');
+  e.stopPropagation();
 
-      closeAllPopups();
+  closeAllPopups();
 
-      if (!isActive) {
-        popup.classList.add('active');
-        positionPopup(btn, popup); // ← ここ重要！！
-      }
-    });
+  popup.classList.add('active');
+  positionPopup(btn, popup); // ←必ず実行
+});
 
     popup.addEventListener('click', e => e.stopPropagation());
   });

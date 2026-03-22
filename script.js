@@ -285,14 +285,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const rect = btn.getBoundingClientRect();
 
-  const top = rect.bottom + window.scrollY - 24;
-  const left = rect.left + rect.width / 2 - popup.offsetWidth / 2 + window.scrollX;
+  const top = rect.bottom - 24;
+  const left = rect.left + rect.width / 2 - popup.offsetWidth / 2;
 
-  popup.style.position = "absolute";
+  popup.style.position = "fixed";
   popup.style.top = top + "px";
   popup.style.left = left + "px";
-  
-  popup.style.visibility = "visible";
 }
 
   // ボタン処理

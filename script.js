@@ -285,7 +285,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const rect = btn.getBoundingClientRect();
 
-  const top = rect.top + rect.height - popup.offsetHeight + 10;
+  const top = rect.bottom + 4; // ←ここだけで調整
   const left = rect.left + rect.width / 2 - popup.offsetWidth / 2;
 
   popup.style.position = "fixed";

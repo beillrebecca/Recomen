@@ -654,9 +654,11 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-// ===============================
-// アナウンスバー安全スクロール（修正版）
-// ===============================
+> {
+
+  // ===============================
+  // アナウンスバー安全スクロール
+  // ===============================
   const announcementToggle = document.getElementById('announcementToggle');
   const bannerTextInput = document.getElementById('bannerTextInput');
   const announcementBar = document.getElementById('announcementBar');
@@ -666,28 +668,6 @@ document.addEventListener("DOMContentLoaded", () => {
     console.warn("アナウンスバー要素が見つからない");
     return;
   }
-
-  // 初期表示
-  announcementBar.style.display = announcementToggle.checked ? 'flex' : 'none';
-
-  announcementToggle.addEventListener('change', e => {
-    announcementBar.style.display = e.target.checked ? 'flex' : 'none';
-  });
-
-  // スタイル
-  announcementBar.style.position = 'relative';
-  announcementBar.style.overflow = 'hidden';
-  announcementBar.style.height = '40px';
-  announcementBar.style.alignItems = 'center';
-  announcementBar.style.padding = '0 10px';
-
-  bannerText.style.position = 'absolute';
-  bannerText.style.whiteSpace = 'nowrap';
-  bannerText.style.top = '50%';
-  bannerText.style.transform = 'translateY(-50%)';
-  bannerText.style.left = '0px';
-
-  bannerText.textContent = bannerTextInput.value;
 
   let pos = announcementBar.offsetWidth;
   const speed = 1.0;
@@ -700,7 +680,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     pos -= speed;
-
     if (pos <= -textWidth) pos = announcementBar.offsetWidth;
 
     bannerText.style.left = pos + 'px';
@@ -713,9 +692,11 @@ document.addEventListener("DOMContentLoaded", () => {
     bannerText.textContent = bannerTextInput.value;
     pos = announcementBar.offsetWidth;
   });
-  
+
   window.addEventListener('resize', () => {
-  pos = announcementBar.offsetWidth;
+    pos = announcementBar.offsetWidth;
+  });
+
 });
 
 // ===============================
@@ -755,5 +736,4 @@ setupImageUpload(
   document.getElementById('avatarImgInput')
 );
 
-});
 

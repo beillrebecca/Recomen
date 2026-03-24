@@ -579,6 +579,7 @@ document.addEventListener("DOMContentLoaded", () => {
     followersBtn?.addEventListener('click', () => showModal('followers'));
     closeBtn?.addEventListener('click', () => modal.style.display = 'none');
   }
+});
 
   // 全部閉じる
   function closeAllPopups() {

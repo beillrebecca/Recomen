@@ -456,16 +456,15 @@ if (editToggle && editItems) {
 }
 
 // =========================
-// ポップアップ土台（安全版）
+// ポップアップ設定（外に出す）
 // =========================
+const popupMap = {
+  themeButton: 'themePopup',
+  styleButton: 'stylePopup',
+  announcementButton: 'announcementPopup'
+};
 
 document.addEventListener("DOMContentLoaded", () => {
-
-  const popupMap = {
-    themeButton: 'themePopup',
-    styleButton: 'stylePopup',
-    announcementButton: 'announcementPopup'
-  };
   
 
   // =========================

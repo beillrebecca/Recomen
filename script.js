@@ -179,6 +179,49 @@ function loadAppState() {
     const profileBioEl = document.getElementById("profileBio");
     if (profileBioEl && state.profileBio) profileBioEl.textContent = state.profileBio;
 
+
+// =========================
+// 🔴【保存：アプリ全体】saveAppState（完全版）
+// =========================
+function saveAppState_FULL() {
+  try {
+    const state = {
+      items: items || [],
+
+      // 画像
+      headerImg: document.getElementById('headerImg')?.src || null,
+      avatarImg: document.getElementById('avatarImg')?.src || null,
+
+      // アナウンスバー
+      announcementBg: document.getElementById('announcementBar')?.style.backgroundColor || null,
+      announcementText: document.querySelector('.banner-text')?.textContent || "",
+
+      // 背景・プロフィール・フォント
+      bgColor: document.body.style.backgroundColor || null,
+      profileBg: document.querySelector('.profile')?.style.backgroundColor || null,
+      fontColor: document.body.style.color || null,
+
+      // テーマ・フォント
+      theme: document.body.classList.contains('theme-natural') ? 'natural' : 'modern',
+      fontFamily: getComputedStyle(document.documentElement).getPropertyValue('--font-family') || null,
+
+      // プロフィール情報
+      profileName: document.getElementById("profileName")?.textContent || "",
+      profileBio: document.getElementById("profileBio")?.textContent || ""
+    };
+
+    localStorage.setItem("recomenState", JSON.stringify(state));
+
+    console.log("✅【saveAppState_FULL】保存完了");
+    alert("保存しました！");
+      
+  } catch (e) {
+    console.error("❌【saveAppState_FULL】保存失敗:", e);
+    alert("保存に失敗しました");
+  }
+}
+
+
     // =========================
     // ⭐ カード再生成（重要）
     // =========================

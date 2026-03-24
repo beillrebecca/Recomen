@@ -439,7 +439,6 @@ document.addEventListener("DOMContentLoaded", () => {
     announcementButton: 'announcementPopup'
   };
   
-  document.addEventListener("DOMContentLoaded", () => {
 
   // =========================
   // テーマ切替（カード画像保持版）

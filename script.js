@@ -194,6 +194,28 @@ function loadAppState() {
 
 
 // =========================
+    // ⭐ カード再生成（重要）
+    // =========================
+    const showcase = document.getElementById("showcase");
+
+    if (showcase && state.items) {
+      showcase.innerHTML = "";
+
+      state.items.forEach(item => {
+        const card = createCard(item);
+        showcase.appendChild(card);
+      });
+    }
+
+    console.log("保存データ読み込み完了");
+
+  } catch (e) {
+    console.error("読み込み失敗", e);
+  }
+}
+
+
+// =========================
 // 🔴【保存：アプリ全体】saveAppState（完全版）
 // =========================
 function saveAppState_FULL() {
@@ -231,27 +253,6 @@ function saveAppState_FULL() {
   } catch (e) {
     console.error("❌【saveAppState_FULL】保存失敗:", e);
     alert("保存に失敗しました");
-  }
-}
-
-
-    // =========================
-    // ⭐ カード再生成（重要）
-    // =========================
-
-    const showcase = document.getElementById("showcase");
-    if (showcase && state.items) {
-      showcase.innerHTML = ""; // 一旦クリア
-
-      state.items.forEach(item => {
-        const card = createCard(item);
-        showcase.appendChild(card);
-      });
-    }
-
-    console.log("保存データ読み込み完了");
-  } catch (e) {
-    console.error("読み込み失敗", e);
   }
 }
 

@@ -794,7 +794,7 @@ body.theme-modern .card-actions svg {
    ポップアップ共通
 ========================= */
 .popup {
-  position: absolute;      
+  position: fixed; /* window を基準に表示する */
   display: none;
   width: 220px;         /* 横幅固定 */
   max-width: calc(100vw - 16px);

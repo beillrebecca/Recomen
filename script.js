@@ -283,14 +283,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   popup.style.display = "block";
 
-  const rect = btn.getBoundingClientRect();
-
-  const top = rect.top + rect.height - 10;
-  const left = rect.left + rect.width / 2 - popup.offsetWidth / 2;
-
+  // 👇 強制的に位置指定（テスト）
   popup.style.position = "fixed";
-  popup.style.top = top + "px";
-  popup.style.left = left + "px";
+  popup.style.top = "200px";
+  popup.style.left = "100px";
 }
 
   // ボタン処理

@@ -389,37 +389,13 @@ if (imageEl) {
 }
 
 // =========================
-// 💾 保存ボタン（←外に出した）
+// 💾 保存ボタン（完全版）
 // =========================
 const saveBtn = document.getElementById("saveBtn");
 
-if (saveBtn && showcase) {
+if (saveBtn) {
   saveBtn.addEventListener("click", () => {
-
-    const data = [];
-
-    const cards = showcase.querySelectorAll(".card");
-
-    cards.forEach(card => {
-      const img = card.querySelector("img")?.src || "";
-      const name = card.querySelector(".card-name")?.textContent || "";
-      const link = card.querySelector(".link-display")?.href || "";
-      const liked = card.querySelector(".icon-heart")?.classList.contains("liked") || false;
-      const saved = card.querySelector(".icon-save")?.classList.contains("saved") || false;
-      
-      data.push({
-        img,
-        name,
-        link,
-        liked,
-        saved
-      });
-    });
-
-    localStorage.setItem("myItems", JSON.stringify(data));
-
-    alert("保存した！");
-    console.log("保存完了", data);
+    saveAppState_FULL(); // ←これだけ！
   });
 }
 

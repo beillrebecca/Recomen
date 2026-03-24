@@ -499,23 +499,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // =========================
-  // フォント変更
-  // =========================
-  const fontSelect = document.getElementById('fontSelect');
-
-  if (fontSelect) {
-    fontSelect.addEventListener('change', e => {
-      document.documentElement.style.setProperty('--font-family', e.target.value);
-    });
-  }
-
-});
-
-/* ===============================
-     Picker生成
-  =============================== */
-
+// ===============================
+  // 🎨 Picker生成（ここに移動！）
+  // ===============================
   createPicker('fontColorPicker', (color) => {
     document.documentElement.style.setProperty('--font-color', color);
   });
@@ -532,6 +518,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const bar = document.getElementById('announcementBar');
     if (bar) bar.style.background = color;
   });
+
+});
+
+  // =========================
+  // フォント変更
+  // =========================
+  const fontSelect = document.getElementById('fontSelect');
+
+  if (fontSelect) {
+    fontSelect.addEventListener('change', e => {
+      document.documentElement.style.setProperty('--font-family', e.target.value);
+    });
+  }
+
+});
   
     /* ===============================
      フォローモーダル

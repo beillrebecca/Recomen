@@ -281,19 +281,28 @@ document.addEventListener("DOMContentLoaded", () => {
   function positionPopup(btn, popup) {
   if (!btn || !popup) return;
 
+  // 一旦表示（サイズ取得のため）
   popup.style.display = "block";
+  popup.style.visibility = "hidden";
 
   const rect = btn.getBoundingClientRect();
+  const popupWidth = popup.offsetWidth;
 
-  // 👇 シンプルにする（ここが重要）
-  const top = rect.top + 50;
-  const left = rect.left;
+  // 🔥 横：ボタン中央
+  let left = rect.left + rect.width / 2 - popupWidth / 2;
 
+  // 🔥 縦：ボタンの真下
+  let top = rect.bottom;
+
+  // 🔥 画面内に収める（右はみ出し防止）
+  left = Math.max(8, Math.min(left, window.innerWidth - popupWidth - 8));
+
+  // 🔥 最終反映
   popup.style.position = "fixed";
-  popup.style.top = top + "px";
   popup.style.left = left + "px";
-  popup.style.transform = "none";
-  popup.style.margin = "0";
+  popup.style.top = top + "px";
+
+  popup.style.visibility = "visible";
 }
 
   // ボタン処理

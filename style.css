@@ -796,7 +796,8 @@ body.theme-modern .card-actions svg {
 .popup {
   position: absolute;      
   display: none;
-  width: 160px;         /* 横幅固定 */
+  width: 220px;         /* 横幅固定 */
+  max-width: calc(100vw - 16px);
   padding: 6px;         /* 内側余白 */
   background: #e6f9d9;
   border: 1px solid #c5e5b1;

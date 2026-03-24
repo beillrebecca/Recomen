@@ -280,6 +280,15 @@ if (showcase) {
           path.setAttribute("stroke", "#000");
         }
       }
+      
+      const card = heart.closest(".card");
+  const cards = Array.from(showcase.children);
+  const index = cards.indexOf(card);
+
+  if (items[index]) {
+    items[index].liked = heart.classList.contains("liked");
+  }
+
 
       console.log("ハート押された");
       return;

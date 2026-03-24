@@ -292,7 +292,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let left = rect.left + rect.width / 2 - popupWidth / 2;
 
   // 🔥 縦：ボタンの真下
-  let top = rect.bottom - 40;
+  let top = rect.bottom - 42;
 
   // 🔥 画面内に収める（右はみ出し防止）
   left = Math.max(8, Math.min(left, window.innerWidth - popupWidth - 8));

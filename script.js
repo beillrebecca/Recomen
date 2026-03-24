@@ -204,6 +204,8 @@ function loadAppState() {
     const showcase = document.getElementById("showcase");
 
     if (showcase && state.items) {
+      items = state.items;
+      
       showcase.innerHTML = "";
 
       state.items.forEach(item => {

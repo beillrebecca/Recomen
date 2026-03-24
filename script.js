@@ -41,6 +41,19 @@ function createCard(item) {
 }
 
 // =========================
+// カード描画
+// =========================
+function renderCards() {
+  if (!showcase) return;
+
+  showcase.innerHTML = "";
+  items.forEach(item => {
+    const card = createCard(item);
+    showcase.appendChild(card);
+  });
+}
+
+// =========================
   // SVG アイコン（状態反映版）
   // =========================
   function heartIcon(item) {

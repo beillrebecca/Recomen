@@ -6,12 +6,57 @@ alert("JS読み込まれてる！");
 let items = [];
 
 // =========================
+// SVG アイコン生成（状態反映版）
+// =========================
+function heartIcon(item) {
+  return `
+    <svg class="icon-heart ${item.liked ? 'active' : ''}" viewBox="0 0 24 24" stroke-width="1.3"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20.8 4.6a5 5 0 0 0-7.1 0L12 6.3l-1.7-1.7
+        a5 5 0 0 0-7.1 7.1L12 21l8.8-9.3
+        a5 5 0 0 0 0-7.1z"/>
+    </svg>
+  `;
+}
+
+function commentIcon() {
+  return `
+    <svg class="icon-comment" viewBox="0 0 24 24" stroke-width="1.3"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7
+        a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/>
+    </svg>
+  `;
+}
+
+function shareIcon() {
+  return `
+    <svg class="icon-share" viewBox="0 0 24 24" stroke-width="1.3"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 2L11 13"/>
+      <path d="M22 2L15 22l-4-9-9-4z"/>
+    </svg>
+  `;
+}
+
+function saveIcon(item) {
+  return `
+    <svg class="icon-save ${item.saved ? 'active' : ''}" viewBox="0 0 24 24" stroke-width="1.3"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 21l-7-5-7 5V5
+        a2 2 0 0 1 2-2h10
+        a2 2 0 0 1 2 2z"/>
+    </svg>
+  `;
+}
+
+// =========================
 // カード作成
 // =========================
 function createCard(item) {
   const card = document.createElement('div');
   card.className = 'card';
-  card.id = `card-${item.id}`; // ←ここ追加
+  card.id = `card-${item.id}`;
 
   card.innerHTML = `
     <div class="image">
@@ -61,98 +106,7 @@ function renderCards() {
 }
 
 // =========================
-  // SVG アイコン（状態反映版）
-  // =========================
-  function heartIcon(item) {
-    return `
-      <svg class="icon-heart ${item.liked ? 'active' : ''}" viewBox="0 0 24 24" stroke-width="1.3"
-        stroke-linecap="round" stroke-linejoin="round">
-        <path d="M20.8 4.6a5 5 0 0 0-7.1 0L12 6.3l-1.7-1.7
-          a5 5 0 0 0-7.1 7.1L12 21l8.8-9.3
-          a5 5 0 0 0 0-7.1z"/>
-      </svg>
-    `;
-  }
-
-  function commentIcon() {
-    return `
-      <svg class="icon-comment" viewBox="0 0 24 24" stroke-width="1.3"
-        stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7
-          a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/>
-      </svg>
-    `;
-  }
-
-  function shareIcon() {
-    return `
-      <svg class="icon-share" viewBox="0 0 24 24" stroke-width="1.3"
-        stroke-linecap="round" stroke-linejoin="round">
-        <path d="M22 2L11 13"/>
-        <path d="M22 2L15 22l-4-9-9-4z"/>
-      </svg>
-    `;
-  }
-
-  function saveIcon(item) {
-    return `
-      <svg class="icon-save ${item.saved ? 'active' : ''}" viewBox="0 0 24 24" stroke-width="1.3"
-        stroke-linecap="round" stroke-linejoin="round">
-        <path d="M19 21l-7-5-7 5V5
-          a2 2 0 0 1 2-2h10
-          a2 2 0 0 1 2 2z"/>
-      </svg>
-    `;
-  }
-
-
-/* ===============================
-     Picker 関数
-  =============================== */
-  function createPicker(id, onSave) {
-    const el = document.getElementById(id);
-    if (!el) return null;
-
-    const popup = el.closest('.popup');
-    let wasHidden = false;
-    if (popup && getComputedStyle(popup).display === 'none') {
-      popup.style.display = 'block';
-      wasHidden = true;
-    }
-
-    const picker = Pickr.create({
-      el: `#${id}`,
-      theme: 'nano',
-      default: '#f6f6f6',
-      components: {
-        preview: true,
-        hue: true,
-        interaction: { hex: true, input: true, save: true }
-      }
-    });
-
-    picker.on('save', color => {
-      const hex = color.toHEXA().toString();
-      onSave(hex);
-      picker.hide();
-    });
-
-    picker.on('init', instance => {
-      if (!instance || !instance.root) return;
-      const btn = instance.root.querySelector('.pcr-button');
-      if (btn) {
-        btn.style.width = '24px';
-        btn.style.height = '24px';
-        btn.style.borderRadius = '6px';
-      }
-    });
-
-    if (wasHidden && popup) popup.style.display = 'none';
-    return picker;
-  }
-
-// =========================
-// ローカル保存 読み込み
+// 保存データ読み込み
 // =========================
 function loadAppState() {
   const saved = localStorage.getItem("recomenState");
@@ -161,55 +115,45 @@ function loadAppState() {
   try {
     const state = JSON.parse(saved);
 
-    // =========================
-    // UI系
-    // =========================
-
+    // ヘッダー・アバター
     const header = document.getElementById("headerImg");
     if (header && state.headerImg) header.src = state.headerImg;
 
     const avatar = document.getElementById("avatarImg");
     if (avatar && state.avatarImg) avatar.src = state.avatarImg;
 
+    // アナウンスバー
     const bar = document.getElementById("announcementBar");
     if (bar && state.announcementBg) bar.style.backgroundColor = state.announcementBg;
 
     const bannerText = document.querySelector(".banner-text");
     if (bannerText && state.announcementText) bannerText.textContent = state.announcementText;
 
+    // 背景・プロフィール・フォント
     if (state.bgColor) document.body.style.backgroundColor = state.bgColor;
-
     const profileEl = document.querySelector('.profile');
     if (profileEl && state.profileBg) profileEl.style.backgroundColor = state.profileBg;
-
     if (state.fontColor) document.body.style.color = state.fontColor;
-
     if (state.theme) {
       document.body.classList.remove('theme-natural', 'theme-modern');
       document.body.classList.add(`theme-${state.theme}`);
     }
-
     if (state.fontFamily) {
       document.documentElement.style.setProperty('--font-family', state.fontFamily);
     }
 
+    // プロフィール情報
     const profileNameEl = document.getElementById("profileName");
     if (profileNameEl && state.profileName) profileNameEl.textContent = state.profileName;
 
     const profileBioEl = document.getElementById("profileBio");
     if (profileBioEl && state.profileBio) profileBioEl.textContent = state.profileBio;
 
-
-// =========================
     // ⭐ カード再生成（重要）
-    // =========================
     const showcase = document.getElementById("showcase");
-
     if (showcase && state.items) {
       items = state.items;
-      
       showcase.innerHTML = "";
-
       state.items.forEach(item => {
         const card = createCard(item);
         showcase.appendChild(card);
@@ -223,13 +167,10 @@ function loadAppState() {
   }
 }
 
-
 // =========================
-// 🔴【保存：アプリ全体】saveAppState（完全版）
-// =========================
+// 保存（アプリ全体）
 function saveAppState_FULL() {
   try {
-    // アイテム情報に画像も含める
     const savedItems = items.map(item => ({
       ...item,
       img: document.querySelector(`#card-${item.id} img`)?.src || item.img
@@ -237,32 +178,20 @@ function saveAppState_FULL() {
 
     const state = {
       items: savedItems,
-    
-
-      // 画像
       headerImg: document.getElementById('headerImg')?.src || null,
       avatarImg: document.getElementById('avatarImg')?.src || null,
-
-      // アナウンスバー
       announcementBg: document.getElementById('announcementBar')?.style.backgroundColor || null,
       announcementText: document.querySelector('.banner-text')?.textContent || "",
-
-      // 背景・プロフィール・フォント
       bgColor: document.body.style.backgroundColor || null,
       profileBg: document.querySelector('.profile')?.style.backgroundColor || null,
       fontColor: document.body.style.color || null,
-
-      // テーマ・フォント
       theme: document.body.classList.contains('theme-natural') ? 'natural' : 'modern',
       fontFamily: getComputedStyle(document.documentElement).getPropertyValue('--font-family') || null,
-
-      // プロフィール情報
       profileName: document.getElementById("profileName")?.textContent || "",
       profileBio: document.getElementById("profileBio")?.textContent || ""
     };
 
     localStorage.setItem("recomenState", JSON.stringify(state));
-
     console.log("✅【saveAppState_FULL】保存完了");
     alert("保存しました！");
       
@@ -273,20 +202,18 @@ function saveAppState_FULL() {
 }
 
 // =========================
-// カード操作
+// カード操作（クリックイベント一括処理）
 // =========================
-const showcase = document.getElementById("showcase");
-if (showcase) {
-  showcase.addEventListener("click", (e) => {
+const showcaseEl = document.getElementById("showcase");
+
+if (showcaseEl) {
+  showcaseEl.addEventListener("click", (e) => {
 
     // ❤️ ハート
     const heart = e.target.closest(".icon-heart");
-
     if (heart) {
       heart.classList.toggle("liked");
-
       const path = heart.querySelector("path");
-
       if (path) {
         if (heart.classList.contains("liked")) {
           path.setAttribute("fill", "red");
@@ -296,170 +223,105 @@ if (showcase) {
           path.setAttribute("stroke", "#000");
         }
       }
-      
       const card = heart.closest(".card");
-  const cards = Array.from(showcase.children);
-  const index = cards.indexOf(card);
-
-  if (items[index]) {
-    items[index].liked = heart.classList.contains("liked");
-  }
-
-
+      const index = Array.from(showcaseEl.children).indexOf(card);
+      if (items[index]) items[index].liked = heart.classList.contains("liked");
       console.log("ハート押された");
       return;
     }
 
     // 💾 保存アイコン
     const save = e.target.closest(".icon-save");
-
     if (save) {
       save.classList.toggle("saved");
-
       const path = save.querySelector("path");
-
       if (path) {
-        if (save.classList.contains("saved")) {
-          path.setAttribute("fill", "#000");
-        } else {
-          path.setAttribute("fill", "none");
-        }
+        path.setAttribute("fill", save.classList.contains("saved") ? "#000" : "none");
         path.setAttribute("stroke", "#000");
       }
-      
       const card = save.closest(".card");
-  const cards = Array.from(showcase.children);
-  const index = cards.indexOf(card);
-
-  if (items[index]) {
-    items[index].saved = save.classList.contains("saved");
-  }
-
-
+      const index = Array.from(showcaseEl.children).indexOf(card);
+      if (items[index]) items[index].saved = save.classList.contains("saved");
       console.log("保存押された");
       return;
     }
 
-    // 🔗 リンク編集（修正版）
-const linkEl = e.target.closest(".link-display");
-const editBtn = e.target.closest(".edit-link-btn");
+    // 🔗 リンク編集
+    const linkEl = e.target.closest(".link-display");
+    const editBtn = e.target.closest(".edit-link-btn");
+    if (linkEl || editBtn) {
+      const card = e.target.closest(".card");
+      const target = card.querySelector(".link-display");
+      const current = target.getAttribute("href") || "";
+      const newLink = prompt("商品リンクを入力してね", current);
+      if (newLink) {
+        const finalLink = newLink.startsWith("http") ? newLink : "https://" + newLink;
+        target.setAttribute("href", finalLink);
+        target.textContent = finalLink;
+        console.log("リンク編集された:", Array.from(showcaseEl.children).indexOf(card));
+      }
+      return;
+    }
 
-if (linkEl || editBtn) {
-  const card = e.target.closest(".card");
-
-  // 👇 何番目のカードか取得（重要）
-  const cards = Array.from(showcase.children);
-  const index = cards.indexOf(card);
-
-  const target = card.querySelector(".link-display");
-
-  const current = target.getAttribute("href") || "";
-
-  const newLink = prompt("商品リンクを入力してね", current);
-
-  if (newLink) {
-    const finalLink = newLink.startsWith("http")
-      ? newLink
-      : "https://" + newLink;
-
-    target.setAttribute("href", finalLink);
-    target.textContent = finalLink;
-
-    console.log("リンク編集された:", index);
-  }
-
-  return;
-  }
-
-// =========================
-// 🖼 画像アップロード（軽量化版＋保存対応）
-// =========================
-const showcase = document.getElementById("showcase");
-
-if (showcase) {
-  showcase.addEventListener("click", (e) => {
+    // 🖼 画像アップロード（軽量＋保存対応）
     const imageEl = e.target.closest(".image");
-    if (!imageEl) return;
+    if (imageEl) {
+      const img = imageEl.querySelector("img");
+      const input = document.getElementById("itemImgInput");
+      if (!img || !input) return;
 
-    const img = imageEl.querySelector("img");
-    const input = document.getElementById("itemImgInput");
-    if (!img || !input) return;
+      input.onchange = (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
 
-    input.onchange = (event) => {
-      const file = event.target.files[0];
-      if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          const image = new Image();
+          image.onload = () => {
+            const canvas = document.createElement("canvas");
+            const maxSize = 200;
+            let w = image.width;
+            let h = image.height;
 
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        const image = new Image();
-        image.onload = () => {
-          const canvas = document.createElement("canvas");
-          const maxSize = 200;
+            if (w > h && w > maxSize) { h *= maxSize / w; w = maxSize; }
+            else if (h >= w && h > maxSize) { w *= maxSize / h; h = maxSize; }
 
-          let w = image.width;
-          let h = image.height;
+            canvas.width = w;
+            canvas.height = h;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(image, 0, 0, w, h);
+            const compressed = canvas.toDataURL("image/jpeg", 0.6);
 
-          if (w > h) {
-            if (w > maxSize) {
-              h = h * (maxSize / w);
-              w = maxSize;
-            }
-          } else {
-            if (h > maxSize) {
-              w = w * (maxSize / h);
-              h = maxSize;
-            }
-          }
+            img.src = compressed;
 
-          canvas.width = w;
-          canvas.height = h;
-
-          const ctx = canvas.getContext("2d");
-          ctx.drawImage(image, 0, 0, w, h);
-
-          const compressed = canvas.toDataURL("image/jpeg", 0.6);
-
-          // 🔥 画像差し替え
-          img.src = compressed;
-
-          // 🔥 items に反映
-          const cards = Array.from(showcase.children);
-          const index = cards.indexOf(imageEl.closest(".card"));
-          if (items[index]) items[index].img = compressed;
-
-          console.log("画像変更（軽量＋保存対応）", index);
+            const index = Array.from(showcaseEl.children).indexOf(imageEl.closest(".card"));
+            if (items[index]) items[index].img = compressed;
+            console.log("画像変更（軽量＋保存対応）", index);
+          };
+          image.src = ev.target.result;
         };
-        image.src = ev.target.result;
+        reader.readAsDataURL(file);
+        input.value = "";
       };
-      reader.readAsDataURL(file);
 
-      input.value = "";
-    };
-
-    input.click();
+      input.click();
+      return;
+    }
   });
 }
 
 // =========================
-// 💾 保存ボタン（完全版）
+// 💾 保存ボタン
 // =========================
-const saveBtn = document.getElementById("saveBtn");
-
-if (saveBtn) {
-  saveBtn.addEventListener("click", () => {
-    saveAppState_FULL(); // ←これだけ！
-  });
-}
+document.getElementById("saveBtn")?.addEventListener("click", saveAppState_FULL);
 
 // =========================
-// カスタムバー開閉（これが足りない）
+// カスタムバー開閉
 // =========================
 const editToggle = document.getElementById('editToggle');
 const editItems = document.getElementById('editItems');
-
 if (editToggle && editItems) {
   editItems.classList.remove('active'); // 初期閉じ
-
   editToggle.addEventListener('click', (e) => {
     e.stopPropagation(); // ← 超重要
     editItems.classList.toggle('active');
@@ -467,7 +329,7 @@ if (editToggle && editItems) {
 }
 
 // =========================
-// ポップアップ設定（外に出す）
+// ポップアップ設定
 // =========================
 const popupMap = {
   themeButton: 'themePopup',
@@ -478,48 +340,25 @@ const popupMap = {
 document.addEventListener("DOMContentLoaded", () => {
 
   // =========================
-  // テーマ切替（カード画像保持版）
+  // テーマ切替（カード画像保持）
   // =========================
-  const themeRadios = document.querySelectorAll('input[name="theme"]');
-  themeRadios.forEach(radio => {
+  document.querySelectorAll('input[name="theme"]').forEach(radio => {
     radio.addEventListener('change', e => {
-      const showcase = document.getElementById('showcase');
-      if (!showcase) return;
-
-      const existingImages = Array.from(
-        showcase.querySelectorAll('.card img')
-      ).map(img => img.src);
-
-      if (e.target.value === 'natural') {
-        document.body.classList.remove('theme-modern');
-        document.body.classList.add('theme-natural');
-      } else {
-        document.body.classList.remove('theme-natural');
-        document.body.classList.add('theme-modern');
-      }
-
-      const cardImgs = showcase.querySelectorAll('.card img');
-      cardImgs.forEach((img, i) => {
+      const existingImages = Array.from(showcaseEl.querySelectorAll('.card img')).map(img => img.src);
+      document.body.classList.toggle('theme-natural', e.target.value === 'natural');
+      document.body.classList.toggle('theme-modern', e.target.value !== 'natural');
+      showcaseEl.querySelectorAll('.card img').forEach((img, i) => {
         if (existingImages[i]) img.src = existingImages[i];
       });
     });
   });
 
-  // ===============================
-  // 🎨 Picker生成
-  // ===============================
-  createPicker('fontColorPicker', (color) => {
-    document.documentElement.style.setProperty('--font-color', color);
-  });
-
-  createPicker('bgPicker', (color) => {
-    document.documentElement.style.setProperty('--showcase-bg', color);
-  });
-
-  createPicker('profileBgPicker', (color) => {
-    document.documentElement.style.setProperty('--profile-bg', color);
-  });
-
+  // =========================
+  // Picker生成
+  // =========================
+  createPicker('fontColorPicker', (color) => document.documentElement.style.setProperty('--font-color', color));
+  createPicker('bgPicker', (color) => document.documentElement.style.setProperty('--showcase-bg', color));
+  createPicker('profileBgPicker', (color) => document.documentElement.style.setProperty('--profile-bg', color));
   createPicker('announcementBgPicker', (color) => {
     const bar = document.getElementById('announcementBar');
     if (bar) bar.style.background = color;
@@ -528,40 +367,29 @@ document.addEventListener("DOMContentLoaded", () => {
   // =========================
   // フォント変更
   // =========================
-  const fontSelect = document.getElementById('fontSelect');
-  if (fontSelect) {
-    fontSelect.addEventListener('change', e => {
-      document.documentElement.style.setProperty('--font-family', e.target.value);
-    });
-  }
+  document.getElementById('fontSelect')?.addEventListener('change', e => {
+    document.documentElement.style.setProperty('--font-family', e.target.value);
+  });
 
-  // ===============================
+  // =========================
   // フォローモーダル
-  // ===============================
+  // =========================
+  const modal = document.getElementById('followModal');
   const followingBtn = document.getElementById('followingBtn');
   const followersBtn = document.getElementById('followersBtn');
-  const modal = document.getElementById('followModal');
-
   if (modal) {
     const modalTitle = modal.querySelector('.modal-title');
     const userList = modal.querySelector('.user-list');
     const closeBtn = modal.querySelector('.close-btn');
 
-    const following = [
-      { name: 'ユーザーA', img: 'https://via.placeholder.com/32' },
-      { name: 'ユーザーB', img: 'https://via.placeholder.com/32' }
-    ];
+    const following = [{name:'ユーザーA',img:'https://via.placeholder.com/32'}, {name:'ユーザーB',img:'https://via.placeholder.com/32'}];
+    const followers = [{name:'ユーザーC',img:'https://via.placeholder.com/32'}, {name:'ユーザーD',img:'https://via.placeholder.com/32'}];
 
-    const followers = [
-      { name: 'ユーザーC', img: 'https://via.placeholder.com/32' },
-      { name: 'ユーザーD', img: 'https://via.placeholder.com/32' }
-    ];
-
-    function showModal(type) {
+    function showModal(type){
       userList.innerHTML = '';
-      const list = type === 'following' ? following : followers;
-      modalTitle.textContent = type === 'following' ? 'フォロー中' : 'フォロワー';
-      list.forEach(user => {
+      const list = type==='following'?following:followers;
+      modalTitle.textContent = type==='following'?'フォロー中':'フォロワー';
+      list.forEach(user=>{
         const li = document.createElement('li');
         li.innerHTML = `<img src="${user.img}" alt="${user.name}"><span>${user.name}</span>`;
         userList.appendChild(li);
@@ -569,14 +397,14 @@ document.addEventListener("DOMContentLoaded", () => {
       modal.style.display = 'block';
     }
 
-    followingBtn?.addEventListener('click', () => showModal('following'));
-    followersBtn?.addEventListener('click', () => showModal('followers'));
-    closeBtn?.addEventListener('click', () => modal.style.display = 'none');
+    followingBtn?.addEventListener('click',()=>showModal('following'));
+    followersBtn?.addEventListener('click',()=>showModal('followers'));
+    closeBtn?.addEventListener('click',()=>modal.style.display='none');
   }
 
-  // ===============================
+  // =========================
   // ポップアップ処理
-  // ===============================
+  // =========================
   Object.entries(popupMap).forEach(([btnId, popupId]) => {
     const btn = document.getElementById(btnId);
     const popup = document.getElementById(popupId);
@@ -596,9 +424,9 @@ document.addEventListener("DOMContentLoaded", () => {
     popup.addEventListener('click', e => e.stopPropagation());
   });
 
-  // ===============================
-  // アナウンスバー
-  // ===============================
+  // =========================
+  // アナウンスバー（スクロール）
+  // =========================
   const announcementToggle = document.getElementById('announcementToggle');
   const bannerTextInput = document.getElementById('bannerTextInput');
   const announcementBar = document.getElementById('announcementBar');
@@ -610,16 +438,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function scroll() {
       const textWidth = bannerText.offsetWidth;
-      if (!textWidth) {
-        requestAnimationFrame(scroll);
-        return;
-      }
+      if (!textWidth) { requestAnimationFrame(scroll); return; }
       pos -= speed;
       if (pos <= -textWidth) pos = announcementBar.offsetWidth;
       bannerText.style.left = pos + 'px';
       requestAnimationFrame(scroll);
     }
-
     setTimeout(scroll, 100);
 
     bannerTextInput.addEventListener('input', () => {
@@ -627,12 +451,9 @@ document.addEventListener("DOMContentLoaded", () => {
       pos = announcementBar.offsetWidth;
     });
 
-    window.addEventListener('resize', () => {
-      pos = announcementBar.offsetWidth;
-    });
+    window.addEventListener('resize', () => pos = announcementBar.offsetWidth);
   }
-
-}); // ----------------- DOMContentLoaded 終了 -----------------
+});
 
 // ===============================
 // ポップアップ用関数
@@ -654,7 +475,6 @@ function positionPopup(btn, popup) {
 
   const rect = btn.getBoundingClientRect();
   const popupWidth = popup.offsetWidth;
-
   let left = rect.left + rect.width / 2 - popupWidth / 2;
   let top = rect.bottom - 44;
   left = Math.max(8, Math.min(left, window.innerWidth - popupWidth - 8));
@@ -685,5 +505,3 @@ function setupImageUpload(imgEl, inputEl) {
 // ===============================
 setupImageUpload(document.getElementById('headerImg'), document.getElementById('headerImgInput'));
 setupImageUpload(document.getElementById('avatarImg'), document.getElementById('avatarImgInput'));
-
-

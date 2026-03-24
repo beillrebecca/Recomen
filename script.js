@@ -315,20 +315,20 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!btn || !popup) return;
 
     btn.addEventListener('click', (e) => {
-  alert("クリックされた");
-
   e.stopPropagation();
 
   const isActive = popup.classList.contains('active');
 
-  // 👇 まず全部閉じる
   closeAllPopups();
 
   if (!isActive) {
     popup.classList.add('active');
+    popup.style.display = "block";
 
-    alert("positionPopup動いた"); // ←確認用
-    positionPopup(btn, popup);
+    // 👇 これが超重要
+    requestAnimationFrame(() => {
+      positionPopup(btn, popup);
+    });
   }
 });
 

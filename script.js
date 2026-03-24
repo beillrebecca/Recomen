@@ -713,6 +713,10 @@ document.addEventListener("DOMContentLoaded", () => {
     bannerText.textContent = bannerTextInput.value;
     pos = announcementBar.offsetWidth;
   });
+  
+  window.addEventListener('resize', () => {
+  pos = announcementBar.offsetWidth;
+});
 
 // ===============================
 // 画像アップロード共通処理
@@ -750,11 +754,6 @@ setupImageUpload(
   document.getElementById('avatarImg'),
   document.getElementById('avatarImgInput')
 );
-
-
-  window.addEventListener('resize', () => {
-    pos = announcementBar.offsetWidth;
-  });
 
 });
 

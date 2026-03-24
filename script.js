@@ -691,6 +691,44 @@ document.addEventListener("DOMContentLoaded", () => {
     pos = announcementBar.offsetWidth;
   });
 
+// ===============================
+// 画像アップロード共通処理
+// ===============================
+function setupImageUpload(imgEl, inputEl) {
+  if (!imgEl || !inputEl) return;
+
+  imgEl.addEventListener('click', () => {
+    inputEl.click();
+  });
+
+  inputEl.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = (ev) => {
+      imgEl.src = ev.target.result;
+    };
+
+    reader.readAsDataURL(file);
+  });
+}
+
+// ===============================
+// ヘッダー・プロフィール画像
+// ===============================
+setupImageUpload(
+  document.getElementById('headerImg'),
+  document.getElementById('headerImgInput')
+);
+
+setupImageUpload(
+  document.getElementById('avatarImg'),
+  document.getElementById('avatarImgInput')
+);
+
+
   window.addEventListener('resize', () => {
     pos = announcementBar.offsetWidth;
   });

@@ -310,6 +310,15 @@ if (showcase) {
         }
         path.setAttribute("stroke", "#000");
       }
+      
+      const card = save.closest(".card");
+  const cards = Array.from(showcase.children);
+  const index = cards.indexOf(card);
+
+  if (items[index]) {
+    items[index].saved = save.classList.contains("saved");
+  }
+
 
       console.log("保存押された");
       return;

@@ -11,6 +11,7 @@ let items = [];
 function createCard(item) {
   const card = document.createElement('div');
   card.className = 'card';
+  card.id = `card-${item.id}`; // ←ここ追加
 
   card.innerHTML = `
     <div class="image">

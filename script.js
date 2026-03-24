@@ -259,6 +259,7 @@ function saveAppState_FULL() {
 // =========================
 // カード操作
 // =========================
+const showcase = document.getElementById("showcase");
 if (showcase) {
   showcase.addEventListener("click", (e) => {
 

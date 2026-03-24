@@ -49,6 +49,7 @@ function createCard(item) {
 // カード描画
 // =========================
 function renderCards() {
+  const showcase = document.getElementById("showcase");
   if (!showcase) return;
 
   showcase.innerHTML = "";

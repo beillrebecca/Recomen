@@ -265,6 +265,53 @@ document.addEventListener("DOMContentLoaded", () => {
     styleButton: 'stylePopup',
     announcementButton: 'announcementPopup'
   };
+  
+  document.addEventListener("DOMContentLoaded", () => {
+
+  // =========================
+  // テーマ切替（カード画像保持版）
+  // =========================
+  const themeRadios = document.querySelectorAll('input[name="theme"]');
+
+  themeRadios.forEach(radio => {
+    radio.addEventListener('change', e => {
+      const showcase = document.getElementById('showcase');
+      if (!showcase) return;
+
+      // 画像保持
+      const existingImages = Array.from(
+        showcase.querySelectorAll('.card img')
+      ).map(img => img.src);
+
+      // テーマ切替
+      if (e.target.value === 'natural') {
+        document.body.classList.remove('theme-modern');
+        document.body.classList.add('theme-natural');
+      } else {
+        document.body.classList.remove('theme-natural');
+        document.body.classList.add('theme-modern');
+      }
+
+      // 画像復元
+      const cardImgs = showcase.querySelectorAll('.card img');
+      cardImgs.forEach((img, i) => {
+        if (existingImages[i]) img.src = existingImages[i];
+      });
+    });
+  });
+
+  // =========================
+  // フォント変更
+  // =========================
+  const fontSelect = document.getElementById('fontSelect');
+
+  if (fontSelect) {
+    fontSelect.addEventListener('change', e => {
+      document.documentElement.style.setProperty('--font-family', e.target.value);
+    });
+  }
+
+});
 
   // 全部閉じる
   function closeAllPopups() {

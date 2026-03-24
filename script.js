@@ -658,8 +658,6 @@ document.addEventListener("DOMContentLoaded", () => {
 // ===============================
 // アナウンスバー安全スクロール（修正版）
 // ===============================
-document.addEventListener("DOMContentLoaded", () => {
-
   const announcementToggle = document.getElementById('announcementToggle');
   const bannerTextInput = document.getElementById('bannerTextInput');
   const announcementBar = document.getElementById('announcementBar');

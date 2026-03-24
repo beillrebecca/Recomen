@@ -519,8 +519,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (bar) bar.style.background = color;
   });
 
-});
-
   // =========================
   // フォント変更
   // =========================

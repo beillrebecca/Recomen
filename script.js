@@ -228,8 +228,15 @@ function loadAppState() {
 // =========================
 function saveAppState_FULL() {
   try {
+    // アイテム情報に画像も含める
+    const savedItems = items.map(item => ({
+      ...item,
+      img: document.querySelector(`#card-${item.id} img`)?.src || item.img
+    }));
+
     const state = {
-      items: items || [],
+      items: savedItems,
+    
 
       // 画像
       headerImg: document.getElementById('headerImg')?.src || null,

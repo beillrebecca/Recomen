@@ -619,43 +619,38 @@ document.addEventListener("DOMContentLoaded", () => {
   popup.style.visibility = "visible";
 }
 
-  // ボタン処理
+
+  // ===============================
+  // ポップアップ処理
+  // ===============================
   Object.entries(popupMap).forEach(([btnId, popupId]) => {
     const btn = document.getElementById(btnId);
     const popup = document.getElementById(popupId);
 
-    console.log(btnId, btn);
-
     if (!btn || !popup) return;
 
     btn.addEventListener('click', (e) => {
-  e.stopPropagation();
+      e.stopPropagation();
 
-  const isActive = popup.classList.contains('active');
+      const isActive = popup.classList.contains('active');
+      closeAllPopups();
 
-  closeAllPopups();
+      if (!isActive) {
+        popup.classList.add('active');
+        popup.style.display = "block";
 
-  if (!isActive) {
-    popup.classList.add('active');
-    popup.style.display = "block";
-
-    // 👇 これが超重要
-    requestAnimationFrame(() => {
-      positionPopup(btn, popup);
+        requestAnimationFrame(() => {
+          positionPopup(btn, popup);
+        });
+      }
     });
-  }
-});
 
     popup.addEventListener('click', e => e.stopPropagation());
   });
 
-  document.body.addEventListener('click', closeAllPopups);
-
-});
-
 
   // ===============================
-  // アナウンスバー安全スクロール
+  // アナウンスバー
   // ===============================
   const announcementToggle = document.getElementById('announcementToggle');
   const bannerTextInput = document.getElementById('bannerTextInput');

@@ -40,6 +40,51 @@ function createCard(item) {
   return card;
 }
 
+/* ===============================
+     Picker 関数
+  =============================== */
+  function createPicker(id, onSave) {
+    const el = document.getElementById(id);
+    if (!el) return null;
+
+    const popup = el.closest('.popup');
+    let wasHidden = false;
+    if (popup && getComputedStyle(popup).display === 'none') {
+      popup.style.display = 'block';
+      wasHidden = true;
+    }
+
+    const picker = Pickr.create({
+      el: `#${id}`,
+      theme: 'nano',
+      default: '#f6f6f6',
+      components: {
+        preview: true,
+        hue: true,
+        interaction: { hex: true, input: true, save: true }
+      }
+    });
+
+    picker.on('save', color => {
+      const hex = color.toHEXA().toString();
+      onSave(hex);
+      picker.hide();
+    });
+
+    picker.on('init', instance => {
+      if (!instance || !instance.root) return;
+      const btn = instance.root.querySelector('.pcr-button');
+      if (btn) {
+        btn.style.width = '24px';
+        btn.style.height = '24px';
+        btn.style.borderRadius = '6px';
+      }
+    });
+
+    if (wasHidden && popup) popup.style.display = 'none';
+    return picker;
+  }
+
 // 📦 読み込み
 const saved = localStorage.getItem("myItems");
 
@@ -351,6 +396,27 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 });
+
+/* ===============================
+     Picker生成
+  =============================== */
+
+  createPicker('fontColorPicker', (color) => {
+    document.documentElement.style.setProperty('--font-color', color);
+  });
+
+  createPicker('bgPicker', (color) => {
+    document.documentElement.style.setProperty('--showcase-bg', color);
+  });
+
+  createPicker('profileBgPicker', (color) => {
+    document.documentElement.style.setProperty('--profile-bg', color);
+  });
+
+  createPicker('announcementBgPicker', (color) => {
+    const bar = document.getElementById('announcementBar');
+    if (bar) bar.style.background = color;
+  });
 
   // 全部閉じる
   function closeAllPopups() {

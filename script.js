@@ -85,62 +85,73 @@ function createCard(item) {
     return picker;
   }
 
-// 📦 読み込み
-const saved = localStorage.getItem("myItems");
+// =========================
+// ローカル保存 読み込み
+// =========================
+function loadAppState() {
+  const saved = localStorage.getItem("recomenState");
+  if (!saved) return;
 
-if (saved) {
-  const data = JSON.parse(saved);
+  try {
+    const state = JSON.parse(saved);
 
-  const cards = document.querySelectorAll("#showcase .card");
+    // =========================
+    // UI系
+    // =========================
 
-  data.forEach((item, i) => {
-    const card = cards[i];
-    if (!card) return;
+    const header = document.getElementById("headerImg");
+    if (header && state.headerImg) header.src = state.headerImg;
 
-    const img = card.querySelector("img");
-    const name = card.querySelector(".card-name");
-    const link = card.querySelector(".link-display");
-    const heart = card.querySelector(".icon-heart");
-    const saveIcon = card.querySelector(".icon-save");
+    const avatar = document.getElementById("avatarImg");
+    if (avatar && state.avatarImg) avatar.src = state.avatarImg;
 
-    // 🖼 画像
-    if (img) img.src = item.img;
+    const bar = document.getElementById("announcementBar");
+    if (bar && state.announcementBg) bar.style.backgroundColor = state.announcementBg;
 
-    // 📝 名前
-    if (name) name.textContent = item.name;
+    const bannerText = document.querySelector(".banner-text");
+    if (bannerText && state.announcementText) bannerText.textContent = state.announcementText;
 
-    // 🔗 リンク
-    if (link) {
-      link.href = item.link;
-      link.textContent = item.link;
+    if (state.bgColor) document.body.style.backgroundColor = state.bgColor;
+
+    const profileEl = document.querySelector('.profile');
+    if (profileEl && state.profileBg) profileEl.style.backgroundColor = state.profileBg;
+
+    if (state.fontColor) document.body.style.color = state.fontColor;
+
+    if (state.theme) {
+      document.body.classList.remove('theme-natural', 'theme-modern');
+      document.body.classList.add(`theme-${state.theme}`);
     }
 
-    // ❤️ ハート復元
-    if (heart && item.liked) {
-      heart.classList.add("liked");
-      const path = heart.querySelector("path");
-      if (path) {
-        path.setAttribute("fill", "red");
-        path.setAttribute("stroke", "red");
-      }
+    if (state.fontFamily) {
+      document.documentElement.style.setProperty('--font-family', state.fontFamily);
     }
 
-    // 💾 保存復元
-    if (saveIcon && item.saved) {
-      saveIcon.classList.add("saved");
-      const path = saveIcon.querySelector("path");
-      if (path) {
-        path.setAttribute("fill", "#000");
-        path.setAttribute("stroke", "#000");
-      }
+    const profileNameEl = document.getElementById("profileName");
+    if (profileNameEl && state.profileName) profileNameEl.textContent = state.profileName;
+
+    const profileBioEl = document.getElementById("profileBio");
+    if (profileBioEl && state.profileBio) profileBioEl.textContent = state.profileBio;
+
+    // =========================
+    // ⭐ カード再生成（重要）
+    // =========================
+
+    const showcase = document.getElementById("showcase");
+    if (showcase && state.items) {
+      showcase.innerHTML = ""; // 一旦クリア
+
+      state.items.forEach(item => {
+        const card = createCard(item);
+        showcase.appendChild(card);
+      });
     }
 
-  });
-
-  console.log("読み込み完了");
+    console.log("保存データ読み込み完了");
+  } catch (e) {
+    console.error("読み込み失敗", e);
+  }
 }
-
-const showcase = document.getElementById("showcase");
 
 // =========================
 // カード操作

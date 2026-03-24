@@ -416,8 +416,7 @@ document.addEventListener("DOMContentLoaded", () => {
       closeAllPopups();
       if (!isActive) {
         popup.classList.add('active');
-        popup.style.display = "block";
-        requestAnimationFrame(() => positionPopup(btn, popup));
+        positionPopup(btn, popup);
       }
     });
 

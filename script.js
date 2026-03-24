@@ -1,5 +1,44 @@
 alert("JS読み込まれてる！");
 
+// =========================
+// カード作成
+// =========================
+function createCard(item) {
+  const card = document.createElement('div');
+  card.className = 'card';
+
+  card.innerHTML = `
+    <div class="image">
+      <img src="${item.img || ''}" alt="">
+      <span class="modern-clicks">${item.clicks || 0}</span>
+    </div>
+
+    <div class="card-name" contenteditable="true">
+      ${item.name || ''}
+    </div>
+
+    <div class="price-link-wrapper">
+      <div class="card-price" contenteditable="true">
+        ${item.price || '¥0'}
+      </div>
+
+      <a class="link-display" href="${item.link || '#'}" target="_blank">
+        ${item.link || "リンク未設定"}
+      </a>
+
+      <button class="edit-link-btn">リンク編集</button>
+    </div>
+
+    <div class="card-actions">
+      ${heartIcon(item)}
+      ${commentIcon()}
+      ${shareIcon()}
+      ${saveIcon(item)}
+    </div>
+  `;
+
+  return card;
+}
 
 // 📦 読み込み
 const saved = localStorage.getItem("myItems");

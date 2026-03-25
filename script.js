@@ -360,9 +360,9 @@ document.addEventListener("DOMContentLoaded", () => {
   //createPicker('bgPicker', (color) => document.documentElement.style.setProperty('--showcase-bg', color));
   //createPicker('profileBgPicker', (color) => document.documentElement.style.setProperty('--profile-bg', color));
   //createPicker('announcementBgPicker', (color) => {
-    const bar = document.getElementById('announcementBar');
-    if (bar) bar.style.background = color;
-  });
+    //const bar = document.getElementById('announcementBar');
+    //if (bar) bar.style.background = color;
+  //});
 
   // =========================
   // フォント変更

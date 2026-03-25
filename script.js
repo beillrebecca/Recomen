@@ -406,21 +406,29 @@ document.addEventListener("DOMContentLoaded", () => {
   // ポップアップ処理
   // =========================
   Object.entries(popupMap).forEach(([btnId, popupId]) => {
-    const btn = document.getElementById(btnId);
-    const popup = document.getElementById(popupId);
-    if (!btn || !popup) return;
+  const btn = document.getElementById(btnId);
+  const popup = document.getElementById(popupId);
+  if (!btn || !popup) return;
 
-    btn.addEventListener('click', (e) => {
-  e.stopPropagation();
-  const isActive = popup.classList.contains('active');
-  closeAllPopups();
-  if (!isActive) {
-    positionPopup(btn, popup);
-  }
+  // 初期非表示
+  popup.style.display = 'none';
+  popup.classList.remove('active');
+
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+
+    const isActive = popup.classList.contains('active');
+    closeAllPopups(); // 他のポップアップは閉じる
+
+    if (!isActive) {
+      // ボタンの真下中央に配置してから表示
+      positionPopup(btn, popup);
+    }
+  });
+
+  popup.addEventListener('click', e => e.stopPropagation());
 });
 
-    popup.addEventListener('click', e => e.stopPropagation());
-  });
 
   // =========================
   // アナウンスバー（スクロール）
@@ -466,25 +474,27 @@ function closeAllPopups() {
   });
 }
 
+// ボタンの真下中央に表示する
 function positionPopup(btn, popup) {
   if (!btn || !popup) return;
 
-  // 一旦表示してから幅を取得
+  // 一時的に表示して幅・高さを取得
   popup.style.display = "block";
-  popup.style.visibility = "hidden"; // 見えない状態で
+  popup.style.visibility = "hidden";
   popup.classList.add('active');
 
   const rect = btn.getBoundingClientRect();
   const popupWidth = popup.offsetWidth;
+  const popupHeight = popup.offsetHeight;
 
   let left = rect.left + rect.width / 2 - popupWidth / 2;
-  let top = rect.bottom + 8; // 少し下に表示
+  let top = rect.bottom + 8; // ボタンの下に8px余白
   left = Math.max(8, Math.min(left, window.innerWidth - popupWidth - 8));
 
   popup.style.position = "fixed";
   popup.style.left = left + "px";
   popup.style.top = top + "px";
-  popup.style.visibility = "visible"; // ここで初めて見える
+  popup.style.visibility = "visible"; // 表示
 }
 
 // ===============================

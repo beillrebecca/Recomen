@@ -796,7 +796,6 @@ body.theme-modern .card-actions svg {
 .popup {
   position: fixed;
   display: none;
-  pointer-events: none;
 }
 
 
@@ -828,7 +827,6 @@ body.theme-modern .card-actions svg {
 
 .popup.active {
   display:block;
-  pointer-events: auto;
   }
 
 

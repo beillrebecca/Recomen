@@ -425,7 +425,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!isActive) {
 
-    popup.style.display = "block";
+    popup.classList.add('active');   // ← 先に表示
     popup.style.visibility = "hidden";
 
     const rect = btn.getBoundingClientRect();
@@ -438,7 +438,6 @@ document.addEventListener("DOMContentLoaded", () => {
     popup.style.top = top + "px";
 
     popup.style.visibility = "visible";
-    popup.classList.add('active');
   }
 });
 

@@ -411,15 +411,24 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!btn || !popup) return;
 
   btn.addEventListener('click', (e) => {
-  e.stopPropagation();
+    e.stopPropagation();
 
-  const isActive = popup.classList.contains('active');
-  closeAllPopups();
+    // 全部閉じる
+    closeAllPopups();
 
-  if (!isActive) {
-    popup.classList.add('active'); // ← 明示的に追加
-    positionPopup(btn, popup);
-  }
+    // 今のやつだけ開く
+    popup.classList.add('active');
+
+    // 位置
+    const rect = btn.getBoundingClientRect();
+    const popupWidth = popup.offsetWidth;
+
+    let left = rect.left + rect.width / 2 - popupWidth / 2;
+    let top = rect.bottom + 8;
+
+    popup.style.left = left + "px";
+    popup.style.top = top + "px";
+  });
 });
 
   popup.addEventListener('click', e => e.stopPropagation());
@@ -463,9 +472,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function closeAllPopups() {
   Object.values(popupMap).forEach(popupId => {
     const popup = document.getElementById(popupId);
-    if (popup) {
-      popup.classList.remove('active'); // ← これだけで非表示
-    }
+    if (popup) popup.classList.remove('active');
   });
 }
 

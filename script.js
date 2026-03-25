@@ -411,16 +411,16 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!btn || !popup) return;
 
   btn.addEventListener('click', (e) => {
-    e.stopPropagation();
+  e.stopPropagation();
 
-    const isActive = popup.classList.contains('active');
-    closeAllPopups();
+  const isActive = popup.classList.contains('active');
+  closeAllPopups();
 
-    if (!isActive) {
-      popup.classList.add('active'); // ← これだけで表示
-      positionPopup(btn, popup);
-    }
-  });
+  if (!isActive) {
+    popup.classList.add('active'); // ← 表示はここだけ
+    positionPopup(btn, popup);     // ← 位置だけやる
+  }
+});
 
   popup.addEventListener('click', e => e.stopPropagation());
 });
@@ -473,10 +473,6 @@ function closeAllPopups() {
 function positionPopup(btn, popup) {
   if (!btn || !popup) return;
 
-  // 一瞬だけ見えない状態でサイズ取得
-  popup.style.visibility = "hidden";
-  popup.classList.add('active');
-
   const rect = btn.getBoundingClientRect();
   const popupWidth = popup.offsetWidth;
 
@@ -488,7 +484,6 @@ function positionPopup(btn, popup) {
   popup.style.position = "fixed";
   popup.style.left = left + "px";
   popup.style.top = top + "px";
-  popup.style.visibility = "visible";
 }
 
 // ===============================

@@ -411,6 +411,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!btn || !popup) return;
 
   btn.addEventListener('click', (e) => {
+  console.log("クリックされた:", btnId); // ← 追加
   e.stopPropagation();
 
   const isActive = popup.classList.contains('active');

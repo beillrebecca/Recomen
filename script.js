@@ -410,18 +410,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const popup = document.getElementById(popupId);
   if (!btn || !popup) return;
 
-  // 初期非表示
-  popup.style.display = 'none';
-  popup.classList.remove('active');
-
   btn.addEventListener('click', (e) => {
     e.stopPropagation();
 
     const isActive = popup.classList.contains('active');
-    closeAllPopups(); // 他のポップアップは閉じる
+    closeAllPopups();
 
     if (!isActive) {
-      // ボタンの真下中央に配置してから表示
+      popup.classList.add('active'); // ← これだけで表示
       positionPopup(btn, popup);
     }
   });
@@ -468,8 +464,7 @@ function closeAllPopups() {
   Object.values(popupMap).forEach(popupId => {
     const popup = document.getElementById(popupId);
     if (popup) {
-      popup.classList.remove('active');
-      popup.style.display = 'none';
+      popup.classList.remove('active'); // ← これだけで非表示
     }
   });
 }
@@ -478,23 +473,22 @@ function closeAllPopups() {
 function positionPopup(btn, popup) {
   if (!btn || !popup) return;
 
-  // 一時的に表示して幅・高さを取得
-  popup.style.display = "block";
+  // 一瞬だけ見えない状態でサイズ取得
   popup.style.visibility = "hidden";
   popup.classList.add('active');
 
   const rect = btn.getBoundingClientRect();
   const popupWidth = popup.offsetWidth;
-  const popupHeight = popup.offsetHeight;
 
   let left = rect.left + rect.width / 2 - popupWidth / 2;
-  let top = rect.bottom + 8; // ボタンの下に8px余白
+  let top = rect.bottom + 8;
+
   left = Math.max(8, Math.min(left, window.innerWidth - popupWidth - 8));
 
   popup.style.position = "fixed";
   popup.style.left = left + "px";
   popup.style.top = top + "px";
-  popup.style.visibility = "visible"; // 表示
+  popup.style.visibility = "visible";
 }
 
 // ===============================

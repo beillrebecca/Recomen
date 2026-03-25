@@ -411,14 +411,14 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!btn || !popup) return;
 
   btn.addEventListener('click', (e) => {
-  console.log("クリックされた:", btnId); // ← 追加
   e.stopPropagation();
 
   const isActive = popup.classList.contains('active');
   closeAllPopups();
 
   if (!isActive) {
-    positionPopup(btn, popup); // ← 先に位置決め
+    popup.classList.add('active'); // ← 明示的に追加
+    positionPopup(btn, popup);
   }
 });
 

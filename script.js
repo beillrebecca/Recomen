@@ -324,6 +324,7 @@ if (editToggle && editItems) {
   editItems.classList.remove('active'); // 初期閉じ
   editToggle.addEventListener('click', (e) => {
     e.stopPropagation(); // ← 超重要
+    closeAllPopups();
     editItems.classList.toggle('active');
   });
 }
@@ -338,6 +339,12 @@ const popupMap = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+  
+  document.addEventListener('click', () => {
+    closeAllPopups();
+  });
+
+
 
   // =========================
   // テーマ切替（カード画像保持）
@@ -413,28 +420,26 @@ document.addEventListener("DOMContentLoaded", () => {
   btn.addEventListener('click', (e) => {
   e.stopPropagation();
 
-  // 全部閉じる
+  const isActive = popup.classList.contains('active');
   closeAllPopups();
 
-  // 一旦表示（透明）
-  popup.style.display = "block";
-  popup.style.visibility = "hidden";
+  if (!isActive) {
 
-  // サイズ取得
-  const rect = btn.getBoundingClientRect();
-  const popupWidth = popup.offsetWidth;
+    popup.style.display = "block";
+    popup.style.visibility = "hidden";
 
-  // 位置計算
-  let left = rect.left + rect.width / 2 - popupWidth / 2;
-  let top = rect.bottom + 8;
+    const rect = btn.getBoundingClientRect();
+    const popupWidth = popup.offsetWidth;
 
-  // 反映
-  popup.style.left = left + "px";
-  popup.style.top = top + "px";
+    let left = rect.left + rect.width / 2 - popupWidth / 2;
+    let top = rect.bottom + 8;
 
-  // 表示
-  popup.style.visibility = "visible";
-  popup.classList.add('active');
+    popup.style.left = left + "px";
+    popup.style.top = top + "px";
+
+    popup.style.visibility = "visible";
+    popup.classList.add('active');
+  }
 });
 
   // 👇 これを中に入れる！！

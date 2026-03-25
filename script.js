@@ -429,8 +429,8 @@ document.addEventListener("DOMContentLoaded", () => {
     popup.style.left = left + "px";
     popup.style.top = top + "px";
   });
-});
 
+  // 👇 これを中に入れる！！
   popup.addEventListener('click', e => e.stopPropagation());
 });
 

@@ -812,7 +812,7 @@ body.theme-modern .card-actions svg {
 
 /* スライド中だけポップアップを隠す */
 .edit-items.active .popup {
-  display: block !important;
+  display: block;
 }
 
 /* 吹き出し矢印の縁 */

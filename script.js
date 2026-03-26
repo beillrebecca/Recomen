@@ -490,7 +490,6 @@ function closeAllPopups() {
 
 // ボタンの真下中央に表示する
 function positionPopup(btn, popup) {
-  console.log("positionPopup動いてる");
   if (!btn || !popup) return;
 
   popup.style.visibility = "hidden";
@@ -498,11 +497,14 @@ function positionPopup(btn, popup) {
 
   const rect = btn.getBoundingClientRect();
   const popupWidth = popup.offsetWidth;
-  const popupHeight = popup.offsetHeight;
 
-  let left = rect.left + rect.width / 2 - popupWidth / 2;
-  let top = rect.bottom + 2;
+  // 左端に合わせる（←ここ重要）
+  let left = rect.left;
 
+  // 真下に配置
+  let top = rect.bottom + 4;
+
+  // 画面はみ出し防止
   left = Math.max(8, Math.min(left, window.innerWidth - popupWidth - 8));
 
   popup.style.position = "fixed";

@@ -824,7 +824,7 @@ body.theme-modern .card-actions svg {
 
 /* 吹き出し矢印の本体 */
 .popup::after {
-  display: none;
+  display: block;
   content: "";
   position: absolute;
   top: -8px;   /* 縁の内側に重ねる */

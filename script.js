@@ -502,7 +502,7 @@ function positionPopup(btn, popup) {
   let left = rect.left;
 
   // 👇ここがポイント
-  let top = rect.bottom + 6;
+  let top = rect.bottom + 4;
 
   left = Math.max(8, Math.min(left, window.innerWidth - popupWidth - 8));
 

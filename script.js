@@ -437,12 +437,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!isActive) {
 
-      // 一瞬表示してサイズ取得
-      popup.classList.add('active');
-      popup.style.visibility = "hidden";
+  popup.classList.add('active');
+  popup.style.display = 'block';
 
-      const rect = btn.getBoundingClientRect();
-      const popupWidth = popup.offsetWidth;
+  positionPopup(btn, popup);
+
+}
 
       let left = rect.left + rect.width / 2 - popupWidth / 2;
       let top = rect.bottom + 8;

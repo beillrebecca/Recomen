@@ -511,7 +511,7 @@ function positionPopup(btn, popup) {
   let top;
 
 if (rect.bottom + popupHeight + 8 < window.innerHeight) {
-  top = rect.bottom + 4;  // 下は近め
+  top = rect.bottom + 2;  // 下は近め
 } else {
   top = rect.top - popupHeight - 6; // 上も近め
 }

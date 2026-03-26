@@ -504,17 +504,11 @@ function positionPopup(btn, popup) {
   const popupWidth = popup.offsetWidth;
   const popupHeight = popup.offsetHeight;
 
-  let left = rect.left + rect.width / 2 - popupWidth / 2;
-  let top = rect.top - popupHeight - 8; // ← 上に表示
+  
 
   // はみ出し防止
   left = Math.max(8, Math.min(left, window.innerWidth - popupWidth - 8));
 
-  popup.style.position = "fixed";
-  popup.style.left = left + "px";
-  popup.style.top = top + "px";
-
-  popup.style.visibility = "visible";
 }
 
 // ===============================

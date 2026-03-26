@@ -497,14 +497,13 @@ function positionPopup(btn, popup) {
 
   const rect = btn.getBoundingClientRect();
   const popupWidth = popup.offsetWidth;
+  const popupHeight = popup.offsetHeight;
 
-  // 左端に合わせる（←ここ重要）
   let left = rect.left;
 
-  // 真下に配置
-  let top = rect.bottom - 2;
+  // 👇ここがポイント
+  let top = rect.top + rect.height - popupHeight - 4;
 
-  // 画面はみ出し防止
   left = Math.max(8, Math.min(left, window.innerWidth - popupWidth - 8));
 
   popup.style.position = "fixed";

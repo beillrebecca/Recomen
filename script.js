@@ -510,10 +510,10 @@ function positionPopup(btn, popup) {
   // 上に表示
   let top;
 
-if (rect.bottom + popupHeight + 8 < window.innerHeight) {
-  top = rect.bottom + 2;  // 下は近め
+if (rect.bottom + popupHeight + 2 < window.innerHeight) {
+  top = rect.bottom + 2;
 } else {
-  top = rect.top - popupHeight - 6; // 上も近め
+  top = rect.top - popupHeight - 6;
 }
 
   // はみ出し防止

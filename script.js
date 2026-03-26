@@ -511,11 +511,9 @@ function positionPopup(btn, popup) {
   let top;
 
 if (rect.bottom + popupHeight + 8 < window.innerHeight) {
-  // 下に出せるなら下
-  top = rect.bottom + 8;
+  top = rect.bottom + 4;  // 下は近め
 } else {
-  // 無理なら上
-  top = rect.top - popupHeight - 8;
+  top = rect.top - popupHeight - 6; // 上も近め
 }
 
   // はみ出し防止

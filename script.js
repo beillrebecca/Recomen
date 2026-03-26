@@ -442,18 +442,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   positionPopup(btn, popup);
 
-}
-
-      let left = rect.left + rect.width / 2 - popupWidth / 2;
-      let top = rect.bottom + 8;
-
-      popup.style.left = left + "px";
-      popup.style.top = top + "px";
-
-      // 表示
-      popup.style.visibility = "visible";
-    }
-  });
+  }
+});
 
   popup.addEventListener('click', e => e.stopPropagation());
 });

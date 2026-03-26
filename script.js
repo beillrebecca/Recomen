@@ -504,23 +504,23 @@ function closeAllPopups() {
 function positionPopup(btn, popup) {
   if (!btn || !popup) return;
 
-  // 一瞬だけ見えない状態で表示
   popup.style.visibility = "hidden";
-  popup.classList.add("active");
+  popup.style.display = "block";
 
   const rect = btn.getBoundingClientRect();
   const popupWidth = popup.offsetWidth;
+  const popupHeight = popup.offsetHeight;
 
   let left = rect.left + rect.width / 2 - popupWidth / 2;
-  let top = rect.bottom + 8;
+  let top = rect.top - popupHeight - 8; // ← 上に表示
 
+  // はみ出し防止
   left = Math.max(8, Math.min(left, window.innerWidth - popupWidth - 8));
 
   popup.style.position = "fixed";
   popup.style.left = left + "px";
   popup.style.top = top + "px";
 
-  // 最後に表示
   popup.style.visibility = "visible";
 }
 

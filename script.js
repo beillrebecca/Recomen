@@ -504,16 +504,12 @@ function positionPopup(btn, popup) {
   const popupWidth = popup.offsetWidth;
   const popupHeight = popup.offsetHeight;
 
-  // 中央寄せ
-  let left = rect.left + rect.width / 2 - popupWidth / 2;
+  let left = rect.left + window.scrollX + rect.width / 2 - popupWidth / 2;
+  let top = rect.bottom + window.scrollY + 10;
 
-  // 上に表示
-  let top = rect.bottom + 10;
-
-  // はみ出し防止
   left = Math.max(8, Math.min(left, window.innerWidth - popupWidth - 8));
 
-  popup.style.position = "fixed";
+  popup.style.position = "absolute"; // ←ここも変更
   popup.style.left = left + "px";
   popup.style.top = top + "px";
 

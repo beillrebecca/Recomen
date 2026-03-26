@@ -495,6 +495,7 @@ function closeAllPopups() {
 
 // ボタンの真下中央に表示する
 function positionPopup(btn, popup) {
+  console.log("positionPopup動いてる");
   if (!btn || !popup) return;
 
   popup.style.visibility = "hidden";

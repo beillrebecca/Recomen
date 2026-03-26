@@ -340,9 +340,21 @@ const popupMap = {
 
 document.addEventListener("DOMContentLoaded", () => {
   
-  document.addEventListener('click', () => {
-    closeAllPopups();
+  document.addEventListener('click', (e) => {
+  const isButton = Object.keys(popupMap).some(id => {
+    const el = document.getElementById(id);
+    return el && el.contains(e.target);
   });
+
+  const isPopup = Object.values(popupMap).some(id => {
+    const el = document.getElementById(id);
+    return el && el.contains(e.target);
+  });
+
+  if (!isButton && !isPopup) {
+    closeAllPopups();
+  }
+});
 
 
 

@@ -486,7 +486,10 @@ document.addEventListener("DOMContentLoaded", () => {
 function closeAllPopups() {
   Object.values(popupMap).forEach(popupId => {
     const popup = document.getElementById(popupId);
-    if (popup) popup.classList.remove('active');
+    if (popup) {
+  popup.classList.remove('active');
+  popup.style.display = 'none';
+}
   });
 }
 

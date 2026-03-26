@@ -812,6 +812,7 @@ body.theme-modern .card-actions svg {
 
 /* 吹き出し矢印の縁 */
 .popup::before {
+  display: none;
   content: "";
   position: absolute;
   top: -9px;   /* 縁用は少し大きめ */
@@ -825,6 +826,7 @@ body.theme-modern .card-actions svg {
 
 /* 吹き出し矢印の本体 */
 .popup::after {
+  display: none;
   content: "";
   position: absolute;
   top: -8px;   /* 縁の内側に重ねる */

@@ -508,7 +508,7 @@ function positionPopup(btn, popup) {
   let left = rect.left + rect.width / 2 - popupWidth / 2;
 
   // 上に表示
-  top = rect.bottom + 10;
+  let top = rect.bottom + 10;
 
   // はみ出し防止
   left = Math.max(8, Math.min(left, window.innerWidth - popupWidth - 8));

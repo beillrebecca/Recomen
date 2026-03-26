@@ -794,7 +794,6 @@ body.theme-modern .card-actions svg {
    ポップアップ共通
 ========================= */
 .popup {
-  position: fixed;
   display: none;
   width: 220px;
   max-width: calc(100vw - 16px);
@@ -812,7 +811,6 @@ body.theme-modern .card-actions svg {
 
 /* 吹き出し矢印の縁 */
 .popup::before {
-  display: none;
   content: "";
   position: absolute;
   top: -9px;   /* 縁用は少し大きめ */

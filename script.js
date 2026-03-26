@@ -430,19 +430,14 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!btn || !popup) return;
 
   btn.addEventListener('click', (e) => {
-    e.stopPropagation();
+  e.stopPropagation();
 
-    const isActive = popup.classList.contains('active');
-    closeAllPopups();
+  closeAllPopups();
 
-    if (!isActive) {
-
+  // 毎回実行
   popup.classList.add('active');
   popup.style.display = 'block';
-
   positionPopup(btn, popup);
-
-  }
 });
 
   popup.addEventListener('click', e => e.stopPropagation());

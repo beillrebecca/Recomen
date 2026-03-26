@@ -418,30 +418,31 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!btn || !popup) return;
 
   btn.addEventListener('click', (e) => {
-  e.stopPropagation();
+    e.stopPropagation();
 
-  const isActive = popup.classList.contains('active');
-  closeAllPopups();
+    const isActive = popup.classList.contains('active');
+    closeAllPopups();
 
-  if (!isActive) {
+    if (!isActive) {
 
-    popup.classList.add('active');   // ← 先に表示
-    popup.style.visibility = "hidden";
+      // 一瞬表示してサイズ取得
+      popup.classList.add('active');
+      popup.style.visibility = "hidden";
 
-    const rect = btn.getBoundingClientRect();
-    const popupWidth = popup.offsetWidth;
+      const rect = btn.getBoundingClientRect();
+      const popupWidth = popup.offsetWidth;
 
-    let left = rect.left + rect.width / 2 - popupWidth / 2;
-    let top = rect.bottom + 8;
+      let left = rect.left + rect.width / 2 - popupWidth / 2;
+      let top = rect.bottom + 8;
 
-    popup.style.left = left + "px";
-    popup.style.top = top + "px";
+      popup.style.left = left + "px";
+      popup.style.top = top + "px";
 
-    popup.style.visibility = "visible";
-  }
-});
+      // 表示
+      popup.style.visibility = "visible";
+    }
+  });
 
-  // 👇 これを中に入れる！！
   popup.addEventListener('click', e => e.stopPropagation());
 });
 

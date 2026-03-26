@@ -502,7 +502,7 @@ function positionPopup(btn, popup) {
   let left = rect.left;
 
   // 真下に配置
-  let top = rect.bottom + 4;
+  let top = rect.bottom + 2;
 
   // 画面はみ出し防止
   left = Math.max(8, Math.min(left, window.innerWidth - popupWidth - 8));

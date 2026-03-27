@@ -12,6 +12,8 @@ let items = [
 // ② カード生成
 // =========================
 function createCard(item, index) {
+  alert("createCard入った"); // ←これ追加
+
   const card = document.createElement("div"); // ←これが正解
   card.className = "card";
 
@@ -37,6 +39,8 @@ function createCard(item, index) {
 // ③ 描画
 // =========================
 function renderCards() {
+  alert("renderCards開始"); // ←これ
+
   const showcase = document.getElementById("showcase");
   showcase.innerHTML = "";
 

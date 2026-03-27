@@ -38,8 +38,6 @@ function createCard(item, index) {
 // ③ 描画
 // =========================
 function renderCards() {
-  alert("renderCards開始");
-
   const showcase = document.getElementById("showcase");
 
   showcase.innerHTML = "";

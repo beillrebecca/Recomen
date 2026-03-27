@@ -273,3 +273,134 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+// ===============================
+// 🔴 ポップアップ・カスタムバー・テーマ切替・アナウンスバー
+// ===============================
+
+// ポップアップマップ
+const popupMap = {
+  themeButton: 'themePopup',
+  styleButton: 'stylePopup',
+  announcementButton: 'announcementPopup'
+};
+
+// 全ポップアップを閉じる
+function closeAllPopups() {
+  Object.values(popupMap).forEach(popupId => {
+    const popup = document.getElementById(popupId);
+    if (popup) {
+      popup.classList.remove('active');
+      popup.style.display = 'none';
+    }
+  });
+}
+
+// ボタンの真下中央に表示
+function positionPopup(btn, popup) {
+  if (!btn || !popup) return;
+
+  popup.style.display = "block";
+  popup.style.visibility = "hidden";
+
+  const rect = btn.getBoundingClientRect();
+  const popupWidth = popup.offsetWidth;
+  const popupHeight = popup.offsetHeight;
+
+  let left = rect.left;
+  let top = rect.bottom + 2;
+
+  left = Math.max(8, Math.min(left, window.innerWidth - popupWidth - 8));
+  top = Math.min(top, window.innerHeight - popupHeight - 8);
+
+  popup.style.position = "fixed";
+  popup.style.left = left + "px";
+  popup.style.top = top + "px";
+
+  popup.style.visibility = "visible";
+}
+
+// DOMContentLoaded 後に実行
+document.addEventListener("DOMContentLoaded", () => {
+  // 全体クリックでポップアップを閉じる
+  document.addEventListener('click', (e) => {
+    const isButton = Object.keys(popupMap).some(id => {
+      const el = document.getElementById(id);
+      return el && el.contains(e.target);
+    });
+    const isPopup = Object.values(popupMap).some(id => {
+      const el = document.getElementById(id);
+      return el && el.contains(e.target);
+    });
+
+    if (!isButton && !isPopup) closeAllPopups();
+  });
+
+  // ポップアップボタン設定
+  Object.entries(popupMap).forEach(([btnId, popupId]) => {
+    const btn = document.getElementById(btnId);
+    const popup = document.getElementById(popupId);
+    if (!btn || !popup) return;
+
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      closeAllPopups();
+      popup.classList.add('active');
+      positionPopup(btn, popup);
+    });
+
+    popup.addEventListener('click', e => e.stopPropagation());
+  });
+
+  // =========================
+  // テーマ切替（カード画像保持）
+  // =========================
+  const showcaseEl = document.getElementById("showcase");
+  document.querySelectorAll('input[name="theme"]').forEach(radio => {
+    radio.addEventListener('change', e => {
+      if (!showcaseEl) return;
+      const existingImages = Array.from(showcaseEl.querySelectorAll('.card img')).map(img => img.src);
+      document.body.classList.toggle('theme-natural', e.target.value === 'natural');
+      document.body.classList.toggle('theme-modern', e.target.value !== 'natural');
+      showcaseEl.querySelectorAll('.card img').forEach((img, i) => {
+        if (existingImages[i]) img.src = existingImages[i];
+      });
+    });
+  });
+
+  // =========================
+  // カスタムカラー・ピッカー設定
+  // =========================
+  function createPicker(inputId, callback) {
+    const picker = document.getElementById(inputId);
+    if (!picker) return;
+    picker.addEventListener('input', e => callback(e.target.value));
+  }
+
+  createPicker('fontColorPicker', color => document.documentElement.style.setProperty('--font-color', color));
+  createPicker('bgPicker', color => document.documentElement.style.setProperty('--showcase-bg', color));
+  createPicker('profileBgPicker', color => document.documentElement.style.setProperty('--profile-bg', color));
+  createPicker('announcementBgPicker', color => {
+    const bar = document.getElementById('announcementBar');
+    if (bar) bar.style.background = color;
+  });
+
+  // フォント変更
+  const fontSelect = document.getElementById('fontSelect');
+  if (fontSelect) fontSelect.addEventListener('change', e => {
+    document.documentElement.style.setProperty('--font-family', e.target.value);
+  });
+
+  // =========================
+  // カスタムバー開閉
+  // =========================
+  const editToggle = document.getElementById('editToggle');
+  const editItems = document.getElementById('editItems');
+  if (editToggle && editItems) {
+    editItems.classList.remove('active');
+    editToggle.addEventListener('click', e => {
+      e.stopPropagation();
+      closeAllPopups();
+      editItems.classList.toggle('active');
+    });
+  }
+

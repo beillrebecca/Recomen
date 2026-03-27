@@ -493,21 +493,25 @@ function positionPopup(btn, popup) {
   if (!btn || !popup) return;
 
   popup.style.display = "block";
-  popup.style.visibility = "hidden"; // ←順番ここ
+  popup.style.visibility = "hidden";
 
   const rect = btn.getBoundingClientRect();
   const popupWidth = popup.offsetWidth;
+  const popupHeight = popup.offsetHeight;
 
   let left = rect.left;
-  let top = rect.bottom + 100; // ←ここ絶対動く
+  let top = rect.bottom + 10;
 
+  // 横はみ出し防止
   left = Math.max(8, Math.min(left, window.innerWidth - popupWidth - 8));
+
+  // 縦はみ出し防止（←これ追加）
+  top = Math.min(top, window.innerHeight - popupHeight - 8);
 
   popup.style.position = "fixed";
   popup.style.left = left + "px";
   popup.style.top = top + "px";
 
-  // 最後に表示
   popup.style.visibility = "visible";
 }
 

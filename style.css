@@ -999,6 +999,7 @@ body {
 
 #themePopup .theme-option .label-text {
   display: inline-block; /* 文字を横に */
+  white-space: nowrap; /* ←これ追加 */
 }
 
 

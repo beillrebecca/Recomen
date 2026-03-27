@@ -73,14 +73,13 @@ function createCard(item) {
       <button class="edit-link-btn">リンク編集</button>
     </div>
 
-    card.innerHTML = `
-  <div class="image">
-    <img src="${item.img || ''}" alt="">
-  </div>
-
-  <div class="card-name">${item.name || ''}</div>
-  <div class="card-price">${item.price || '¥0'}</div>
-`;
+    <div class="card-actions">
+      ${heartIcon(item)}
+      ${commentIcon()}
+      ${shareIcon()}
+      ${saveIcon(item)}
+    </div>
+  `;
 
   return card;
 }

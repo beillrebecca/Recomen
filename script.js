@@ -391,13 +391,13 @@ document.addEventListener("DOMContentLoaded", () => {
   // =========================
   // Picker生成
   // =========================
-  //createPicker('fontColorPicker', (color) => document.documentElement.style.setProperty('--font-color', color));
-  //createPicker('bgPicker', (color) => document.documentElement.style.setProperty('--showcase-bg', color));
-  //createPicker('profileBgPicker', (color) => document.documentElement.style.setProperty('--profile-bg', color));
-  //createPicker('announcementBgPicker', (color) => {
-    //const bar = document.getElementById('announcementBar');
-    //if (bar) bar.style.background = color;
-  //});
+  createPicker('fontColorPicker', (color) => document.documentElement.style.setProperty('--font-color', color));
+  createPicker('bgPicker', (color) => document.documentElement.style.setProperty('--showcase-bg', color));
+  createPicker('profileBgPicker', (color) => document.documentElement.style.setProperty('--profile-bg', color));
+  createPicker('announcementBgPicker', (color) => {
+    const bar = document.getElementById('announcementBar');
+    if (bar) bar.style.background = color;
+  });
 
   // =========================
   // フォント変更

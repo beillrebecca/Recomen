@@ -1,5 +1,3 @@
-
-
 // =========================
 // 🔴 データ本体（超重要）
 // =========================
@@ -392,3 +390,87 @@ document.addEventListener("DOMContentLoaded", () => {
       editItems.classList.toggle('active');
     });
   }
+  
+  // =========================
+  // アナウンスバー（スクロール）
+  // =========================
+  const announcementBar = document.getElementById('announcementBar');
+  const bannerText = announcementBar?.querySelector('.banner-text');
+  const bannerTextInput = document.getElementById('bannerTextInput');
+
+  if (announcementBar && bannerText && bannerTextInput) {
+    let scrollInitialized = false;
+function scroll() {
+  const textWidth = bannerText.offsetWidth;
+  if (!textWidth) {
+    if (!scrollInitialized) {
+      scrollInitialized = true;
+      setTimeout(scroll, 100); // 少し待つ
+    }
+    return;
+  }
+  pos -= speed;
+  if (pos <= -textWidth) pos = announcementBar.offsetWidth;
+  bannerText.style.left = pos + 'px';
+  requestAnimationFrame(scroll);
+}
+    setTimeout(scroll, 100);
+
+    bannerTextInput.addEventListener('input', () => {
+      bannerText.textContent = bannerTextInput.value;
+      pos = announcementBar.offsetWidth;
+    });
+
+    window.addEventListener('resize', () => pos = announcementBar.offsetWidth);
+  }
+
+  // =========================
+  // フォローモーダル
+  // =========================
+  const modal = document.getElementById('followModal');
+  const followingBtn = document.getElementById('followingBtn');
+  const followersBtn = document.getElementById('followersBtn');
+
+  if (modal) {
+    const modalTitle = modal.querySelector('.modal-title');
+    const userList = modal.querySelector('.user-list');
+    const closeBtn = modal.querySelector('.close-btn');
+
+    const following = [{name:'ユーザーA',img:'https://via.placeholder.com/32'}, {name:'ユーザーB',img:'https://via.placeholder.com/32'}];
+    const followers = [{name:'ユーザーC',img:'https://via.placeholder.com/32'}, {name:'ユーザーD',img:'https://via.placeholder.com/32'}];
+
+    function showModal(type){
+      userList.innerHTML = '';
+      const list = type==='following'?following:followers;
+      modalTitle.textContent = type==='following'?'フォロー中':'フォロワー';
+      list.forEach(user=>{
+        const li = document.createElement('li');
+        li.innerHTML = `<img src="${user.img}" alt="${user.name}"><span>${user.name}</span>`;
+        userList.appendChild(li);
+      });
+      modal.style.display = 'block';
+    }
+
+    followingBtn?.addEventListener('click',()=>showModal('following'));
+    followersBtn?.addEventListener('click',()=>showModal('followers'));
+    closeBtn?.addEventListener('click',()=>modal.style.display='none');
+  }
+
+  // =========================
+  // 共通画像アップロード
+  // =========================
+  function setupImageUpload(imgEl, inputEl) {
+    if (!imgEl || !inputEl) return;
+    imgEl.addEventListener('click', () => inputEl.click());
+    inputEl.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => imgEl.src = ev.target.result;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  setupImageUpload(document.getElementById('headerImg'), document.getElementById('headerImgInput'));
+  setupImageUpload(document.getElementById('avatarImg'), document.getElementById('avatarImgInput'));
+});

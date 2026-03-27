@@ -312,11 +312,6 @@ if (showcaseEl) {
 }
 
 // =========================
-// 💾 保存ボタン
-// =========================
-document.getElementById("saveBtn")?.addEventListener("click", saveAppState_FULL);
-
-// =========================
 // カスタムバー開閉
 // =========================
 const editToggle = document.getElementById('editToggle');

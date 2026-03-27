@@ -86,24 +86,5 @@ function renderCards() {
 // ④ 初期化＋イベント
 // =========================
 document.addEventListener("DOMContentLoaded", () => {
-
-  // 初回描画
   renderCards();
-
-  // クリックイベント
-  const showcase = document.getElementById("showcase");
-  if (!showcase) return;
-
-  showcase.addEventListener("click", (e) => {
-  if (e.target.classList.contains("like-btn")) {
-
-    const card = e.target.closest(".card"); // ←ここ修正
-    const index = card.dataset.index;
-
-    items[index].liked = !items[index].liked;
-
-    renderCards();
-  }
-});
-
 });

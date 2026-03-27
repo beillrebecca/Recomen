@@ -436,6 +436,44 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // =========================
+// アナウンスバー（スクロール）
+// =========================
+const announcementBar = document.getElementById('announcementBar');
+const bannerText = announcementBar?.querySelector('.banner-text');
+const bannerTextInput = document.getElementById('bannerTextInput');
+
+if (announcementBar && bannerText && bannerTextInput) {
+  let scrollInitialized = false;
+  let pos = announcementBar.offsetWidth; // 文字の初期位置
+  const speed = 1; // スクロール速度（px/frame）
+
+  function scroll() {
+    const textWidth = bannerText.offsetWidth;
+    if (!textWidth) {
+      if (!scrollInitialized) {
+        scrollInitialized = true;
+        setTimeout(scroll, 100); // 少し待つ
+      }
+      return;
+    }
+    pos -= speed;
+    if (pos <= -textWidth) pos = announcementBar.offsetWidth;
+    bannerText.style.left = pos + 'px';
+    requestAnimationFrame(scroll);
+  }
+
+  setTimeout(scroll, 100);
+
+  bannerTextInput.addEventListener('input', () => {
+    bannerText.textContent = bannerTextInput.value;
+    pos = announcementBar.offsetWidth;
+  });
+
+  window.addEventListener('resize', () => pos = announcementBar.offsetWidth);
+}
+
+
+  // =========================
   // カードクリックイベント呼び出し
   // =========================
   if (showcaseEl) setupCardClickEvents(showcaseEl);

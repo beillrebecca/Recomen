@@ -71,8 +71,10 @@ function createCard(item) {
 // ③ 描画
 // =========================
 function renderCards() {
+  alert("renderCards入った");
+
   const showcase = document.getElementById("showcase");
-  if (!showcase) return;
+  alert("showcase → " + showcase);
 
   showcase.innerHTML = "";
 

@@ -13,21 +13,20 @@ let items = [
 // =========================
 function createCard(item, index) {
   const card = document.createElement("div"); // ←これが正解
-
   card.className = "card";
 
   card.innerHTML = `
-  <div class="image">
-    <img src="${item.img}" alt="">
-  </div>
+    <div class="image">
+      <img src="${item.img}" alt="">
+    </div>
 
-  <div class="card-name">${item.name}</div>
-  <div class="card-price">${item.price}</div>
+    <div class="card-name">${item.name}</div>
+    <div class="card-price">${item.price}</div>
 
-  <button class="like-btn">
-    ${item.liked ? "❤️" : "♡"}
-  </button>
-`;
+    <button class="like-btn">
+      ${item.liked ? "❤️" : "♡"}
+    </button>
+  `;
 
   card.dataset.index = index;
 

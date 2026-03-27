@@ -108,6 +108,9 @@ function renderCards() {
 // =========================
 // 保存データ読み込み
 // =========================
+// =========================
+// 保存データ読み込み
+// =========================
 function loadAppState() {
   let loadedItems = [];
   try {
@@ -146,6 +149,57 @@ function loadAppState() {
 
   // 安全に描画
   renderCards();
+}
+
+// ===============================
+// ページ読み込み後 初期化（保存ボタンとデータ読み込み）
+// ===============================
+document.addEventListener("DOMContentLoaded", () => {
+  // ここまで既存のDOMContentLoaded内処理…
+
+  // 💾 保存ボタン登録
+  const saveBtn = document.getElementById("saveBtn");
+  if (saveBtn) {
+    saveBtn.addEventListener("click", saveAppState_FULL);
+  }
+
+  // ページ開いたときに保存データを読み込む
+  loadAppState();
+});
+
+// =========================
+// 保存（アプリ全体）
+// =========================
+function saveAppState_FULL() {
+  try {
+    const savedItems = items.map(item => ({
+      ...item,
+      img: document.querySelector(`#card-${item.id} img`)?.src || item.img
+    }));
+
+    const state = {
+      items: savedItems,
+      headerImg: document.getElementById('headerImg')?.src || null,
+      avatarImg: document.getElementById('avatarImg')?.src || null,
+      announcementBg: document.getElementById('announcementBar')?.style.backgroundColor || null,
+      announcementText: document.querySelector('.banner-text')?.textContent || "",
+      bgColor: document.body.style.backgroundColor || null,
+      profileBg: document.querySelector('.profile')?.style.backgroundColor || null,
+      fontColor: document.body.style.color || null,
+      theme: document.body.classList.contains('theme-natural') ? 'natural' : 'modern',
+      fontFamily: getComputedStyle(document.documentElement).getPropertyValue('--font-family') || null,
+      profileName: document.getElementById("profileName")?.textContent || "",
+      profileBio: document.getElementById("profileBio")?.textContent || ""
+    };
+
+    localStorage.setItem("recomenState", JSON.stringify(state));
+    console.log("✅【saveAppState_FULL】保存完了");
+    alert("保存しました！");
+      
+  } catch (e) {
+    console.error("❌【saveAppState_FULL】保存失敗:", e);
+    alert("保存に失敗しました");
+  }
 }
 
 // ===============================

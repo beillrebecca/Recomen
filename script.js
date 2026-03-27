@@ -1,7 +1,10 @@
+// =========================
+// 🔴 JS読み込み確認
+// =========================
 alert("JS読み込まれてる！");
 
 // =========================
-// 🔴 データ本体（超重要）
+// 🔴 データ本体
 // =========================
 let items = [];
 
@@ -115,7 +118,6 @@ function loadAppState() {
     if (saved) {
       const state = JSON.parse(saved);
 
-      // items が配列か確認
       if (Array.isArray(state.items) && state.items.length > 0) {
         loadedItems = state.items;
         alert("保存データ読み込み成功: アイテム数 " + loadedItems.length);
@@ -141,16 +143,12 @@ function loadAppState() {
     ];
   }
 
-  // items をここで更新
   items = loadedItems;
-
-  // 安全に描画
   renderCards();
 }
 
 // =========================
 // 保存（アプリ全体）
-// =========================
 function saveAppState_FULL() {
   try {
     const savedItems = items.map(item => ({
@@ -183,30 +181,25 @@ function saveAppState_FULL() {
   }
 }
 
-// ===============================
-// ページ読み込み後 初期化（保存ボタン登録＋データ読み込み＋カード描画＋クリックイベント）
-// ===============================
+// =========================
+// ページ読み込み後 初期化
 document.addEventListener("DOMContentLoaded", () => {
-  // 保存ボタン
   const saveBtn = document.getElementById("saveBtn");
   if (saveBtn) saveBtn.addEventListener("click", saveAppState_FULL);
 
-  // データ読み込み
   loadAppState();
 
-  // showcase 要素取得
   const showcaseEl = document.getElementById("showcase");
   if (!showcaseEl) return;
 
   // =========================
-  // カードクリック操作（ハート／保存／リンク／画像）
-  // =========================
+  // カードクリック操作
   showcaseEl.addEventListener("click", (e) => {
     const card = e.target.closest(".card");
     if (!card) return;
     const index = Array.from(showcaseEl.children).indexOf(card);
 
-    // ❤️ ハート
+    // ハート
     const heart = e.target.closest(".icon-heart");
     if (heart && items[index]) {
       items[index].liked = !items[index].liked;
@@ -220,7 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // 💾 保存アイコン
+    // 保存アイコン
     const save = e.target.closest(".icon-save");
     if (save && items[index]) {
       items[index].saved = !items[index].saved;
@@ -231,7 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // 🔗 リンク編集
+    // リンク編集
     const linkEl = e.target.closest(".link-display");
     const editBtn = e.target.closest(".edit-link-btn");
     if ((linkEl || editBtn) && items[index]) {
@@ -248,7 +241,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // 🖼 画像アップロード
+    // 画像アップロード
     const imageEl = e.target.closest(".image");
     const input = document.getElementById("itemImgInput");
     if (imageEl && input && items[index]) {
@@ -270,9 +263,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// ===============================
+// =========================
 // 🔴 ポップアップ・カスタムバー・テーマ切替・アナウンスバー
-// ===============================
+// =========================
 
 // ポップアップマップ
 const popupMap = {
@@ -281,9 +274,7 @@ const popupMap = {
   announcementButton: 'announcementPopup'
 };
 
-// =========================
 // 全ポップアップを閉じる
-// =========================
 function closeAllPopups() {
   Object.values(popupMap).forEach(popupId => {
     const popup = document.getElementById(popupId);
@@ -318,11 +309,9 @@ function positionPopup(btn, popup) {
   popup.style.visibility = "visible";
 }
 
-// =========================
-// DOMContentLoaded 後処理
-// =========================
+// DOMContentLoaded 後処理（UI関連）
 document.addEventListener("DOMContentLoaded", () => {
-  // 全体クリックでポップアップを閉じる
+  // 全体クリックでポップアップ閉じる
   document.addEventListener('click', (e) => {
     const isButton = Object.keys(popupMap).some(id => {
       const el = document.getElementById(id);
@@ -332,7 +321,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const el = document.getElementById(id);
       return el && el.contains(e.target);
     });
-
     if (!isButton && !isPopup) closeAllPopups();
   });
 
@@ -355,7 +343,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // =========================
   // テーマ切替（カード画像保持）
-  // =========================
   const showcaseEl = document.getElementById("showcase");
   document.querySelectorAll('input[name="theme"]').forEach(radio => {
     radio.addEventListener('change', e => {
@@ -370,7 +357,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // =========================
   // カスタムカラー・ピッカー設定
-  // =========================
+  function createPicker(inputId, callback) {
+    const input = document.getElementById(inputId);
+    if (input) input.addEventListener('input', e => callback(e.target.value));
+  }
   createPicker('fontColorPicker', color => document.documentElement.style.setProperty('--font-color', color));
   createPicker('bgPicker', color => document.documentElement.style.setProperty('--showcase-bg', color));
   createPicker('profileBgPicker', color => document.documentElement.style.setProperty('--profile-bg', color));
@@ -386,7 +376,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // =========================
   // カスタムバー開閉
-  // =========================
   const editToggle = document.getElementById('editToggle');
   const editItems = document.getElementById('editItems');
   if (editToggle && editItems) {
@@ -400,7 +389,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // =========================
   // アナウンスバー（スクロール）
-  // =========================
   const announcementToggle = document.getElementById('announcementToggle');
   const bannerTextInput = document.getElementById('bannerTextInput');
   const announcementBar = document.getElementById('announcementBar');
@@ -430,7 +418,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // =========================
   // フォローモーダル
-  // =========================
   const modal = document.getElementById('followModal');
   const followingBtn = document.getElementById('followingBtn');
   const followersBtn = document.getElementById('followersBtn');
@@ -461,7 +448,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // =========================
   // 共通画像アップロード
-  // =========================
   function setupImageUpload(imgEl, inputEl) {
     if (!imgEl || !inputEl) return;
     imgEl.addEventListener('click', () => inputEl.click());
@@ -474,7 +460,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ヘッダー・プロフィール画像
   setupImageUpload(document.getElementById('headerImg'), document.getElementById('headerImgInput'));
   setupImageUpload(document.getElementById('avatarImg'), document.getElementById('avatarImgInput'));
 });

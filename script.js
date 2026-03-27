@@ -86,5 +86,7 @@ function renderCards() {
 // ④ 初期化＋イベント
 // =========================
 document.addEventListener("DOMContentLoaded", () => {
-  renderCards();
+  alert("DOMContentLoaded動いた"); // ←これ追加
+
+  renderCards(); // ←これは元からあるならOK
 });

@@ -149,22 +149,26 @@ function loadAppState() {
     const profileBioEl = document.getElementById("profileBio");
     if (profileBioEl && state.profileBio) profileBioEl.textContent = state.profileBio;
 
-    // ⭐ カード再生成（重要）
-    const showcase = document.getElementById("showcase");
-    if (showcase && state.items) {
-      items = state.items;
-      showcase.innerHTML = "";
-      state.items.forEach(item => {
-        const card = createCard(item);
-        showcase.appendChild(card);
-      });
+    // itemsセット
+      if (state.items && state.items.length > 0) {
+        items = state.items;
+      }
+
+      console.log("保存データ読み込み完了");
+    } catch (e) {
+      console.error("読み込み失敗", e);
     }
-
-    console.log("保存データ読み込み完了");
-
-  } catch (e) {
-    console.error("読み込み失敗", e);
   }
+
+  // 保存データが無い場合でも初期アイテムを表示
+  if (items.length === 0) {
+    items = [
+      {id:1, name:'初期アイテムA', price:'¥1000', link:'#', img:'', liked:false, saved:false, clicks:0},
+      {id:2, name:'初期アイテムB', price:'¥2000', link:'#', img:'', liked:false, saved:false, clicks:0},
+    ];
+  }
+
+  renderCards(); // ここで描画
 }
 
 // ===============================

@@ -10,9 +10,15 @@ let items = [
 // カード生成
 // =========================
 function createCard(item) {
-  const div = document.createElement("div");
-  div.textContent = item.name + " - " + item.price;
-  return div;
+  const card = document.createElement("div");
+
+  card.innerHTML = `
+    <div>${item.name}</div>
+    <div>${item.price}</div>
+    <button class="like-btn">♡</button>
+  `;
+
+  return card;
 }
 
 // =========================

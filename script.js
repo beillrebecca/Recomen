@@ -226,10 +226,15 @@ function saveAppState_FULL() {
       profileBio: document.getElementById("profileBio")?.textContent || ""
     };
 
-    localStorage.setItem("recomenState", JSON.stringify(state));
+  localStorage.setItem("recomenState", JSON.stringify(state));
+    
+    // ←ここを追加
+    alert("保存しました！");
     console.log("✅【saveAppState_FULL】保存完了");
+
   } catch (e) {
     console.error("❌【saveAppState_FULL】保存失敗:", e);
+    alert("保存に失敗しました！");
   }
 }
 

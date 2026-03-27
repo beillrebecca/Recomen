@@ -1,20 +1,18 @@
 // =========================
 // 🔴 データ本体（超重要）
 // =========================
-let items = [];
-
-// 初期アイテム12個生成
-for (let i = 1; i <= 12; i++) {
-  items.push({
-    id: i,
-    name: `アイテム${i}`,
-    price: `¥${i * 1000}`,
-    img: "https://via.placeholder.com/300",
-    liked: false,
-    saved: false,
-    clicks: 0,
-    link: "#"
-  });
+if (!items || items.length === 0) {
+  for (let i = 1; i <= 12; i++) {
+    items.push({
+      id: i,
+      name: "アイテム" + i,
+      img: "https://dummyimage.com/300x300/eeeeee/999999&text=%F0%9F%93%B7",
+      link: "商品リンク",
+      clicks: 0,
+      liked: false,
+      saved: false
+    });
+  }
 }
 
 // =========================

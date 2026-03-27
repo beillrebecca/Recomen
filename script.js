@@ -423,6 +423,121 @@ document.addEventListener("DOMContentLoaded", () => {
   if (fontSelect) fontSelect.addEventListener('change', e => {
     document.documentElement.style.setProperty('--font-family', e.target.value);
   });
+  
+  /* ===============================
+     Picker 関数
+  =============================== */
+  function createPicker(id, onSave) {
+    const el = document.getElementById(id);
+    if (!el) return null;
+
+    const popup = el.closest('.popup');
+    let wasHidden = false;
+    if (popup && getComputedStyle(popup).display === 'none') {
+      popup.style.display = 'block';
+      wasHidden = true;
+    }
+
+    const picker = Pickr.create({
+      el: `#${id}`,
+      theme: 'nano',
+      default: '#f6f6f6',
+      components: {
+        preview: true,
+        hue: true,
+        interaction: { hex: true, input: true, save: true }
+      }
+    });
+
+    picker.on('save', color => {
+      const hex = color.toHEXA().toString();
+      onSave(hex);
+      picker.hide();
+    });
+
+    picker.on('init', instance => {
+      if (!instance || !instance.root) return;
+      const btn = instance.root.querySelector('.pcr-button');
+      if (btn) {
+        btn.style.width = '24px';
+        btn.style.height = '24px';
+        btn.style.borderRadius = '6px';
+      }
+    });
+
+    if (wasHidden && popup) popup.style.display = 'none';
+    return picker;
+  }
+
+  /* ===============================
+     Picker生成
+  =============================== */
+
+  createPicker('fontColorPicker', (color) => {
+    document.documentElement.style.setProperty('--font-color', color);
+  });
+
+  createPicker('bgPicker', (color) => {
+    document.documentElement.style.setProperty('--showcase-bg', color);
+  });
+
+  createPicker('profileBgPicker', (color) => {
+    document.documentElement.style.setProperty('--profile-bg', color);
+  });
+
+  createPicker('announcementBgPicker', (color) => {
+    const bar = document.getElementById('announcementBar');
+    if (bar) bar.style.background = color;
+  });
+
+  /* ===============================
+     フォローモーダル
+  =============================== */
+
+  const followingBtn = document.getElementById('followingBtn');
+  const followersBtn = document.getElementById('followersBtn');
+  const modal = document.getElementById('followModal');
+
+  if (modal) {
+
+    const modalTitle = modal.querySelector('.modal-title');
+    const userList = modal.querySelector('.user-list');
+    const closeBtn = modal.querySelector('.close-btn');
+
+    const following = [
+      { name: 'ユーザーA', img: 'https://via.placeholder.com/32' },
+      { name: 'ユーザーB', img: 'https://via.placeholder.com/32' }
+    ];
+
+    const followers = [
+      { name: 'ユーザーC', img: 'https://via.placeholder.com/32' },
+      { name: 'ユーザーD', img: 'https://via.placeholder.com/32' }
+    ];
+
+    function showModal(type) {
+      userList.innerHTML = '';
+      const list = type === 'following' ? following : followers;
+
+      modalTitle.textContent =
+        type === 'following' ? 'フォロー中' : 'フォロワー';
+
+      list.forEach(user => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <img src="${user.img}" alt="${user.name}">
+          <span>${user.name}</span>
+        `;
+        userList.appendChild(li);
+      });
+
+      modal.style.display = 'block';
+    }
+
+    followingBtn?.addEventListener('click', () => showModal('following'));
+    followersBtn?.addEventListener('click', () => showModal('followers'));
+    closeBtn?.addEventListener('click', () => modal.style.display = 'none');
+  }
+
 
   // =========================
   // カスタムバー開閉

@@ -117,3 +117,159 @@ function renderCards() {
     showcase.appendChild(card);
   });
 }
+
+
+
+// =========================
+// 保存データ読み込み
+// =========================
+function loadAppState() {
+  let loadedItems = [];
+  try {
+    const saved = localStorage.getItem("recomenState");
+    if (saved) {
+      const state = JSON.parse(saved);
+
+      if (Array.isArray(state.items) && state.items.length > 0) {
+        loadedItems = state.items;
+        console.log("保存データ読み込み成功: アイテム数", loadedItems.length);
+      } else {
+        console.log("保存データに items がありません");
+      }
+
+      // ヘッダー・アバター
+      const headerImg = document.getElementById('headerImg');
+      if (headerImg) headerImg.src = state.headerImg || '';
+      const avatarImg = document.getElementById('avatarImg');
+      if (avatarImg) avatarImg.src = state.avatarImg || '';
+    } else {
+      console.log("保存データなし → 初期アイテムを使用");
+    }
+  } catch (e) {
+    console.error("保存データ読み込み失敗:", e);
+  }
+
+  if (!loadedItems || loadedItems.length === 0) {
+    loadedItems = [
+      {id:1,name:'初期アイテムA',price:'¥1000',link:'#',img:'',liked:false,saved:false,clicks:0},
+      {id:2,name:'初期アイテムB',price:'¥2000',link:'#',img:'',liked:false,saved:false,clicks:0},
+    ];
+  }
+
+  items = loadedItems;
+  renderCards();
+}
+
+// =========================
+// 保存（アプリ全体）
+// =========================
+function saveAppState_FULL() {
+  try {
+    const savedItems = items.map(item => ({
+      ...item,
+      img: document.querySelector(`#card-${item.id} img`)?.src || item.img
+    }));
+
+    const state = {
+      items: savedItems,
+      headerImg: document.getElementById('headerImg')?.src || null,
+      avatarImg: document.getElementById('avatarImg')?.src || null,
+      announcementBg: document.getElementById('announcementBar')?.style.backgroundColor || null,
+      announcementText: document.querySelector('.banner-text')?.textContent || "",
+      bgColor: document.body.style.backgroundColor || null,
+      profileBg: document.querySelector('.profile')?.style.backgroundColor || null,
+      fontColor: document.body.style.color || null,
+      theme: document.body.classList.contains('theme-natural') ? 'natural' : 'modern',
+      fontFamily: getComputedStyle(document.documentElement).getPropertyValue('--font-family') || null,
+      profileName: document.getElementById("profileName")?.textContent || "",
+      profileBio: document.getElementById("profileBio")?.textContent || ""
+    };
+
+    localStorage.setItem("recomenState", JSON.stringify(state));
+    console.log("✅【saveAppState_FULL】保存完了");
+  } catch (e) {
+    console.error("❌【saveAppState_FULL】保存失敗:", e);
+  }
+}
+
+// ===============================
+// ページ読み込み後 初期化（保存ボタン登録＋データ読み込み＋クリックイベント）
+// ===============================
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("JS読み込まれた"); // 最初に確認
+
+  const saveBtn = document.getElementById("saveBtn");
+  if (saveBtn) saveBtn.addEventListener("click", saveAppState_FULL);
+
+  const showcaseEl = document.getElementById("showcase");
+  if (showcaseEl) loadAppState();
+
+  if (!showcaseEl) console.warn("#showcase が存在しません");
+
+  if (showcaseEl) {
+    showcaseEl.addEventListener("click", (e) => {
+      const card = e.target.closest(".card");
+      if (!card) return;
+      const index = Array.from(showcaseEl.children).indexOf(card);
+
+      // ❤️ ハート
+      const heart = e.target.closest(".icon-heart");
+      if (heart && items[index]) {
+        items[index].liked = !items[index].liked;
+        heart.classList.toggle("liked", items[index].liked);
+        const path = heart.querySelector("path");
+        if (path) {
+          path.setAttribute("fill", items[index].liked ? "red" : "none");
+          path.setAttribute("stroke", items[index].liked ? "red" : "#000");
+        }
+        return;
+      }
+
+      // 💾 保存アイコン
+      const save = e.target.closest(".icon-save");
+      if (save && items[index]) {
+        items[index].saved = !items[index].saved;
+        save.classList.toggle("saved", items[index].saved);
+        const path = save.querySelector("path");
+        if (path) path.setAttribute("fill", items[index].saved ? "#000" : "none");
+        return;
+      }
+
+      // 🔗 リンク編集
+      const linkEl = e.target.closest(".link-display");
+      const editBtn = e.target.closest(".edit-link-btn");
+      if ((linkEl || editBtn) && items[index]) {
+        const target = card.querySelector(".link-display");
+        const current = target.getAttribute("href") || "";
+        const newLink = prompt("商品リンクを入力してね", current);
+        if (newLink) {
+          const finalLink = newLink.startsWith("http") ? newLink : "https://" + newLink;
+          target.setAttribute("href", finalLink);
+          target.textContent = finalLink;
+          items[index].link = finalLink;
+        }
+        return;
+      }
+
+      // 🖼 画像アップロード
+      const imageEl = e.target.closest(".image");
+      const input = document.getElementById("itemImgInput");
+      if (imageEl && input && items[index]) {
+        input.onchange = (event) => {
+          const file = event.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = (ev) => {
+            items[index].img = ev.target.result;
+            const imgTag = imageEl.querySelector("img");
+            if (imgTag) imgTag.src = ev.target.result;
+          };
+          reader.readAsDataURL(file);
+          input.value = "";
+        };
+        input.click();
+      }
+    });
+  }
+});
+

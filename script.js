@@ -1,46 +1,64 @@
 // =========================
-// データ
+// ① データ
 // =========================
 let items = [
-  {id:1, name:'テストA', price:'¥1000'},
-  {id:2, name:'テストB', price:'¥2000'}
+  {id:1, name:'テストA', price:'¥1000', liked:false},
+  {id:2, name:'テストB', price:'¥2000', liked:false}
 ];
 
 // =========================
-// カード生成
+// ② カード生成
 // =========================
-function createCard(item) {
+function createCard(item, index) {
   const card = document.createElement("div");
 
   card.innerHTML = `
     <div>${item.name}</div>
     <div>${item.price}</div>
-    <button class="like-btn">♡</button>
+    <button class="like-btn">
+      ${item.liked ? "❤️" : "♡"}
+    </button>
   `;
+
+  card.dataset.index = index;
 
   return card;
 }
 
 // =========================
-// 描画
+// ③ 描画
 // =========================
 function renderCards() {
   const showcase = document.getElementById("showcase");
   showcase.innerHTML = "";
-  items.forEach(item => {
-    showcase.appendChild(createCard(item));
+
+  items.forEach((item, index) => {
+    showcase.appendChild(createCard(item, index));
   });
 }
 
 // =========================
-// 初期化
+// ④ 初期化＋イベント
 // =========================
 document.addEventListener("DOMContentLoaded", () => {
+
+  // 初回描画
   renderCards();
-  
-  document.getElementById("showcase").addEventListener("click", (e) => {
-  if (e.target.classList.contains("like-btn")) {
-    e.target.textContent = "❤️";
-  }
-});
+
+  // クリックイベント
+  const showcase = document.getElementById("showcase");
+  if (!showcase) return;
+
+  showcase.addEventListener("click", (e) => {
+    if (e.target.classList.contains("like-btn")) {
+
+      const card = e.target.closest("div");
+      const index = card.dataset.index;
+
+      items[index].liked = !items[index].liked;
+
+      renderCards(); // 再描画
+    }
+  });
+
 });

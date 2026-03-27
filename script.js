@@ -109,41 +109,43 @@ function renderCards() {
 // 保存データ読み込み
 // =========================
 function loadAppState() {
+  let loadedItems = [];
   try {
     const saved = localStorage.getItem("recomenState");
     if (saved) {
       const state = JSON.parse(saved);
 
-      // items があるかだけ確認
-      if (state.items && state.items.length > 0) {
-        items = state.items;
-        alert("保存データあり！アイテム数: " + items.length);
+      // items が配列か確認
+      if (Array.isArray(state.items) && state.items.length > 0) {
+        loadedItems = state.items;
+        alert("保存データ読み込み成功: アイテム数 " + loadedItems.length);
       } else {
-        items = [];
-        alert("保存データはあるけど items が空");
+        alert("保存データに items がありません");
       }
 
-      // ヘッダー・アバターなど最低限反映
+      // ヘッダー・アバター
       document.getElementById('headerImg')?.src = state.headerImg || '';
       document.getElementById('avatarImg')?.src = state.avatarImg || '';
     } else {
-      items = [];
       alert("保存データなし → 初期アイテムを使用");
     }
-  } catch(e) {
-    alert("読み込み失敗: " + e.message);
-    items = [];
+  } catch (e) {
+    alert("保存データ読み込み失敗: " + e.message);
   }
 
-  // 初期アイテム
-  if (!items || items.length === 0) {
-    items = [
+  // fallback 初期アイテム
+  if (!loadedItems || loadedItems.length === 0) {
+    loadedItems = [
       {id:1,name:'初期アイテムA',price:'¥1000',link:'#',img:'',liked:false,saved:false,clicks:0},
       {id:2,name:'初期アイテムB',price:'¥2000',link:'#',img:'',liked:false,saved:false,clicks:0},
     ];
   }
 
-  renderCards(); // カード描画
+  // items をここで更新
+  items = loadedItems;
+
+  // 安全に描画
+  renderCards();
 }
 
 // ===============================

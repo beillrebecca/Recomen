@@ -13,7 +13,7 @@ let items = [
 // =========================
 function createCard(item, index) {
 
-  const card = e.target.closest(".card");
+  const card = document.createElement("div"); // ←ここが正解
   card.className = "card";
 
   card.innerHTML = `

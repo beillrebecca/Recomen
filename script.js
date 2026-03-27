@@ -37,4 +37,10 @@ function renderCards() {
 // =========================
 document.addEventListener("DOMContentLoaded", () => {
   renderCards();
+  
+  document.getElementById("showcase").addEventListener("click", (e) => {
+  if (e.target.classList.contains("like-btn")) {
+    e.target.textContent = "❤️";
+  }
+});
 });

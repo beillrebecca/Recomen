@@ -110,58 +110,57 @@ function renderCards() {
 // =========================
 function loadAppState() {
   const saved = localStorage.getItem("recomenState");
-  if (!saved) return;
-
+  
   try {
-    const state = JSON.parse(saved);
+    if (saved) {
+      const state = JSON.parse(saved);
 
-    // ヘッダー・アバター
-    const header = document.getElementById("headerImg");
-    if (header && state.headerImg) header.src = state.headerImg;
+      // ヘッダー・アバター
+      const header = document.getElementById("headerImg");
+      if (header && state.headerImg) header.src = state.headerImg;
 
-    const avatar = document.getElementById("avatarImg");
-    if (avatar && state.avatarImg) avatar.src = state.avatarImg;
+      const avatar = document.getElementById("avatarImg");
+      if (avatar && state.avatarImg) avatar.src = state.avatarImg;
 
-    // アナウンスバー
-    const bar = document.getElementById("announcementBar");
-    if (bar && state.announcementBg) bar.style.backgroundColor = state.announcementBg;
+      // アナウンスバー
+      const bar = document.getElementById("announcementBar");
+      if (bar && state.announcementBg) bar.style.backgroundColor = state.announcementBg;
 
-    const bannerText = document.querySelector(".banner-text");
-    if (bannerText && state.announcementText) bannerText.textContent = state.announcementText;
+      const bannerText = document.querySelector(".banner-text");
+      if (bannerText && state.announcementText) bannerText.textContent = state.announcementText;
 
-    // 背景・プロフィール・フォント
-    if (state.bgColor) document.body.style.backgroundColor = state.bgColor;
-    const profileEl = document.querySelector('.profile');
-    if (profileEl && state.profileBg) profileEl.style.backgroundColor = state.profileBg;
-    if (state.fontColor) document.body.style.color = state.fontColor;
-    if (state.theme) {
-      document.body.classList.remove('theme-natural', 'theme-modern');
-      document.body.classList.add(`theme-${state.theme}`);
-    }
-    if (state.fontFamily) {
-      document.documentElement.style.setProperty('--font-family', state.fontFamily);
-    }
+      // 背景・プロフィール・フォント
+      if (state.bgColor) document.body.style.backgroundColor = state.bgColor;
+      const profileEl = document.querySelector('.profile');
+      if (profileEl && state.profileBg) profileEl.style.backgroundColor = state.profileBg;
+      if (state.fontColor) document.body.style.color = state.fontColor;
+      if (state.theme) {
+        document.body.classList.remove('theme-natural', 'theme-modern');
+        document.body.classList.add(`theme-${state.theme}`);
+      }
+      if (state.fontFamily) {
+        document.documentElement.style.setProperty('--font-family', state.fontFamily);
+      }
 
-    // プロフィール情報
-    const profileNameEl = document.getElementById("profileName");
-    if (profileNameEl && state.profileName) profileNameEl.textContent = state.profileName;
+      // プロフィール情報
+      const profileNameEl = document.getElementById("profileName");
+      if (profileNameEl && state.profileName) profileNameEl.textContent = state.profileName;
 
-    const profileBioEl = document.getElementById("profileBio");
-    if (profileBioEl && state.profileBio) profileBioEl.textContent = state.profileBio;
+      const profileBioEl = document.getElementById("profileBio");
+      if (profileBioEl && state.profileBio) profileBioEl.textContent = state.profileBio;
 
-    // itemsセット
+      // itemsセット
       if (state.items && state.items.length > 0) {
         items = state.items;
       }
-
       console.log("保存データ読み込み完了");
-    } catch (e) {
-      console.error("読み込み失敗", e);
     }
+  } catch (e) {
+    console.error("読み込み失敗", e);
   }
 
   // 保存データが無い場合でも初期アイテムを表示
-  if (items.length === 0) {
+  if (!items || items.length === 0) {
     items = [
       {id:1, name:'初期アイテムA', price:'¥1000', link:'#', img:'', liked:false, saved:false, clicks:0},
       {id:2, name:'初期アイテムB', price:'¥2000', link:'#', img:'', liked:false, saved:false, clicks:0},

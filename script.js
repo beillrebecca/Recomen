@@ -499,7 +499,7 @@ function positionPopup(btn, popup) {
   const popupWidth = popup.offsetWidth;
 
   let left = rect.left;
-  let top = rect.bottom + 20; // ←ここ絶対動く
+  let top = rect.bottom + 100; // ←ここ絶対動く
 
   left = Math.max(8, Math.min(left, window.innerWidth - popupWidth - 8));
 

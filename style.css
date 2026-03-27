@@ -795,7 +795,7 @@ body.theme-modern .card-actions svg {
 ========================= */
 .popup {
   display: none;
-  width: 220px;
+  width: 280px;
   max-width: calc(100vw - 16px);
   padding: 6px;
   background: #e6f9d9;

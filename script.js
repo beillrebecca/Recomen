@@ -114,50 +114,36 @@ function loadAppState() {
     if (saved) {
       const state = JSON.parse(saved);
 
+      // items があるかだけ確認
       if (state.items && state.items.length > 0) {
         items = state.items;
         alert("保存データあり！アイテム数: " + items.length);
       } else {
+        items = [];
         alert("保存データはあるけど items が空");
       }
 
-      // ヘッダー・アバター
+      // ヘッダー・アバターなど最低限反映
       document.getElementById('headerImg')?.src = state.headerImg || '';
       document.getElementById('avatarImg')?.src = state.avatarImg || '';
-      const bar = document.getElementById('announcementBar');
-      if (bar) bar.style.backgroundColor = state.announcementBg || '';
-      const banner = document.querySelector('.banner-text');
-      if (banner) banner.textContent = state.announcementText || '';
-      if (state.bgColor) document.body.style.backgroundColor = state.bgColor;
-      const profileEl = document.querySelector('.profile');
-      if (profileEl && state.profileBg) profileEl.style.backgroundColor = state.profileBg;
-      if (state.fontColor) document.body.style.color = state.fontColor;
-      if (state.theme) {
-        document.body.classList.remove('theme-natural','theme-modern');
-        document.body.classList.add(`theme-${state.theme}`);
-      }
-      if (state.fontFamily) {
-        document.documentElement.style.setProperty('--font-family', state.fontFamily);
-      }
-      document.getElementById('profileName')?.textContent = state.profileName || '';
-      document.getElementById('profileBio')?.textContent = state.profileBio || '';
-
-      alert("保存データ読み込み完了");
+    } else {
+      items = [];
+      alert("保存データなし → 初期アイテムを使用");
     }
   } catch(e) {
     alert("読み込み失敗: " + e.message);
+    items = [];
   }
 
-  // 保存データがなければ初期アイテム
+  // 初期アイテム
   if (!items || items.length === 0) {
     items = [
       {id:1,name:'初期アイテムA',price:'¥1000',link:'#',img:'',liked:false,saved:false,clicks:0},
       {id:2,name:'初期アイテムB',price:'¥2000',link:'#',img:'',liked:false,saved:false,clicks:0},
     ];
-    alert("初期アイテムを使用");
   }
 
-  renderCards();
+  renderCards(); // カード描画
 }
 
 // ===============================

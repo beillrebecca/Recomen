@@ -146,10 +146,21 @@ function loadAppState() {
     console.error("保存データ読み込み失敗:", e);
   }
 
-  // デフォルト初期アイテム（最低限2個）
   if (!loadedItems || loadedItems.length === 0) {
-    loadedItems = items.slice(0, 12); // 最初に生成した12個を使用
+  loadedItems = [];
+  for (let i = 1; i <= 12; i++) {
+    loadedItems.push({
+      id: i,
+      name: `アイテム${i}`,
+      price: `¥${i * 1000}`,
+      img: "https://via.placeholder.com/300",
+      liked: false,
+      saved: false,
+      clicks: 0,
+      link: "#"
+    });
   }
+}
 
   items = loadedItems;
   renderCards();

@@ -12,7 +12,6 @@ let items = [
 // ② カード生成
 // =========================
 function createCard(item, index) {
-  alert("createCard入った"); // ←これ追加
 
   const card = e.target.closest(".card");
   card.className = "card";
@@ -43,21 +42,16 @@ function renderCards() {
 
   const showcase = document.getElementById("showcase");
 
-  alert("showcaseある？ → " + !!showcase);
-
   showcase.innerHTML = "";
 
   items.forEach((item, index) => {
     const card = createCard(item, index);
 
-    alert("card作った → " + card.outerHTML); // ←これ
-
     showcase.appendChild(card);
 
-    alert("appendした"); // ←これ
+  
   });
 
-  alert("最終HTML → " + showcase.innerHTML); // ←これ
 }
 
 // =========================

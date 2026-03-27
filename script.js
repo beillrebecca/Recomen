@@ -395,16 +395,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const bannerTextInput = document.getElementById('bannerTextInput');
 
   if (announcementBar && bannerText && bannerTextInput) {
-    let pos = announcementBar.offsetWidth;
-    const speed = 1.0;
-
-    function scroll() {
-      if (!bannerText.offsetWidth) { requestAnimationFrame(scroll); return; }
-      pos -= speed;
-      if (pos <= -bannerText.offsetWidth) pos = announcementBar.offsetWidth;
-      bannerText.style.left = pos + 'px';
-      requestAnimationFrame(scroll);
+    let scrollInitialized = false;
+function scroll() {
+  const textWidth = bannerText.offsetWidth;
+  if (!textWidth) {
+    if (!scrollInitialized) {
+      scrollInitialized = true;
+      setTimeout(scroll, 100); // 少し待つ
     }
+    return;
+  }
+  pos -= speed;
+  if (pos <= -textWidth) pos = announcementBar.offsetWidth;
+  bannerText.style.left = pos + 'px';
+  requestAnimationFrame(scroll);
+}
     setTimeout(scroll, 100);
 
     bannerTextInput.addEventListener('input', () => {

@@ -944,7 +944,7 @@ body {
 }
 
 #fontSelect {
-  width: 180px;    /* お好みの横幅に調整 */
+  width: 120px;    /* お好みの横幅に調整 */
   font-size: 12px; /* フォントサイズはお好みで */
 }
 
@@ -1088,7 +1088,7 @@ body {
 }
 
 #announcementPopup input#bannerTextInput {
-  width: 200px;   /* お好みの横幅に調整 */
+  width: 150px;   /* お好みの横幅に調整 */
   box-sizing: border-box; /* 内側のpaddingも含めて幅を調整 */
 }
 

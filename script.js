@@ -10,7 +10,7 @@ let items = [
 // ② カード生成
 // =========================
 function createCard(item, index) {
-  const card = document.createElement("div");
+  const card = e.target.closest(".card");
 
   card.innerHTML = `
   <div class="image">

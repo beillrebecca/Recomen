@@ -169,6 +169,7 @@ function loadAppState() {
 
 // =========================
 // 保存（アプリ全体）
+// =========================
 function saveAppState_FULL() {
   try {
     const savedItems = items.map(item => ({

@@ -150,11 +150,14 @@ function loadAppState() {
   }
 
   if (!loadedItems || loadedItems.length === 0) {
-    loadedItems = [
-      {id:1,name:'初期アイテムA',price:'¥1000',link:'#',img:'',liked:false,saved:false,clicks:0},
-      {id:2,name:'初期アイテムB',price:'¥2000',link:'#',img:'',liked:false,saved:false,clicks:0},
-    ];
-  }
+  loadedItems = [
+    {id:1,name:'初期アイテムA',price:'¥1000',link:'#',img:'',liked:false,saved:false,clicks:0},
+    {id:2,name:'初期アイテムB',price:'¥2000',link:'#',img:'',liked:false,saved:false,clicks:0},
+    {id:3,name:'初期アイテムC',price:'¥1500',link:'#',img:'',liked:false,saved:false,clicks:0},
+    {id:4,name:'初期アイテムD',price:'¥2500',link:'#',img:'',liked:false,saved:false,clicks:0},
+    // 必要に応じてどんどん追加
+  ];
+}
 
   items = loadedItems;
   renderCards();

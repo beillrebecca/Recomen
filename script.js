@@ -73,15 +73,15 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!showcase) return;
 
   showcase.addEventListener("click", (e) => {
-    if (e.target.classList.contains("like-btn")) {
+  if (e.target.classList.contains("like-btn")) {
 
-      const card = e.target.closest("div");
-      const index = card.dataset.index;
+    const card = e.target.closest(".card"); // ←ここ修正
+    const index = card.dataset.index;
 
-      items[index].liked = !items[index].liked;
+    items[index].liked = !items[index].liked;
 
-      renderCards(); // 再描画
-    }
-  });
+    renderCards();
+  }
+});
 
 });

@@ -500,7 +500,7 @@ function positionPopup(btn, popup) {
   const popupHeight = popup.offsetHeight;
 
   let left = rect.left;
-  let top = rect.bottom + 6;
+  let top = rect.bottom + 2;
 
   // 横はみ出し防止
   left = Math.max(8, Math.min(left, window.innerWidth - popupWidth - 8));

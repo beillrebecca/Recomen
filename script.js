@@ -39,14 +39,25 @@ function createCard(item, index) {
 // ③ 描画
 // =========================
 function renderCards() {
-  alert("renderCards開始"); // ←これ
+  alert("renderCards開始");
 
   const showcase = document.getElementById("showcase");
+
+  alert("showcaseある？ → " + !!showcase);
+
   showcase.innerHTML = "";
 
   items.forEach((item, index) => {
-    showcase.appendChild(createCard(item, index));
+    const card = createCard(item, index);
+
+    alert("card作った → " + card.outerHTML); // ←これ
+
+    showcase.appendChild(card);
+
+    alert("appendした"); // ←これ
   });
+
+  alert("最終HTML → " + showcase.innerHTML); // ←これ
 }
 
 // =========================

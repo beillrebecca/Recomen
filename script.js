@@ -2,8 +2,8 @@
 // ① データ
 // =========================
 let items = [
-  {id:1, name:'テストA', price:'¥1000', liked:false},
-  {id:2, name:'テストB', price:'¥2000', liked:false}
+  { id: 1, name: "テストA", price: "¥1000", img: "https://via.placeholder.com/300", liked: false },
+  { id: 2, name: "テストB", price: "¥2000", img: "https://via.placeholder.com/300", liked: false }
 ];
 
 // =========================
@@ -13,8 +13,13 @@ function createCard(item, index) {
   const card = document.createElement("div");
 
   card.innerHTML = `
+  <div class="image">
+    <img src="${item.img}" alt="">
+  </div>
+
   <div class="card-name">${item.name}</div>
   <div class="card-price">${item.price}</div>
+
   <button class="like-btn">
     ${item.liked ? "❤️" : "♡"}
   </button>

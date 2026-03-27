@@ -111,6 +111,7 @@ function renderCards() {
   showcase.innerHTML = "";
   items.forEach(item => {
     const card = createCard(item);
+    showcase.appendChild(card); // ←ここで DOM に追加
   });
 }
 

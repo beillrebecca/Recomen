@@ -13,12 +13,12 @@ function createCard(item, index) {
   const card = document.createElement("div");
 
   card.innerHTML = `
-    <div>${item.name}</div>
-    <div>${item.price}</div>
-    <button class="like-btn">
-      ${item.liked ? "❤️" : "♡"}
-    </button>
-  `;
+  <div class="card-name">${item.name}</div>
+  <div class="card-price">${item.price}</div>
+  <button class="like-btn">
+    ${item.liked ? "❤️" : "♡"}
+  </button>
+`;
 
   card.dataset.index = index;
 

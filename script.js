@@ -113,13 +113,9 @@ function renderCards() {
   showcase.innerHTML = "";
   items.forEach(item => {
     const card = createCard(item);
-    showcase.appendChild(card);
   });
 }
 
-// =========================
-// 保存データ読み込み
-// =========================
 // =========================
 // ローカル保存 読み込み（初期化付き）
 // =========================

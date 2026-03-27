@@ -20,16 +20,20 @@ function saveIcon(item) {
 // =========================
 // ① データ
 // =========================
-let items = Array.from({ length: 12 }, (_, i) => ({
-  id: i + 1,
-  name: "アイテム" + (i + 1),
-  price: "¥" + (1000 + i * 100),
-  img: "https://via.placeholder.com/300",
-  liked: false,
-  saved: false,
-  clicks: 0,
-  link: "#"
-}));
+let items = [];
+
+for (let i = 1; i <= 12; i++) {
+  items.push({
+    id: i,
+    name: `アイテム${i}`,
+    price: `¥${i * 1000}`,
+    img: "https://via.placeholder.com/300",
+    liked: false,
+    saved: false,
+    clicks: 0,
+    link: "#"
+  });
+}
 
 // =========================
 // ② カード生成

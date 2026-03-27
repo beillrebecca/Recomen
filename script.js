@@ -114,18 +114,21 @@ function loadAppState() {
   try {
     if (saved) {
       const state = JSON.parse(saved);
+      
+      // アイテムセット
+      if (state.items && state.items.length > 0) {
+        items = state.items; // 保存データを優先
+      }
 
-      // ヘッダー・アバター
+      // ヘッダー・アバターや他の状態もここで反映
       const header = document.getElementById("headerImg");
       if (header && state.headerImg) header.src = state.headerImg;
-
       const avatar = document.getElementById("avatarImg");
       if (avatar && state.avatarImg) avatar.src = state.avatarImg;
 
       // アナウンスバー
       const bar = document.getElementById("announcementBar");
       if (bar && state.announcementBg) bar.style.backgroundColor = state.announcementBg;
-
       const bannerText = document.querySelector(".banner-text");
       if (bannerText && state.announcementText) bannerText.textContent = state.announcementText;
 
@@ -145,21 +148,16 @@ function loadAppState() {
       // プロフィール情報
       const profileNameEl = document.getElementById("profileName");
       if (profileNameEl && state.profileName) profileNameEl.textContent = state.profileName;
-
       const profileBioEl = document.getElementById("profileBio");
       if (profileBioEl && state.profileBio) profileBioEl.textContent = state.profileBio;
 
-      // itemsセット
-      if (state.items && state.items.length > 0) {
-        items = state.items;
-      }
       console.log("保存データ読み込み完了");
     }
   } catch (e) {
     console.error("読み込み失敗", e);
   }
 
-  // 保存データが無い場合でも初期アイテムを表示
+  // 初期アイテムは保存データが無い場合だけ
   if (!items || items.length === 0) {
     items = [
       {id:1, name:'初期アイテムA', price:'¥1000', link:'#', img:'', liked:false, saved:false, clicks:0},

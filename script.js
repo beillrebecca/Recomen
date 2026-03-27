@@ -3,6 +3,7 @@
 // =========================
 let items = [];
 
+// 初期アイテム12個生成
 for (let i = 1; i <= 12; i++) {
   items.push({
     id: i,
@@ -116,8 +117,6 @@ function renderCards() {
   });
 }
 
-
-
 // =========================
 // 保存データ読み込み
 // =========================
@@ -147,15 +146,10 @@ function loadAppState() {
     console.error("保存データ読み込み失敗:", e);
   }
 
+  // デフォルト初期アイテム（最低限2個）
   if (!loadedItems || loadedItems.length === 0) {
-  loadedItems = [
-    {id:1,name:'初期アイテムA',price:'¥1000',link:'#',img:'',liked:false,saved:false,clicks:0},
-    {id:2,name:'初期アイテムB',price:'¥2000',link:'#',img:'',liked:false,saved:false,clicks:0},
-    {id:3,name:'初期アイテムC',price:'¥1500',link:'#',img:'',liked:false,saved:false,clicks:0},
-    {id:4,name:'初期アイテムD',price:'¥2500',link:'#',img:'',liked:false,saved:false,clicks:0},
-    // 必要に応じてどんどん追加
-  ];
-}
+    loadedItems = items.slice(0, 12); // 最初に生成した12個を使用
+  }
 
   items = loadedItems;
   renderCards();
@@ -193,86 +187,74 @@ function saveAppState_FULL() {
   }
 }
 
-// ===============================
-// ページ読み込み後 初期化（保存ボタン登録＋データ読み込み＋クリックイベント）
-// ===============================
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("JS読み込まれた"); // 最初に確認
+// =========================
+// カードクリックイベント設定（ハート・保存・リンク・画像）
+// =========================
+function setupCardClickEvents(showcaseEl) {
+  showcaseEl.addEventListener("click", (e) => {
+    const card = e.target.closest(".card");
+    if (!card) return;
+    const index = Array.from(showcaseEl.children).indexOf(card);
 
-  const saveBtn = document.getElementById("saveBtn");
-  if (saveBtn) saveBtn.addEventListener("click", saveAppState_FULL);
-
-  const showcaseEl = document.getElementById("showcase");
-  if (showcaseEl) loadAppState();
-
-  if (!showcaseEl) console.warn("#showcase が存在しません");
-
-  if (showcaseEl) {
-    showcaseEl.addEventListener("click", (e) => {
-      const card = e.target.closest(".card");
-      if (!card) return;
-      const index = Array.from(showcaseEl.children).indexOf(card);
-
-      // ❤️ ハート
-      const heart = e.target.closest(".icon-heart");
-      if (heart && items[index]) {
-        items[index].liked = !items[index].liked;
-        heart.classList.toggle("liked", items[index].liked);
-        const path = heart.querySelector("path");
-        if (path) {
-          path.setAttribute("fill", items[index].liked ? "red" : "none");
-          path.setAttribute("stroke", items[index].liked ? "red" : "#000");
-        }
-        return;
+    // ❤️ ハート
+    const heart = e.target.closest(".icon-heart");
+    if (heart && items[index]) {
+      items[index].liked = !items[index].liked;
+      heart.classList.toggle("liked", items[index].liked);
+      const path = heart.querySelector("path");
+      if (path) {
+        path.setAttribute("fill", items[index].liked ? "red" : "none");
+        path.setAttribute("stroke", items[index].liked ? "red" : "#000");
       }
+      return;
+    }
 
-      // 💾 保存アイコン
-      const save = e.target.closest(".icon-save");
-      if (save && items[index]) {
-        items[index].saved = !items[index].saved;
-        save.classList.toggle("saved", items[index].saved);
-        const path = save.querySelector("path");
-        if (path) path.setAttribute("fill", items[index].saved ? "#000" : "none");
-        return;
+    // 💾 保存アイコン
+    const save = e.target.closest(".icon-save");
+    if (save && items[index]) {
+      items[index].saved = !items[index].saved;
+      save.classList.toggle("saved", items[index].saved);
+      const path = save.querySelector("path");
+      if (path) path.setAttribute("fill", items[index].saved ? "#000" : "none");
+      return;
+    }
+
+    // 🔗 リンク編集
+    const linkEl = e.target.closest(".link-display");
+    const editBtn = e.target.closest(".edit-link-btn");
+    if ((linkEl || editBtn) && items[index]) {
+      const target = card.querySelector(".link-display");
+      const current = target.getAttribute("href") || "";
+      const newLink = prompt("商品リンクを入力してね", current);
+      if (newLink) {
+        const finalLink = newLink.startsWith("http") ? newLink : "https://" + newLink;
+        target.setAttribute("href", finalLink);
+        target.textContent = finalLink;
+        items[index].link = finalLink;
       }
+      return;
+    }
 
-      // 🔗 リンク編集
-      const linkEl = e.target.closest(".link-display");
-      const editBtn = e.target.closest(".edit-link-btn");
-      if ((linkEl || editBtn) && items[index]) {
-        const target = card.querySelector(".link-display");
-        const current = target.getAttribute("href") || "";
-        const newLink = prompt("商品リンクを入力してね", current);
-        if (newLink) {
-          const finalLink = newLink.startsWith("http") ? newLink : "https://" + newLink;
-          target.setAttribute("href", finalLink);
-          target.textContent = finalLink;
-          items[index].link = finalLink;
-        }
-        return;
-      }
-
-      // 🖼 画像アップロード
-      const imageEl = e.target.closest(".image");
-      const input = document.getElementById("itemImgInput");
-      if (imageEl && input && items[index]) {
-        input.onchange = (event) => {
-          const file = event.target.files[0];
-          if (!file) return;
-          const reader = new FileReader();
-          reader.onload = (ev) => {
-            items[index].img = ev.target.result;
-            const imgTag = imageEl.querySelector("img");
-            if (imgTag) imgTag.src = ev.target.result;
-          };
-          reader.readAsDataURL(file);
-          input.value = "";
+    // 🖼 画像アップロード
+    const imageEl = e.target.closest(".image");
+    const input = document.getElementById("itemImgInput");
+    if (imageEl && input && items[index]) {
+      input.onchange = (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          items[index].img = ev.target.result;
+          const imgTag = imageEl.querySelector("img");
+          if (imgTag) imgTag.src = ev.target.result;
         };
-        input.click();
-      }
-    });
-  }
-});
+        reader.readAsDataURL(file);
+        input.value = "";
+      };
+      input.click();
+    }
+  });
+}
 
 // ===============================
 // 🔴 ポップアップ・カスタムバー・テーマ切替・アナウンスバー
@@ -405,3 +387,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // =========================
+  // カードクリックイベント呼び出し
+  // =========================
+  if (showcaseEl) setupCardClickEvents(showcaseEl);
+
+  // =========================
+  // データ読み込み
+  // =========================
+  if (showcaseEl) loadAppState();
+});

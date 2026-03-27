@@ -1,6 +1,23 @@
 alert("JSスタート");
 
 // =========================
+// アイコン関数 ← ★ここに入れる
+// =========================
+function heartIcon(item) {
+  return `<span>❤️</span>`;
+}
+function commentIcon() {
+  return `<span>💬</span>`;
+}
+function shareIcon() {
+  return `<span>🔗</span>`;
+}
+function saveIcon(item) {
+  return `<span>💾</span>`;
+}
+
+
+// =========================
 // ① データ
 // =========================
 let items = [
@@ -56,13 +73,14 @@ function createCard(item) {
       <button class="edit-link-btn">リンク編集</button>
     </div>
 
-    <div class="card-actions">
-      ${heartIcon(item)}
-      ${commentIcon()}
-      ${shareIcon()}
-      ${saveIcon(item)}
-    </div>
-  `;
+    card.innerHTML = `
+  <div class="image">
+    <img src="${item.img || ''}" alt="">
+  </div>
+
+  <div class="card-name">${item.name || ''}</div>
+  <div class="card-price">${item.price || '¥0'}</div>
+`;
 
   return card;
 }

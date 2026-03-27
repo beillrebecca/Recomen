@@ -10,10 +10,10 @@
 }
 
 .card {
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  padding: 10px;
-  background: #fff;
+  position: relative;
+  overflow: hidden;
+  background: var(--card-bg);
+  border-radius: 10px;
 }
 
 .image,

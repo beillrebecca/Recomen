@@ -492,17 +492,14 @@ function closeAllPopups() {
 function positionPopup(btn, popup) {
   if (!btn || !popup) return;
 
-  popup.style.visibility = "hidden";
   popup.style.display = "block";
+  popup.style.visibility = "hidden"; // ←順番ここ
 
   const rect = btn.getBoundingClientRect();
   const popupWidth = popup.offsetWidth;
-  const popupHeight = popup.offsetHeight;
 
   let left = rect.left;
-
-  // 👇ここがポイント
-  let top = rect.bottom + 20;
+  let top = rect.bottom + 20; // ←ここ絶対動く
 
   left = Math.max(8, Math.min(left, window.innerWidth - popupWidth - 8));
 
@@ -510,6 +507,7 @@ function positionPopup(btn, popup) {
   popup.style.left = left + "px";
   popup.style.top = top + "px";
 
+  // 最後に表示
   popup.style.visibility = "visible";
 }
 

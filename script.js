@@ -10,7 +10,7 @@ let items = [];
 // =========================
 function heartIcon(item) {
   return `
-    <svg class="icon-heart ${item.liked ? 'active' : ''}" viewBox="0 0 24 24" stroke-width="1.3"
+    <svg class="icon-heart ${item.liked ? 'liked' : ''}" viewBox="0 0 24 24" stroke-width="1.3"
       stroke-linecap="round" stroke-linejoin="round">
       <path d="M20.8 4.6a5 5 0 0 0-7.1 0L12 6.3l-1.7-1.7
         a5 5 0 0 0-7.1 7.1L12 21l8.8-9.3
@@ -41,7 +41,7 @@ function shareIcon() {
 
 function saveIcon(item) {
   return `
-    <svg class="icon-save ${item.saved ? 'active' : ''}" viewBox="0 0 24 24" stroke-width="1.3"
+    <svg class="icon-save ${item.saved ? 'saved' : ''}" viewBox="0 0 24 24" stroke-width="1.3"
       stroke-linecap="round" stroke-linejoin="round">
       <path d="M19 21l-7-5-7 5V5
         a2 2 0 0 1 2-2h10
@@ -184,60 +184,49 @@ function saveAppState_FULL() {
 }
 
 // ===============================
-// ページ読み込み後 初期化（保存ボタンとデータ読み込み）
+// ページ読み込み後 初期化（保存ボタン登録＋データ読み込み＋カード描画＋クリックイベント）
 // ===============================
 document.addEventListener("DOMContentLoaded", () => {
-  // 💾 保存ボタン登録
+  // 保存ボタン
   const saveBtn = document.getElementById("saveBtn");
-  if (saveBtn) {
-    saveBtn.addEventListener("click", saveAppState_FULL);
-  }
+  if (saveBtn) saveBtn.addEventListener("click", saveAppState_FULL);
 
-  // ページ開いたときに保存データを読み込む
+  // データ読み込み
   loadAppState();
-});
 
-// =========================
-// カード操作（クリックイベント一括処理）
-// =========================
-const showcaseEl = document.getElementById("showcase");
+  // showcase 要素取得
+  const showcaseEl = document.getElementById("showcase");
+  if (!showcaseEl) return;
 
-if (showcaseEl) {
+  // =========================
+  // カードクリック操作（ハート／保存／リンク／画像）
+  // =========================
   showcaseEl.addEventListener("click", (e) => {
+    const card = e.target.closest(".card");
+    if (!card) return;
+    const index = Array.from(showcaseEl.children).indexOf(card);
 
     // ❤️ ハート
     const heart = e.target.closest(".icon-heart");
-    if (heart) {
-      heart.classList.toggle("liked");
+    if (heart && items[index]) {
+      items[index].liked = !items[index].liked;
+      heart.classList.toggle("liked", items[index].liked);
       const path = heart.querySelector("path");
       if (path) {
-        if (heart.classList.contains("liked")) {
-          path.setAttribute("fill", "red");
-          path.setAttribute("stroke", "red");
-        } else {
-          path.setAttribute("fill", "none");
-          path.setAttribute("stroke", "#000");
-        }
+        path.setAttribute("fill", items[index].liked ? "red" : "none");
+        path.setAttribute("stroke", items[index].liked ? "red" : "#000");
       }
-      const card = heart.closest(".card");
-      const index = Array.from(showcaseEl.children).indexOf(card);
-      if (items[index]) items[index].liked = heart.classList.contains("liked");
       console.log("ハート押された");
       return;
     }
 
     // 💾 保存アイコン
     const save = e.target.closest(".icon-save");
-    if (save) {
-      save.classList.toggle("saved");
+    if (save && items[index]) {
+      items[index].saved = !items[index].saved;
+      save.classList.toggle("saved", items[index].saved);
       const path = save.querySelector("path");
-      if (path) {
-        path.setAttribute("fill", save.classList.contains("saved") ? "#000" : "none");
-        path.setAttribute("stroke", "#000");
-      }
-      const card = save.closest(".card");
-      const index = Array.from(showcaseEl.children).indexOf(card);
-      if (items[index]) items[index].saved = save.classList.contains("saved");
+      if (path) path.setAttribute("fill", items[index].saved ? "#000" : "none");
       console.log("保存押された");
       return;
     }
@@ -245,8 +234,7 @@ if (showcaseEl) {
     // 🔗 リンク編集
     const linkEl = e.target.closest(".link-display");
     const editBtn = e.target.closest(".edit-link-btn");
-    if (linkEl || editBtn) {
-      const card = e.target.closest(".card");
+    if ((linkEl || editBtn) && items[index]) {
       const target = card.querySelector(".link-display");
       const current = target.getAttribute("href") || "";
       const newLink = prompt("商品リンクを入力してね", current);
@@ -254,104 +242,121 @@ if (showcaseEl) {
         const finalLink = newLink.startsWith("http") ? newLink : "https://" + newLink;
         target.setAttribute("href", finalLink);
         target.textContent = finalLink;
-        console.log("リンク編集された:", Array.from(showcaseEl.children).indexOf(card));
+        items[index].link = finalLink;
+        console.log("リンク編集された:", index);
       }
       return;
     }
 
-    // 🖼 画像アップロード（軽量＋保存対応）
+    // 🖼 画像アップロード
     const imageEl = e.target.closest(".image");
-    if (imageEl) {
-      const img = imageEl.querySelector("img");
-      const input = document.getElementById("itemImgInput");
-      if (!img || !input) return;
-
+    const input = document.getElementById("itemImgInput");
+    if (imageEl && input && items[index]) {
       input.onchange = (event) => {
         const file = event.target.files[0];
         if (!file) return;
-
         const reader = new FileReader();
         reader.onload = (ev) => {
-          const image = new Image();
-          image.onload = () => {
-            const canvas = document.createElement("canvas");
-            const maxSize = 200;
-            let w = image.width;
-            let h = image.height;
-
-            if (w > h && w > maxSize) { h *= maxSize / w; w = maxSize; }
-            else if (h >= w && h > maxSize) { w *= maxSize / h; h = maxSize; }
-
-            canvas.width = w;
-            canvas.height = h;
-            const ctx = canvas.getContext("2d");
-            ctx.drawImage(image, 0, 0, w, h);
-            const compressed = canvas.toDataURL("image/jpeg", 0.6);
-
-            img.src = compressed;
-
-            const index = Array.from(showcaseEl.children).indexOf(imageEl.closest(".card"));
-            if (items[index]) items[index].img = compressed;
-            console.log("画像変更（軽量＋保存対応）", index);
-          };
-          image.src = ev.target.result;
+          items[index].img = ev.target.result;
+          const imgTag = imageEl.querySelector("img");
+          if (imgTag) imgTag.src = ev.target.result;
         };
         reader.readAsDataURL(file);
         input.value = "";
       };
-
       input.click();
       return;
     }
   });
-}
+});
 
-// =========================
-// カスタムバー開閉
-// =========================
-const editToggle = document.getElementById('editToggle');
-const editItems = document.getElementById('editItems');
-if (editToggle && editItems) {
-  editItems.classList.remove('active'); // 初期閉じ
-  editToggle.addEventListener('click', (e) => {
-    e.stopPropagation(); // ← 超重要
-    closeAllPopups();
-    editItems.classList.toggle('active');
-  });
-}
+// ===============================
+// 🔴 ポップアップ・カスタムバー・テーマ切替・アナウンスバー
+// ===============================
 
-// =========================
-// ポップアップ設定
-// =========================
+// ポップアップマップ
 const popupMap = {
   themeButton: 'themePopup',
   styleButton: 'stylePopup',
   announcementButton: 'announcementPopup'
 };
 
+// =========================
+// 全ポップアップを閉じる
+// =========================
+function closeAllPopups() {
+  Object.values(popupMap).forEach(popupId => {
+    const popup = document.getElementById(popupId);
+    if (popup) {
+      popup.classList.remove('active');
+      popup.style.display = 'none';
+    }
+  });
+}
+
+// ボタンの真下中央に表示
+function positionPopup(btn, popup) {
+  if (!btn || !popup) return;
+
+  popup.style.display = "block";
+  popup.style.visibility = "hidden";
+
+  const rect = btn.getBoundingClientRect();
+  const popupWidth = popup.offsetWidth;
+  const popupHeight = popup.offsetHeight;
+
+  let left = rect.left;
+  let top = rect.bottom + 2;
+
+  left = Math.max(8, Math.min(left, window.innerWidth - popupWidth - 8));
+  top = Math.min(top, window.innerHeight - popupHeight - 8);
+
+  popup.style.position = "fixed";
+  popup.style.left = left + "px";
+  popup.style.top = top + "px";
+
+  popup.style.visibility = "visible";
+}
+
+// =========================
+// DOMContentLoaded 後処理
+// =========================
 document.addEventListener("DOMContentLoaded", () => {
-  
+  // 全体クリックでポップアップを閉じる
   document.addEventListener('click', (e) => {
-  const isButton = Object.keys(popupMap).some(id => {
-    const el = document.getElementById(id);
-    return el && el.contains(e.target);
+    const isButton = Object.keys(popupMap).some(id => {
+      const el = document.getElementById(id);
+      return el && el.contains(e.target);
+    });
+    const isPopup = Object.values(popupMap).some(id => {
+      const el = document.getElementById(id);
+      return el && el.contains(e.target);
+    });
+
+    if (!isButton && !isPopup) closeAllPopups();
   });
 
-  const isPopup = Object.values(popupMap).some(id => {
-    const el = document.getElementById(id);
-    return el && el.contains(e.target);
+  // ポップアップボタン設定
+  Object.entries(popupMap).forEach(([btnId, popupId]) => {
+    const btn = document.getElementById(btnId);
+    const popup = document.getElementById(popupId);
+    if (!btn || !popup) return;
+
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      closeAllPopups();
+      popup.classList.add('active');
+      popup.style.display = 'block';
+      positionPopup(btn, popup);
+    });
+
+    popup.addEventListener('click', e => e.stopPropagation());
   });
-
-  if (!isButton && !isPopup) {
-    closeAllPopups();
-  }
-});
-
-
 
   // =========================
   // テーマ切替（カード画像保持）
   // =========================
+  const showcaseEl = document.getElementById("showcase");
   document.querySelectorAll('input[name="theme"]').forEach(radio => {
     radio.addEventListener('change', e => {
       const existingImages = Array.from(showcaseEl.querySelectorAll('.card img')).map(img => img.src);
@@ -364,22 +369,64 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // =========================
-  // Picker生成
+  // カスタムカラー・ピッカー設定
   // =========================
-  createPicker('fontColorPicker', (color) => document.documentElement.style.setProperty('--font-color', color));
-  createPicker('bgPicker', (color) => document.documentElement.style.setProperty('--showcase-bg', color));
-  createPicker('profileBgPicker', (color) => document.documentElement.style.setProperty('--profile-bg', color));
-  createPicker('announcementBgPicker', (color) => {
+  createPicker('fontColorPicker', color => document.documentElement.style.setProperty('--font-color', color));
+  createPicker('bgPicker', color => document.documentElement.style.setProperty('--showcase-bg', color));
+  createPicker('profileBgPicker', color => document.documentElement.style.setProperty('--profile-bg', color));
+  createPicker('announcementBgPicker', color => {
     const bar = document.getElementById('announcementBar');
     if (bar) bar.style.background = color;
   });
 
-  // =========================
   // フォント変更
-  // =========================
   document.getElementById('fontSelect')?.addEventListener('change', e => {
     document.documentElement.style.setProperty('--font-family', e.target.value);
   });
+
+  // =========================
+  // カスタムバー開閉
+  // =========================
+  const editToggle = document.getElementById('editToggle');
+  const editItems = document.getElementById('editItems');
+  if (editToggle && editItems) {
+    editItems.classList.remove('active'); // 初期閉じ
+    editToggle.addEventListener('click', e => {
+      e.stopPropagation();
+      closeAllPopups();
+      editItems.classList.toggle('active');
+    });
+  }
+
+  // =========================
+  // アナウンスバー（スクロール）
+  // =========================
+  const announcementToggle = document.getElementById('announcementToggle');
+  const bannerTextInput = document.getElementById('bannerTextInput');
+  const announcementBar = document.getElementById('announcementBar');
+  const bannerText = announcementBar?.querySelector('.banner-text');
+
+  if (announcementToggle && announcementBar && bannerText && bannerTextInput) {
+    let pos = announcementBar.offsetWidth;
+    const speed = 1.0;
+
+    function scroll() {
+      const textWidth = bannerText.offsetWidth;
+      if (!textWidth) { requestAnimationFrame(scroll); return; }
+      pos -= speed;
+      if (pos <= -textWidth) pos = announcementBar.offsetWidth;
+      bannerText.style.left = pos + 'px';
+      requestAnimationFrame(scroll);
+    }
+    setTimeout(scroll, 100);
+
+    bannerTextInput.addEventListener('input', () => {
+      bannerText.textContent = bannerTextInput.value;
+      pos = announcementBar.offsetWidth;
+    });
+
+    window.addEventListener('resize', () => pos = announcementBar.offsetWidth);
+  }
 
   // =========================
   // フォローモーダル
@@ -413,116 +460,21 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // =========================
-  // ポップアップ処理
+  // 共通画像アップロード
   // =========================
-  Object.entries(popupMap).forEach(([btnId, popupId]) => {
-  const btn = document.getElementById(btnId);
-  const popup = document.getElementById(popupId);
-  if (!btn || !popup) return;
-
-  btn.addEventListener('click', (e) => {
-  e.stopPropagation();
-
-  closeAllPopups();
-
-  // 毎回実行
-  popup.classList.add('active');
-  popup.style.display = 'block';
-  positionPopup(btn, popup);
-});
-
-  popup.addEventListener('click', e => e.stopPropagation());
-});
-
-
-  // =========================
-  // アナウンスバー（スクロール）
-  // =========================
-  const announcementToggle = document.getElementById('announcementToggle');
-  const bannerTextInput = document.getElementById('bannerTextInput');
-  const announcementBar = document.getElementById('announcementBar');
-  const bannerText = announcementBar?.querySelector('.banner-text');
-
-  if (announcementToggle && announcementBar && bannerText && bannerTextInput) {
-    let pos = announcementBar.offsetWidth;
-    const speed = 1.0;
-
-    function scroll() {
-      const textWidth = bannerText.offsetWidth;
-      if (!textWidth) { requestAnimationFrame(scroll); return; }
-      pos -= speed;
-      if (pos <= -textWidth) pos = announcementBar.offsetWidth;
-      bannerText.style.left = pos + 'px';
-      requestAnimationFrame(scroll);
-    }
-    setTimeout(scroll, 100);
-
-    bannerTextInput.addEventListener('input', () => {
-      bannerText.textContent = bannerTextInput.value;
-      pos = announcementBar.offsetWidth;
+  function setupImageUpload(imgEl, inputEl) {
+    if (!imgEl || !inputEl) return;
+    imgEl.addEventListener('click', () => inputEl.click());
+    inputEl.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => imgEl.src = ev.target.result;
+      reader.readAsDataURL(file);
     });
-
-    window.addEventListener('resize', () => pos = announcementBar.offsetWidth);
   }
+
+  // ヘッダー・プロフィール画像
+  setupImageUpload(document.getElementById('headerImg'), document.getElementById('headerImgInput'));
+  setupImageUpload(document.getElementById('avatarImg'), document.getElementById('avatarImgInput'));
 });
-
-// ===============================
-// ポップアップ用関数
-// ===============================
-function closeAllPopups() {
-  Object.values(popupMap).forEach(popupId => {
-    const popup = document.getElementById(popupId);
-    if (popup) {
-  popup.classList.remove('active');
-  popup.style.display = 'none';
-}
-  });
-}
-
-// ボタンの真下中央に表示する
-function positionPopup(btn, popup) {
-  if (!btn || !popup) return;
-
-  popup.style.display = "block";
-  popup.style.visibility = "hidden";
-
-  const rect = btn.getBoundingClientRect();
-  const popupWidth = popup.offsetWidth;
-  const popupHeight = popup.offsetHeight;
-
-  let left = rect.left;
-  let top = rect.bottom + 2;
-
-  // 横はみ出し防止
-  left = Math.max(8, Math.min(left, window.innerWidth - popupWidth - 8));
-
-  // 縦はみ出し防止（←これ追加）
-  top = Math.min(top, window.innerHeight - popupHeight - 8);
-
-  popup.style.position = "fixed";
-  popup.style.left = left + "px";
-  popup.style.top = top + "px";
-
-  popup.style.visibility = "visible";
-}
-
-// ===============================
-// 画像アップロード共通処理
-// ===============================
-function setupImageUpload(imgEl, inputEl) {
-  if (!imgEl || !inputEl) return;
-  imgEl.addEventListener('click', () => inputEl.click());
-  inputEl.addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => imgEl.src = ev.target.result;
-    reader.readAsDataURL(file);
-  });
-}
-
-// ===============================
-// ヘッダー・プロフィール画像
-// ===============================
-setupImageUpload(document.getElementById('headerImg'), document.getElementById('headerImgInput'));
-setupImageUpload(document.getElementById('avatarImg'), document.getElementById('avatarImgInput'));

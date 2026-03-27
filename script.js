@@ -538,6 +538,18 @@ document.addEventListener("DOMContentLoaded", () => {
     closeBtn?.addEventListener('click', () => modal.style.display = 'none');
   }
 
+  // ===============================
+// ヘッダー・プロフィール画像
+// ===============================
+setupImageUpload(
+  document.getElementById('headerImg'),
+  document.getElementById('headerImgInput')
+);
+
+setupImageUpload(
+  document.getElementById('avatarImg'),
+  document.getElementById('avatarImgInput')
+);
 
   // =========================
   // カスタムバー開閉

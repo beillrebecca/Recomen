@@ -14,7 +14,7 @@ let items = [
 function createCard(item, index) {
   alert("createCard入った"); // ←これ追加
 
-  const card = document.createElement("div"); // ←これが正解
+  const card = e.target.closest(".card");
   card.className = "card";
 
   card.innerHTML = `

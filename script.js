@@ -120,50 +120,91 @@ function renderCards() {
 // =========================
 // 保存データ読み込み
 // =========================
+// =========================
+// ローカル保存 読み込み（初期化付き）
+// =========================
 function loadAppState() {
-  let loadedItems = [];
-  try {
-    const saved = localStorage.getItem("recomenState");
-    if (saved) {
+  const saved = localStorage.getItem("recomenState");
+
+  if (saved) {
+    try {
       const state = JSON.parse(saved);
 
-      if (Array.isArray(state.items) && state.items.length > 0) {
-        loadedItems = state.items;
-        console.log("保存データ読み込み成功: アイテム数", loadedItems.length);
-      } else {
-        console.log("保存データに items がありません");
+      // ヘッダー画像
+      const header = document.getElementById("headerImg");
+      if (header && state.headerImg) header.src = state.headerImg;
+
+      // プロフィール画像
+      const avatar = document.getElementById("avatarImg");
+      if (avatar && state.avatarImg) avatar.src = state.avatarImg;
+
+      // アナウンスバー背景色
+      const bar = document.getElementById("announcementBar");
+      if (bar && state.announcementBg) bar.style.backgroundColor = state.announcementBg;
+
+      // アナウンスバー文字
+      const bannerText = document.querySelector(".banner-text");
+      if (bannerText && state.announcementText) bannerText.textContent = state.announcementText;
+
+      // 背景カラー
+      if (state.bgColor) document.body.style.backgroundColor = state.bgColor;
+
+      // プロフィール背景
+      const profileEl = document.querySelector('.profile');
+      if (profileEl && state.profileBg) profileEl.style.backgroundColor = state.profileBg;
+
+      // フォントカラー
+      if (state.fontColor) document.body.style.color = state.fontColor;
+
+      // テーマ
+      if (state.theme) {
+        document.body.classList.remove('theme-natural', 'theme-modern');
+        document.body.classList.add(`theme-${state.theme}`);
       }
 
-      // ヘッダー・アバター
-      const headerImg = document.getElementById('headerImg');
-      if (headerImg) headerImg.src = state.headerImg || '';
-      const avatarImg = document.getElementById('avatarImg');
-      if (avatarImg) avatarImg.src = state.avatarImg || '';
-    } else {
-      console.log("保存データなし → 初期アイテムを使用");
+      // フォント
+      if (state.fontFamily) {
+        document.documentElement.style.setProperty('--font-family', state.fontFamily);
+      }
+
+      // プロフィール名前
+      const profileNameEl = document.getElementById("profileName");
+      if (profileNameEl && state.profileName) profileNameEl.textContent = state.profileName;
+
+      // プロフィール紹介
+      const profileBioEl = document.getElementById("profileBio");
+      if (profileBioEl && state.profileBio) profileBioEl.textContent = state.profileBio;
+
+      // アイテム配列
+      if (state.items && Array.isArray(state.items) && state.items.length > 0) {
+        items = state.items;
+      }
+
+      console.log("保存データ読み込み完了");
+    } catch (e) {
+      console.error("保存データ読み込み失敗:", e);
     }
-  } catch (e) {
-    console.error("保存データ読み込み失敗:", e);
   }
 
-  if (!loadedItems || loadedItems.length === 0) {
-  loadedItems = [];
-  for (let i = 1; i <= 12; i++) {
-    loadedItems.push({
-      id: i,
-      name: `アイテム${i}`,
-      price: `¥${i * 1000}`,
-      img: "https://via.placeholder.com/300",
-      liked: false,
-      saved: false,
-      clicks: 0,
-      link: "#"
-    });
+  // 保存データが無い、またはアイテムが空なら初期12個作成
+  if (!items || items.length === 0) {
+    items = [];
+    for (let i = 1; i <= 12; i++) {
+      items.push({
+        id: i,
+        name: `アイテム${i}`,
+        price: `¥${i * 1000}`,
+        img: "https://via.placeholder.com/300",
+        liked: false,
+        saved: false,
+        clicks: 0,
+        link: "#"
+      });
+    }
+    console.log("初期12アイテムを生成");
   }
-}
 
-  items = loadedItems;
-  renderCards();
+  renderCards(); // カード描画
 }
 
 // =========================

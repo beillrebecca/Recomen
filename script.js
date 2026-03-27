@@ -109,63 +109,55 @@ function renderCards() {
 // 保存データ読み込み
 // =========================
 function loadAppState() {
-  const saved = localStorage.getItem("recomenState");
-  
   try {
+    const saved = localStorage.getItem("recomenState");
     if (saved) {
       const state = JSON.parse(saved);
-      
-      // アイテムセット
+
       if (state.items && state.items.length > 0) {
-        items = state.items; // 保存データを優先
+        items = state.items;
+        alert("保存データあり！アイテム数: " + items.length);
+      } else {
+        alert("保存データはあるけど items が空");
       }
 
-      // ヘッダー・アバターや他の状態もここで反映
-      const header = document.getElementById("headerImg");
-      if (header && state.headerImg) header.src = state.headerImg;
-      const avatar = document.getElementById("avatarImg");
-      if (avatar && state.avatarImg) avatar.src = state.avatarImg;
-
-      // アナウンスバー
-      const bar = document.getElementById("announcementBar");
-      if (bar && state.announcementBg) bar.style.backgroundColor = state.announcementBg;
-      const bannerText = document.querySelector(".banner-text");
-      if (bannerText && state.announcementText) bannerText.textContent = state.announcementText;
-
-      // 背景・プロフィール・フォント
+      // ヘッダー・アバター
+      document.getElementById('headerImg')?.src = state.headerImg || '';
+      document.getElementById('avatarImg')?.src = state.avatarImg || '';
+      const bar = document.getElementById('announcementBar');
+      if (bar) bar.style.backgroundColor = state.announcementBg || '';
+      const banner = document.querySelector('.banner-text');
+      if (banner) banner.textContent = state.announcementText || '';
       if (state.bgColor) document.body.style.backgroundColor = state.bgColor;
       const profileEl = document.querySelector('.profile');
       if (profileEl && state.profileBg) profileEl.style.backgroundColor = state.profileBg;
       if (state.fontColor) document.body.style.color = state.fontColor;
       if (state.theme) {
-        document.body.classList.remove('theme-natural', 'theme-modern');
+        document.body.classList.remove('theme-natural','theme-modern');
         document.body.classList.add(`theme-${state.theme}`);
       }
       if (state.fontFamily) {
         document.documentElement.style.setProperty('--font-family', state.fontFamily);
       }
+      document.getElementById('profileName')?.textContent = state.profileName || '';
+      document.getElementById('profileBio')?.textContent = state.profileBio || '';
 
-      // プロフィール情報
-      const profileNameEl = document.getElementById("profileName");
-      if (profileNameEl && state.profileName) profileNameEl.textContent = state.profileName;
-      const profileBioEl = document.getElementById("profileBio");
-      if (profileBioEl && state.profileBio) profileBioEl.textContent = state.profileBio;
-
-      console.log("保存データ読み込み完了");
+      alert("保存データ読み込み完了");
     }
-  } catch (e) {
-    console.error("読み込み失敗", e);
+  } catch(e) {
+    alert("読み込み失敗: " + e.message);
   }
 
-  // 初期アイテムは保存データが無い場合だけ
+  // 保存データがなければ初期アイテム
   if (!items || items.length === 0) {
     items = [
-      {id:1, name:'初期アイテムA', price:'¥1000', link:'#', img:'', liked:false, saved:false, clicks:0},
-      {id:2, name:'初期アイテムB', price:'¥2000', link:'#', img:'', liked:false, saved:false, clicks:0},
+      {id:1,name:'初期アイテムA',price:'¥1000',link:'#',img:'',liked:false,saved:false,clicks:0},
+      {id:2,name:'初期アイテムB',price:'¥2000',link:'#',img:'',liked:false,saved:false,clicks:0},
     ];
+    alert("初期アイテムを使用");
   }
 
-  renderCards(); // ここで描画
+  renderCards();
 }
 
 // ===============================

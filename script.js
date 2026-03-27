@@ -167,6 +167,22 @@ function loadAppState() {
   }
 }
 
+// ===============================
+// ページ読み込み後 初期化（保存ボタンとデータ読み込み）
+// ===============================
+document.addEventListener("DOMContentLoaded", () => {
+  // ここまで既存のDOMContentLoaded内処理…
+
+  // 💾 保存ボタン登録
+  const saveBtn = document.getElementById("saveBtn");
+  if (saveBtn) {
+    saveBtn.addEventListener("click", saveAppState_FULL);
+  }
+
+  // ページ開いたときに保存データを読み込む
+  loadAppState();
+});
+
 // =========================
 // 保存（アプリ全体）
 // =========================

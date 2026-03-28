@@ -109,7 +109,7 @@ function createCard(item) {
     <div class="price-link-wrapper">
       <div class="card-price">${item.price || "¥0"}</div>
 
-      <!-- 商品リンク表示＋編集ボタン -->
+      <!-- ポップアップ式リンク入力 -->
       <div class="link-wrapper">
         <span class="link-display">${item.link || "リンクを入力"}</span>
         <button class="edit-link-btn">編集</button>

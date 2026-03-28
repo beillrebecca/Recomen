@@ -325,40 +325,73 @@ if (editToggle && editItems) {
   // =========================
   // 編集項目ボタンのポップアップ管理
   // =========================
-  const popupMap = {
-    themeButton: 'themePopup',
-    styleButton: 'stylePopup',
-    announcementButton: 'announcementPopup'
-  };
+  // =========================
+// 編集項目ボタンのポップアップ管理（位置固定版）
+// =========================
+const popupMap = {
+  themeButton: "themePopup",
+  styleButton: "stylePopup",
+  announcementButton: "announcementPopup"
+};
 
-  Object.entries(popupMap).forEach(([btnId, popupId]) => {
-    const btn = document.getElementById(btnId);
+function closeAllPopups() {
+  Object.values(popupMap).forEach((popupId) => {
     const popup = document.getElementById(popupId);
-    if (!btn || !popup) return;
+    if (popup) {
+      popup.style.display = "none";
+      popup.classList.remove("active");
+    }
+  });
+}
 
-    popup.style.display = 'none'; // 初期非表示
+function positionPopup(btn, popup) {
+  if (!btn || !popup) return;
 
-    btn.addEventListener('click', e => {
-      e.stopPropagation();
-      // 他のポップアップ閉じる
-      Object.values(popupMap).forEach(pid => {
-        const p = document.getElementById(pid);
-        if (p && p !== popup) p.style.display = 'none';
-      });
-      // 自分のトグル
-      popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
-    });
+  popup.style.display = "block";
+  popup.style.visibility = "hidden";
 
-    popup.addEventListener('click', e => e.stopPropagation());
+  const rect = btn.getBoundingClientRect();
+  const popupWidth = popup.offsetWidth;
+  const popupHeight = popup.offsetHeight;
+
+  let left = rect.left;
+  let top = rect.top - popupHeight - 8; // ボタンの上に表示
+
+  // 画面はみ出し防止
+  left = Math.max(8, Math.min(left, window.innerWidth - popupWidth - 8));
+  top = Math.max(8, top);
+
+  popup.style.position = "fixed";
+  popup.style.left = `${left}px`;
+  popup.style.top = `${top}px`;
+  popup.style.visibility = "visible";
+}
+
+Object.entries(popupMap).forEach(([btnId, popupId]) => {
+  const btn = document.getElementById(btnId);
+  const popup = document.getElementById(popupId);
+  if (!btn || !popup) return;
+
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
+
+    const isOpen = popup.style.display === "block";
+
+    closeAllPopups();
+
+    if (!isOpen) {
+      popup.classList.add("active");
+      positionPopup(btn, popup);
+    }
   });
 
-  // 画面クリックで全ポップアップ閉じる
-  document.addEventListener('click', () => {
-    Object.values(popupMap).forEach(pid => {
-      const p = document.getElementById(pid);
-      if (p) p.style.display = 'none';
-    });
-  });
+  popup.addEventListener("click", (e) => e.stopPropagation());
+});
+
+// 画面クリックで閉じる
+document.addEventListener("click", () => {
+  closeAllPopups();
+});
 
   // =========================
   // テーマ切替（カード画像保持）

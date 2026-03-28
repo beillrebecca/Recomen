@@ -31,16 +31,16 @@
   </div>
 
   <!-- ===== カスタムバー（編集バー） ===== -->
-  <div class="custom-bar">
+  <!-- カスタムバー -->
+<div class="custom-bar" id="customBar">
+  <button id="editToggle" class="edit-toggle-btn">ショーケースを編集</button>
 
-    <!-- 編集トグル -->
-    <button id="editToggle" class="edit-toggle-btn">ショーケースを編集</button>
-
-    <!-- 編集項目 -->
-    <div class="edit-items" id="editItems">
-  <button id="themeButton">テーマ</button>
-  <button id="styleButton">スタイル</button>
-  <button id="announcementButton">アナウンスバー</button>
+  <!-- 編集ボタン群（初期は非表示） -->
+  <div class="edit-items" id="editItems">
+    <button id="themeButton">テーマ</button>
+    <button id="styleButton">スタイル</button>
+    <button id="announcementButton">アナウンスバー</button>
+  </div>
 </div>
 
       <!-- テーマ選択 -->

@@ -518,59 +518,70 @@ html, body{
 }
 
 /* =========================
-   カスタムバー（テーマ/編集） 
+   カスタムバー＆折りたたみ編集
 ========================= */
-.custom-bar-wrapper {
+
+/* 固定ボタン */
+.edit-toggle-btn {
   position: fixed;
-  bottom: 0;
+  bottom: 80px;  /* カスタムバーの上 */
   left: 50%;
-  transform: translateX(-50%) translateY(0); /* 折りたたみ状態 */
-  transition: transform 0.3s ease;
-  z-index: 1000;
+  transform: translateX(-50%);
+  z-index: 1100;
+  padding: 10px 28px;
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+  background: #fff;
+  border: none;
+  border-radius: 999px;
+  color: #333;
+  box-shadow: 0 4px 12px rgba(203, 163, 232, 0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.edit-toggle-btn:hover {
+  transform: translateX(-50%) scale(1.05);
+  box-shadow: 0 6px 18px rgba(203, 163, 232, 0.3);
 }
 
-/* 展開時 */
-.custom-bar-wrapper.expanded {
-  transform: translateX(-50%) translateY(-150px); /* バー＋編集項目分上にスライド */
-}
-.custom-bar{
+/* カスタムバーラッパー（スライド部分） */
+.custom-bar-wrapper {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
+  z-index: 1000;
+  transform: translateY(100%); /* 折りたたみ時は隠す */
+  transition: transform 0.3s ease;
+}
+
+/* 展開時 */
+.custom-bar-wrapper.expanded {
+  transform: translateY(0); /* スライドして表示 */
+}
+
+/* カスタムバー本体 */
+.custom-bar {
+  width: 100%;
+  height: 60px;
   background: #f3e8ff;
-  height: 60px;  /* 折りたたみ時の高さ */
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: transform 0.3s ease;
-  z-index: 1000;
-  transform: translateY(100%); /* 折りたたみ時は隠す */
-}
-.custom-bar button{
-  background:none;
-  border:none;
-  cursor:pointer;
-  font-size:14px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-}
-.custom-bar button svg{
-  width:24px;
-  height:24px;
+  gap: 12px;
+  box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
 }
 
-/* =========================
-   編集ボタン
-========================= */
+/* 編集項目ボタン群 */
 .edit-items {
   display: flex;
   justify-content: center;
   gap: 12px;
-  margin-top: 10px;
+  padding: 10px 0;
 }
-.edit-items button{
+
+/* 各ボタン */
+.edit-items button {
   background: #4caf50;
   color: #fff;
   padding: 8px 16px;
@@ -579,31 +590,28 @@ html, body{
   font-weight: bold;
   cursor: pointer;
   font-size: 14px;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
-.edit-items button:hover{
-  background:#45a049;
-}
-
-.edit-items.active{
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
+.edit-items button:hover {
+  background: #45a049;
+  transform: scale(1.05);
 }
 
-.edit-item .popup{
-  position:absolute;
-  top:100%; /* ボタンのすぐ下 */
-  left:50%;
-  transform:translateX(-50%);
-  display:none;
-  width:260px;
-  background:#fff;
-  border-radius:8px;
-  box-shadow:0 4px 16px rgba(0,0,0,0.2);
-  z-index:1500;
+/* ポップアップ */
+.edit-item .popup {
+  position: absolute;
+  top: 100%; /* ボタンのすぐ下 */
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  width: 260px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  z-index: 1500;
 }
-.edit-item .popup.active{
-  display:block;
+.edit-item .popup.active {
+  display: block;
 }
 
 /* =========================

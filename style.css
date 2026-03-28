@@ -371,10 +371,11 @@ html, body{
   font-weight:600;
   color: var(--font-color);
   white-space:nowrap;
+  flex-shrink: 0; /* ← 値段は縮まない */
 }
 
 .card-link-input{
-  flex:1;
+  flex:1 1 auto; /* 伸縮可能だけど右にはみ出さない */
   min-width:0;
   max-width:120px; /* ← 横幅の上限を設定して狭める */
   border:1px solid #dcdcdc;

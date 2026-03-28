@@ -92,14 +92,13 @@ function createCard(item) {
 }
 
 // =========================
-// ショーケース描画（軽量版）
+// ショーケース描画（追加ボタン込み）
 // =========================
 function renderShowcaseLight() {
   const showcase = document.getElementById("showcase");
   if (!showcase) return;
 
-  // 初回だけカードと追加ボタンを作る
-  if (!showcase.dataset.init) {
+  if (showcase.children.length === 0) {
     items.forEach(item => showcase.appendChild(createCard(item)));
 
     const addWrapper = document.createElement("div");
@@ -112,6 +111,17 @@ function renderShowcaseLight() {
 
     addWrapper.appendChild(addBtn);
     showcase.appendChild(addWrapper);
+
+    // 保存ボタンも追加（カード欄の下中央）
+    const saveWrapper = document.createElement("div");
+    saveWrapper.className = "showcase-save-wrapper";
+    const saveBtn = document.createElement("button");
+    saveBtn.id = "saveBtn";
+    saveBtn.textContent = "💾 保存";
+    saveWrapper.appendChild(saveBtn);
+    showcase.appendChild(saveWrapper);
+
+    saveBtn.addEventListener("click", saveAppState_FULL);
 
     addBtn.addEventListener("click", () => {
       const newItem = {
@@ -129,9 +139,37 @@ function renderShowcaseLight() {
       const newCard = createCard(newItem);
       showcase.insertBefore(newCard, addWrapper);
     });
-
-    showcase.dataset.init = "true";
   }
+}
+
+// =========================
+// 編集ボタンでカスタムバースライド
+// =========================
+const editToggle = document.getElementById('editToggle');
+const editItems = document.getElementById('editItems');
+
+if (editToggle && editItems) {
+  editToggle.addEventListener('click', e => {
+    e.stopPropagation();
+    if (editItems.classList.contains('active')) {
+      editItems.classList.remove('active');
+      editItems.style.maxHeight = '0';
+    } else {
+      editItems.classList.add('active');
+      editItems.style.maxHeight = editItems.scrollHeight + 'px';
+    }
+  });
+
+  document.addEventListener("click", e => {
+    const target = e.target;
+    if (
+      target.closest("#editItems") || 
+      target.closest("#editToggle")
+    ) return;
+
+    editItems.classList.remove("active");
+    editItems.style.maxHeight = '0';
+  });
 }
 
 // =========================

@@ -394,11 +394,10 @@ document.addEventListener('click', () => {
   // カスタムバー開閉
   // =========================
   const editToggle = document.getElementById('editToggle');
-  const editItems = document.getElementById('editItems');
+const wrapper = document.querySelector('.custom-bar-wrapper');
 
-editToggle.addEventListener('click', e => {
-  e.stopPropagation();
-  editItems.classList.toggle('active');
+editToggle.addEventListener('click', () => {
+  wrapper.classList.toggle('expanded');
 });
 
 // 画面クリックで閉じる

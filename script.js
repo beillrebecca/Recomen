@@ -2,6 +2,20 @@
 // 🔴 データ本体（超重要）
 // =========================
 let items = [];
+function getDefaultItems() {
+  return [
+    {
+      id: 1,
+      name: "アイテム1",
+      price: "¥0",
+      link: "",
+      img: "",
+      liked: false,
+      saved: false,
+      clicks: 0
+    }
+  ];
+}
 
 // =========================
 // SVG アイコン生成（状態反映版）

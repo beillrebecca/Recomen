@@ -6,7 +6,7 @@ for (let i = 1; i <= 12; i++) {
   items.push({
     id: i,
     name: 'アイテム' + i,
-    img: 'https://via.placeholder.com/300',
+    img: 'https://via.placeholder.com/300', // 仮の画像
     link: '#',
     price: '¥0',
     clicks: 0,
@@ -107,28 +107,109 @@ function renderCards() {
 }
 
 // =========================
-// DOMContentLoaded 初期化
+// 画像アップロード補助
 // =========================
-document.addEventListener("DOMContentLoaded", () => {
-  const showcaseEl = document.getElementById("showcase");
+function setupImageUpload(imgEl, inputEl) {
+  if (!imgEl || !inputEl) return;
+  imgEl.addEventListener('click', () => inputEl.click());
+  inputEl.addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => imgEl.src = ev.target.result;
+    reader.readAsDataURL(file);
+  });
+}
 
-  // 1️⃣ データ読み込み
-  loadAppState();
+// =========================
+// ローカル保存・読み込み
+// =========================
+function loadAppState() {
+  const saved = localStorage.getItem("recomenState");
+  if (saved) {
+    try {
+      const state = JSON.parse(saved);
 
-  // 2️⃣ カードクリックイベント
-  if (showcaseEl) setupCardClickEvents(showcaseEl);
+      // 画像
+      const header = document.getElementById("headerImg");
+      if (header && state.headerImg) header.src = state.headerImg;
+      const avatar = document.getElementById("avatarImg");
+      if (avatar && state.avatarImg) avatar.src = state.avatarImg;
 
-  // 3️⃣ ヘッダー・プロフィール画像アップロード
-  setupImageUpload(document.getElementById('headerImg'), document.getElementById('headerImgInput'));
-  setupImageUpload(document.getElementById('avatarImg'), document.getElementById('avatarImgInput'));
+      // アナウンスバー
+      const bar = document.getElementById("announcementBar");
+      if (bar && state.announcementBg) bar.style.backgroundColor = state.announcementBg;
+      const bannerText = document.querySelector(".banner-text");
+      if (bannerText && state.announcementText) bannerText.textContent = state.announcementText;
 
-  // 4️⃣ カラーピッカー・アナウンスバー・テーマ切替などを初期化
-  setupAnnouncementBar();
-  setupThemeSwitch();
-  setupColorPickers();
+      // 背景・プロフィール・フォント
+      if (state.bgColor) document.body.style.backgroundColor = state.bgColor;
+      const profileEl = document.querySelector('.profile');
+      if (profileEl && state.profileBg) profileEl.style.backgroundColor = state.profileBg;
+      if (state.fontColor) document.body.style.color = state.fontColor;
 
-  console.log("アプリ初期化完了");
-});
+      // テーマ
+      if (state.theme) {
+        document.body.classList.remove('theme-natural', 'theme-modern');
+        document.body.classList.add(`theme-${state.theme}`);
+      }
+
+      // フォント
+      if (state.fontFamily) document.documentElement.style.setProperty('--font-family', state.fontFamily);
+
+      // プロフィール情報
+      const profileNameEl = document.getElementById("profileName");
+      if (profileNameEl && state.profileName) profileNameEl.textContent = state.profileName;
+      const profileBioEl = document.getElementById("profileBio");
+      if (profileBioEl && state.profileBio) profileBioEl.textContent = state.profileBio;
+
+      // アイテム
+      if (state.items && Array.isArray(state.items) && state.items.length > 0) {
+        items = state.items;
+      }
+
+      console.log("保存データ読み込み完了");
+    } catch (e) {
+      console.error("保存データ読み込み失敗:", e);
+    }
+  }
+
+  renderCards();
+}
+
+// =========================
+// 保存（アプリ全体）
+// =========================
+function saveAppState_FULL() {
+  try {
+    const savedItems = items.map(item => ({
+      ...item,
+      img: document.querySelector(`#card-${item.id} img`)?.src || item.img
+    }));
+
+    const state = {
+      items: savedItems,
+      headerImg: document.getElementById('headerImg')?.src || null,
+      avatarImg: document.getElementById('avatarImg')?.src || null,
+      announcementBg: document.getElementById('announcementBar')?.style.backgroundColor || null,
+      announcementText: document.querySelector('.banner-text')?.textContent || "",
+      bgColor: document.body.style.backgroundColor || null,
+      profileBg: document.querySelector('.profile')?.style.backgroundColor || null,
+      fontColor: document.body.style.color || null,
+      theme: document.body.classList.contains('theme-natural') ? 'natural' : 'modern',
+      fontFamily: getComputedStyle(document.documentElement).getPropertyValue('--font-family') || null,
+      profileName: document.getElementById("profileName")?.textContent || "",
+      profileBio: document.getElementById("profileBio")?.textContent || ""
+    };
+
+    localStorage.setItem("recomenState", JSON.stringify(state));
+    alert("保存しました！");
+    console.log("✅【saveAppState_FULL】保存完了");
+  } catch (e) {
+    console.error("❌【saveAppState_FULL】保存失敗:", e);
+    alert("保存に失敗しました！");
+  }
+}
 
 // =========================
 // カードクリックイベント
@@ -154,7 +235,7 @@ function setupCardClickEvents(showcaseEl) {
       return;
     }
 
-    // 💾 保存アイコン
+    // 💾 保存
     const save = e.target.closest(".icon-save");
     if (save) {
       item.saved = !item.saved;
@@ -169,7 +250,7 @@ function setupCardClickEvents(showcaseEl) {
     const editBtn = e.target.closest(".edit-link-btn");
     if (linkEl || editBtn) {
       const target = card.querySelector(".link-display");
-      const current = target.getAttribute("href") || "#";
+      const current = target.getAttribute("href") || "";
       const newLink = prompt("商品リンクを入力してね", current);
       if (newLink) {
         const finalLink = newLink.startsWith("http") ? newLink : "https://" + newLink;
@@ -202,173 +283,42 @@ function setupCardClickEvents(showcaseEl) {
 }
 
 // =========================
-// 画像アップロード補助
-// =========================
-function setupImageUpload(imgEl, inputEl) {
-  if (!imgEl || !inputEl) return;
-  imgEl.addEventListener('click', () => inputEl.click());
-  inputEl.addEventListener('change', e => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = ev => imgEl.src = ev.target.result;
-    reader.readAsDataURL(file);
-  });
-}
-
-// =========================
-// アナウンスバー設定
+// アナウンスバー スライド
 // =========================
 function setupAnnouncementBar() {
   const bar = document.getElementById("announcementBar");
   if (!bar) return;
+  const text = bar.querySelector(".banner-text");
+  if (!text) return;
 
-  let pos = 0;
-  const speed = 1;
-  const scroll = () => {
-    pos -= speed;
-    bar.scrollLeft = -pos;
-    requestAnimationFrame(scroll);
-  };
-  scroll();
-}
-
-// =========================
-// テーマ切替
-// =========================
-function setupThemeSwitch() {
-  const btn = document.getElementById("themeSwitchBtn");
-  if (!btn) return;
-  btn.addEventListener("click", () => {
-    document.body.classList.toggle("theme-natural");
-    document.body.classList.toggle("theme-modern");
-  });
-}
-
-// =========================
-// カラーピッカー初期化
-// =========================
-function setupColorPickers() {
-  const bgPicker = document.getElementById("bgColorPicker");
-  if (bgPicker) bgPicker.addEventListener("input", e => {
-    document.body.style.backgroundColor = e.target.value;
-  });
-
-  const profilePicker = document.getElementById("profileBgPicker");
-  const profileEl = document.querySelector(".profile");
-  if (profilePicker && profileEl) profilePicker.addEventListener("input", e => {
-    profileEl.style.backgroundColor = e.target.value;
-  });
-
-  const fontPicker = document.getElementById("fontColorPicker");
-  if (fontPicker) fontPicker.addEventListener("input", e => {
-    document.body.style.color = e.target.value;
-  });
-
-  const announcementPicker = document.getElementById("announcementColorPicker");
-  const bar = document.getElementById("announcementBar");
-  if (announcementPicker && bar) announcementPicker.addEventListener("input", e => {
-    bar.style.backgroundColor = e.target.value;
-  });
-}
-
-// =========================
-// ローカル保存・読み込み
-// =========================
-function saveAppState_FULL() {
-  const savedItems = items.map(item => ({
-    ...item,
-    img: document.querySelector(`#card-${item.id} img`)?.src || item.img
-  }));
-
-  const state = {
-    items: savedItems,
-    headerImg: document.getElementById('headerImg')?.src || null,
-    avatarImg: document.getElementById('avatarImg')?.src || null,
-    announcementBg: document.getElementById('announcementBar')?.style.backgroundColor || null,
-    announcementText: document.querySelector('.banner-text')?.textContent || "",
-    bgColor: document.body.style.backgroundColor || null,
-    profileBg: document.querySelector('.profile')?.style.backgroundColor || null,
-    fontColor: document.body.style.color || null,
-    theme: document.body.classList.contains('theme-natural') ? 'natural' : 'modern',
-    fontFamily: getComputedStyle(document.documentElement).getPropertyValue('--font-family') || null,
-    profileName: document.getElementById("profileName")?.textContent || "",
-    profileBio: document.getElementById("profileBio")?.textContent || ""
-  };
-
-  localStorage.setItem("recomenState", JSON.stringify(state));
-  alert("保存しました！");
-  console.log("✅【saveAppState_FULL】保存完了");
-}
-
-function loadAppState() {
-  const saved = localStorage.getItem("recomenState");
-  if (!saved) return;
-
-  try {
-    const state = JSON.parse(saved);
-    if (state.items) items = state.items;
-
-    if (state.headerImg) document.getElementById("headerImg").src = state.headerImg;
-    if (state.avatarImg) document.getElementById("avatarImg").src = state.avatarImg;
-    if (state.announcementBg) document.getElementById("announcementBar").style.backgroundColor = state.announcementBg;
-    if (state.announcementText) document.querySelector(".banner-text").textContent = state.announcementText;
-    if (state.bgColor) document.body.style.backgroundColor = state.bgColor;
-    if (state.profileBg) document.querySelector(".profile").style.backgroundColor = state.profileBg;
-    if (state.fontColor) document.body.style.color = state.fontColor;
-    if (state.fontFamily) document.documentElement.style.setProperty('--font-family', state.fontFamily);
-    if (state.theme) {
-      document.body.classList.remove('theme-natural', 'theme-modern');
-      document.body.classList.add(`theme-${state.theme}`);
-    }
-    if (state.profileName) document.getElementById("profileName").textContent = state.profileName;
-    if (state.profileBio) document.getElementById("profileBio").textContent = state.profileBio;
-
-    renderCards();
-    console.log("保存データ読み込み完了");
-  } catch (e) {
-    console.error("保存データ読み込み失敗:", e);
+  let pos = bar.offsetWidth;
+  function slide() {
+    pos -= 1;
+    if (pos < -text.offsetWidth) pos = bar.offsetWidth;
+    text.style.transform = `translateX(${pos}px)`;
+    requestAnimationFrame(slide);
   }
+  slide();
 }
 
 // =========================
-// フォロー / フォロワーモーダル制御
+// DOMContentLoaded で初期化
 // =========================
-function setupFollowModal() {
-  const modal = document.getElementById("followModal");
-  const openBtns = document.querySelectorAll(".open-follow-modal");
-  const closeBtn = modal?.querySelector(".close-modal");
-
-  openBtns.forEach(btn => btn.addEventListener("click", () => {
-    modal.style.display = "block";
-  }));
-
-  if (closeBtn) closeBtn.addEventListener("click", () => modal.style.display = "none");
-
-  window.addEventListener("click", e => {
-    if (e.target === modal) modal.style.display = "none";
-  });
-}
-
-// =========================
-// 初期化関数
-// =========================
-function initApp() {
+document.addEventListener("DOMContentLoaded", () => {
   const showcaseEl = document.getElementById("showcase");
 
+  // データ読み込み
   loadAppState();
+
+  // カードクリックイベント
   if (showcaseEl) setupCardClickEvents(showcaseEl);
 
+  // 画像アップロード
   setupImageUpload(document.getElementById('headerImg'), document.getElementById('headerImgInput'));
   setupImageUpload(document.getElementById('avatarImg'), document.getElementById('avatarImgInput'));
 
+  // アナウンスバー
   setupAnnouncementBar();
-  setupThemeSwitch();
-  setupColorPickers();
-  setupFollowModal();
 
-  console.log("✅ アプリ初期化完了");
-}
-
-document.addEventListener("DOMContentLoaded", initApp);
-
+  console.log("アプリ初期化完了");
+});

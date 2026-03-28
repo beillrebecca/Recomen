@@ -267,94 +267,85 @@ document.addEventListener("DOMContentLoaded", () => {
   if (showcaseEl) initCardClicks();
 });
 
-// ===============================
-// 🔴 ポップアップ・カスタムバー・テーマ切替・アナウンスバー
-// ===============================
-
-// ポップアップマップ
-const popupMap = {
-  themeButton: 'themePopup',
-  styleButton: 'stylePopup',
-  announcementButton: 'announcementPopup'
-};
-
-// 全ポップアップを閉じる
-function closeAllPopups() {
-  Object.values(popupMap).forEach(popupId => {
-    const popup = document.getElementById(popupId);
-    if (popup) {
-      popup.classList.remove('active');
-      popup.style.display = 'none';
-    }
-  });
-}
-
-// ボタンの真下中央に表示
-function positionPopup(btn, popup) {
-  if (!btn || !popup) return;
-
-  popup.style.display = "block";
-  popup.style.visibility = "hidden";
-
-  const rect = btn.getBoundingClientRect();
-  const popupWidth = popup.offsetWidth;
-  const popupHeight = popup.offsetHeight;
-
-  let left = rect.left;
-  let top = rect.bottom + 2;
-
-  left = Math.max(8, Math.min(left, window.innerWidth - popupWidth - 8));
-  top = Math.min(top, window.innerHeight - popupHeight - 8);
-
-  popup.style.position = "fixed";
-  popup.style.left = left + "px";
-  popup.style.top = top + "px";
-
-  popup.style.visibility = "visible";
-}
-
-// DOMContentLoaded 後に実行
 document.addEventListener("DOMContentLoaded", () => {
 
-  // 全体クリックでポップアップを閉じる
-  document.addEventListener('click', (e) => {
-    const isButton = Object.keys(popupMap).some(id => {
-      const el = document.getElementById(id);
-      return el && el.contains(e.target);
-    });
-    const isPopup = Object.values(popupMap).some(id => {
-      const el = document.getElementById(id);
-      return el && el.contains(e.target);
-    });
+  // ---------------------------
+  // 保存ボタンなど既存処理
+  // ---------------------------
+  const saveBtn = document.getElementById("saveBtn");
+  if (saveBtn) saveBtn.addEventListener("click", saveAppState_FULL);
 
-    if (!isButton && !isPopup) closeAllPopups();
-  });
-
-  // ポップアップボタン設定
-  ['themeButton', 'styleButton', 'announcementButton'].forEach(id => {
-  const btn = document.getElementById(id);
-  const popup = btn.querySelector('.popup');
-  if (!btn || !popup) return;
-
-  btn.addEventListener('click', e => {
-    e.stopPropagation();
-    // 他のpopupを閉じる
-    document.querySelectorAll('.edit-item .popup').forEach(p => {
-      if (p !== popup) p.classList.remove('active');
-    });
-    popup.classList.toggle('active');
-  });
-});
-
-// 画面クリックで閉じる
-document.addEventListener('click', () => {
-  document.querySelectorAll('.edit-item .popup').forEach(p => p.classList.remove('active'));
-});
-
-  // =========================
-  // テーマ切替（カード画像保持）
-  // =========================
   const showcaseEl = document.getElementById("showcase");
+  if (showcaseEl) loadAppState();
+  if (!showcaseEl) console.warn("#showcase が存在しません");
+
+  if (showcaseEl) initCardClicks();
+
+  // ---------------------------
+  // カスタムバー展開 + 編集項目表示
+  // ---------------------------
+  const editToggle = document.getElementById('editToggle');
+  const barWrapper = document.querySelector('.custom-bar-wrapper');
+  const editItems = document.getElementById('editItems');
+
+  if (editToggle && barWrapper && editItems) {
+    editToggle.addEventListener('click', e => {
+      e.stopPropagation();
+      // バーを展開
+      barWrapper.classList.toggle('expanded');
+      // 編集項目を表示/非表示
+      editItems.classList.toggle('active');
+    });
+
+    // バー外クリックで閉じる
+    document.addEventListener('click', (e) => {
+      if (!barWrapper.contains(e.target)) {
+        barWrapper.classList.remove('expanded');
+        editItems.classList.remove('active');
+      }
+    });
+  }
+
+  // ---------------------------
+  // 編集項目ボタンのポップアップ管理
+  // ---------------------------
+  const popupMap = {
+    themeButton: 'themePopup',
+    styleButton: 'stylePopup',
+    announcementButton: 'announcementPopup'
+  };
+
+  Object.entries(popupMap).forEach(([btnId, popupId]) => {
+    const btn = document.getElementById(btnId);
+    const popup = document.getElementById(popupId);
+    if (!btn || !popup) return;
+
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      // 他のポップアップ閉じる
+      Object.values(popupMap).forEach(pid => {
+        const p = document.getElementById(pid);
+        if (p && p !== popup) p.style.display = 'none';
+      });
+      // 自分のトグル
+      popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
+    });
+
+    // ポップアップ内クリックは閉じない
+    popup.addEventListener('click', e => e.stopPropagation());
+  });
+
+  // 画面クリックで全ポップアップ閉じる
+  document.addEventListener('click', () => {
+    Object.values(popupMap).forEach(pid => {
+      const p = document.getElementById(pid);
+      if (p) p.style.display = 'none';
+    });
+  });
+
+  // ---------------------------
+  // テーマ切替（カード画像保持）
+  // ---------------------------
   document.querySelectorAll('input[name="theme"]').forEach(radio => {
     radio.addEventListener('change', e => {
       if (!showcaseEl) return;
@@ -367,9 +358,9 @@ document.addEventListener('click', () => {
     });
   });
 
-  // =========================
-  // カスタムカラー・ピッカー設定
-  // =========================
+  // ---------------------------
+  // カスタムカラー・ピッカー
+  // ---------------------------
   function createPicker(inputId, callback) {
     const picker = document.getElementById(inputId);
     if (!picker) return;
@@ -390,21 +381,6 @@ document.addEventListener('click', () => {
     document.documentElement.style.setProperty('--font-family', e.target.value);
   });
 
-  // =========================
-  // カスタムバー開閉
-  // =========================
-const editToggle = document.getElementById('editToggle');
-const barWrapper = document.querySelector('.custom-bar-wrapper');
-
-editToggle.addEventListener('click', () => {
-  barWrapper.classList.toggle('expanded');
-});
-
-// 画面クリックで閉じる
-document.addEventListener('click', () => {
-  if(editItems.classList.contains('active')){
-    editItems.classList.remove('active');
-  }
 });
 
   // =========================

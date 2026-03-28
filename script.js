@@ -285,26 +285,19 @@ document.addEventListener("DOMContentLoaded", () => {
   // カスタムバー展開 + 編集項目表示
   // ---------------------------
   const editToggle = document.getElementById('editToggle');
-  const barWrapper = document.querySelector('.custom-bar-wrapper');
-  const editItems = document.getElementById('editItems');
+const editItems = document.getElementById('editItems');
 
-  if (editToggle && barWrapper && editItems) {
-    editToggle.addEventListener('click', e => {
-      e.stopPropagation();
-      // バーを展開
-      barWrapper.classList.toggle('expanded');
-      // 編集項目を表示/非表示
-      editItems.classList.toggle('active');
-    });
+editToggle.addEventListener('click', (e) => {
+  e.stopPropagation();
+  editItems.classList.toggle('active');
+});
 
-    // バー外クリックで閉じる
-    document.addEventListener('click', (e) => {
-      if (!barWrapper.contains(e.target)) {
-        barWrapper.classList.remove('expanded');
-        editItems.classList.remove('active');
-      }
-    });
+// 画面クリックで閉じる
+document.addEventListener('click', (e) => {
+  if (!editItems.contains(e.target) && e.target !== editToggle) {
+    editItems.classList.remove('active');
   }
+});
 
   // ---------------------------
   // 編集項目ボタンのポップアップ管理

@@ -164,6 +164,18 @@ function loadAppState() {
       } else {
         items = getDefaultItems();
       }
+      
+      document.getElementById("headerImg").src =
+      state.headerImg || document.getElementById("headerImg").src;
+
+      document.getElementById("avatarImg").src =
+      state.avatarImg || document.getElementById("avatarImg").src;
+
+      document.getElementById("profileName").textContent =
+      state.profileName || "プロフィール名";
+
+      document.getElementById("profileBio").textContent =
+      state.profileBio || "プロフィール紹介";
 
     } catch (e) {
       console.error("保存データ読み込み失敗", e);

@@ -354,6 +354,7 @@ html, body{
   display: flex;
   gap: 12px;
   align-items: center;
+  justify-content: space-between; /* 左右均等 */
   margin-top: 6px; /* 上余白（商品リンクとの間隔）はそのままでもOK */
   padding-bottom: 8; /* アイコン群下にゆとりを持たせる */
 }

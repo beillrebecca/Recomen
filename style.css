@@ -520,18 +520,28 @@ html, body{
 /* =========================
    カスタムバー（テーマ/編集） 
 ========================= */
+.custom-bar-wrapper {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(0); /* 折りたたみ状態 */
+  transition: transform 0.3s ease;
+  z-index: 1000;
+}
+
+/* 展開時 */
+.custom-bar-wrapper.expanded {
+  transform: translateX(-50%) translateY(-150px); /* バー＋編集項目分上にスライド */
+}
 .custom-bar{
-  position:fixed;
-  bottom:0;
-  left:0;
-  width:100%;
-  height:60px;
-  background:#fff;
-  box-shadow:0 -2px 6px rgba(0,0,0,0.1);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index:1000;
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  background: #f3e8ff;
+  box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
 }
 .custom-bar button{
   background:none;
@@ -551,14 +561,10 @@ html, body{
    編集ボタン
 ========================= */
 .edit-items {
-  position: absolute;
-  bottom: 60px; /* カスタムバーの上に */
   display: flex;
+  justify-content: center;
   gap: 12px;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(20px);
-  transition: all 0.3s ease;
+  margin-top: 10px;
 }
 .edit-items button{
   background: #4caf50;

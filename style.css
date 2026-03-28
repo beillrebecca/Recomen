@@ -339,13 +339,15 @@ html, body{
 .slide-right{right:4px;}
 
 .card-name{
-  min-height:32px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:14px;
-  text-align:center;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  text-align: center;
   color: var(--font-color);
+  margin: 0;
+  padding: 0;
 }
 
 .card-actions {
@@ -567,13 +569,13 @@ html, body{
   width:100%;
   aspect-ratio:1/1;
   object-fit:cover;
-  border:none;
-  border-radius:10px;
-  display:block;
+  border-radius: 10px;
+  display: block;
+  border: none;
 }
 .image{
   position: relative;
-  padding:10px 10px 0;
+  padding: 0 0 8px 0; /* 上下の余白を最小限に */
 }
 .card .modern-clicks{
   position: absolute;      /* 画像内での絶対位置 */

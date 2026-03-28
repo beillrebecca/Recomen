@@ -30,17 +30,25 @@
     </div>
   </div>
 
-  <!-- 固定の編集ボタン -->
-<button id="editToggle" class="edit-toggle-btn">ショーケースを編集</button>
+  <!-- カスタムバーラッパー（折りたたみ＋スライド制御） -->
+<div class="custom-bar-wrapper">
 
-<!-- 折りたたまれたカスタムバー -->
-<div class="custom-bar collapsed">
-  <div class="edit-items">
-    <button class="edit-item" id="themeButton">テーマ</button>
-    <button class="edit-item" id="styleButton">スタイル</button>
-    <button class="edit-item" id="announcementButton">アナウンスバー</button>
-  </div>
-</div>
+  <!-- カスタムバー本体（ボトム固定） -->
+  <div class="custom-bar">
+
+    <!-- 固定の編集ボタン（バーの上に配置） -->
+    <button id="editToggle" class="edit-toggle-btn">ショーケースを編集</button>
+
+    <!-- 折りたたまれた編集項目ボタン群 -->
+    <div class="edit-items" id="editItems">
+      <button class="edit-item" id="themeButton">テーマ</button>
+      <button class="edit-item" id="styleButton">スタイル</button>
+      <button class="edit-item" id="announcementButton">アナウンスバー</button>
+    </div>
+
+  </div> <!-- /.custom-bar -->
+
+</div> <!-- /.custom-bar-wrapper -->
 
       <!-- テーマ選択 -->
       <div class="edit-item" id="themeButton">

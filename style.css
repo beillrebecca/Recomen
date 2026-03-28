@@ -354,8 +354,8 @@ html, body{
   display: flex;
   gap: 12px;
   align-items: center;
-  margin-top: 4px; /* 上余白 */
-  padding-bottom: 0; /* 下余白はカード padding で統一 */
+  margin-top: 6px; /* 上余白（商品リンクとの間隔）はそのままでもOK */
+  padding-bottom: 8; /* アイコン群下にゆとりを持たせる */
 }
 
 .price-link-wrapper{
@@ -363,7 +363,7 @@ html, body{
   align-items:center;
   justify-content:space-between;
   gap:8px;
-  margin-top:4px;
+  margin-top:8px;
 }
 
 .card-price{

@@ -441,8 +441,8 @@ html, body{
    アイコン共通
 ========================= */
 .card-actions svg{
-  width:26px;
-  height:26px;
+  width:30px;
+  height:30px;
   cursor:pointer;
   stroke:#000;
   fill:none;

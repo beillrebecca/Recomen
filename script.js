@@ -115,6 +115,7 @@ function loadAppState() {
   const saved = localStorage.getItem("recomenState");
 
   if (saved) {
+  try {
     const state = JSON.parse(saved);
 
     if (state.items && state.items.length > 0) {

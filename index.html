@@ -84,16 +84,21 @@
   </div> <!-- /.main-content-wrapper -->
 
   <!-- ===== カスタムバー（ボトム固定） ===== -->
-  <div class="custom-bar-wrapper">
-    <div class="custom-bar">
-      <button id="editToggle" class="edit-toggle-btn">ショーケースを編集</button>
-      <div class="edit-items" id="editItems">
-        <button class="edit-item" id="themeButton">テーマ</button>
-        <button class="edit-item" id="styleButton">スタイル</button>
-        <button class="edit-item" id="announcementButton">アナウンスバー</button>
-      </div>
+<div class="custom-bar-wrapper">
+  <div class="custom-bar">
+
+    <!-- 編集ボタン -->
+    <button id="editToggle" class="edit-toggle-btn">ショーケースを編集</button>
+
+    <!-- 編集項目ボタン群（初期は折りたたまれて隠れる） -->
+    <div class="edit-items" id="editItems">
+      <button class="edit-item" id="themeButton">テーマ</button>
+      <button class="edit-item" id="styleButton">スタイル</button>
+      <button class="edit-item" id="announcementButton">アナウンスバー</button>
     </div>
-  </div>
+
+  </div> <!-- /.custom-bar -->
+</div> <!-- /.custom-bar-wrapper -->
 
   <!-- 各ボタン内に popup を入れておく -->
   <div class="popup-container">

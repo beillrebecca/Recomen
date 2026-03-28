@@ -108,7 +108,7 @@ function renderCards() {
   showcase.innerHTML = "";
   items.forEach(item => {
     const card = createCard(item);
-    showcase.appendChild(card); // ここが重要
+    showcase.appendChild(card);  // ←ここで追加
   });
 }
 

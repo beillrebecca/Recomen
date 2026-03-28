@@ -534,14 +534,18 @@ html, body{
   transform: translateX(-50%) translateY(-150px); /* バー＋編集項目分上にスライド */
 }
 .custom-bar{
+  position: fixed;
+  bottom: 0;
+  left: 0;
   width: 100%;
-  max-width: 100%;
+  background: #f3e8ff;
+  height: 60px;  /* 折りたたみ時の高さ */
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 60px;
-  background: #f3e8ff;
-  box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+  z-index: 1000;
+  transform: translateY(100%); /* 折りたたみ時は隠す */
 }
 .custom-bar button{
   background:none;

@@ -377,6 +377,70 @@ function setupImageUpload(imgEl, inputEl) {
 
 document.addEventListener("DOMContentLoaded", () => {
   console.log("JS読み込まれた");
+  
+  // ===== カラーピッカー初期化 =====
+function initColorPickers() {
+  const colors = ["#ffffff", "#f28b82", "#fbbc04", "#fff475", "#ccff90", "#a7ffeb", "#cbf0f8", "#aecbfa", "#d7aefb", "#fdcfe8", "#e6c9a8", "#e8eaed"];
+  const pickers = ["bgPicker", "fontColorPicker", "profileBgPicker", "announcementBgPicker"];
+
+  pickers.forEach(pickerId => {
+    const container = document.getElementById(pickerId);
+    if (!container) return;
+
+    container.innerHTML = "";
+    container.classList.add("color-picker");
+
+    colors.forEach(color => {
+      const div = document.createElement("div");
+      div.style.backgroundColor = color;
+      div.addEventListener("click", () => {
+        // 選択状態リセット
+        container.querySelectorAll("div").forEach(d => d.classList.remove("selected"));
+        div.classList.add("selected");
+
+        // 選択色を反映
+        applyColor(pickerId, color);
+      });
+      container.appendChild(div);
+    });
+  });
+}
+
+// ===== 選択色を反映する関数 =====
+function applyColor(pickerId, color) {
+  switch (pickerId) {
+    case "bgPicker":
+      document.body.style.backgroundColor = color;
+      break;
+    case "fontColorPicker":
+      document.body.style.color = color;
+      break;
+    case "profileBgPicker":
+      const profile = document.getElementById("profileSection");
+      if (profile) profile.style.backgroundColor = color;
+      break;
+    case "announcementBgPicker":
+      const banner = document.getElementById("announcementBar");
+      if (banner) banner.style.backgroundColor = color;
+      break;
+  }
+}
+
+// ===== DOMContentLoaded 内にまとめる =====
+document.addEventListener("DOMContentLoaded", () => {
+  // カラーピッカー初期化
+  initColorPickers();
+
+  // フォント変更
+  const fontSelect = document.getElementById('fontSelect');
+  if (fontSelect) {
+    fontSelect.addEventListener('change', (e) => {
+      document.documentElement.style.setProperty('--font-family', e.target.value);
+    });
+  }
+
+  // （ここに他のDOMContentLoaded内処理もまとめてOK）
+});
 
   // =========================
   // 保存ボタン
@@ -535,74 +599,6 @@ document.addEventListener("click", () => {
     window.addEventListener('resize', () => pos = announcementBar.offsetWidth);
   }
 
-
-  // ===== カラーピッカー初期化 =====
-function initColorPickers() {
-  // 色の候補（自由に増減可能）
-  const colors = ["#ffffff", "#f28b82", "#fbbc04", "#fff475", "#ccff90", "#a7ffeb", "#cbf0f8", "#aecbfa", "#d7aefb", "#fdcfe8", "#e6c9a8", "#e8eaed"];
-
-  // 対象のカラーピッカー要素
-  const pickers = ["bgPicker", "fontColorPicker", "profileBgPicker", "announcementBgPicker"];
-
-  pickers.forEach(pickerId => {
-    const container = document.getElementById(pickerId);
-    if (!container) return;
-
-    // 初期化
-    container.innerHTML = "";
-    container.classList.add("color-picker");
-
-    colors.forEach(color => {
-      const div = document.createElement("div");
-      div.style.backgroundColor = color;
-
-      div.addEventListener("click", () => {
-        // 選択状態をリセット
-        container.querySelectorAll("div").forEach(d => d.classList.remove("selected"));
-        div.classList.add("selected");
-
-        // 選択色を適用
-        applyColor(pickerId, color);
-      });
-
-      container.appendChild(div);
-    });
-  });
-}
-
-// ===== 選択色を反映する関数 =====
-function applyColor(pickerId, color) {
-  switch (pickerId) {
-    case "bgPicker":
-      document.body.style.backgroundColor = color; // 全体背景
-      break;
-    case "fontColorPicker":
-      document.body.style.color = color; // 文字色
-      break;
-    case "profileBgPicker":
-      const profile = document.getElementById("profileSection"); // プロフィール部分のID
-      if (profile) profile.style.backgroundColor = color;
-      break;
-    case "announcementBgPicker":
-      const banner = document.getElementById("announcementBar"); // アナウンスバーID
-      if (banner) banner.style.backgroundColor = color;
-      break;
-  }
-}
-
-// ===== ページ読み込み時に初期化 =====
-document.addEventListener("DOMContentLoaded", () => {
-  initColorPickers();
-});
-
-// フォント変更
-const fontSelect = document.getElementById('fontSelect');
-if (fontSelect) {
-  fontSelect.addEventListener('change', (e) => {
-    const value = e.target.value;
-    document.documentElement.style.setProperty('--font-family', value);
-  });
-}
 
   // =========================
   // フォローモーダル

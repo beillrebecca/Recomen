@@ -635,6 +635,17 @@ if (announcementBar && bannerText && bannerTextInput) {
   if (modal) {
     const modalTitle = modal.querySelector('.modal-title');
     const userList = modal.querySelector('.user-list');
+    
+    const commentList = document.querySelector('.comment-list');
+    const modal = document.getElementById('followModal'); // 例
+    if(commentList && modal){
+    const modalHeight = modal.offsetHeight;
+    const headerHeight = modal.querySelector('.modal-title')?.offsetHeight || 0;
+    commentList.style.height = (modalHeight - headerHeight - 40) + 'px'; // 余白調整
+    commentList.style.overflowY = 'auto';
+    commentList.style.webkitOverflowScrolling = 'touch'; // iOS の滑らかスクロール
+   }
+  
     const closeBtn = modal.querySelector('.close-btn');
 
     const following = [{name:'ユーザーA',img:'https://via.placeholder.com/32'}, {name:'ユーザーB',img:'https://via.placeholder.com/32'}];

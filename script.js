@@ -241,6 +241,92 @@ function saveAppState_FULL() {
 }
 
 // =========================
+// 共通関数
+// =========================
+function setupImageUpload(imgEl, inputEl) {
+  if (!imgEl || !inputEl) return;
+  imgEl.addEventListener('click', () => inputEl.click());
+  inputEl.addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => imgEl.src = ev.target.result;
+    reader.readAsDataURL(file);
+  });
+}
+
+function initColorPickers() {
+  const colors = ["#ffffff","#f28b82","#fbbc04","#fff475","#ccff90","#a7ffeb","#cbf0f8","#aecbfa","#d7aefb","#fdcfe8","#e6c9a8","#e8eaed"];
+  const pickers = ["bgPicker","fontColorPicker","profileBgPicker","announcementBgPicker"];
+  pickers.forEach(pickerId => {
+    const container = document.getElementById(pickerId);
+    if (!container) return;
+    container.innerHTML = "";
+    container.classList.add("color-picker");
+    colors.forEach(color => {
+      const div = document.createElement("div");
+      div.style.backgroundColor = color;
+      div.addEventListener("click", () => {
+        container.querySelectorAll("div").forEach(d => d.classList.remove("selected"));
+        div.classList.add("selected");
+        applyColor(pickerId, color);
+      });
+      container.appendChild(div);
+    });
+  });
+}
+
+function applyColor(pickerId, color) {
+  switch(pickerId){
+    case "bgPicker": document.body.style.backgroundColor = color; break;
+    case "fontColorPicker": document.body.style.color = color; break;
+    case "profileBgPicker": const profile=document.getElementById("profileSection"); if(profile) profile.style.backgroundColor=color; break;
+    case "announcementBgPicker": const banner=document.getElementById("announcementBar"); if(banner) banner.style.backgroundColor=color; break;
+  }
+}
+
+// =========================
+// DOMContentLoaded 内にまとめて初期化
+// =========================
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("JS読み込まれた");
+
+  // カラーピッカー初期化
+  initColorPickers();
+
+  // フォント変更
+  const fontSelect = document.getElementById('fontSelect');
+  if (fontSelect) fontSelect.addEventListener('change', e => document.documentElement.style.setProperty('--font-family', e.target.value));
+
+  // 共通画像アップロード
+  setupImageUpload(document.getElementById('headerImg'), document.getElementById('headerImgInput'));
+  setupImageUpload(document.getElementById('avatarImg'), document.getElementById('avatarImgInput'));
+
+  // 保存ボタン
+  const saveBtn = document.getElementById("saveBtn");
+  if(saveBtn) saveBtn.addEventListener("click", saveAppState_FULL);
+
+  // データ読み込み
+  loadAppState();
+
+  // カードクリック操作
+  initCardClicks();
+
+  // カスタムバー + 編集項目表示
+  initEditToggleAndPopups();
+
+  // テーマ切替
+  initThemeSwitch();
+
+  // アナウンスバースクロール
+  initAnnouncementBar();
+
+  // フォローモーダル
+  initFollowModal();
+});
+
+
+// =========================
 // カードクリック操作
 // =========================
 let activeCard = null; // 画像を貼るカードを保持
@@ -359,88 +445,6 @@ function showLinkEditPopup(index) {
     popup.style.display = "none";
   };
 }
-
-// =========================
-// 共通画像アップロード
-// =========================
-function setupImageUpload(imgEl, inputEl) {
-  if (!imgEl || !inputEl) return;
-  imgEl.addEventListener('click', () => inputEl.click());
-  inputEl.addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => imgEl.src = ev.target.result;
-    reader.readAsDataURL(file);
-  });
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("JS読み込まれた");
-  
-  // ===== カラーピッカー初期化 =====
-function initColorPickers() {
-  const colors = ["#ffffff", "#f28b82", "#fbbc04", "#fff475", "#ccff90", "#a7ffeb", "#cbf0f8", "#aecbfa", "#d7aefb", "#fdcfe8", "#e6c9a8", "#e8eaed"];
-  const pickers = ["bgPicker", "fontColorPicker", "profileBgPicker", "announcementBgPicker"];
-
-  pickers.forEach(pickerId => {
-    const container = document.getElementById(pickerId);
-    if (!container) return;
-
-    container.innerHTML = "";
-    container.classList.add("color-picker");
-
-    colors.forEach(color => {
-      const div = document.createElement("div");
-      div.style.backgroundColor = color;
-      div.addEventListener("click", () => {
-        // 選択状態リセット
-        container.querySelectorAll("div").forEach(d => d.classList.remove("selected"));
-        div.classList.add("selected");
-
-        // 選択色を反映
-        applyColor(pickerId, color);
-      });
-      container.appendChild(div);
-    });
-  });
-}
-
-// ===== 選択色を反映する関数 =====
-function applyColor(pickerId, color) {
-  switch (pickerId) {
-    case "bgPicker":
-      document.body.style.backgroundColor = color;
-      break;
-    case "fontColorPicker":
-      document.body.style.color = color;
-      break;
-    case "profileBgPicker":
-      const profile = document.getElementById("profileSection");
-      if (profile) profile.style.backgroundColor = color;
-      break;
-    case "announcementBgPicker":
-      const banner = document.getElementById("announcementBar");
-      if (banner) banner.style.backgroundColor = color;
-      break;
-  }
-}
-
-// ===== DOMContentLoaded 内にまとめる =====
-document.addEventListener("DOMContentLoaded", () => {
-  // カラーピッカー初期化
-  initColorPickers();
-
-  // フォント変更
-  const fontSelect = document.getElementById('fontSelect');
-  if (fontSelect) {
-    fontSelect.addEventListener('change', (e) => {
-      document.documentElement.style.setProperty('--font-family', e.target.value);
-    });
-  }
-
-  // （ここに他のDOMContentLoaded内処理もまとめてOK）
-});
 
   // =========================
   // 保存ボタン

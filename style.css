@@ -655,14 +655,14 @@ html, body{
 /* =========================
    ショーケース内 追加ボタン
 ========================= */
-.showcase-add-wrapper{
+.showcase-add-card-wrapper{
   grid-column: 1 / -1;
   display: flex;
   justify-content: flex-start;
   margin-top: 8px;
 }
 
-.showcase-add-btn{
+.showcase-add-card-btn{
   background: #fff;
   border: 1px solid #ccc;
   border-radius: 8px;

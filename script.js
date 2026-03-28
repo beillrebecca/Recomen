@@ -98,31 +98,37 @@ function renderShowcaseLight() {
   const showcase = document.getElementById("showcase");
   if (!showcase) return;
 
+  // 既存のカードがなければ描画
   if (showcase.children.length === 0) {
     items.forEach(item => showcase.appendChild(createCard(item)));
 
+    // 「新しいアイテム追加」ボタン
     const addWrapper = document.createElement("div");
     addWrapper.className = "showcase-add-card-wrapper";
-
     const addBtn = document.createElement("button");
     addBtn.id = "addCardBtn";
     addBtn.className = "showcase-add-card-btn";
     addBtn.textContent = "＋ 新しいアイテムを追加";
-
     addWrapper.appendChild(addBtn);
     showcase.appendChild(addWrapper);
 
-    // 保存ボタンも追加（カード欄の下中央）
+    // 保存ボタン（カード欄の下、中央固定）
     const saveWrapper = document.createElement("div");
     saveWrapper.className = "showcase-save-wrapper";
+    saveWrapper.style.textAlign = "center";
+    saveWrapper.style.margin = "12px 0";
     const saveBtn = document.createElement("button");
     saveBtn.id = "saveBtn";
     saveBtn.textContent = "💾 保存";
+    saveBtn.style.padding = "8px 20px";
+    saveBtn.style.fontSize = "16px";
+    saveBtn.style.borderRadius = "8px";
     saveWrapper.appendChild(saveBtn);
     showcase.appendChild(saveWrapper);
 
     saveBtn.addEventListener("click", saveAppState_FULL);
 
+    // 新規カード追加
     addBtn.addEventListener("click", () => {
       const newItem = {
         id: Date.now(),
@@ -135,7 +141,6 @@ function renderShowcaseLight() {
         clicks: 0
       };
       items.push(newItem);
-
       const newCard = createCard(newItem);
       showcase.insertBefore(newCard, addWrapper);
     });
@@ -151,6 +156,7 @@ const editItems = document.getElementById('editItems');
 if (editToggle && editItems) {
   editToggle.addEventListener('click', e => {
     e.stopPropagation();
+    // 折りたたみ・展開
     if (editItems.classList.contains('active')) {
       editItems.classList.remove('active');
       editItems.style.maxHeight = '0';
@@ -160,15 +166,15 @@ if (editToggle && editItems) {
     }
   });
 
+  // カスタムバー外クリックで閉じる
   document.addEventListener("click", e => {
-    const target = e.target;
     if (
-      target.closest("#editItems") || 
-      target.closest("#editToggle")
-    ) return;
-
-    editItems.classList.remove("active");
-    editItems.style.maxHeight = '0';
+      !e.target.closest("#editItems") && 
+      !e.target.closest("#editToggle")
+    ) {
+      editItems.classList.remove("active");
+      editItems.style.maxHeight = '0';
+    }
   });
 }
 
@@ -177,14 +183,10 @@ if (editToggle && editItems) {
 // =========================
 function loadAppState() {
   const saved = localStorage.getItem("recomenState");
-
   if (saved) {
     try {
       const state = JSON.parse(saved);
-
-      if (state.items && state.items.length > 0) items = state.items;
-      else items = getDefaultItems();
-
+      items = (state.items && state.items.length > 0) ? state.items : getDefaultItems();
       document.getElementById("headerImg").src = state.headerImg || document.getElementById("headerImg").src;
       document.getElementById("avatarImg").src = state.avatarImg || document.getElementById("avatarImg").src;
       document.getElementById("profileName").textContent = state.profileName || "プロフィール名";
@@ -197,7 +199,7 @@ function loadAppState() {
     items = getDefaultItems();
   }
 
-  // 最低4枚にする
+  // 最低4枚確保
   while (items.length < 4) {
     items.push({
       id: Date.now() + items.length,
@@ -414,9 +416,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   setupImageUpload(document.getElementById('headerImg'), document.getElementById('headerImgInput'));
   setupImageUpload(document.getElementById('avatarImg'), document.getElementById('avatarImgInput'));
-
-  const saveBtn = document.getElementById("saveBtn");
-  if(saveBtn) saveBtn.addEventListener("click", saveAppState_FULL);
 
   loadAppState();
   initCardClicks();

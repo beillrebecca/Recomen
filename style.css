@@ -348,12 +348,12 @@ html, body{
   color: var(--font-color);
 }
 
-.card-actions{
-  display:flex;
-  gap:14px;
-  align-items:center;
-  margin-top:8px;
-  padding-bottom:10px;
+.card-actions {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-top: 8px;        /* 上の余白はそのまま */
+  padding: 0 10px 10px 10px; /* 上0、左右10px、下10pxで四隅の余白と揃える */
 }
 
 .price-link-wrapper{

@@ -285,27 +285,22 @@ document.addEventListener("DOMContentLoaded", () => {
   // カスタムバー + 編集項目表示
   // =========================
   const editToggle = document.getElementById('editToggle');
-  const editItems = document.getElementById('editItems');
+const editItems = document.getElementById('editItems');
 
-  if (editToggle && editItems) {
-    // 初期状態では非表示
-    editItems.style.display = 'none';
-    editItems.style.displayFlex = 'flex';
-    editItems.style.gap = '10px';
-    editItems.style.justifyContent = 'space-between';
+if (editToggle && editItems) {
 
-    editToggle.addEventListener('click', (e) => {
-      e.stopPropagation();
-      editItems.style.display = (editItems.style.display === 'flex') ? 'none' : 'flex';
-    });
+  editToggle.addEventListener('click', (e) => {
+    e.stopPropagation();  // 編集ボタンクリックだけで閉じないように
+    editItems.classList.toggle('active'); // activeクラスを付け外し
+  });
 
-    // 画面クリックで閉じる
-    document.addEventListener('click', (e) => {
-      if (!editItems.contains(e.target) && e.target !== editToggle) {
-        editItems.style.display = 'none';
-      }
-    });
-  }
+  // 画面クリックで閉じる
+  document.addEventListener('click', (e) => {
+    if (!editItems.contains(e.target) && e.target !== editToggle) {
+      editItems.classList.remove('active'); // activeを削除して閉じる
+    }
+  });
+}
 
   // =========================
   // 編集項目ボタンのポップアップ管理

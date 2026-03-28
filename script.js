@@ -85,7 +85,6 @@ function createCard(item) {
       ${saveIcon(item)}
     </div>
   `;
-
   return card;
 }
 
@@ -116,17 +115,12 @@ function loadAppState() {
       if (Array.isArray(state.items) && state.items.length > 0) {
         loadedItems = state.items;
         console.log("保存データ読み込み成功: アイテム数", loadedItems.length);
-      } else {
-        console.log("保存データに items がありません");
       }
 
-      // ヘッダー・アバター
       const headerImg = document.getElementById('headerImg');
       if (headerImg) headerImg.src = state.headerImg || '';
       const avatarImg = document.getElementById('avatarImg');
       if (avatarImg) avatarImg.src = state.avatarImg || '';
-    } else {
-      console.log("保存データなし → 初期アイテムを使用");
     }
   } catch (e) {
     console.error("保存データ読み込み失敗:", e);
@@ -182,14 +176,31 @@ function initCardClicks() {
   const showcaseEl = document.getElementById("showcase");
   if (!showcaseEl) return;
 
+  const itemImgInput = document.getElementById("itemImgInput");
+  if (itemImgInput && !itemImgInput.dataset.init) {
+    itemImgInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const imgTag = document.querySelector(`.card.editing img`);
+        if (imgTag) imgTag.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+      itemImgInput.value = "";
+    });
+    itemImgInput.dataset.init = 'true';
+  }
+
   showcaseEl.addEventListener("click", (e) => {
     const card = e.target.closest(".card");
     if (!card) return;
     const index = Array.from(showcaseEl.children).indexOf(card);
+    if (!items[index]) return;
 
     // ❤️ ハート
     const heart = e.target.closest(".icon-heart");
-    if (heart && items[index]) {
+    if (heart) {
       items[index].liked = !items[index].liked;
       heart.classList.toggle("liked", items[index].liked);
       const path = heart.querySelector("path");
@@ -202,7 +213,7 @@ function initCardClicks() {
 
     // 💾 保存アイコン
     const save = e.target.closest(".icon-save");
-    if (save && items[index]) {
+    if (save) {
       items[index].saved = !items[index].saved;
       save.classList.toggle("saved", items[index].saved);
       const path = save.querySelector("path");
@@ -213,7 +224,7 @@ function initCardClicks() {
     // 🔗 リンク編集
     const linkEl = e.target.closest(".link-display");
     const editBtn = e.target.closest(".edit-link-btn");
-    if ((linkEl || editBtn) && items[index]) {
+    if (linkEl || editBtn) {
       const target = card.querySelector(".link-display");
       const current = target.getAttribute("href") || "";
       const newLink = prompt("商品リンクを入力してね", current);
@@ -228,80 +239,77 @@ function initCardClicks() {
 
     // 🖼 画像アップロード
     const imageEl = e.target.closest(".image");
-    const input = document.getElementById("itemImgInput");
-    if (imageEl && input && items[index]) {
-      input.onchange = (event) => {
-        const file = event.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-          items[index].img = ev.target.result;
-          const imgTag = imageEl.querySelector("img");
-          if (imgTag) imgTag.src = ev.target.result;
-        };
-        reader.readAsDataURL(file);
-        input.value = "";
-      };
-      input.click();
+    if (imageEl && itemImgInput) {
+      card.classList.add('editing');
+      itemImgInput.click();
+      card.classList.remove('editing');
     }
   });
 }
 
 // =========================
-// DOMContentLoaded 前半処理
+// 共通画像アップロード
 // =========================
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("JS読み込まれた"); 
+function setupImageUpload(imgEl, inputEl) {
+  if (!imgEl || !inputEl) return;
+  imgEl.addEventListener('click', () => inputEl.click());
+  inputEl.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => imgEl.src = ev.target.result;
+    reader.readAsDataURL(file);
+  });
+}
 
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("JS読み込まれた");
+
+  // =========================
   // 保存ボタン
+  // =========================
   const saveBtn = document.getElementById("saveBtn");
   if (saveBtn) saveBtn.addEventListener("click", saveAppState_FULL);
 
+  // =========================
   // データ読み込み
-  const showcaseEl = document.getElementById("showcase");
-  if (showcaseEl) loadAppState();
+  // =========================
+  loadAppState();
 
-  if (!showcaseEl) console.warn("#showcase が存在しません");
-
+  // =========================
   // カードクリック操作
-  if (showcaseEl) initCardClicks();
-});
+  // =========================
+  initCardClicks();
 
-document.addEventListener("DOMContentLoaded", () => {
-
-  // ---------------------------
-  // 保存ボタンなど既存処理
-  // ---------------------------
-  const saveBtn = document.getElementById("saveBtn");
-  if (saveBtn) saveBtn.addEventListener("click", saveAppState_FULL);
-
-  const showcaseEl = document.getElementById("showcase");
-  if (showcaseEl) loadAppState();
-  if (!showcaseEl) console.warn("#showcase が存在しません");
-
-  if (showcaseEl) initCardClicks();
-
-  // ---------------------------
-  // カスタムバー展開 + 編集項目表示
-  // ---------------------------
+  // =========================
+  // カスタムバー + 編集項目表示
+  // =========================
   const editToggle = document.getElementById('editToggle');
-const editItems = document.getElementById('editItems');
+  const editItems = document.getElementById('editItems');
 
-editToggle.addEventListener('click', (e) => {
-  e.stopPropagation();
-  editItems.classList.toggle('active');
-});
+  if (editToggle && editItems) {
+    // 初期状態では非表示
+    editItems.style.display = 'none';
+    editItems.style.displayFlex = 'flex';
+    editItems.style.gap = '10px';
+    editItems.style.justifyContent = 'space-between';
 
-// 画面クリックで閉じる
-document.addEventListener('click', (e) => {
-  if (!editItems.contains(e.target) && e.target !== editToggle) {
-    editItems.classList.remove('active');
+    editToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      editItems.style.display = (editItems.style.display === 'flex') ? 'none' : 'flex';
+    });
+
+    // 画面クリックで閉じる
+    document.addEventListener('click', (e) => {
+      if (!editItems.contains(e.target) && e.target !== editToggle) {
+        editItems.style.display = 'none';
+      }
+    });
   }
-});
 
-  // ---------------------------
+  // =========================
   // 編集項目ボタンのポップアップ管理
-  // ---------------------------
+  // =========================
   const popupMap = {
     themeButton: 'themePopup',
     styleButton: 'stylePopup',
@@ -312,6 +320,8 @@ document.addEventListener('click', (e) => {
     const btn = document.getElementById(btnId);
     const popup = document.getElementById(popupId);
     if (!btn || !popup) return;
+
+    popup.style.display = 'none'; // 初期非表示
 
     btn.addEventListener('click', e => {
       e.stopPropagation();
@@ -324,7 +334,6 @@ document.addEventListener('click', (e) => {
       popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
     });
 
-    // ポップアップ内クリックは閉じない
     popup.addEventListener('click', e => e.stopPropagation());
   });
 
@@ -336,9 +345,10 @@ document.addEventListener('click', (e) => {
     });
   });
 
-  // ---------------------------
+  // =========================
   // テーマ切替（カード画像保持）
-  // ---------------------------
+  // =========================
+  const showcaseEl = document.getElementById("showcase");
   document.querySelectorAll('input[name="theme"]').forEach(radio => {
     radio.addEventListener('change', e => {
       if (!showcaseEl) return;
@@ -351,9 +361,9 @@ document.addEventListener('click', (e) => {
     });
   });
 
-  // ---------------------------
+  // =========================
   // カスタムカラー・ピッカー
-  // ---------------------------
+  // =========================
   function createPicker(inputId, callback) {
     const picker = document.getElementById(inputId);
     if (!picker) return;
@@ -374,8 +384,6 @@ document.addEventListener('click', (e) => {
     document.documentElement.style.setProperty('--font-family', e.target.value);
   });
 
-});
-
   // =========================
   // アナウンスバー（スクロール）
   // =========================
@@ -384,25 +392,17 @@ document.addEventListener('click', (e) => {
   const bannerTextInput = document.getElementById('bannerTextInput');
 
   if (announcementBar && bannerText && bannerTextInput) {
-    let scrollInitialized = false;
     let pos = announcementBar.offsetWidth;
     const speed = 1;
 
     function scroll() {
       const textWidth = bannerText.offsetWidth;
-      if (!textWidth) {
-        if (!scrollInitialized) {
-          scrollInitialized = true;
-          setTimeout(scroll, 100);
-        }
-        return;
-      }
       pos -= speed;
       if (pos <= -textWidth) pos = announcementBar.offsetWidth;
       bannerText.style.left = pos + 'px';
       requestAnimationFrame(scroll);
     }
-    setTimeout(scroll, 100);
+    scroll();
 
     bannerTextInput.addEventListener('input', () => {
       bannerText.textContent = bannerTextInput.value;
@@ -447,19 +447,6 @@ document.addEventListener('click', (e) => {
   // =========================
   // 共通画像アップロード
   // =========================
-  function setupImageUpload(imgEl, inputEl) {
-    if (!imgEl || !inputEl) return;
-    imgEl.addEventListener('click', () => inputEl.click());
-    inputEl.addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (ev) => imgEl.src = ev.target.result;
-      reader.readAsDataURL(file);
-    });
-  }
-
   setupImageUpload(document.getElementById('headerImg'), document.getElementById('headerImgInput'));
   setupImageUpload(document.getElementById('avatarImg'), document.getElementById('avatarImgInput'));
 });
-

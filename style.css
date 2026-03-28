@@ -350,9 +350,9 @@ html, body{
 
 .card-actions {
   display: flex;
-  gap: 14px;
+  gap: 12px;
   align-items: center;
-  margin-top: 6px; /* 上余白 */
+  margin-top: 4px; /* 上余白 */
   padding-bottom: 0; /* 下余白はカード padding で統一 */
 }
 

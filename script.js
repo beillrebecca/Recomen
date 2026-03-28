@@ -291,28 +291,37 @@ function initCardClicks() {
       return;
     }
 
-    // 🔗 リンク編集
-    const linkEl = e.target.closest(".link-display");
-    const editBtn = e.target.closest(".edit-link-btn");
-    if (linkEl || editBtn) {
-      const target = card.querySelector(".link-display");
-      const current = target.getAttribute("href") || "";
-      const newLink = prompt("商品リンクを入力してね", current);
-      if (newLink) {
-        const finalLink = newLink.startsWith("http") ? newLink : "https://" + newLink;
-        target.setAttribute("href", finalLink);
-        target.textContent = finalLink;
-        items[index].link = finalLink;
+    // 🖼 画像アップロード
+    if (e.target.closest(".image") && itemImgInput) {
+      card.classList.add('editing');
+      itemImgInput.click();
+      card.classList.remove('editing');
+      return;
+    }
+
+    // ✏️ アイテム名編集
+    const nameEl = e.target.closest(".card-name");
+    if (nameEl) {
+      nameEl.focus(); // contenteditableなのでフォーカスで編集可能
+      return;
+    }
+
+    // 💰 値段編集
+    const priceEl = e.target.closest(".card-price");
+    if (priceEl) {
+      const newPrice = prompt("価格を入力してね", priceEl.textContent);
+      if (newPrice !== null) {
+        priceEl.textContent = newPrice;
+        items[index].price = newPrice;
       }
       return;
     }
 
-    // 🖼 画像アップロード
-    const imageEl = e.target.closest(".image");
-    if (imageEl && itemImgInput) {
-      card.classList.add('editing');
-      itemImgInput.click();
-      card.classList.remove('editing');
+    // 🔗 商品リンク編集
+    const linkEl = e.target.closest(".card-link-input");
+    if (linkEl) {
+      linkEl.focus(); // 直接入力できるように
+      return;
     }
   });
 }

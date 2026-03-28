@@ -582,6 +582,22 @@ html, body{
   opacity:1;
 }
 
+.edit-item .popup{
+  position:absolute;
+  top:100%; /* ボタンのすぐ下 */
+  left:50%;
+  transform:translateX(-50%);
+  display:none;
+  width:260px;
+  background:#fff;
+  border-radius:8px;
+  box-shadow:0 4px 16px rgba(0,0,0,0.2);
+  z-index:1500;
+}
+.edit-item .popup.active{
+  display:block;
+}
+
 /* =========================
    ポップアップ
 ========================= */

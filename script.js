@@ -116,7 +116,24 @@ function loadAppState() {
 
   if (saved) {
     const state = JSON.parse(saved);
-    items = state.items || [];
+
+    if (state.items && state.items.length > 0) {
+      items = state.items;
+    } else {
+      items = [
+        {
+          id: 1,
+          name: "アイテム1",
+          price: "¥0",
+          link: "",
+          img: "",
+          liked: false,
+          saved: false,
+          clicks: 0
+        }
+      ];
+    }
+
   } else {
     items = [
       {

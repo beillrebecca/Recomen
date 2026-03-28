@@ -408,12 +408,23 @@ if (editToggle && editItems) {
   });
 
   // 画面クリックで閉じる
-  document.addEventListener('click', (e) => {
-    if (!editItems.contains(e.target) && e.target !== editToggle) {
-      editItems.classList.remove('active'); // activeを削除して閉じる
-    }
-  });
-}
+  // 画面クリックで閉じる
+document.addEventListener("click", (e) => {
+  // クリック対象が編集ボタンやポップアップ内、ショーケース内なら閉じない
+  const target = e.target;
+  if (
+    target.closest("#editItems") || 
+    target.closest("#editToggle") ||
+    Object.keys(popupMap).some(id => target.closest("#" + id)) ||
+    Object.values(popupMap).some(id => target.closest("#" + id)) ||
+    target.closest("#showcase")
+  ) {
+    return; // 何もしない
+  }
+
+  // 条件に当てはまらない場合のみ全ポップアップ閉じる
+  closeAllPopups();
+});
 
   // =========================
 // 編集項目ボタンのポップアップ管理（位置固定版）

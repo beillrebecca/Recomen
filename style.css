@@ -348,28 +348,40 @@ html, body{
   color: var(--font-color);
 }
 
-.link-wrapper{
-  display:flex;
-  flex-direction:column;
-  gap:4px;
-}
-
-.link-display{
-  padding:5px;
-  border:1px solid #ccc;
-  border-radius:6px;
-  background:#f9f9f9;
-  cursor:pointer;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-  font-size:13px;
-}
-
 .card-actions{
   display:flex;
   gap:14px;
   align-items:center;
+}
+.price-link-wrapper{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  margin-top:6px;
+}
+
+.card-price{
+  font-size:14px;
+  font-weight:600;
+  color: var(--font-color);
+  white-space:nowrap;
+}
+
+.card-link-input{
+  flex:1;
+  min-width:0;
+  border:none;
+  border-bottom:1px solid #ddd;
+  background:transparent;
+  padding:4px 2px;
+  font-size:12px;
+  color: var(--font-color);
+  outline:none;
+}
+
+.card-link-input::placeholder{
+  color:#999;
 }
 
 /* =========================

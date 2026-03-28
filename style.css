@@ -529,7 +529,7 @@ html, body{
   width:100%;
   aspect-ratio:1/1;
   object-fit:cover;
-  border:1px solid #e5dccf;
+  border:var(--image-border, 1px solid #e5dccf);
   border-radius:10px;
   box-sizing:border-box;
 }

@@ -511,7 +511,7 @@ html, body{
 }
 
 .comment-list{
-  flex:1;
+  will-change: scroll; /* ブラウザにスクロール最適化させる */
   overflow-y:auto;
   padding:12px;
   font-size:13px;

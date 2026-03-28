@@ -352,8 +352,8 @@ html, body{
   display: flex;
   gap: 14px;
   align-items: center;
-  margin-top: 8px;        /* 上の余白はそのまま */
-  padding: 0 10px 10px 10px; /* 上0、左右10px、下10pxで四隅の余白と揃える */
+  margin-top: 6px; /* 上余白 */
+  padding-bottom: 0; /* 下余白はカード padding で統一 */
 }
 
 .price-link-wrapper{
@@ -361,7 +361,7 @@ html, body{
   align-items:center;
   justify-content:space-between;
   gap:8px;
-  margin-top:6px;
+  margin-top:4px;
 }
 
 .card-price{
@@ -391,9 +391,8 @@ html, body{
 .card-name,
 .price-link-wrapper,
 .card-actions{
-  padding-left:10px;
-  padding-right:10px;
-  margin-top:8px;
+  padding: 0; /* padding はカードの padding で統一するので削除 */
+  margin: 0;  /* 上下マージンもカード全体で調整 */
 }
 
 /* =========================
@@ -519,8 +518,10 @@ html, body{
   cursor:pointer;
   position:relative;
   box-shadow:0 2px 6px rgba(0,0,0,0.05);
-  transition:transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   min-height: 320px;
+  padding: 10px; /* カード内の上下左右の余白を統一 */
+  box-sizing: border-box;
 }
 .card:hover{
   transform:translateY(-2px);

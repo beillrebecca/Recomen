@@ -85,7 +85,7 @@ function createCard(item) {
   const linkInput = document.createElement("input");
   linkInput.type = "text";
   linkInput.className = "card-link-input";
-  linkInput.value = item.link;
+  linkInput.value = item.link || "";
   linkInput.placeholder = "商品リンクを入力";
   linkWrapper.appendChild(linkInput);
 
@@ -96,10 +96,18 @@ function createCard(item) {
   const actions = document.createElement("div");
   actions.className = "card-actions";
   actions.innerHTML = `
-    <svg class="icon-heart" ...></svg>
-    <svg class="icon-save" ...></svg>
-    <svg class="icon-comment" ...></svg>
-  `;
+  <svg class="icon-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+    <path d="M12 21s-6-4.35-9-8.28C-1 7.5 2.42 3 6.5 3 8.74 3 10.91 4.08 12 5.77 13.09 4.08 15.26 3 17.5 3 21.58 3 25 7.5 21 12.72 18 16.65 12 21 12 21z"/>
+  </svg>
+
+  <svg class="icon-save" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+    <path d="M6 2h12v20l-6-4-6 4z"/>
+  </svg>
+
+  <svg class="icon-comment" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+  </svg>
+`;
 
   // カードに全部追加
   card.appendChild(imageWrapper);

@@ -86,6 +86,29 @@ function createCard(item) {
 }
 
 // =========================
+// ショーケース描画（追加ボタン込み）
+// =========================
+function renderShowcaseWithAddButton() {
+  const showcase = document.getElementById("showcase");
+  if (!showcase) return;
+
+  showcase.innerHTML = "";
+
+  items.forEach(item => {
+    showcase.appendChild(createCard(item));
+  });
+
+  // 最後に追加ボタンを入れる
+  showcase.innerHTML += `
+    <div class="showcase-add-card-wrapper">
+      <button id="addCardBtn" class="showcase-add-card-btn">
+        ＋ 新しいアイテムを追加
+      </button>
+    </div>
+  `;
+}
+
+// =========================
 // 保存データ読み込み
 // =========================
 function loadAppState() {

@@ -790,7 +790,7 @@ html, body{
 /* 保存ボタンを右下に揃える */
 .save-btn-wrapper {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   padding: 8px 16px; /* ショーケースとの余白 */
 }
 .save-btn{

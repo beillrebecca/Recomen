@@ -1,55 +1,51 @@
 // =========================
-// 🔴 アイテムデータ初期化
+// 🔴 データ本体（超重要）
 // =========================
-let items = [];  // 空の配列を用意
-for (let i = 1; i <= 12; i++) {
-  items.push({
-    id: i,
-    name: 'アイテム' + i,
-    img: 'https://via.placeholder.com/300', // 仮の画像
-    link: '#',
-    price: '¥0',
-    clicks: 0,
-    liked: false,
-    saved: false
-  });
-}
+let items = [];
 
 // =========================
-// SVG アイコン生成
+// SVG アイコン生成（状態反映版）
 // =========================
 function heartIcon(item) {
-  return `<svg class="icon-heart ${item.liked ? 'liked' : ''}" viewBox="0 0 24 24" stroke-width="1.3"
-    stroke-linecap="round" stroke-linejoin="round">
-    <path d="M20.8 4.6a5 5 0 0 0-7.1 0L12 6.3l-1.7-1.7
-      a5 5 0 0 0-7.1 7.1L12 21l8.8-9.3
-      a5 5 0 0 0 0-7.1z"/>
-  </svg>`;
+  return `
+    <svg class="icon-heart ${item.liked ? 'liked' : ''}" viewBox="0 0 24 24" stroke-width="1.3"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20.8 4.6a5 5 0 0 0-7.1 0L12 6.3l-1.7-1.7
+        a5 5 0 0 0-7.1 7.1L12 21l8.8-9.3
+        a5 5 0 0 0 0-7.1z"/>
+    </svg>
+  `;
 }
 
 function commentIcon() {
-  return `<svg class="icon-comment" viewBox="0 0 24 24" stroke-width="1.3"
-    stroke-linecap="round" stroke-linejoin="round">
-    <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7
-      a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/>
-  </svg>`;
+  return `
+    <svg class="icon-comment" viewBox="0 0 24 24" stroke-width="1.3"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7
+        a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/>
+    </svg>
+  `;
 }
 
 function shareIcon() {
-  return `<svg class="icon-share" viewBox="0 0 24 24" stroke-width="1.3"
-    stroke-linecap="round" stroke-linejoin="round">
-    <path d="M22 2L11 13"/>
-    <path d="M22 2L15 22l-4-9-9-4z"/>
-  </svg>`;
+  return `
+    <svg class="icon-share" viewBox="0 0 24 24" stroke-width="1.3"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 2L11 13"/>
+      <path d="M22 2L15 22l-4-9-9-4z"/>
+    </svg>
+  `;
 }
 
 function saveIcon(item) {
-  return `<svg class="icon-save ${item.saved ? 'saved' : ''}" viewBox="0 0 24 24" stroke-width="1.3"
-    stroke-linecap="round" stroke-linejoin="round">
-    <path d="M19 21l-7-5-7 5V5
-      a2 2 0 0 1 2-2h10
-      a2 2 0 0 1 2 2z"/>
-  </svg>`;
+  return `
+    <svg class="icon-save ${item.saved ? 'saved' : ''}" viewBox="0 0 24 24" stroke-width="1.3"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 21l-7-5-7 5V5
+        a2 2 0 0 1 2-2h10
+        a2 2 0 0 1 2 2z"/>
+    </svg>
+  `;
 }
 
 // =========================
@@ -62,21 +58,21 @@ function createCard(item) {
 
   card.innerHTML = `
     <div class="image">
-      <img src="${item.img}" alt="">
-      <span class="modern-clicks">${item.clicks}</span>
+      <img src="${item.img || ''}" alt="">
+      <span class="modern-clicks">${item.clicks || 0}</span>
     </div>
 
     <div class="card-name" contenteditable="true">
-      ${item.name}
+      ${item.name || ''}
     </div>
 
     <div class="price-link-wrapper">
       <div class="card-price" contenteditable="true">
-        ${item.price}
+        ${item.price || '¥0'}
       </div>
 
-      <a class="link-display" href="${item.link}" target="_blank">
-        ${item.link === "#" ? "リンク未設定" : item.link}
+      <a class="link-display" href="${item.link || '#'}" target="_blank">
+        ${item.link || "リンク未設定"}
       </a>
 
       <button class="edit-link-btn">リンク編集</button>
@@ -89,6 +85,7 @@ function createCard(item) {
       ${saveIcon(item)}
     </div>
   `;
+
   return card;
 }
 
@@ -107,73 +104,42 @@ function renderCards() {
 }
 
 // =========================
-// 画像アップロード補助
-// =========================
-function setupImageUpload(imgEl, inputEl) {
-  if (!imgEl || !inputEl) return;
-  imgEl.addEventListener('click', () => inputEl.click());
-  inputEl.addEventListener('change', e => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = ev => imgEl.src = ev.target.result;
-    reader.readAsDataURL(file);
-  });
-}
-
-// =========================
-// ローカル保存・読み込み
+// 保存データ読み込み
 // =========================
 function loadAppState() {
-  const saved = localStorage.getItem("recomenState");
-  if (saved) {
-    try {
+  let loadedItems = [];
+  try {
+    const saved = localStorage.getItem("recomenState");
+    if (saved) {
       const state = JSON.parse(saved);
 
-      // 画像
-      const header = document.getElementById("headerImg");
-      if (header && state.headerImg) header.src = state.headerImg;
-      const avatar = document.getElementById("avatarImg");
-      if (avatar && state.avatarImg) avatar.src = state.avatarImg;
-
-      // アナウンスバー
-      const bar = document.getElementById("announcementBar");
-      if (bar && state.announcementBg) bar.style.backgroundColor = state.announcementBg;
-      const bannerText = document.querySelector(".banner-text");
-      if (bannerText && state.announcementText) bannerText.textContent = state.announcementText;
-
-      // 背景・プロフィール・フォント
-      if (state.bgColor) document.body.style.backgroundColor = state.bgColor;
-      const profileEl = document.querySelector('.profile');
-      if (profileEl && state.profileBg) profileEl.style.backgroundColor = state.profileBg;
-      if (state.fontColor) document.body.style.color = state.fontColor;
-
-      // テーマ
-      if (state.theme) {
-        document.body.classList.remove('theme-natural', 'theme-modern');
-        document.body.classList.add(`theme-${state.theme}`);
+      if (Array.isArray(state.items) && state.items.length > 0) {
+        loadedItems = state.items;
+        console.log("保存データ読み込み成功: アイテム数", loadedItems.length);
+      } else {
+        console.log("保存データに items がありません");
       }
 
-      // フォント
-      if (state.fontFamily) document.documentElement.style.setProperty('--font-family', state.fontFamily);
-
-      // プロフィール情報
-      const profileNameEl = document.getElementById("profileName");
-      if (profileNameEl && state.profileName) profileNameEl.textContent = state.profileName;
-      const profileBioEl = document.getElementById("profileBio");
-      if (profileBioEl && state.profileBio) profileBioEl.textContent = state.profileBio;
-
-      // アイテム
-      if (state.items && Array.isArray(state.items) && state.items.length > 0) {
-        items = state.items;
-      }
-
-      console.log("保存データ読み込み完了");
-    } catch (e) {
-      console.error("保存データ読み込み失敗:", e);
+      // ヘッダー・アバター
+      const headerImg = document.getElementById('headerImg');
+      if (headerImg) headerImg.src = state.headerImg || '';
+      const avatarImg = document.getElementById('avatarImg');
+      if (avatarImg) avatarImg.src = state.avatarImg || '';
+    } else {
+      console.log("保存データなし → 初期アイテムを使用");
     }
+  } catch (e) {
+    console.error("保存データ読み込み失敗:", e);
   }
 
+  if (!loadedItems || loadedItems.length === 0) {
+    loadedItems = [
+      {id:1,name:'初期アイテムA',price:'¥1000',link:'#',img:'',liked:false,saved:false,clicks:0},
+      {id:2,name:'初期アイテムB',price:'¥2000',link:'#',img:'',liked:false,saved:false,clicks:0},
+    ];
+  }
+
+  items = loadedItems;
   renderCards();
 }
 
@@ -203,52 +169,51 @@ function saveAppState_FULL() {
     };
 
     localStorage.setItem("recomenState", JSON.stringify(state));
-    alert("保存しました！");
     console.log("✅【saveAppState_FULL】保存完了");
   } catch (e) {
     console.error("❌【saveAppState_FULL】保存失敗:", e);
-    alert("保存に失敗しました！");
   }
 }
 
 // =========================
-// カードクリックイベント
+// カードクリック操作
 // =========================
-function setupCardClickEvents(showcaseEl) {
-  showcaseEl.addEventListener("click", e => {
+function initCardClicks() {
+  const showcaseEl = document.getElementById("showcase");
+  if (!showcaseEl) return;
+
+  showcaseEl.addEventListener("click", (e) => {
     const card = e.target.closest(".card");
     if (!card) return;
     const index = Array.from(showcaseEl.children).indexOf(card);
-    const item = items[index];
-    if (!item) return;
 
     // ❤️ ハート
     const heart = e.target.closest(".icon-heart");
-    if (heart) {
-      item.liked = !item.liked;
-      heart.classList.toggle("liked", item.liked);
+    if (heart && items[index]) {
+      items[index].liked = !items[index].liked;
+      heart.classList.toggle("liked", items[index].liked);
       const path = heart.querySelector("path");
       if (path) {
-        path.setAttribute("fill", item.liked ? "red" : "none");
-        path.setAttribute("stroke", item.liked ? "red" : "#000");
+        path.setAttribute("fill", items[index].liked ? "red" : "none");
+        path.setAttribute("stroke", items[index].liked ? "red" : "#000");
       }
       return;
     }
 
-    // 💾 保存
+    // 💾 保存アイコン
     const save = e.target.closest(".icon-save");
-    if (save) {
-      item.saved = !item.saved;
-      save.classList.toggle("saved", item.saved);
+    if (save && items[index]) {
+      items[index].saved = !items[index].saved;
+      save.classList.toggle("saved", items[index].saved);
       const path = save.querySelector("path");
-      if (path) path.setAttribute("fill", item.saved ? "#000" : "none");
+      if (path) path.setAttribute("fill", items[index].saved ? "#000" : "none");
       return;
     }
 
     // 🔗 リンク編集
     const linkEl = e.target.closest(".link-display");
     const editBtn = e.target.closest(".edit-link-btn");
-    if (linkEl || editBtn) {
+    if ((linkEl || editBtn) && items[index]) {
       const target = card.querySelector(".link-display");
       const current = target.getAttribute("href") || "";
       const newLink = prompt("商品リンクを入力してね", current);
@@ -256,7 +221,7 @@ function setupCardClickEvents(showcaseEl) {
         const finalLink = newLink.startsWith("http") ? newLink : "https://" + newLink;
         target.setAttribute("href", finalLink);
         target.textContent = finalLink;
-        item.link = finalLink;
+        items[index].link = finalLink;
       }
       return;
     }
@@ -264,13 +229,13 @@ function setupCardClickEvents(showcaseEl) {
     // 🖼 画像アップロード
     const imageEl = e.target.closest(".image");
     const input = document.getElementById("itemImgInput");
-    if (imageEl && input) {
-      input.onchange = event => {
+    if (imageEl && input && items[index]) {
+      input.onchange = (event) => {
         const file = event.target.files[0];
         if (!file) return;
         const reader = new FileReader();
-        reader.onload = ev => {
-          item.img = ev.target.result;
+        reader.onload = (ev) => {
+          items[index].img = ev.target.result;
           const imgTag = imageEl.querySelector("img");
           if (imgTag) imgTag.src = ev.target.result;
         };
@@ -283,42 +248,241 @@ function setupCardClickEvents(showcaseEl) {
 }
 
 // =========================
-// アナウンスバー スライド
-// =========================
-function setupAnnouncementBar() {
-  const bar = document.getElementById("announcementBar");
-  if (!bar) return;
-  const text = bar.querySelector(".banner-text");
-  if (!text) return;
-
-  let pos = bar.offsetWidth;
-  function slide() {
-    pos -= 1;
-    if (pos < -text.offsetWidth) pos = bar.offsetWidth;
-    text.style.transform = `translateX(${pos}px)`;
-    requestAnimationFrame(slide);
-  }
-  slide();
-}
-
-// =========================
-// DOMContentLoaded で初期化
+// DOMContentLoaded 前半処理
 // =========================
 document.addEventListener("DOMContentLoaded", () => {
-  const showcaseEl = document.getElementById("showcase");
+  console.log("JS読み込まれた"); 
+
+  // 保存ボタン
+  const saveBtn = document.getElementById("saveBtn");
+  if (saveBtn) saveBtn.addEventListener("click", saveAppState_FULL);
 
   // データ読み込み
-  loadAppState();
+  const showcaseEl = document.getElementById("showcase");
+  if (showcaseEl) loadAppState();
 
-  // カードクリックイベント
-  if (showcaseEl) setupCardClickEvents(showcaseEl);
+  if (!showcaseEl) console.warn("#showcase が存在しません");
 
-  // 画像アップロード
+  // カードクリック操作
+  if (showcaseEl) initCardClicks();
+});
+
+// ===============================
+// 🔴 ポップアップ・カスタムバー・テーマ切替・アナウンスバー
+// ===============================
+
+// ポップアップマップ
+const popupMap = {
+  themeButton: 'themePopup',
+  styleButton: 'stylePopup',
+  announcementButton: 'announcementPopup'
+};
+
+// 全ポップアップを閉じる
+function closeAllPopups() {
+  Object.values(popupMap).forEach(popupId => {
+    const popup = document.getElementById(popupId);
+    if (popup) {
+      popup.classList.remove('active');
+      popup.style.display = 'none';
+    }
+  });
+}
+
+// ボタンの真下中央に表示
+function positionPopup(btn, popup) {
+  if (!btn || !popup) return;
+
+  popup.style.display = "block";
+  popup.style.visibility = "hidden";
+
+  const rect = btn.getBoundingClientRect();
+  const popupWidth = popup.offsetWidth;
+  const popupHeight = popup.offsetHeight;
+
+  let left = rect.left;
+  let top = rect.bottom + 2;
+
+  left = Math.max(8, Math.min(left, window.innerWidth - popupWidth - 8));
+  top = Math.min(top, window.innerHeight - popupHeight - 8);
+
+  popup.style.position = "fixed";
+  popup.style.left = left + "px";
+  popup.style.top = top + "px";
+
+  popup.style.visibility = "visible";
+}
+
+// DOMContentLoaded 後に実行
+document.addEventListener("DOMContentLoaded", () => {
+
+  // 全体クリックでポップアップを閉じる
+  document.addEventListener('click', (e) => {
+    const isButton = Object.keys(popupMap).some(id => {
+      const el = document.getElementById(id);
+      return el && el.contains(e.target);
+    });
+    const isPopup = Object.values(popupMap).some(id => {
+      const el = document.getElementById(id);
+      return el && el.contains(e.target);
+    });
+
+    if (!isButton && !isPopup) closeAllPopups();
+  });
+
+  // ポップアップボタン設定
+  Object.entries(popupMap).forEach(([btnId, popupId]) => {
+    const btn = document.getElementById(btnId);
+    const popup = document.getElementById(popupId);
+    if (!btn || !popup) return;
+
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      closeAllPopups();
+      popup.classList.add('active');
+      positionPopup(btn, popup);
+    });
+
+    popup.addEventListener('click', e => e.stopPropagation());
+  });
+
+  // =========================
+  // テーマ切替（カード画像保持）
+  // =========================
+  const showcaseEl = document.getElementById("showcase");
+  document.querySelectorAll('input[name="theme"]').forEach(radio => {
+    radio.addEventListener('change', e => {
+      if (!showcaseEl) return;
+      const existingImages = Array.from(showcaseEl.querySelectorAll('.card img')).map(img => img.src);
+      document.body.classList.toggle('theme-natural', e.target.value === 'natural');
+      document.body.classList.toggle('theme-modern', e.target.value !== 'natural');
+      showcaseEl.querySelectorAll('.card img').forEach((img, i) => {
+        if (existingImages[i]) img.src = existingImages[i];
+      });
+    });
+  });
+
+  // =========================
+  // カスタムカラー・ピッカー設定
+  // =========================
+  function createPicker(inputId, callback) {
+    const picker = document.getElementById(inputId);
+    if (!picker) return;
+    picker.addEventListener('input', e => callback(e.target.value));
+  }
+
+  createPicker('fontColorPicker', color => document.documentElement.style.setProperty('--font-color', color));
+  createPicker('bgPicker', color => document.documentElement.style.setProperty('--showcase-bg', color));
+  createPicker('profileBgPicker', color => document.documentElement.style.setProperty('--profile-bg', color));
+  createPicker('announcementBgPicker', color => {
+    const bar = document.getElementById('announcementBar');
+    if (bar) bar.style.background = color;
+  });
+
+  // フォント変更
+  const fontSelect = document.getElementById('fontSelect');
+  if (fontSelect) fontSelect.addEventListener('change', e => {
+    document.documentElement.style.setProperty('--font-family', e.target.value);
+  });
+
+  // =========================
+  // カスタムバー開閉
+  // =========================
+  const editToggle = document.getElementById('editToggle');
+  const editItems = document.getElementById('editItems');
+  if (editToggle && editItems) {
+    editItems.classList.remove('active');
+    editToggle.addEventListener('click', e => {
+      e.stopPropagation();
+      closeAllPopups();
+      editItems.classList.toggle('active');
+    });
+  }
+
+  // =========================
+  // アナウンスバー（スクロール）
+  // =========================
+  const announcementBar = document.getElementById('announcementBar');
+  const bannerText = announcementBar?.querySelector('.banner-text');
+  const bannerTextInput = document.getElementById('bannerTextInput');
+
+  if (announcementBar && bannerText && bannerTextInput) {
+    let scrollInitialized = false;
+    let pos = announcementBar.offsetWidth;
+    const speed = 1;
+
+    function scroll() {
+      const textWidth = bannerText.offsetWidth;
+      if (!textWidth) {
+        if (!scrollInitialized) {
+          scrollInitialized = true;
+          setTimeout(scroll, 100);
+        }
+        return;
+      }
+      pos -= speed;
+      if (pos <= -textWidth) pos = announcementBar.offsetWidth;
+      bannerText.style.left = pos + 'px';
+      requestAnimationFrame(scroll);
+    }
+    setTimeout(scroll, 100);
+
+    bannerTextInput.addEventListener('input', () => {
+      bannerText.textContent = bannerTextInput.value;
+      pos = announcementBar.offsetWidth;
+    });
+
+    window.addEventListener('resize', () => pos = announcementBar.offsetWidth);
+  }
+
+  // =========================
+  // フォローモーダル
+  // =========================
+  const modal = document.getElementById('followModal');
+  const followingBtn = document.getElementById('followingBtn');
+  const followersBtn = document.getElementById('followersBtn');
+
+  if (modal) {
+    const modalTitle = modal.querySelector('.modal-title');
+    const userList = modal.querySelector('.user-list');
+    const closeBtn = modal.querySelector('.close-btn');
+
+    const following = [{name:'ユーザーA',img:'https://via.placeholder.com/32'}, {name:'ユーザーB',img:'https://via.placeholder.com/32'}];
+    const followers = [{name:'ユーザーC',img:'https://via.placeholder.com/32'}, {name:'ユーザーD',img:'https://via.placeholder.com/32'}];
+
+    function showModal(type){
+      userList.innerHTML = '';
+      const list = type==='following'?following:followers;
+      modalTitle.textContent = type==='following'?'フォロー中':'フォロワー';
+      list.forEach(user=>{
+        const li = document.createElement('li');
+        li.innerHTML = `<img src="${user.img}" alt="${user.name}"><span>${user.name}</span>`;
+        userList.appendChild(li);
+      });
+      modal.style.display = 'block';
+    }
+
+    followingBtn?.addEventListener('click',()=>showModal('following'));
+    followersBtn?.addEventListener('click',()=>showModal('followers'));
+    closeBtn?.addEventListener('click',()=>modal.style.display='none');
+  }
+
+  // =========================
+  // 共通画像アップロード
+  // =========================
+  function setupImageUpload(imgEl, inputEl) {
+    if (!imgEl || !inputEl) return;
+    imgEl.addEventListener('click', () => inputEl.click());
+    inputEl.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => imgEl.src = ev.target.result;
+      reader.readAsDataURL(file);
+    });
+  }
+
   setupImageUpload(document.getElementById('headerImg'), document.getElementById('headerImgInput'));
   setupImageUpload(document.getElementById('avatarImg'), document.getElementById('avatarImgInput'));
-
-  // アナウンスバー
-  setupAnnouncementBar();
-
-  console.log("アプリ初期化完了");
 });
+

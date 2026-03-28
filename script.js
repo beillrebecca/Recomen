@@ -152,9 +152,6 @@ function renderShowcaseWithAddButton() {
 // =========================
 // 保存データ読み込み
 // =========================
-// =========================
-// 保存データ読み込み
-// =========================
 function loadAppState() {
   const saved = localStorage.getItem("recomenState");
 

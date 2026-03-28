@@ -562,10 +562,13 @@ html, body{
 
 /* 編集項目ボタン群（折りたたみ・スライド） */
 .edit-items {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
+  position: absolute;
+  bottom: 100%; /* カスタムバーの上に配置 */
+  left: 0;
   width: 100%;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease;

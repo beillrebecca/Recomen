@@ -103,6 +103,17 @@ function createCard(item) {
   return card;
 }
 
+function renderCards() {
+  const showcase = document.getElementById("showcase");
+  if (!showcase) return;
+
+  showcase.innerHTML = ""; // クリア
+  items.forEach(item => {
+    const card = createCard(item);
+    showcase.appendChild(card); // ← 必ず append
+  });
+}
+
 // =========================
 // カード描画
 // =========================

@@ -130,44 +130,43 @@ function createCard(item) {
 // =========================
 // ショーケース描画（追加ボタン込み）
 // =========================
-function renderShowcaseWithAddButton() {
+function renderShowcaseLight() {
   const showcase = document.getElementById("showcase");
   if (!showcase) return;
 
-  // 中身をクリア
-  showcase.innerHTML = "";
+  // 初回だけカードと追加ボタンを作る
+  if (showcase.children.length === 0) {
+    items.forEach(item => showcase.appendChild(createCard(item)));
 
-  // カードを追加
-  items.forEach(item => {
-    showcase.appendChild(createCard(item));
-  });
+    const addWrapper = document.createElement("div");
+    addWrapper.className = "showcase-add-card-wrapper";
 
-  // 追加ボタンを作る（DOM操作）
-  const addWrapper = document.createElement("div");
-  addWrapper.className = "showcase-add-card-wrapper";
+    const addBtn = document.createElement("button");
+    addBtn.id = "addCardBtn";
+    addBtn.className = "showcase-add-card-btn";
+    addBtn.textContent = "＋ 新しいアイテムを追加";
 
-  const addBtn = document.createElement("button");
-  addBtn.id = "addCardBtn";
-  addBtn.className = "showcase-add-card-btn";
-  addBtn.textContent = "＋ 新しいアイテムを追加";
+    addWrapper.appendChild(addBtn);
+    showcase.appendChild(addWrapper);
 
-  addWrapper.appendChild(addBtn);
-  showcase.appendChild(addWrapper);
+    addBtn.addEventListener("click", () => {
+      const newItem = {
+        id: Date.now(),
+        name: `アイテム${items.length + 1}`,
+        price: "¥0",
+        link: "",
+        img: "",
+        liked: false,
+        saved: false,
+        clicks: 0
+      };
+      items.push(newItem);
 
-  // クリックイベント登録
-  addBtn.addEventListener("click", () => {
-    items.push({
-      id: Date.now(),
-      name: `アイテム${items.length + 1}`,
-      price: "¥0",
-      link: "",
-      img: "",
-      liked: false,
-      saved: false,
-      clicks: 0
+      // 新しいカードだけ追加
+      const newCard = createCard(newItem);
+      showcase.insertBefore(newCard, addWrapper);
     });
-    renderShowcaseWithAddButton(); // 再描画
-  });
+  }
 }
 
 // =========================

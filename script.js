@@ -174,6 +174,20 @@ function loadAppState() {
     items = getDefaultItems();
   }
 
+  // 最低4枚にする
+  while (items.length < 4) {
+    items.push({
+      id: Date.now() + items.length,
+      name: `アイテム${items.length + 1}`,
+      price: "¥0",
+      link: "",
+      img: "",
+      liked: false,
+      saved: false,
+      clicks: 0
+    });
+  }
+
   renderShowcaseWithAddButton();
 }
 

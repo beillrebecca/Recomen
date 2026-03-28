@@ -384,6 +384,13 @@ html, body{
   color:#999;
 }
 
+.card-name,
+.price-link-wrapper,
+.card-actions{
+  padding-left:10px;
+  padding-right:10px;
+}
+
 /* =========================
    アイコン共通
 ========================= */

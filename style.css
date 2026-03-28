@@ -518,27 +518,12 @@ html, body{
 }
 
 /* =========================
-   カスタムバー＆折りたたみ編集
+   カスタムバー（ボトム固定）
 ========================= */
-
-/* カスタムバーラッパー（折りたたみ＋スライド） */
-.custom-bar-wrapper {
+.custom-bar {
   position: fixed;
   bottom: 0;
   left: 0;
-  width: 100%;
-  z-index: 1000;
-  transform: translateY(0); /* 初期表示は下 */
-  transition: transform 0.3s ease;
-}
-
-/* 展開時（スライドアップ） */
-.custom-bar-wrapper.expanded {
-  transform: translateY(-120px); /* 編集項目分スライド */
-}
-
-/* カスタムバー本体 */
-.custom-bar {
   width: 100%;
   height: 60px;
   background: #f3e8ff;
@@ -546,54 +531,54 @@ html, body{
   justify-content: center;
   align-items: center;
   gap: 12px;
+  padding: 0 16px;
+  box-sizing: border-box;
+  z-index: 1000;
   box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
-  position: relative;
 }
 
 /* 編集ボタン */
 .edit-toggle-btn {
-  position: absolute;
-  top: -50px; /* カスタムバーの上に配置 */
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1100;
-  padding: 10px 28px;
-  font-size: 14px;
-  font-weight: 400;
-  cursor: pointer;
+  padding: 10px 20px;
   background: #fff;
   border: none;
   border-radius: 999px;
-  color: #333;
+  font-size: 14px;
+  cursor: pointer;
   box-shadow: 0 4px 12px rgba(203, 163, 232, 0.3);
   transition: transform 0.2s, box-shadow 0.2s;
 }
+
 .edit-toggle-btn:hover {
-  transform: translateX(-50%) scale(1.05);
+  transform: scale(1.05);
   box-shadow: 0 6px 18px rgba(203, 163, 232, 0.3);
 }
 
-/* 編集項目ボタン群 */
+/* 編集項目ボタン群（折りたたみ・スライド） */
 .edit-items {
+  position: absolute;
+  bottom: 60px; /* バーの上に配置 */
   display: flex;
-  justify-content: center;
   gap: 12px;
+  max-height: 0;       /* 初期は折りたたむ */
+  overflow: hidden;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.3s;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
 }
 
 /* 展開時 */
-.custom-bar-wrapper.expanded .edit-items {
+.edit-items.active {
+  max-height: 100px;   /* 高さはボタンサイズに合わせて調整 */
   opacity: 1;
   pointer-events: auto;
 }
 
-/* 各編集ボタン */
-.edit-items button {
+/* 各編集項目ボタン */
+.edit-item {
+  padding: 8px 16px;
   background: #4caf50;
   color: #fff;
-  padding: 8px 16px;
   border: none;
   border-radius: 6px;
   font-weight: bold;
@@ -601,9 +586,10 @@ html, body{
   font-size: 14px;
   transition: transform 0.2s, box-shadow 0.2s;
 }
-.edit-items button:hover {
-  background: #45a049;
+
+.edit-item:hover {
   transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(203, 163, 232, 0.3);
 }
 
 /* =========================

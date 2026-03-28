@@ -655,6 +655,17 @@ html, body{
 /* =========================
    保存ボタン
 ========================= */
+/* ショーケース下に余白を追加 */
+.main-content-wrapper {
+  padding-bottom: 120px; /* カスタムバー + ボタン分のスペース */
+}
+
+/* 保存ボタンを右下に揃える */
+.save-btn-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 16px; /* ショーケースとの余白 */
+}
 .save-btn {
   position: fixed;       /* 画面下に固定 */
   bottom: 16px;          /* 下から16pxに変更（追加ボタンと同じ高さに揃える） */

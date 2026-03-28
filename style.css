@@ -648,6 +648,11 @@ html, body{
   border-color: transparent transparent #e6f9d9 transparent;
 }
 
+.popup-container {
+  position: relative;
+  z-index: 1200;
+}
+
 #themePopup {
   width: 100px;
 }

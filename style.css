@@ -648,6 +648,19 @@ html, body{
   border-color: transparent transparent #e6f9d9 transparent;
 }
 
+#themePopup {
+  width: 100px;
+}
+
+#stylePopup {
+  width: 180px;
+}
+
+#announcementPopup {
+  width: 200px;
+}
+
+
 /* =========================
    カラーピッカー
 ========================= */

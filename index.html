@@ -41,16 +41,7 @@
 
     <!-- 折りたたまれた編集項目ボタン群 -->
     <div class="edit-items" id="editItems">
-      <button class="edit-item" id="themeButton">テーマ</button>
-      <button class="edit-item" id="styleButton">スタイル</button>
-      <button class="edit-item" id="announcementButton">アナウンスバー</button>
-    </div>
-
-  </div> <!-- /.custom-bar -->
-
-</div> <!-- /.custom-bar-wrapper -->
-
-      <!-- テーマ選択 -->
+      <!-- 各ボタン内に popup を入れておく -->
       <div class="edit-item" id="themeButton">
         <span>テーマ</span>
         <div class="popup" id="themePopup">
@@ -65,16 +56,13 @@
         </div>
       </div>
 
-      <!-- スタイル設定 -->
       <div class="edit-item" id="styleButton">
         <span>スタイル</span>
         <div class="popup" id="stylePopup" style="display:none;">
-
           <label class="color-field">
             <span class="label">Background</span>
             <div id="bgPicker"></div>
           </label>
-
           <label>
             <span class="label">Font</span>
             <select id="fontSelect">
@@ -83,21 +71,17 @@
               <option value="'Sawarabi Gothic', sans-serif">Sawarabi Gothic</option>
             </select>
           </label>
-
           <label class="color-field">
             <span class="label">Font Color</span>
             <div id="fontColorPicker"></div>
           </label>
-
           <label class="color-field">
             <span class="label">Profile Background</span>
             <div id="profileBgPicker"></div>
           </label>
-
         </div>
       </div>
 
-      <!-- アナウンスバー設定 -->
       <div class="edit-item" id="announcementButton">
         <span>アナウンスバー</span>
         <div class="popup" id="announcementPopup" style="display:none;">
@@ -116,9 +100,11 @@
         </div>
       </div>
 
-    </div> <!-- /edit-items -->
+    </div> <!-- /.edit-items -->
 
-  </div> <!-- /custom-bar -->
+  </div> <!-- /.custom-bar -->
+
+</div> <!-- /.custom-bar-wrapper -->
 
   <!-- ===== ヘッダー ===== -->
   <div class="header">

@@ -576,32 +576,33 @@ document.addEventListener("click", () => {
 
 
   // =========================
-  // アナウンスバー（スクロール）
-  // =========================
-  const announcementBar = document.getElementById('announcementBar');
-  const bannerText = announcementBar?.querySelector('.banner-text');
-  const bannerTextInput = document.getElementById('bannerTextInput');
+// アナウンスバー（軽量スクロール版）
+// =========================
+const announcementBar = document.getElementById('announcementBar');
+const bannerText = announcementBar?.querySelector('.banner-text');
+const bannerTextInput = document.getElementById('bannerTextInput');
 
-  if (announcementBar && bannerText && bannerTextInput) {
-    let pos = announcementBar.offsetWidth;
-    const speed = 1;
+if (announcementBar && bannerText && bannerTextInput) {
+  let pos = announcementBar.offsetWidth;
+  const speed = 1;          // 1pxずつスクロール
+  const interval = 20;      // 20msごとに更新（約50fps）
 
-    function scroll() {
-      const textWidth = bannerText.offsetWidth;
-      pos -= speed;
-      if (pos <= -textWidth) pos = announcementBar.offsetWidth;
-      bannerText.style.left = pos + 'px';
-      requestAnimationFrame(scroll);
-    }
-    scroll();
-
-    bannerTextInput.addEventListener('input', () => {
-      bannerText.textContent = bannerTextInput.value;
-      pos = announcementBar.offsetWidth;
-    });
-
-    window.addEventListener('resize', () => pos = announcementBar.offsetWidth);
+  function scroll() {
+    const textWidth = bannerText.offsetWidth;
+    pos -= speed;
+    if (pos <= -textWidth) pos = announcementBar.offsetWidth;
+    bannerText.style.left = pos + 'px';
   }
+
+  const scrollTimer = setInterval(scroll, interval);
+
+  bannerTextInput.addEventListener('input', () => {
+    bannerText.textContent = bannerTextInput.value;
+    pos = announcementBar.offsetWidth;
+  });
+
+  window.addEventListener('resize', () => pos = announcementBar.offsetWidth);
+}
 
 
   // =========================

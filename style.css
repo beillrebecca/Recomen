@@ -520,8 +520,7 @@ html, body{
   box-shadow:0 2px 6px rgba(0,0,0,0.05);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   min-height: 320px;
-  padding: 10px; /* カード内の上下左右の余白を統一 */
-  box-sizing: border-box;
+  padding: 8px;
 }
 .card:hover{
   transform:translateY(-2px);

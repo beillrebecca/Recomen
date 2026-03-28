@@ -293,12 +293,22 @@ function initCardClicks() {
     }
 
     // 🖼 画像アップロード
-    if (e.target.closest(".image") && itemImgInput) {
-    card.classList.add('editing');
-    itemImgInput.click();
-    card.classList.remove('editing');
-    return;
-    }
+if (e.target.closest(".image") && itemImgInput) {
+  const currentCard = card; // ここで対象カードを保持
+  itemImgInput.onchange = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const imgTag = currentCard.querySelector("img"); // 直接カード内のimg
+      if (imgTag) imgTag.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+    event.target.value = "";
+  };
+  itemImgInput.click();
+  return;
+}
 
     // ✏️ アイテム名編集
     const nameEl = e.target.closest(".card-name");

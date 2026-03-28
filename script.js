@@ -52,39 +52,50 @@ function saveIcon(item) {
 // カード作成
 // =========================
 function createCard(item) {
-  const card = document.createElement('div');
-  card.className = 'card';
-  card.id = `card-${item.id}`;
+  const card = document.createElement("div");
+  card.className = "card";
 
-  card.innerHTML = `
-    <div class="image">
-      <img src="${item.img || ''}" alt="">
-      <span class="modern-clicks">${item.clicks || 0}</span>
-    </div>
+  const imageWrapper = document.createElement("div");
+  imageWrapper.className = "card-image-wrapper";
+  const img = document.createElement("img");
+  img.src = item.img;
+  img.alt = item.name;
+  const clicks = document.createElement("span");
+  clicks.className = "modern-clicks";
+  clicks.textContent = item.clicks;
+  imageWrapper.appendChild(img);
+  imageWrapper.appendChild(clicks);
 
-    <div class="card-name" contenteditable="true">
-      ${item.name || ''}
-    </div>
+  const name = document.createElement("div");
+  name.className = "card-name";
+  name.textContent = item.name;
 
-    <div class="price-link-wrapper">
-      <div class="card-price" contenteditable="true">
-        ${item.price || '¥0'}
-      </div>
+  const info = document.createElement("div");
+  info.className = "card-info";
+  const price = document.createElement("span");
+  price.className = "card-price";
+  price.textContent = item.price;
+  const link = document.createElement("a");
+  link.className = "card-link";
+  link.href = item.link;
+  link.target = "_blank";
+  link.textContent = "商品リンク";
+  info.appendChild(price);
+  info.appendChild(link);
 
-      <a class="link-display" href="${item.link || '#'}" target="_blank">
-        ${item.link || "リンク未設定"}
-      </a>
-
-      <button class="edit-link-btn">リンク編集</button>
-    </div>
-
-    <div class="card-actions">
-      ${heartIcon(item)}
-      ${commentIcon()}
-      ${shareIcon()}
-      ${saveIcon(item)}
-    </div>
+  const actions = document.createElement("div");
+  actions.className = "card-actions";
+  actions.innerHTML = `
+    <svg class="icon-heart" ...></svg>
+    <svg class="icon-save" ...></svg>
+    <svg class="icon-comment" ...></svg>
   `;
+
+  card.appendChild(imageWrapper);
+  card.appendChild(name);
+  card.appendChild(info);
+  card.appendChild(actions);
+
   return card;
 }
 

@@ -331,20 +331,25 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ポップアップボタン設定
-  Object.entries(popupMap).forEach(([btnId, popupId]) => {
-    const btn = document.getElementById(btnId);
-    const popup = document.getElementById(popupId);
-    if (!btn || !popup) return;
+  ['themeButton', 'styleButton', 'announcementButton'].forEach(id => {
+  const btn = document.getElementById(id);
+  const popup = btn.querySelector('.popup');
+  if (!btn || !popup) return;
 
-    btn.addEventListener('click', e => {
-      e.stopPropagation();
-      closeAllPopups();
-      popup.classList.add('active');
-      positionPopup(btn, popup);
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    // 他のpopupを閉じる
+    document.querySelectorAll('.edit-item .popup').forEach(p => {
+      if (p !== popup) p.classList.remove('active');
     });
-
-    popup.addEventListener('click', e => e.stopPropagation());
+    popup.classList.toggle('active');
   });
+});
+
+// 画面クリックで閉じる
+document.addEventListener('click', () => {
+  document.querySelectorAll('.edit-item .popup').forEach(p => p.classList.remove('active'));
+});
 
   // =========================
   // テーマ切替（カード画像保持）
@@ -391,13 +396,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const editToggle = document.getElementById('editToggle');
   const editItems = document.getElementById('editItems');
   if (editToggle && editItems) {
-    editItems.classList.remove('active');
-    editToggle.addEventListener('click', e => {
-      e.stopPropagation();
-      closeAllPopups();
-      editItems.classList.toggle('active');
-    });
-  }
+  editItems.classList.remove('active'); // 初期非表示
+  editToggle.addEventListener('click', e => {
+    e.stopPropagation();
+    closeAllPopups();
+    editItems.classList.toggle('active'); // スライドイン・アウト
+  });
+}
 
   // =========================
   // アナウンスバー（スクロール）

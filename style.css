@@ -569,12 +569,11 @@ html, body{
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease;
-  flex-wrap: wrap; /* 小さい画面でも折り返す */
 }
 
 /* 展開時 */
 .edit-items.active {
-  max-height: 120px; /* ボタン複数行対応 */
+  max-height: 60px;   /* ボタンが見える高さ */
 }
 
 /* 各編集項目ボタン */

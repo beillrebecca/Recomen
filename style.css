@@ -262,7 +262,7 @@ html, body{
   border-radius: 8px;
   box-shadow: 0 6px 20px rgba(0,0,0,0.2);
   overflow: hidden;
-  z-index: 1000;
+  z-index: 1400; /* popupより下 */
 }
 
 .modal-content {
@@ -569,11 +569,12 @@ html, body{
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease;
+  flex-wrap: wrap; /* 小さい画面でも折り返す */
 }
 
 /* 展開時 */
 .edit-items.active {
-  max-height: 60px; /* ボタンの高さ + 少し余白 */
+  max-height: 120px; /* ボタン複数行対応 */
 }
 
 /* 各編集項目ボタン */
@@ -611,7 +612,7 @@ html, body{
   border-radius:8px;
   box-shadow:0 4px 16px rgba(0,0,0,0.2);
   display:none;
-  z-index:1500;
+  z-index: 1500; /* modalより上、custom-barより上 */
 }
 .popup-content{
   padding:12px;

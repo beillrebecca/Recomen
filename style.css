@@ -339,7 +339,7 @@ html, body{
 .slide-right{right:4px;}
 
 .card-name{
-  min-height: 32px;
+  min-height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -560,8 +560,8 @@ html, body{
   position:relative;
   box-shadow:0 2px 6px rgba(0,0,0,0.05);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  min-height: 320px;
-  padding: 8px;
+  min-height: auto;     /* 必要最低限の高さに */
+  padding: 6px;        /* 内側の余白を少し減らす */
 }
 .card:hover{
   transform:translateY(-2px);
@@ -577,7 +577,7 @@ html, body{
 }
 .image{
   position: relative;
-  padding: 0 0 8px 0; /* 上下の余白を最小限に */
+  padding: 6px 6px 0; /* 上下の余白を少し減らした */
 }
 .card .modern-clicks{
   position: absolute;      /* 画像内での絶対位置 */

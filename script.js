@@ -393,16 +393,30 @@ document.addEventListener('click', () => {
   // =========================
   // カスタムバー開閉
   // =========================
-  const editToggle = document.getElementById('editToggle');
-  const editItems = document.getElementById('editItems');
-  if (editToggle && editItems) {
-  editItems.classList.remove('active'); // 初期非表示
-  editToggle.addEventListener('click', e => {
-    e.stopPropagation();
-    closeAllPopups();
-    editItems.classList.toggle('active'); // スライドイン・アウト
-  });
-}
+  // 編集ボタン
+const editToggle = document.getElementById('editToggle');
+const editItems = document.getElementById('editItems');
+const customBar = document.getElementById('customBar');
+
+editToggle.addEventListener('click', e => {
+  e.stopPropagation();
+  editItems.classList.toggle('active');
+
+  // カスタムバーも一緒に少し上にスライド
+  if(editItems.classList.contains('active')){
+    customBar.style.transform = 'translateY(-100px)'; // 上に100pxスライド
+  } else {
+    customBar.style.transform = 'translateY(0)'; // 元に戻す
+  }
+});
+
+// 外側クリックで閉じる
+document.addEventListener('click', () => {
+  if(editItems.classList.contains('active')){
+    editItems.classList.remove('active');
+    customBar.style.transform = 'translateY(0)';
+  }
+});
 
   // =========================
   // アナウンスバー（スクロール）

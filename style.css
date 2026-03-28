@@ -667,16 +667,13 @@ html, body{
   padding: 8px 16px; /* ショーケースとの余白 */
 }
 .save-btn {
-  position: fixed;       /* 画面下に固定 */
-  bottom: 16px;          /* 下から16pxに変更（追加ボタンと同じ高さに揃える） */
-  right: 16px;           /* 右下に配置 */
+  position: static;
   background: #a0e7ff;   /* 薄い水色に変更 */
   color: #000;           /* 黒文字にして見やすく */
   border: none;
   border-radius: 8px;
   padding: 10px 16px;
   cursor: pointer;
-  z-index: 1200;
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -691,7 +688,7 @@ html, body{
    ボトムメニュー
 ========================= */
 .bottom-bar{
-  position:static;
+  position:fixed;
   bottom:0;
   left:0;
   width:100%;

@@ -294,18 +294,25 @@ function initCardClicks() {
 
     // 🖼 画像アップロード
 if (e.target.closest(".image") && itemImgInput) {
-  const currentCard = card; // ここで対象カードを保持
-  itemImgInput.onchange = (event) => {
+  const currentCard = card; // クリックしたカードを保持
+
+  const handler = (event) => {
     const file = event.target.files[0];
     if (!file) return;
+
     const reader = new FileReader();
     reader.onload = (ev) => {
-      const imgTag = currentCard.querySelector("img"); // 直接カード内のimg
+      const imgTag = currentCard.querySelector("img"); // そのカード内の img
       if (imgTag) imgTag.src = ev.target.result;
     };
     reader.readAsDataURL(file);
+
+    // 終わったらイベント解除（次回クリックで再設定）
+    itemImgInput.removeEventListener('change', handler);
     event.target.value = "";
   };
+
+  itemImgInput.addEventListener('change', handler);
   itemImgInput.click();
   return;
 }

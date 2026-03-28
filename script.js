@@ -54,123 +54,35 @@ function saveIcon(item) {
 function createCard(item) {
   const card = document.createElement("div");
   card.className = "card";
-  card.id = `card-${item.id}`;
 
-  // =========================
-  // 画像 + クリック数
-  // =========================
-  const imageWrapper = document.createElement("div");
-  imageWrapper.className = "card-image-wrapper";
+  card.innerHTML = `
+    <div class="image">
+      <img src="${item.img || 'https://dummyimage.com/300x300/eeeeee/999999&text=📷'}" alt="">
+      <span class="modern-clicks">${item.clicks || 0}</span>
+    </div>
 
-  const img = document.createElement("img");
-  img.src = item.img || "https://via.placeholder.com/300";
-  img.alt = item.name;
+    <div class="card-name" contenteditable="true">
+      ${item.name || "アイテム名"}
+    </div>
 
-  const clicks = document.createElement("span");
-  clicks.className = "modern-clicks";
-  clicks.textContent = item.clicks || 0;
+    <div class="price-link-wrapper">
+      <div class="card-price">${item.price || "¥0"}</div>
+      <input 
+        class="card-link-input"
+        type="text"
+        value="${item.link || ''}"
+        placeholder="商品リンクを入力">
+    </div>
 
-  imageWrapper.appendChild(img);
-  imageWrapper.appendChild(clicks);
-
-  // =========================
-  // アイテム名
-  // =========================
-  const name = document.createElement("div");
-  name.className = "card-name";
-  name.contentEditable = "true";
-  name.textContent = item.name || "アイテム名";
-
-  // =========================
-  // 値段 + 商品リンク
-  // =========================
-  const info = document.createElement("div");
-  info.className = "card-info";
-
-  const price = document.createElement("div");
-  price.className = "card-price";
-  price.contentEditable = "true";
-  price.textContent = item.price || "¥0";
-
-  const linkInput = document.createElement("input");
-  linkInput.type = "text";
-  linkInput.className = "card-link-input";
-  linkInput.value = item.link || "";
-  linkInput.placeholder = "商品リンクを入力";
-
-  info.appendChild(price);
-  info.appendChild(linkInput);
-
-  // =========================
-  // アイコン群
-  // =========================
-  const actions = document.createElement("div");
-  actions.className = "card-actions";
-  actions.innerHTML = `
-    ${heartIcon(item)}
-    ${saveIcon(item)}
-    ${commentIcon()}
-    ${shareIcon()}
+    <div class="card-actions">
+      ${heartIcon(item)}
+      ${commentIcon()}
+      ${shareIcon()}
+      ${saveIcon(item)}
+    </div>
   `;
 
-  // =========================
-  // カード組み立て
-  // =========================
-  card.appendChild(imageWrapper);
-  card.appendChild(name);
-  card.appendChild(info);
-  card.appendChild(actions);
-
   return card;
-}
-
-// =========================
-// カード描画
-// =========================
-function renderCards() {
-  const showcase = document.getElementById("showcase");
-  if (!showcase) return;
-
-  showcase.innerHTML = "";
-  items.forEach(item => {
-    const card = createCard(item);
-    showcase.appendChild(card);
-  });
-}
-
-// =========================
-// 保存データ読み込み
-// =========================
-function loadAppState() {
-  let loadedItems = [];
-  try {
-    const saved = localStorage.getItem("recomenState");
-    if (saved) {
-      const state = JSON.parse(saved);
-
-      if (Array.isArray(state.items) && state.items.length > 0) {
-        loadedItems = state.items;
-        console.log("保存データ読み込み成功: アイテム数", loadedItems.length);
-      }
-
-      const headerImg = document.getElementById('headerImg');
-      if (headerImg) headerImg.src = state.headerImg || '';
-      const avatarImg = document.getElementById('avatarImg');
-      if (avatarImg) avatarImg.src = state.avatarImg || '';
-    }
-  } catch (e) {
-    console.error("保存データ読み込み失敗:", e);
-  }
-
-  if (!loadedItems || loadedItems.length === 0) {
-    loadedItems = [
-      {id:1,name:'初期アイテムA',price:'¥1000',link:'#',img:'',liked:false,saved:false,clicks:0},
-      {id:2,name:'初期アイテムB',price:'¥2000',link:'#',img:'',liked:false,saved:false,clicks:0},
-    ];
-  }
-
-  items = loadedItems;
-  renderCards();
 }
 
 // =========================

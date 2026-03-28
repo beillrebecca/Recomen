@@ -318,48 +318,42 @@ function initCardClicks() {
       return;
     }
 
-    // 🔗 商品リンク編集（統合版）
-    const editBtn = e.target.closest(".edit-link-btn");
-    if (editBtn) {
-      const linkWrapper = card.querySelector(".link-wrapper");
-      const linkDisplay = linkWrapper.querySelector(".link-display");
-
-      // 編集ボタン → 入力モード
-      if (editBtn.textContent === "編集") {
-        const currentLink = linkDisplay.textContent || "";
-        const input = document.createElement("input");
-        input.type = "text";
-        input.value = currentLink;
-        input.className = "link-input";
-        input.style.width = "100%";
-        linkWrapper.replaceChild(input, linkDisplay);
-
-        editBtn.textContent = "決定";
-        input.focus();
-        return;
-      }
-
-      // 決定ボタン → 表示モードに戻す
-      if (editBtn.textContent === "決定") {
-        const input = linkWrapper.querySelector(".link-input");
-        if (!input) return;
-
-        let newLink = input.value.trim();
-        if (newLink && !newLink.startsWith("http")) {
-          newLink = "https://" + newLink;
-        }
-
-        const span = document.createElement("span");
-        span.className = "link-display";
-        span.textContent = newLink || "リンクを入力";
-        linkWrapper.replaceChild(span, input);
-
-        items[index].link = newLink;
-        editBtn.textContent = "編集";
-        return;
-      }
+    // 🔗 商品リンク → ポップアップで編集
+    const linkEl = e.target.closest(".card-link-input");
+    if (linkEl) {
+      // カードの index を渡してポップアップ表示
+      showLinkEditPopup(index);
+      return;
     }
   });
+}
+
+// ポップアップ表示関数（別で作る）
+function showLinkEditPopup(index) {
+  const item = items[index];
+  const popup = document.getElementById("linkEditPopup");
+  const input = popup.querySelector("input");
+  const btn = popup.querySelector("button");
+
+  input.value = item.link || "";
+  popup.style.display = "block";
+  input.focus();
+
+  btn.onclick = () => {
+    let newLink = input.value.trim();
+    if (newLink && !newLink.startsWith("http")) {
+      newLink = "https://" + newLink;
+    }
+
+    item.link = newLink;
+
+    // カード内に反映
+    const card = document.getElementById("showcase").children[index];
+    const linkInput = card.querySelector(".card-link-input");
+    if (linkInput) linkInput.value = newLink;
+
+    popup.style.display = "none";
+  };
 }
 
 // =========================

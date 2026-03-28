@@ -352,7 +352,10 @@ html, body{
   display:flex;
   gap:14px;
   align-items:center;
+  margin-top:8px;
+  padding-bottom:10px;
 }
+
 .price-link-wrapper{
   display:flex;
   align-items:center;

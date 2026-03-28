@@ -294,10 +294,10 @@ function initCardClicks() {
 
     // 🖼 画像アップロード
     if (e.target.closest(".image") && itemImgInput) {
-      card.classList.add('editing');
-      itemImgInput.click();
-      card.classList.remove('editing');
-      return;
+    card.classList.add('editing');
+    itemImgInput.click();
+    card.classList.remove('editing');
+    return;
     }
 
     // ✏️ アイテム名編集

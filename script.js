@@ -158,30 +158,34 @@ function loadAppState() {
 // =========================
 function saveAppState_FULL() {
   try {
-    const savedItems = items.map(item => ({
-      ...item,
-      img: document.querySelector(`#card-${item.id} img`)?.src || item.img
+    const showcase = document.getElementById("showcase");
+    const cards = showcase.querySelectorAll(".card");
+
+    items = Array.from(cards).map((card, index) => ({
+      id: items[index]?.id || Date.now() + index,
+      name: card.querySelector(".card-name")?.textContent.trim() || "アイテム名",
+      price: card.querySelector(".card-price")?.textContent.trim() || "¥0",
+      link: card.querySelector(".card-link-input")?.value || "",
+      img: card.querySelector("img")?.src || "",
+      liked: card.querySelector(".icon-heart")?.classList.contains("liked") || false,
+      saved: card.querySelector(".icon-save")?.classList.contains("saved") || false,
+      clicks: parseInt(card.querySelector(".modern-clicks")?.textContent || "0")
     }));
 
     const state = {
-      items: savedItems,
-      headerImg: document.getElementById('headerImg')?.src || null,
-      avatarImg: document.getElementById('avatarImg')?.src || null,
-      announcementBg: document.getElementById('announcementBar')?.style.backgroundColor || null,
-      announcementText: document.querySelector('.banner-text')?.textContent || "",
-      bgColor: document.body.style.backgroundColor || null,
-      profileBg: document.querySelector('.profile')?.style.backgroundColor || null,
-      fontColor: document.body.style.color || null,
-      theme: document.body.classList.contains('theme-natural') ? 'natural' : 'modern',
-      fontFamily: getComputedStyle(document.documentElement).getPropertyValue('--font-family') || null,
+      items,
+      headerImg: document.getElementById("headerImg")?.src || null,
+      avatarImg: document.getElementById("avatarImg")?.src || null,
       profileName: document.getElementById("profileName")?.textContent || "",
       profileBio: document.getElementById("profileBio")?.textContent || ""
     };
 
     localStorage.setItem("recomenState", JSON.stringify(state));
-    console.log("✅【saveAppState_FULL】保存完了");
+
+    alert("保存しました");
   } catch (e) {
-    console.error("❌【saveAppState_FULL】保存失敗:", e);
+    alert("保存に失敗しました");
+    console.error(e);
   }
 }
 

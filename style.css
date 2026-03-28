@@ -583,8 +583,8 @@ html, body{
   position: absolute;      /* 画像内での絶対位置 */
   top: 4px;
   right: 4px;
-  background: rgba(200,200,200,0.3); /* 薄グレー */
-  color: #007BFF;         /* 青リンク風 */
+  background: rgba(0,0,0,0.3); /* 薄い黒で半透明に */
+  color: rgba(255,255,255,0.8); /* 文字は薄い白 */
   padding: 2px 6px;
   border-radius: 4px;
   font-size: 12px;

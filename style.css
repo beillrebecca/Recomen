@@ -319,7 +319,7 @@ html, body{
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 12px;
-  padding: 16px;
+  padding: 16px 16px 8px 16px; /* 上16px / 右16px / 下8px / 左16px */
   justify-content: center;
   background: var(--showcase-bg);
   font-family: var(--font-family);

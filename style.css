@@ -352,11 +352,11 @@ html, body{
 
 .card-actions {
   display: flex;
-  gap: 12px;
+  justify-content: center; /* 左寄せ → 中央寄せ */
+  gap: 10px;               /* アイコン間の隙間を少し狭める */
   align-items: center;
-  justify-content: space-between; /* 左右均等 */
-  margin-top: 6px; /* 上余白（商品リンクとの間隔）はそのままでもOK */
-  padding-bottom: 8; /* アイコン群下にゆとりを持たせる */
+  margin: 6px 0;           /* 上下に少し余白を追加 */
+  padding: 4px 0;          /* 上下パディングでゆとりを調整 */
 }
 
 .price-link-wrapper{

@@ -339,7 +339,7 @@ html, body{
 .slide-right{right:4px;}
 
 .card-name{
-  min-height: 28px;
+  min-height: 36px;       /* 28px → 36px に拡大 */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -347,7 +347,7 @@ html, body{
   text-align: center;
   color: var(--font-color);
   margin: 0;
-  padding: 0;
+  padding: 0 4px;         /* 左右に少し余白を追加して窮屈感を軽減 */
 }
 
 .card-actions {

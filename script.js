@@ -54,62 +54,68 @@ function saveIcon(item) {
 function createCard(item) {
   const card = document.createElement("div");
   card.className = "card";
+  card.id = `card-${item.id}`;
 
+  // =========================
   // 画像 + クリック数
+  // =========================
   const imageWrapper = document.createElement("div");
   imageWrapper.className = "card-image-wrapper";
+
   const img = document.createElement("img");
-  img.src = item.img;
+  img.src = item.img || "https://via.placeholder.com/300";
   img.alt = item.name;
+
   const clicks = document.createElement("span");
   clicks.className = "modern-clicks";
-  clicks.textContent = item.clicks;
+  clicks.textContent = item.clicks || 0;
+
   imageWrapper.appendChild(img);
   imageWrapper.appendChild(clicks);
 
-  // アイテム名（画像下にだけ表示）
+  // =========================
+  // アイテム名
+  // =========================
   const name = document.createElement("div");
   name.className = "card-name";
-  name.textContent = item.name;
+  name.contentEditable = "true";
+  name.textContent = item.name || "アイテム名";
 
-  // 値段 + 商品リンク（編集可能ボックス）
+  // =========================
+  // 値段 + 商品リンク
+  // =========================
   const info = document.createElement("div");
   info.className = "card-info";
 
-  const price = document.createElement("span");
+  const price = document.createElement("div");
   price.className = "card-price";
-  price.textContent = item.price;
+  price.contentEditable = "true";
+  price.textContent = item.price || "¥0";
 
-  const linkWrapper = document.createElement("div");
-  linkWrapper.className = "link-wrapper";
   const linkInput = document.createElement("input");
   linkInput.type = "text";
   linkInput.className = "card-link-input";
   linkInput.value = item.link || "";
   linkInput.placeholder = "商品リンクを入力";
-  linkWrapper.appendChild(linkInput);
 
   info.appendChild(price);
-  info.appendChild(linkWrapper);
+  info.appendChild(linkInput);
 
+  // =========================
   // アイコン群
+  // =========================
   const actions = document.createElement("div");
   actions.className = "card-actions";
   actions.innerHTML = `
-  <svg class="icon-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-    <path d="M12 21s-6-4.35-9-8.28C-1 7.5 2.42 3 6.5 3 8.74 3 10.91 4.08 12 5.77 13.09 4.08 15.26 3 17.5 3 21.58 3 25 7.5 21 12.72 18 16.65 12 21 12 21z"/>
-  </svg>
+    ${heartIcon(item)}
+    ${saveIcon(item)}
+    ${commentIcon()}
+    ${shareIcon()}
+  `;
 
-  <svg class="icon-save" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-    <path d="M6 2h12v20l-6-4-6 4z"/>
-  </svg>
-
-  <svg class="icon-comment" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-  </svg>
-`;
-
-  // カードに全部追加
+  // =========================
+  // カード組み立て
+  // =========================
   card.appendChild(imageWrapper);
   card.appendChild(name);
   card.appendChild(info);

@@ -532,7 +532,6 @@ html, body{
   justify-content:center;
   align-items:center;
   z-index:1000;
-  transition: transform 0.3s ease; /* 上下スライド用 */
 }
 .custom-bar button{
   background:none;
@@ -553,7 +552,7 @@ html, body{
 ========================= */
 .edit-items {
   position: absolute;
-  bottom: 70px; /* カスタムバーの上に */
+  bottom: 60px; /* カスタムバーの上に */
   display: flex;
   gap: 12px;
   opacity: 0;
@@ -595,22 +594,6 @@ html, body{
 }
 .edit-item .popup.active{
   display:block;
-}
-/* 各ボタンスタイル */
-.edit-items button {
-  background:#4caf50; /* 緑色 */
-  color:#fff;
-  padding:8px 16px;
-  border:none;
-  border-radius:6px;
-  cursor:pointer;
-  font-size:14px;
-  font-weight:bold;
-  transition:background 0.2s;
-}
-
-.edit-items button:hover {
-  background:#45a049;
 }
 
 /* =========================

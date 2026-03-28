@@ -509,28 +509,6 @@ document.addEventListener("click", () => {
     });
   });
 
-  // =========================
-  // カスタムカラー・ピッカー
-  // =========================
-  function createPicker(inputId, callback) {
-    const picker = document.getElementById(inputId);
-    if (!picker) return;
-    picker.addEventListener('input', e => callback(e.target.value));
-  }
-
-  createPicker('fontColorPicker', color => document.documentElement.style.setProperty('--font-color', color));
-  createPicker('bgPicker', color => document.documentElement.style.setProperty('--showcase-bg', color));
-  createPicker('profileBgPicker', color => document.documentElement.style.setProperty('--profile-bg', color));
-  createPicker('announcementBgPicker', color => {
-    const bar = document.getElementById('announcementBar');
-    if (bar) bar.style.background = color;
-  });
-
-  // フォント変更
-  const fontSelect = document.getElementById('fontSelect');
-  if (fontSelect) fontSelect.addEventListener('change', e => {
-    document.documentElement.style.setProperty('--font-family', e.target.value);
-  });
 
   // =========================
   // アナウンスバー（スクロール）
@@ -620,6 +598,14 @@ document.addEventListener("DOMContentLoaded", () => {
   initColorPickers();
 });
 
+// フォント変更
+const fontSelect = document.getElementById('fontSelect');
+if (fontSelect) {
+  fontSelect.addEventListener('change', (e) => {
+    const value = e.target.value;
+    document.documentElement.style.setProperty('--font-family', value);
+  });
+}
 
   // =========================
   // フォローモーダル

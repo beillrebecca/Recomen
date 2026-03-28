@@ -2,12 +2,14 @@
 // 🔴 データ本体（超重要）
 // =========================
 if (!items || items.length === 0) {
+  items = [];
   for (let i = 1; i <= 12; i++) {
     items.push({
       id: i,
-      name: "アイテム" + i,
-      img: "https://dummyimage.com/300x300/eeeeee/999999&text=%F0%9F%93%B7",
-      link: "商品リンク",
+      name: `アイテム${i}`,
+      price: `¥${i * 1000}`,
+      img: "https://via.placeholder.com/300",
+      link: "#",
       clicks: 0,
       liked: false,
       saved: false

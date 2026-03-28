@@ -55,6 +55,7 @@ function createCard(item) {
   const card = document.createElement("div");
   card.className = "card";
 
+  // 画像 + クリック数
   const imageWrapper = document.createElement("div");
   imageWrapper.className = "card-image-wrapper";
   const img = document.createElement("img");
@@ -66,23 +67,32 @@ function createCard(item) {
   imageWrapper.appendChild(img);
   imageWrapper.appendChild(clicks);
 
+  // アイテム名（画像下にだけ表示）
   const name = document.createElement("div");
   name.className = "card-name";
   name.textContent = item.name;
 
+  // 値段 + 商品リンク（編集可能ボックス）
   const info = document.createElement("div");
   info.className = "card-info";
+
   const price = document.createElement("span");
   price.className = "card-price";
   price.textContent = item.price;
-  const link = document.createElement("a");
-  link.className = "card-link";
-  link.href = item.link;
-  link.target = "_blank";
-  link.textContent = "商品リンク";
-  info.appendChild(price);
-  info.appendChild(link);
 
+  const linkWrapper = document.createElement("div");
+  linkWrapper.className = "link-wrapper";
+  const linkInput = document.createElement("input");
+  linkInput.type = "text";
+  linkInput.className = "card-link-input";
+  linkInput.value = item.link;
+  linkInput.placeholder = "商品リンクを入力";
+  linkWrapper.appendChild(linkInput);
+
+  info.appendChild(price);
+  info.appendChild(linkWrapper);
+
+  // アイコン群
   const actions = document.createElement("div");
   actions.className = "card-actions";
   actions.innerHTML = `
@@ -91,6 +101,7 @@ function createCard(item) {
     <svg class="icon-comment" ...></svg>
   `;
 
+  // カードに全部追加
   card.appendChild(imageWrapper);
   card.appendChild(name);
   card.appendChild(info);

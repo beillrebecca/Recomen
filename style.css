@@ -655,21 +655,25 @@ html, body{
 /* =========================
    保存ボタン
 ========================= */
-.save-btn{
-  position:fixed;
-  bottom:70px;
-  right:16px;
-  background:#4caf50;
-  color:#fff;
-  border:none;
-  border-radius:8px;
-  padding:10px 16px;
-  cursor:pointer;
-  z-index:1200;
-  box-shadow:0 2px 6px rgba(0,0,0,0.15);
+.save-btn {
+  position: fixed;       /* 画面下に固定 */
+  bottom: 16px;          /* 下から16pxに変更（追加ボタンと同じ高さに揃える） */
+  right: 16px;           /* 右下に配置 */
+  background: #a0e7ff;   /* 薄い水色に変更 */
+  color: #000;           /* 黒文字にして見やすく */
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  z-index: 1200;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.save-btn:hover{
-  background:#45a049;
+
+.save-btn:hover {
+  background: #90dfff;   /* ホバー時も少し濃い水色に */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }
 
 /* =========================

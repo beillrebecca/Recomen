@@ -86,6 +86,33 @@ function createCard(item) {
 }
 
 // =========================
+// 保存データ読み込み
+// =========================
+function loadAppState() {
+  const saved = localStorage.getItem("recomenState");
+
+  if (saved) {
+    const state = JSON.parse(saved);
+    items = state.items || [];
+  } else {
+    items = [
+      {
+        id: 1,
+        name: "アイテム1",
+        price: "¥0",
+        link: "",
+        img: "",
+        liked: false,
+        saved: false,
+        clicks: 0
+      }
+    ];
+  }
+
+  renderCards();
+}
+
+// =========================
 // 保存（アプリ全体）
 // =========================
 function saveAppState_FULL() {

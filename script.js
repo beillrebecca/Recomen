@@ -393,28 +393,18 @@ document.addEventListener('click', () => {
   // =========================
   // カスタムバー開閉
   // =========================
-  // 編集ボタン
-const editToggle = document.getElementById('editToggle');
-const editItems = document.getElementById('editItems');
-const customBar = document.getElementById('customBar');
+  const editToggle = document.getElementById('editToggle');
+  const editItems = document.getElementById('editItems');
 
 editToggle.addEventListener('click', e => {
   e.stopPropagation();
   editItems.classList.toggle('active');
-
-  // カスタムバーも一緒に少し上にスライド
-  if(editItems.classList.contains('active')){
-    customBar.style.transform = 'translateY(-100px)'; // 上に100pxスライド
-  } else {
-    customBar.style.transform = 'translateY(0)'; // 元に戻す
-  }
 });
 
-// 外側クリックで閉じる
+// 画面クリックで閉じる
 document.addEventListener('click', () => {
   if(editItems.classList.contains('active')){
     editItems.classList.remove('active');
-    customBar.style.transform = 'translateY(0)';
   }
 });
 

@@ -1,24 +1,17 @@
 // =========================
 // 🔴 アイテムデータ初期化
 // =========================
-let items = [];
+let items = [];  // ここで空の配列を用意
 
-function initItems() {
-  if (!items || items.length === 0) {
-    items = [];
-    for (let i = 1; i <= 12; i++) {
-      items.push({
-        id: i,
-        name: `アイテム${i}`,
-        price: `¥${i * 1000}`,
-        img: "https://dummyimage.com/300x300/eeeeee/999999&text=%F0%9F%93%B7",
-        link: "#",
-        clicks: 0,
-        liked: false,
-        saved: false
-      });
-    }
-  }
+for (let i = 1; i <= 12; i++) {  // 1から12までループ
+  items.push({
+    name: 'アイテム' + i,
+    img: 'https://via.placeholder.com/300', // 仮の画像
+    link: '商品リンク',
+    clicks: 0,
+    liked: false,
+    saved: false
+  });
 }
 
 // =========================

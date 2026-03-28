@@ -132,7 +132,7 @@ function loadAppState() {
     ];
   }
 
-  renderCards();
+  renderShowcaseWithAddButton();
 }
 
 // =========================

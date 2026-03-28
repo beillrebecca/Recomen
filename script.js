@@ -342,8 +342,6 @@ function closeAllPopups() {
 }
 
 function positionPopup(btn, popup) {
-  if (!btn || !popup) return;
-
   popup.style.display = "block";
   popup.style.visibility = "hidden";
 
@@ -352,15 +350,14 @@ function positionPopup(btn, popup) {
   const popupHeight = popup.offsetHeight;
 
   let left = rect.left;
-  let top = rect.top - popupHeight - 8; // ボタンの上に表示
+  let top = rect.bottom + 6;
 
-  // 画面はみ出し防止
   left = Math.max(8, Math.min(left, window.innerWidth - popupWidth - 8));
-  top = Math.max(8, top);
+  top = Math.min(top, window.innerHeight - popupHeight - 8);
 
-  popup.style.position = "fixed";
-  popup.style.left = `${left}px`;
-  popup.style.top = `${top}px`;
+  popup.style.left = left + "px";
+  popup.style.top = top + "px";
+
   popup.style.visibility = "visible";
 }
 
@@ -369,18 +366,20 @@ Object.entries(popupMap).forEach(([btnId, popupId]) => {
   const popup = document.getElementById(popupId);
   if (!btn || !popup) return;
 
-  btn.addEventListener("click", (e) => {
-    e.stopPropagation();
+  btn.addEventListener('click', e => {
+  e.stopPropagation();
 
-    const isOpen = popup.style.display === "block";
-
-    closeAllPopups();
-
-    if (!isOpen) {
-      popup.classList.add("active");
-      positionPopup(btn, popup);
+  Object.values(popupMap).forEach(pid => {
+    const p = document.getElementById(pid);
+    if (p) {
+      p.classList.remove("active");
+      p.style.display = "none";
     }
   });
+
+  popup.classList.add("active");
+  positionPopup(btn, popup);
+});
 
   popup.addEventListener("click", (e) => e.stopPropagation());
 });

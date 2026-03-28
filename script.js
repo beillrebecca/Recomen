@@ -111,43 +111,29 @@ function renderShowcaseWithAddButton() {
 // =========================
 // 保存データ読み込み
 // =========================
+// =========================
+// 保存データ読み込み
+// =========================
 function loadAppState() {
   const saved = localStorage.getItem("recomenState");
 
   if (saved) {
-  try {
-    const state = JSON.parse(saved);
+    try {
+      const state = JSON.parse(saved);
 
-    if (state.items && state.items.length > 0) {
-      items = state.items;
-    } else {
-      items = [
-        {
-          id: 1,
-          name: "アイテム1",
-          price: "¥0",
-          link: "",
-          img: "",
-          liked: false,
-          saved: false,
-          clicks: 0
-        }
-      ];
+      if (state.items && state.items.length > 0) {
+        items = state.items;
+      } else {
+        items = getDefaultItems();
+      }
+
+    } catch (e) {
+      console.error("保存データ読み込み失敗", e);
+      items = getDefaultItems();
     }
 
   } else {
-    items = [
-      {
-        id: 1,
-        name: "アイテム1",
-        price: "¥0",
-        link: "",
-        img: "",
-        liked: false,
-        saved: false,
-        clicks: 0
-      }
-    ];
+    items = getDefaultItems();
   }
 
   renderShowcaseWithAddButton();

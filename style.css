@@ -529,9 +529,12 @@ html, body{
   width:100%;
   aspect-ratio:1/1;
   object-fit:cover;
-  border:var(--image-border, 1px solid #e5dccf);
+  border:none;
   border-radius:10px;
-  box-sizing:border-box;
+  display:block;
+}
+.image{
+  padding:10px 10px 0;
 }
 .card .modern-clicks{
   position:absolute;

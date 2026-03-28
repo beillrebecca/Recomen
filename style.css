@@ -383,6 +383,8 @@ html, body{
   color:#1a73e8; /* ← リンク風の青 */
   outline:none;
   box-sizing:border-box;
+  pointer-events: none; /* 直接編集不可 */
+  cursor: pointer;       /* クリック可能っぽく見せる */
 }
 
 .card-link-input::placeholder{

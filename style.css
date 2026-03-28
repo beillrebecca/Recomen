@@ -556,11 +556,11 @@ html, body{
   left:50%;
   transform:translateX(-50%) translateY(100%); /* 初期は隠す */
   display:flex;
-  flex-direction:column;
-  gap:12px;
+  flex-direction:row; /* 横並びに変更 */
+  gap:12px; /* ボタン間のスペース */
   z-index:1001;
-  transition: transform 0.3s ease; /* スライドアニメーション */
-  pointer-events:none; /* 非表示時はクリック無効 */
+  transition: transform 0.3s ease;
+  pointer-events:none; 
   opacity:0;
 }
 .edit-items button{
@@ -596,6 +596,22 @@ html, body{
 }
 .edit-item .popup.active{
   display:block;
+}
+/* 各ボタンスタイル */
+.edit-items button {
+  background:#4caf50; /* 緑色 */
+  color:#fff;
+  padding:8px 16px;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:bold;
+  transition:background 0.2s;
+}
+
+.edit-items button:hover {
+  background:#45a049;
 }
 
 /* =========================

@@ -243,22 +243,28 @@ function saveAppState_FULL() {
 // =========================
 // カードクリック操作
 // =========================
+let activeCard = null; // 画像を貼るカードを保持
+
 function initCardClicks() {
   const showcaseEl = document.getElementById("showcase");
   if (!showcaseEl) return;
 
   const itemImgInput = document.getElementById("itemImgInput");
   if (itemImgInput && !itemImgInput.dataset.init) {
+    // 画像選択時の処理は一度だけ登録
     itemImgInput.addEventListener('change', (event) => {
       const file = event.target.files[0];
-      if (!file) return;
+      if (!file || !activeCard) return;
+
       const reader = new FileReader();
       reader.onload = (ev) => {
-        const imgTag = document.querySelector(`.card.editing img`);
+        const imgTag = activeCard.querySelector("img");
         if (imgTag) imgTag.src = ev.target.result;
       };
       reader.readAsDataURL(file);
+
       itemImgInput.value = "";
+      activeCard = null; // 次回に備えてリセット
     });
     itemImgInput.dataset.init = 'true';
   }
@@ -293,29 +299,11 @@ function initCardClicks() {
     }
 
     // 🖼 画像アップロード
-if (e.target.closest(".image") && itemImgInput) {
-  const currentCard = card; // クリックしたカードを保持
-
-  const handler = (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      const imgTag = currentCard.querySelector("img"); // そのカード内の img
-      if (imgTag) imgTag.src = ev.target.result;
-    };
-    reader.readAsDataURL(file);
-
-    // 終わったらイベント解除（次回クリックで再設定）
-    itemImgInput.removeEventListener('change', handler);
-    event.target.value = "";
-  };
-
-  itemImgInput.addEventListener('change', handler);
-  itemImgInput.click();
-  return;
-}
+    if (e.target.closest(".image") && itemImgInput) {
+      activeCard = card;     // クリックしたカードを保持
+      itemImgInput.click();  // ファイル選択ダイアログを開く
+      return;
+    }
 
     // ✏️ アイテム名編集
     const nameEl = e.target.closest(".card-name");
@@ -338,14 +326,13 @@ if (e.target.closest(".image") && itemImgInput) {
     // 🔗 商品リンク → ポップアップで編集
     const linkEl = e.target.closest(".card-link-input");
     if (linkEl) {
-      // カードの index を渡してポップアップ表示
       showLinkEditPopup(index);
       return;
     }
   });
 }
 
-// ポップアップ表示関数（別で作る）
+// ポップアップ表示関数（商品リンク編集）
 function showLinkEditPopup(index) {
   const item = items[index];
   const popup = document.getElementById("linkEditPopup");

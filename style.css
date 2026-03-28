@@ -602,34 +602,50 @@ html, body{
 }
 
 /* =========================
-   ポップアップ
+   ポップアップ共通
 ========================= */
-.popup{
-  position:fixed;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  width:260px;
-  background:#fff;
-  border-radius:8px;
-  box-shadow:0 4px 16px rgba(0,0,0,0.2);
-  display:none;
-  z-index: 1500; /* modalより上、custom-barより上 */
+.popup {
+  display: none;
+  position: fixed;
+  width: 280px;
+  max-width: calc(100vw - 16px);
+  padding: 8px;
+  background: #e6f9d9;
+  border: 1px solid #c5e5b1;
+  border-radius: 8px;
+  font-size: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 1500;
+  box-sizing: border-box;
 }
-.popup-content{
-  padding:12px;
-  font-size:13px;
+
+/* 表示時 */
+.popup.active {
+  display: block;
 }
-.popup-header{
-  font-weight:bold;
-  margin-bottom:8px;
+
+/* 吹き出し矢印（枠） */
+.popup::before {
+  content: "";
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 9px 9px 9px;
+  border-style: solid;
+  border-color: transparent transparent #c5e5b1 transparent;
 }
-.popup-close{
-  position:absolute;
-  top:6px;
-  right:8px;
-  cursor:pointer;
-  font-size:16px;
+
+/* 吹き出し矢印（中身） */
+.popup::after {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 8px 8px 8px;
+  border-style: solid;
+  border-color: transparent transparent #e6f9d9 transparent;
 }
 
 /* =========================

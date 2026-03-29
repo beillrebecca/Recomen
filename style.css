@@ -795,7 +795,7 @@ html, body{
   width: 100%; /* 必ず横幅いっぱいにする */
   padding: 16px 0; /* 上下余白 */
   box-sizing: border-box;
-  text-align: center; /* 安定のため追加 */
+  grid-column: 1 / -1; /* ←グリッド全体に広げる */
 }
 
 #saveBtn {

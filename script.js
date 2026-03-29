@@ -98,89 +98,209 @@ function renderShowcaseLight() {
   const showcase = document.getElementById("showcase");
   if (!showcase) return;
 
-  // 既存のカードがなければ描画
-  if (showcase.children.length === 0) {
-    items.forEach(item => showcase.appendChild(createCard(item)));
+  showcase.innerHTML = ""; // 念のためリセット
 
-    // 「新しいアイテム追加」ボタン
-    const addWrapper = document.createElement("div");
-    addWrapper.className = "showcase-add-card-wrapper";
-    const addBtn = document.createElement("button");
-    addBtn.id = "addCardBtn";
-    addBtn.className = "showcase-add-card-btn";
-    addBtn.textContent = "＋ 新しいアイテムを追加";
-    addWrapper.appendChild(addBtn);
-    showcase.appendChild(addWrapper);
+  items.forEach(item => showcase.appendChild(createCard(item)));
 
-    // 保存ボタン（カード欄の下、中央固定）
-    const saveWrapper = document.createElement("div");
-    saveWrapper.className = "showcase-save-wrapper";
-    saveWrapper.style.textAlign = "center";
-    saveWrapper.style.margin = "12px 0";
-    const saveBtn = document.createElement("button");
-    saveBtn.id = "saveBtn";
-    saveBtn.textContent = "💾 保存";
-    saveBtn.style.padding = "8px 20px";
-    saveBtn.style.fontSize = "16px";
-    saveBtn.style.borderRadius = "8px";
-    saveWrapper.appendChild(saveBtn);
-    showcase.appendChild(saveWrapper);
+  // 「新しいアイテム追加」ボタン
+  const addWrapper = document.createElement("div");
+  addWrapper.className = "showcase-add-card-wrapper";
+  const addBtn = document.createElement("button");
+  addBtn.id = "addCardBtn";
+  addBtn.className = "showcase-add-card-btn";
+  addBtn.textContent = "＋ 新しいアイテムを追加";
+  addWrapper.appendChild(addBtn);
+  showcase.appendChild(addWrapper);
 
-    saveBtn.addEventListener("click", saveAppState_FULL);
+  // 保存ボタン（カード欄の下、中央固定）
+  const saveWrapper = document.createElement("div");
+  saveWrapper.className = "showcase-save-wrapper";
+  saveWrapper.style.textAlign = "center";
+  saveWrapper.style.margin = "12px 0";
+  const saveBtn = document.createElement("button");
+  saveBtn.id = "saveBtn";
+  saveBtn.textContent = "💾 保存";
+  saveBtn.style.padding = "8px 20px";
+  saveBtn.style.fontSize = "16px";
+  saveBtn.style.borderRadius = "8px";
+  saveWrapper.appendChild(saveBtn);
+  showcase.appendChild(saveWrapper);
 
-    // 新規カード追加
-    addBtn.addEventListener("click", () => {
-      const newItem = {
-        id: Date.now(),
-        name: `アイテム${items.length + 1}`,
-        price: "¥0",
-        link: "",
-        img: "",
-        liked: false,
-        saved: false,
-        clicks: 0
-      };
-      items.push(newItem);
-      const newCard = createCard(newItem);
-      showcase.insertBefore(newCard, addWrapper);
-    });
-  }
+  saveBtn.addEventListener("click", saveAppState_FULL);
+
+  addBtn.addEventListener("click", () => {
+    const newItem = {
+      id: Date.now(),
+      name: `アイテム${items.length + 1}`,
+      price: "¥0",
+      link: "",
+      img: "",
+      liked: false,
+      saved: false,
+      clicks: 0
+    };
+    items.push(newItem);
+    const newCard = createCard(newItem);
+    showcase.insertBefore(newCard, addWrapper);
+  });
 }
 
 // =========================
-// 編集ボタンでカスタムバースライド
+// カードクリック操作
 // =========================
-const editToggle = document.getElementById('editToggle');
-const editItems = document.getElementById('editItems');
+let activeCard = null;
+function initCardClicks() {
+  const showcaseEl = document.getElementById("showcase");
+  if (!showcaseEl) return;
 
-if (editToggle && editItems) {
-  editToggle.addEventListener('click', e => {
-    e.stopPropagation();
-    // 折りたたみ・展開
-    if (editItems.classList.contains('active')) {
-      editItems.classList.remove('active');
-      editItems.style.maxHeight = '0';
-    } else {
-      editItems.classList.add('active');
-      editItems.style.maxHeight = editItems.scrollHeight + 'px';
+  const itemImgInput = document.getElementById("itemImgInput");
+  if (itemImgInput && !itemImgInput.dataset.init) {
+    itemImgInput.addEventListener('change', event => {
+      const file = event.target.files[0];
+      if (!file || !activeCard) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        const imgTag = activeCard.querySelector("img");
+        if (imgTag) imgTag.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+      itemImgInput.value = "";
+      activeCard = null;
+    });
+    itemImgInput.dataset.init = 'true';
+  }
+
+  showcaseEl.addEventListener("click", e => {
+    const card = e.target.closest(".card");
+    if (!card) return;
+    const index = Array.from(showcaseEl.children).indexOf(card);
+    if (!items[index]) return;
+
+    // ❤️ ハート
+    const heart = e.target.closest(".icon-heart");
+    if (heart) {
+      items[index].liked = !items[index].liked;
+      heart.classList.toggle("liked", items[index].liked);
+      const path = heart.querySelector("path");
+      if (path) {
+        path.setAttribute("fill", items[index].liked ? "red" : "none");
+        path.setAttribute("stroke", items[index].liked ? "red" : "#000");
+      }
+      return;
+    }
+
+    // 💾 保存アイコン
+    const save = e.target.closest(".icon-save");
+    if (save) {
+      items[index].saved = !items[index].saved;
+      save.classList.toggle("saved", items[index].saved);
+      const path = save.querySelector("path");
+      if (path) path.setAttribute("fill", items[index].saved ? "#000" : "none");
+      return;
+    }
+
+    // 🖼 画像アップロード
+    if (e.target.closest(".image") && itemImgInput) {
+      activeCard = card;
+      itemImgInput.click();
+      return;
+    }
+
+    // ✏️ 名前編集
+    const nameEl = e.target.closest(".card-name");
+    if (nameEl) { nameEl.focus(); return; }
+
+    // 💰 価格編集
+    const priceEl = e.target.closest(".card-price");
+    if (priceEl) {
+      const newPrice = prompt("価格を入力してね", priceEl.textContent);
+      if (newPrice !== null) {
+        priceEl.textContent = newPrice;
+        items[index].price = newPrice;
+      }
+      return;
+    }
+
+    // 🔗 リンク編集ボタン
+    const linkBtn = e.target.closest(".edit-link-btn");
+    if (linkBtn) {
+      showLinkEditPopup(index);
+      return;
     }
   });
+}
 
-  // カスタムバー外クリックで閉じる
-  document.addEventListener("click", e => {
-    if (
-      !e.target.closest("#editItems") && 
-      !e.target.closest("#editToggle")
-    ) {
-      editItems.classList.remove("active");
-      editItems.style.maxHeight = '0';
-    }
-  });
+// =========================
+// ポップアップリンク編集
+// =========================
+function showLinkEditPopup(index) {
+  const item = items[index];
+  const popup = document.getElementById("linkEditPopup");
+  const input = popup.querySelector("input");
+  const btn = popup.querySelector("button");
+
+  input.value = item.link || "";
+  popup.style.display = "block";
+  input.focus();
+
+  btn.onclick = () => {
+    let newLink = input.value.trim();
+    if (newLink && !newLink.startsWith("http")) newLink = "https://" + newLink;
+    item.link = newLink;
+    const card = document.getElementById("showcase").children[index];
+    const linkDisplay = card.querySelector(".link-display");
+    if (linkDisplay) linkDisplay.textContent = newLink || "リンクを入力";
+    popup.style.display = "none";
+  };
+}
+
+// =========================
+// 保存（アプリ全体）
+// =========================
+function saveAppState_FULL() {
+  try {
+    const showcase = document.getElementById("showcase");
+    const cards = showcase.querySelectorAll(".card");
+
+    items = Array.from(cards).map((card, index) => ({
+      id: items[index]?.id || Date.now() + index,
+      name: card.querySelector(".card-name")?.textContent.trim() || "アイテム名",
+      price: card.querySelector(".card-price")?.textContent.trim() || "¥0",
+      link: card.querySelector(".link-display")?.textContent || "",
+      img: card.querySelector("img")?.src || "",
+      liked: card.querySelector(".icon-heart")?.classList.contains("liked") || false,
+      saved: card.querySelector(".icon-save")?.classList.contains("saved") || false,
+      clicks: parseInt(card.querySelector(".modern-clicks")?.textContent || "0")
+    }));
+
+    const state = {
+      items,
+      headerImg: document.getElementById("headerImg")?.src || null,
+      avatarImg: document.getElementById("avatarImg")?.src || null,
+      profileName: document.getElementById("profileName")?.textContent || "",
+      profileBio: document.getElementById("profileBio")?.textContent || ""
+    };
+
+    localStorage.setItem("recomenState", JSON.stringify(state));
+    alert("保存しました");
+  } catch (e) {
+    alert("保存に失敗しました");
+    console.error(e);
+  }
 }
 
 // =========================
 // 保存データ読み込み（軽量版対応）
 // =========================
+function getDefaultItems() {
+  return [
+    { id: 1, name: "アイテム1", price: "¥0", link: "", img: "", liked: false, saved: false, clicks: 0 },
+    { id: 2, name: "アイテム2", price: "¥0", link: "", img: "", liked: false, saved: false, clicks: 0 },
+    { id: 3, name: "アイテム3", price: "¥0", link: "", img: "", liked: false, saved: false, clicks: 0 },
+    { id: 4, name: "アイテム4", price: "¥0", link: "", img: "", liked: false, saved: false, clicks: 0 }
+  ];
+}
+
 function loadAppState() {
   const saved = localStorage.getItem("recomenState");
   if (saved) {
@@ -214,41 +334,6 @@ function loadAppState() {
   }
 
   renderShowcaseLight();
-}
-
-// =========================
-// 保存（アプリ全体）
-// =========================
-function saveAppState_FULL() {
-  try {
-    const showcase = document.getElementById("showcase");
-    const cards = showcase.querySelectorAll(".card");
-
-    items = Array.from(cards).map((card, index) => ({
-      id: items[index]?.id || Date.now() + index,
-      name: card.querySelector(".card-name")?.textContent.trim() || "アイテム名",
-      price: card.querySelector(".card-price")?.textContent.trim() || "¥0",
-      link: card.querySelector(".card-link-input")?.value || "",
-      img: card.querySelector("img")?.src || "",
-      liked: card.querySelector(".icon-heart")?.classList.contains("liked") || false,
-      saved: card.querySelector(".icon-save")?.classList.contains("saved") || false,
-      clicks: parseInt(card.querySelector(".modern-clicks")?.textContent || "0")
-    }));
-
-    const state = {
-      items,
-      headerImg: document.getElementById("headerImg")?.src || null,
-      avatarImg: document.getElementById("avatarImg")?.src || null,
-      profileName: document.getElementById("profileName")?.textContent || "",
-      profileBio: document.getElementById("profileBio")?.textContent || ""
-    };
-
-    localStorage.setItem("recomenState", JSON.stringify(state));
-    alert("保存しました");
-  } catch (e) {
-    alert("保存に失敗しました");
-    console.error(e);
-  }
 }
 
 // =========================
@@ -297,110 +382,29 @@ function applyColor(pickerId, color) {
 }
 
 // =========================
-// カードクリック操作（軽量版）
+// カスタムバー編集開閉
 // =========================
-let activeCard = null;
+const editToggle = document.getElementById('editToggle');
+const editItems = document.getElementById('editItems');
 
-function initCardClicks() {
-  const showcaseEl = document.getElementById("showcase");
-  if (!showcaseEl) return;
-
-  const itemImgInput = document.getElementById("itemImgInput");
-  if (itemImgInput && !itemImgInput.dataset.init) {
-    itemImgInput.addEventListener('change', event => {
-      const file = event.target.files[0];
-      if (!file || !activeCard) return;
-      const reader = new FileReader();
-      reader.onload = ev => {
-        const imgTag = activeCard.querySelector("img");
-        if (imgTag) imgTag.src = ev.target.result;
-      };
-      reader.readAsDataURL(file);
-      itemImgInput.value = "";
-      activeCard = null;
-    });
-    itemImgInput.dataset.init = 'true';
-  }
-
-  showcaseEl.addEventListener("click", e => {
-    const card = e.target.closest(".card");
-    if (!card) return;
-    const index = Array.from(showcaseEl.children).indexOf(card);
-    if (!items[index]) return;
-
-    // ❤️ ハート
-    const heart = e.target.closest(".icon-heart");
-    if (heart) {
-      items[index].liked = !items[index].liked;
-      heart.classList.toggle("liked", items[index].liked);
-      const path = heart.querySelector("path");
-      if (path) {
-        path.setAttribute("fill", items[index].liked ? "red" : "none");
-        path.setAttribute("stroke", items[index].liked ? "red" : "#000");
-      }
-      return;
+if (editToggle && editItems) {
+  editToggle.addEventListener('click', e => {
+    e.stopPropagation();
+    if (editItems.classList.contains('active')) {
+      editItems.classList.remove('active');
+      editItems.style.maxHeight = '0';
+    } else {
+      editItems.classList.add('active');
+      editItems.style.maxHeight = editItems.scrollHeight + 'px';
     }
-
-    // 💾 保存
-    const save = e.target.closest(".icon-save");
-    if (save) {
-      items[index].saved = !items[index].saved;
-      save.classList.toggle("saved", items[index].saved);
-      const path = save.querySelector("path");
-      if (path) path.setAttribute("fill", items[index].saved ? "#000" : "none");
-      return;
-    }
-
-    // 🖼 画像アップロード
-    if (e.target.closest(".image") && itemImgInput) {
-      activeCard = card;
-      itemImgInput.click();
-      return;
-    }
-
-    // ✏️ 名前編集
-    const nameEl = e.target.closest(".card-name");
-    if (nameEl) { nameEl.focus(); return; }
-
-    // 💰 価格編集
-    const priceEl = e.target.closest(".card-price");
-    if (priceEl) {
-      const newPrice = prompt("価格を入力してね", priceEl.textContent);
-      if (newPrice !== null) {
-        priceEl.textContent = newPrice;
-        items[index].price = newPrice;
-      }
-      return;
-    }
-
-    // 🔗 リンク編集
-    const linkEl = e.target.closest(".card-link-input");
-    if (linkEl) showLinkEditPopup(index);
   });
-}
 
-// =========================
-// ポップアップリンク編集
-// =========================
-function showLinkEditPopup(index) {
-  const item = items[index];
-  const popup = document.getElementById("linkEditPopup");
-  const input = popup.querySelector("input");
-  const btn = popup.querySelector("button");
-
-  input.value = item.link || "";
-  popup.style.display = "block";
-  input.focus();
-
-  btn.onclick = () => {
-    let newLink = input.value.trim();
-    if (newLink && !newLink.startsWith("http")) newLink = "https://" + newLink;
-    item.link = newLink;
-    const card = document.getElementById("showcase").children[index];
-    const linkInput = card.querySelector(".card-link-input");
-    if (linkInput) linkInput.value = newLink;
-    popup.style.display = "none";
-  };
+  document.addEventListener("click", e => {
+    if (!e.target.closest("#editItems") && !e.target.closest("#editToggle")) {
+      editItems.classList.remove("active");
+      editItems.style.maxHeight = '0';
+    }
+  });
 }
 
 // =========================
@@ -419,4 +423,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
   loadAppState();
   initCardClicks();
+
+  // ポップアップ開閉処理（テーマ・スタイル・アナウンス）
+  const popups = {
+    themeButton: 'themePopup',
+    styleButton: 'stylePopup',
+    announcementButton: 'announcementPopup'
+  };
+
+  Object.keys(popups).forEach(btnId => {
+    const btn = document.getElementById(btnId);
+    const popup = document.getElementById(popups[btnId]);
+    if (!btn || !popup) return;
+
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      // 他のポップアップは閉じる
+      document.querySelectorAll('.popup').forEach(p => { if(p!==popup) p.style.display='none'; });
+      // トグル表示
+      popup.style.display = (popup.style.display==='block') ? 'none' : 'block';
+    });
+  });
+
+  // ポップアップ外クリックで閉じる
+  document.addEventListener('click', e => {
+    if(!e.target.closest('.popup') && !Object.keys(popups).some(id => e.target.closest('#'+id))) {
+      document.querySelectorAll('.popup').forEach(p => p.style.display='none');
+    }
+  });
+
+  // アナウンスバー入力反映
+  const bannerInput = document.getElementById('bannerTextInput');
+  const bannerSpan = document.querySelector('#announcementBar .banner-text');
+  if(bannerInput && bannerSpan){
+    bannerInput.addEventListener('input', e => {
+      bannerSpan.textContent = e.target.value;
+    });
+  }
 });

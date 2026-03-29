@@ -92,7 +92,7 @@ function createCard(item) {
 }
 
 // =========================
-// ショーケース描画（追加ボタン込み）
+// ショーケース描画
 // =========================
 function renderShowcaseLight() {
   const showcase = document.getElementById("showcase");
@@ -112,20 +112,6 @@ function renderShowcaseLight() {
   addWrapper.appendChild(addBtn);
   showcase.appendChild(addWrapper);
 
-  // 保存ボタン（カード欄の下、中央固定）
-const saveWrapper = document.createElement("div");
-saveWrapper.className = "showcase-save-wrapper";
-
-// 中央揃えにするCSSは JS 側よりCSSでやる方が安定
-const saveBtn = document.createElement("button");
-saveBtn.id = "saveBtn";
-saveBtn.textContent = "保存";  // ←💾アイコンは削除
-saveBtn.className = "save-btn";
-
-saveWrapper.appendChild(saveBtn);
-showcase.appendChild(saveWrapper);
-
-saveBtn.addEventListener("click", saveAppState_FULL);
 
   addBtn.addEventListener("click", () => {
     const newItem = {

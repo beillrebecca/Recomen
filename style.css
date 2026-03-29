@@ -647,11 +647,13 @@ html, body{
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease;
+  pointer-events: none; /* 折りたたみ中は押せない */
 }
 
 /* 展開時 */
 .edit-items.active {
   max-height: 60px;   /* ボタンが見える高さ */
+  pointer-events: auto; /* 押せるようにする */
 }
 
 /* 各編集項目ボタン */

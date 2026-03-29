@@ -163,6 +163,7 @@ function initCardClicks() {
 
     // 🖼 画像アップロード
     if (e.target.closest(".image") && itemImgInput) {
+      e.stopPropagation();
       activeCard = card;
       itemImgInput.click();
       return;

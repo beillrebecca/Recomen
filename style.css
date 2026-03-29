@@ -472,6 +472,20 @@ html, body{
   stroke:#000;
 }
 
+.icon-heart,
+.icon-comment,
+.icon-share,
+.icon-save {
+  cursor: pointer;
+}
+
+.icon-heart path,
+.icon-comment path,
+.icon-share path,
+.icon-save path {
+  pointer-events: none; /* ← これが超重要 */
+}
+
 /* =========================
    コメントモーダル
 ========================= */

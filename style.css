@@ -630,6 +630,7 @@ html, body{
   padding: 6px 16px;
   box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
   transition: height 0.3s ease;
+  z-index: 1000;
 }
 
 /* 編集ボタン */
@@ -653,24 +654,21 @@ html, body{
 /* 編集項目ボタン群（折りたたみ・スライド） */
 .edit-items {
   position: absolute;
-  bottom: 100%; /* カスタムバーの上に配置 */
+  bottom: 100%;
   left: 0;
   width: 100%;
   display: flex;
   gap: 10px;
-  justify-content: space-between;
+
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.3s ease;
-  pointer-events: none; /* 折りたたみ中は押せない */
-  opacity: 0;
+
+  pointer-events: none;
 }
 
-/* 展開時 */
 .edit-items.active {
-  max-height: 60px;   /* ボタンが見える高さ */
-  pointer-events: auto; /* 押せるようにする */
-  opacity: 1;
+  max-height: 60px;
+  pointer-events: auto;
 }
 
 /* 各編集項目ボタン */
@@ -709,7 +707,7 @@ html, body{
   border-radius: 6px;
   font-size: 12px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-  z-index: 1500;
+  z-index: 2000;
   box-sizing: border-box;
   pointer-events: auto;
 }

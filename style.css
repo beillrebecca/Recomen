@@ -785,7 +785,7 @@ html, body{
 
 /* メインコンテンツ下に余白を確保 */
 .main-content-wrapper {
-  padding-bottom: 80px; /* カスタムバー + 保存ボタン分のスペース */
+  padding-bottom: 100px; /* カスタムバー + 保存ボタン分のスペース */
 }
 
 /* 保存ボタンをカード欄の下中央に揃える */
@@ -793,9 +793,8 @@ html, body{
   display: flex;
   justify-content: center; /* 横中央 */
   width: 100%; /* 必ず横幅いっぱいにする */
-  padding: 8px 0; /* 上下余白 */
+  padding: 12px 0; /* 上下余白 */
   box-sizing: border-box;
-  grid-column: 1 / -1; /* ←グリッド全体に広げる */
 }
 
 #saveBtn {

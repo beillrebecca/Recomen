@@ -782,19 +782,23 @@ html, body{
 /* =========================
    保存ボタン
 ========================= */
+
+/* メインコンテンツ下に余白を確保 */
 .main-content-wrapper {
-  padding-bottom: 120px; /* カスタムバー + ボタン分のスペース */
+  padding-bottom: 140px; /* カスタムバー + 保存ボタン分のスペース */
 }
 
-/* 保存ボタンを中央揃え */
+/* 保存ボタンをカード欄の下中央に揃える */
 .showcase-save-wrapper {
   display: flex;
-  justify-content: center; /* ←中央 */
-  padding: 8px 16px; /* ショーケースとの余白 */
+  justify-content: center; /* 横中央 */
+  width: 100%; /* 必ず横幅いっぱいにする */
+  padding: 16px 0; /* 上下余白 */
+  box-sizing: border-box;
 }
 
 #saveBtn {
-  display: block;
+  display: inline-block;
   background: #d9f1ff;
   color: #000;
   border: none;
@@ -802,6 +806,7 @@ html, body{
   padding: 12px 28px;
   cursor: pointer;
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  font-size: 16px;
 }
 
 #saveBtn:hover {

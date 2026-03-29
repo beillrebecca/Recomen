@@ -158,39 +158,37 @@ function initCardClicks() {
   }
 
   showcaseEl.addEventListener("click", e => {
-    const card = e.target.closest(".card");
-    if (!card) return;
 
-    // 🖼 画像アップロード
-    if (e.target.closest(".image") && itemImgInput) {
-      e.stopPropagation();
-      activeCard = card;
-      itemImgInput.click();
-      return;
-    }
+  // 🖼 画像
+  if (e.target.closest(".image")) {
+    e.stopPropagation();
+    activeCard = e.target.closest(".card");
+    if (itemImgInput) itemImgInput.click();
+    return;
+  }
 
-    // ❤️ ハート
-    const heart = e.target.closest(".icon-heart");
-    if (heart) {
+  // ❤️ ハート
+  const heart = e.target.closest(".icon-heart");
+  if (heart) {
     const path = heart.querySelector("path");
 
     heart.classList.toggle("liked");
 
     if (path) {
-    if (heart.classList.contains("liked")) {
-      path.setAttribute("fill", "red");
-      path.setAttribute("stroke", "red");
-    } else {
-      path.setAttribute("fill", "none");
-      path.setAttribute("stroke", "#000");
-       }
+      if (heart.classList.contains("liked")) {
+        path.setAttribute("fill", "red");
+        path.setAttribute("stroke", "red");
+      } else {
+        path.setAttribute("fill", "none");
+        path.setAttribute("stroke", "#000");
       }
-     return;
     }
+    return;
+  }
 
-    // 💾 保存
-    const save = e.target.closest(".icon-save");
-    if (save) {
+  // 💾 保存
+  const save = e.target.closest(".icon-save");
+  if (save) {
     const path = save.querySelector("path");
 
     save.classList.toggle("saved");
@@ -199,27 +197,32 @@ function initCardClicks() {
       path.setAttribute("fill", save.classList.contains("saved") ? "#000" : "none");
     }
     return;
-    }
+  }
 
-    // ✏️ 名前編集
-    const nameEl = e.target.closest(".card-name");
-    if (nameEl) { nameEl.focus(); return; }
+  // 💰 価格
+  const priceEl = e.target.closest(".card-price");
+  if (priceEl) {
+    const newPrice = prompt("価格を入力してね", priceEl.textContent);
+    if (newPrice !== null) priceEl.textContent = newPrice;
+    return;
+  }
 
-    // 💰 価格編集
-    const priceEl = e.target.closest(".card-price");
-    if (priceEl) {
-      const newPrice = prompt("価格を入力してね", priceEl.textContent);
-      if (newPrice !== null) priceEl.textContent = newPrice;
-      return;
-    }
+  // 🔗 リンク
+  const linkBtn = e.target.closest(".edit-link-btn");
+  if (linkBtn) {
+    const card = e.target.closest(".card");
+    showLinkEditPopup(card);
+    return;
+  }
 
-    // 🔗 リンク編集ボタン
-const linkBtn = e.target.closest(".edit-link-btn");
-if (linkBtn) {
-  showLinkEditPopup(card); // ← indexではなく card を渡す
-  return;
-}
-  });
+  // ✏️ 名前
+  const nameEl = e.target.closest(".card-name");
+  if (nameEl) {
+    nameEl.focus();
+    return;
+  }
+
+});
 }
 
 // =========================

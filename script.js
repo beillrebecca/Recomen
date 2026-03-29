@@ -209,35 +209,43 @@ function initCardClicks() {
     }
 
     // 🔗 リンク編集ボタン
-    const linkBtn = e.target.closest(".edit-link-btn");
-    if (linkBtn) {
-      const index = Array.from(showcaseEl.children).indexOf(card);
-      showLinkEditPopup(index);
-      return;
-    }
+const linkBtn = e.target.closest(".edit-link-btn");
+if (linkBtn) {
+  showLinkEditPopup(card); // ← indexではなく card を渡す
+  return;
+}
   });
 }
 
 // =========================
-// ポップアップリンク編集
+// ポップアップリンク編集（カードDOM版）
 // =========================
-function showLinkEditPopup(index) {
-  const item = items[index];
+function showLinkEditPopup(card) {
   const popup = document.getElementById("linkEditPopup");
   const input = popup.querySelector("input");
   const btn = popup.querySelector("button");
 
-  input.value = item.link || "";
+  // 現在のリンクを取得
+  const linkDisplay = card.querySelector(".link-display");
+  input.value = linkDisplay ? linkDisplay.textContent : "";
+
+  // ポップアップ表示
   popup.style.display = "block";
   input.focus();
 
   btn.onclick = () => {
     let newLink = input.value.trim();
     if (newLink && !newLink.startsWith("http")) newLink = "https://" + newLink;
-    item.link = newLink;
-    const card = document.getElementById("showcase").children[index];
-    const linkDisplay = card.querySelector(".link-display");
+
+    // カード内表示
     if (linkDisplay) linkDisplay.textContent = newLink || "リンクを入力";
+
+    // items 配列にも反映
+    const showcaseEl = document.getElementById("showcase");
+    const index = Array.from(showcaseEl.children).indexOf(card);
+    if (items[index]) items[index].link = newLink;
+
+    // ポップアップ非表示
     popup.style.display = "none";
   };
 }

@@ -113,20 +113,20 @@ function renderShowcaseLight() {
   showcase.appendChild(addWrapper);
 
   // 保存ボタン（カード欄の下、中央固定）
-  const saveWrapper = document.createElement("div");
-  saveWrapper.className = "showcase-save-wrapper";
-  saveWrapper.style.textAlign = "center";
-  saveWrapper.style.margin = "12px 0";
-  const saveBtn = document.createElement("button");
-  saveBtn.id = "saveBtn";
-  saveBtn.textContent = "💾 保存";
-  saveBtn.style.padding = "8px 20px";
-  saveBtn.style.fontSize = "16px";
-  saveBtn.style.borderRadius = "8px";
-  saveWrapper.appendChild(saveBtn);
-  showcase.appendChild(saveWrapper);
+  // 保存ボタン（カード欄の下、中央固定）
+const saveWrapper = document.createElement("div");
+saveWrapper.className = "showcase-save-wrapper";
 
-  saveBtn.addEventListener("click", saveAppState_FULL);
+// 中央揃えにするCSSは JS 側よりCSSでやる方が安定
+const saveBtn = document.createElement("button");
+saveBtn.id = "saveBtn";
+saveBtn.textContent = "保存";  // ←💾アイコンは削除
+saveBtn.className = "save-btn";
+
+saveWrapper.appendChild(saveBtn);
+showcase.appendChild(saveWrapper);
+
+saveBtn.addEventListener("click", saveAppState_FULL);
 
   addBtn.addEventListener("click", () => {
     const newItem = {

@@ -113,7 +113,6 @@ function renderShowcaseLight() {
   showcase.appendChild(addWrapper);
 
   // 保存ボタン（カード欄の下、中央固定）
-  // 保存ボタン（カード欄の下、中央固定）
 const saveWrapper = document.createElement("div");
 saveWrapper.className = "showcase-save-wrapper";
 

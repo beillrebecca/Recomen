@@ -905,3 +905,35 @@ body.dark-mode .icon-save.saved{
   fill:#eee;
   stroke:#eee;
 }
+
+#announcementBar {
+  position: fixed;
+  top: 70px;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  background: #000;
+  color: #fff;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  z-index: 1100;
+}
+
+.banner-text {
+  white-space: nowrap;
+  display: inline-block;
+  padding-left: 100%;
+  animation: bannerScroll 10s linear infinite;
+  font-size: 16px;
+}
+
+@keyframes bannerScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+

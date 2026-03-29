@@ -172,15 +172,33 @@ function initCardClicks() {
     // ❤️ ハート
     const heart = e.target.closest(".icon-heart");
     if (heart) {
-      heart.classList.toggle("liked");
-      return;
+    const path = heart.querySelector("path");
+
+    heart.classList.toggle("liked");
+
+    if (path) {
+    if (heart.classList.contains("liked")) {
+      path.setAttribute("fill", "red");
+      path.setAttribute("stroke", "red");
+    } else {
+      path.setAttribute("fill", "none");
+      path.setAttribute("stroke", "#000");
+       }
+      }
+     return;
     }
 
-    // 💾 保存アイコン
+    // 💾 保存
     const save = e.target.closest(".icon-save");
     if (save) {
-      save.classList.toggle("saved");
-      return;
+    const path = save.querySelector("path");
+
+    save.classList.toggle("saved");
+
+    if (path) {
+      path.setAttribute("fill", save.classList.contains("saved") ? "#000" : "none");
+    }
+    return;
     }
 
     // ✏️ 名前編集

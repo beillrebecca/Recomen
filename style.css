@@ -782,31 +782,30 @@ html, body{
 /* =========================
    保存ボタン
 ========================= */
-/* ショーケース下に余白を追加 */
 .main-content-wrapper {
   padding-bottom: 120px; /* カスタムバー + ボタン分のスペース */
 }
 
-/* 保存ボタンを右下に揃える */
-.save-btn-wrapper {
+/* 保存ボタンを中央揃え */
+.showcase-save-wrapper {
   display: flex;
-  justify-content: center;
+  justify-content: center; /* ←中央 */
   padding: 8px 16px; /* ショーケースとの余白 */
 }
-.save-btn{
-  display:block;
-  margin:20px auto 80px;
-  background:#d9f1ff;
-  color:#000;
-  border:none;
-  border-radius:8px;
-  padding:12px 28px;
-  cursor:pointer;
-  box-shadow:0 2px 6px rgba(0,0,0,0.15);
+
+#saveBtn {
+  display: block;
+  background: #d9f1ff;
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 28px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
-.save-btn:hover {
-  background:#c7e9ff;
+#saveBtn:hover {
+  background: #c7e9ff;
 }
 
 /* =========================

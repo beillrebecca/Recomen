@@ -400,6 +400,7 @@ html, body{
   align-items: center;
   gap: 6px;
   flex: 1;
+  max-width: 120px;
 }
 
 .link-display {

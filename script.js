@@ -649,5 +649,19 @@ if (saveBtn) {
 
 initPickr();  // カラーピッカーを初期化
 
+window.addEventListener('scroll', () => {
+  document.querySelectorAll('.popup.active').forEach(popup => {
+    const btnId = Object.keys(popups).find(key => popups[key] === popup.id);
+    if (!btnId) return;
+
+    const btn = document.getElementById(btnId);
+    if (!btn) return;
+
+    showPopupAboveButton(popup, btn);
+  });
+});
+
+
+
 });
 

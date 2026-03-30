@@ -61,10 +61,17 @@ function saveIcon(item) {
 // 🔗 カードリンク編集ポップアップ（新規追加）
 // =========================
 function showLinkEditPopupForCard(popupEl, buttonEl, card) {
-  const rect = buttonEl.getBoundingClientRect();
-  popupEl.style.top = `${rect.top + window.scrollY - popupEl.offsetHeight - 8}px`;
-  popupEl.style.left = `${rect.left + window.scrollX + rect.width/2 - popupEl.offsetWidth/2}px`;
+  // 仮表示して高さを取得
+  popupEl.style.visibility = 'hidden';
   popupEl.classList.add('active');
+
+  const rect = buttonEl.getBoundingClientRect();
+  const top = rect.top + window.scrollY - popupEl.offsetHeight - 8;
+  const left = rect.left + window.scrollX + rect.width / 2 - popupEl.offsetWidth / 2;
+
+  popupEl.style.top = `${top}px`;
+  popupEl.style.left = `${left}px`;
+  popupEl.style.visibility = 'visible';
 
   const input = popupEl.querySelector("input");
   const btn = popupEl.querySelector("button");
@@ -73,12 +80,14 @@ function showLinkEditPopupForCard(popupEl, buttonEl, card) {
   input.value = linkDisplay ? linkDisplay.textContent : "";
   input.focus();
 
+  // 既存のクリックイベントを削除してからセット
+  btn.onclick = null;
   btn.onclick = () => {
     let newLink = input.value.trim();
     if (newLink && !newLink.startsWith("http")) newLink = "https://" + newLink;
-
     if (linkDisplay) linkDisplay.textContent = newLink || "リンクを入力";
 
+    // items配列にも反映
     const showcaseEl = document.getElementById("showcase");
     const index = Array.from(showcaseEl.children).indexOf(card);
     if (items[index]) items[index].link = newLink;
@@ -268,12 +277,13 @@ function initCardClicks() {
 
   // 🔗 リンク
   const linkBtn = e.target.closest(".edit-link-btn");
-  if (linkBtn) {
+if (linkBtn) {
+  e.stopPropagation();
   const card = e.target.closest(".card");
   const popupEl = document.getElementById("linkEditPopup");
-  showLinkEditPopupForCard(popupEl, linkBtn, card); // 新関数呼び出し
+  showLinkEditPopupForCard(popupEl, linkBtn, card);
   return;
-  }
+}
 
   // ✏️ 名前
   const nameEl = e.target.closest(".card-name");

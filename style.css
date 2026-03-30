@@ -730,28 +730,28 @@ html, body{
   display: block;
 }
 
-/* 吹き出し矢印（枠） */
+/* 吹き出し矢印（枠） 下向きに変更 */
 .popup::before {
   content: "";
   position: absolute;
-  top: -9px;
+  bottom: -9px;      /* top → bottom */
   left: 50%;
   transform: translateX(-50%);
-  border-width: 0 9px 9px 9px;
+  border-width: 9px 9px 0 9px;   /* 上向きから下向きに */
   border-style: solid;
-  border-color: transparent transparent #c5e5b1 transparent;
+  border-color: #c5e5b1 transparent transparent transparent; /* 上が色 */
 }
 
-/* 吹き出し矢印（中身） */
+/* 吹き出し矢印（中身） 下向きに変更 */
 .popup::after {
   content: "";
   position: absolute;
-  top: -8px;
+  bottom: -8px;      /* top → bottom */
   left: 50%;
   transform: translateX(-50%);
-  border-width: 0 8px 8px 8px;
+  border-width: 8px 8px 0 8px;   /* 上向きから下向きに */
   border-style: solid;
-  border-color: transparent transparent #e6f9d9 transparent;
+  border-color: #e6f9d9 transparent transparent transparent; /* 上が色 */
 }
 
 .popup-container {

@@ -455,7 +455,7 @@ function initPickr() {
       const bannerText = document.querySelector('#announcementBar .banner-text');
       if (bannerText) bannerText.style.color = hex;
     }
-  }
+  },
   {
   el: '#announcementBgPickerBox',
   apply: color => {

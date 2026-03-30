@@ -563,10 +563,16 @@ function showPopupAboveButton(popupEl, buttonEl) {
   popupEl.classList.add('active');
 
   const rect = buttonEl.getBoundingClientRect();
-  const top = rect.top - popupEl.offsetHeight - 8; // window.scrollY を除外
-  const left = rect.left + rect.width / 2 - popupEl.offsetWidth / 2; // window.scrollX を除外
+  let top = rect.top - popupEl.offsetHeight - 8; // ボタンの上に8px余白
+  let left = rect.left + rect.width / 2 - popupEl.offsetWidth / 2;
 
-  popupEl.style.position = 'fixed'; // ここを追加
+  // 画面端に収める
+  const minLeft = 8; // 左端の余白
+  const maxLeft = window.innerWidth - popupEl.offsetWidth - 8; // 右端の余白
+  if (left < minLeft) left = minLeft;
+  if (left > maxLeft) left = maxLeft;
+
+  popupEl.style.position = 'fixed';
   popupEl.style.top = `${top}px`;
   popupEl.style.left = `${left}px`;
   popupEl.style.visibility = 'visible';

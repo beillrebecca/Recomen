@@ -499,6 +499,15 @@ function initPickr() {
     if (banner) banner.style.backgroundColor = hex;
   }
 }
+
+   {
+  el: '#profileBgPickerBox',
+  apply: color => {
+    const hex = color.toHEXA().toString();
+    const profile = document.getElementById('profileSection');
+    if (profile) profile.style.backgroundColor = hex;
+  }
+}
 ];
 
   pickrConfigs.forEach(cfg => {

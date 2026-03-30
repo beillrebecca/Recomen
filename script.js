@@ -472,23 +472,27 @@ function initPickr() {
     if (!el) return;
 
     const pickr = Pickr.create({
-      el: el,
-      theme: 'nano',
-      default: '#ffffff',
-        // 👇 これ追加
-      closeOnScroll: false,
-      components: {
-        preview: true,
-        opacity: true,
-        hue: true,
-        interaction: {
-          hex: true,
-          rgba: true,
-          input: true,
-          save: true
-        }
-      }
-    });
+  el: el,
+  theme: 'nano',
+  default: '#ffffff',
+
+  closeOnScroll: false,
+
+  // 👇 超重要（これでズレ防止）
+  appendTo: document.body,
+
+  components: {
+    preview: true,
+    opacity: true,
+    hue: true,
+    interaction: {
+      hex: true,
+      rgba: true,
+      input: true,
+      save: true
+    }
+  }
+});
 
     pickr.on('save', color => {
       cfg.apply(color);
@@ -496,6 +500,8 @@ function initPickr() {
     });
   });
 }
+
+
 
 // =========================
 // 画像アップロード共通関数

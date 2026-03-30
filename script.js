@@ -467,7 +467,6 @@ function initPickr() {
 document.addEventListener("DOMContentLoaded", () => {
   console.log("JS読み込まれた");
 
-  initColorPickers();
 
   const fontSelect = document.getElementById('fontSelect');
   if (fontSelect) fontSelect.addEventListener('change', e => document.documentElement.style.setProperty('--font-family', e.target.value));

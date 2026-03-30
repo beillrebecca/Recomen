@@ -498,9 +498,8 @@ function initPickr() {
     const banner = document.getElementById('announcementBar');
     if (banner) banner.style.backgroundColor = hex;
   }
-}
-
-   {
+},
+  {
   el: '#profileBgPickerBox',
   apply: color => {
     const hex = color.toHEXA().toString();

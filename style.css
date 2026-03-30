@@ -712,10 +712,12 @@ html, body{
    ポップアップ共通
 ========================= */
 .popup {
-  position: absolute; /* fixed → absolute */
+  position: absolute;
   display: none;
   width: 280px;
   max-width: calc(100vw - 16px);
+  max-height: 80vh;       /* 高さ制限 */
+  overflow-y: auto;       /* 高さオーバー時スクロール */
   padding: 6px;
   background: #e6f9d9;
   border: 1px solid #c5e5b1;

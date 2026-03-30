@@ -118,7 +118,9 @@ function createCard(item) {
 
       <!-- ポップアップ式リンク入力 -->
       <div class="link-wrapper">
-        <span class="link-display">${item.link || "リンクを入力"}</span>
+        <a class="link-display" href="${item.link || '#'}" target="_blank">
+         ${item.link || "リンクを入力"}
+        </a>
         <button class="edit-link-btn">編集</button>
       </div>
     </div>

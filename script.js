@@ -652,7 +652,11 @@ document.querySelectorAll('input[name="theme"]').forEach(radio => {
   });
 });
 
-document.body.classList.add('theme-natural');
+// 初期テーマ（まだ何も付いてない時だけ）
+if (!document.body.classList.contains('theme-natural') &&
+    !document.body.classList.contains('theme-modern')) {
+  document.body.classList.add('theme-natural');
+}
 
 
   // =========================

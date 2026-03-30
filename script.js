@@ -450,120 +450,110 @@ function loadAppState() {
 // =========================
 function initPickr() {
   const pickrConfigs = [
-    // ショーケース背景だけに適用
     { 
       el: '#bgPickerBox',
-    apply: color => {
-      const hex = color.toHEXA().toString();
-      const showcase = document.getElementById('showcase');
-      if(showcase) showcase.style.backgroundColor = hex;
-    }
-  },
-  {
-      el: '#fontColorPickerBox',
-  apply: color => {
-    const hex = color.toHEXA().toString();
-
-    // プロフィール
-    const profileName = document.getElementById('profileName');
-    const profileBio = document.getElementById('profileBio');
-    if(profileName) profileName.style.color = hex;
-    if(profileBio) profileBio.style.color = hex;
-
-    // フォローモーダル文字
-    document.querySelectorAll('.followers-modal, .following-modal').forEach(modal => {
-      modal.style.color = hex;
-    });
-
-    // アイテム名と値段
-    document.querySelectorAll('.card-name, .card-price').forEach(el => {
-      el.style.color = hex;
-    });
-
-    // ⚠️ ポップアップや他のUIには影響しない
+      apply: color => {
+        const hex = color.toHEXA().toString();
+        const showcase = document.getElementById('showcase');
+        if(showcase) showcase.style.backgroundColor = hex;
       }
     },
-  {
-    el: '#announcementFontColorPickerBox',
-    apply: color => {
-      const hex = color.toHEXA().toString();
-      const bannerText = document.querySelector('#announcementBar .banner-text');
-      if (bannerText) bannerText.style.color = hex;
+    {
+      el: '#fontColorPickerBox',
+      apply: color => {
+        const hex = color.toHEXA().toString();
+
+        const profileName = document.getElementById('profileName');
+        const profileBio = document.getElementById('profileBio');
+        if(profileName) profileName.style.color = hex;
+        if(profileBio) profileBio.style.color = hex;
+
+        document.querySelectorAll('.followers-modal, .following-modal').forEach(modal => {
+          modal.style.color = hex;
+        });
+
+        document.querySelectorAll('.card-name, .card-price').forEach(el => {
+          el.style.color = hex;
+        });
+      }
+    },
+    {
+      el: '#announcementFontColorPickerBox',
+      apply: color => {
+        const hex = color.toHEXA().toString();
+        const bannerText = document.querySelector('#announcementBar .banner-text');
+        if (bannerText) bannerText.style.color = hex;
+      }
+    },
+    {
+      el: '#announcementBgPickerBox',
+      apply: color => {
+        const hex = color.toHEXA().toString();
+        const banner = document.getElementById('announcementBar');
+        if (banner) banner.style.backgroundColor = hex;
+      }
+    },
+    {
+      el: '#profileBgPickerBox',
+      apply: color => {
+        const hex = color.toHEXA().toString();
+        const profile = document.getElementById('profileSection');
+        if (profile) profile.style.backgroundColor = hex;
+      }
     }
-  },
-  {
-  el: '#announcementBgPickerBox',
-  apply: color => {
-    const hex = color.toHEXA().toString();
-    const banner = document.getElementById('announcementBar');
-    if (banner) banner.style.backgroundColor = hex;
-  }
-},
-  {
-  el: '#profileBgPickerBox',
-  apply: color => {
-    const hex = color.toHEXA().toString();
-    const profile = document.getElementById('profileSection');
-    if (profile) profile.style.backgroundColor = hex;
-  }
-}
-];
+  ];
 
   pickrConfigs.forEach(cfg => {
     const el = document.querySelector(cfg.el);
     if (!el) return;
 
- const pickr = Pickr.create({
-  el: el,
-  theme: 'nano',
-  default: '#ffffff',
-  
-  position: 'top', // ← これ追加（超重要）
+    const pickr = Pickr.create({
+      el: el,
+      theme: 'nano',
+      default: '#ffffff',
+      position: 'top',
+      closeOnScroll: false,
+      appendTo: document.body,
+      components: {
+        preview: true,
+        opacity: true,
+        hue: true,
+        interaction: {
+          hex: true,
+          rgba: true,
+          input: true,
+          save: true
+        }
+      }
+    });
 
-  closeOnScroll: false,
-
-  // 👇 超重要（これでズレ防止）
-  appendTo: document.body,
-
-  components: {
-    preview: true,
-    opacity: true,
-    hue: true,
-    interaction: {
-      hex: true,
-      rgba: true,
-      input: true,
-      save: true
-    }
-  }
-});
-
+    // 保存
     pickr.on('save', color => {
       cfg.apply(color);
       pickr.hide();
     });
+
+    // 👇 これを中に入れるのがポイント！！
+    pickr.on('show', (instance) => {
+      const app = instance.getRoot().app;
+      if (!app) return;
+
+      app.style.position = 'fixed';
+
+      const rect = app.getBoundingClientRect();
+
+      if (rect.bottom > window.innerHeight) {
+        const overflow = rect.bottom - window.innerHeight + 8;
+        app.style.top = (rect.top - overflow) + 'px';
+      }
+
+      if (rect.top < 8) {
+        app.style.top = '8px';
+      }
+    });
+
   });
 }
-
-    pickr.on('show', (instance) => {
-  const app = instance.getRoot().app;
-  if (!app) return;
-
-  app.style.position = 'fixed';
-
-  const rect = app.getBoundingClientRect();
-
-  // 下にはみ出たら上へ
-  if (rect.bottom > window.innerHeight) {
-    const overflow = rect.bottom - window.innerHeight + 8;
-    app.style.top = (rect.top - overflow) + 'px';
-  }
-
-  // 上にはみ出たら下へ
-  if (rect.top < 8) {
-    app.style.top = '8px';
-  }
-});
 
 
 // =========================

@@ -96,22 +96,12 @@
 </div> <!-- /.custom-bar-wrapper -->
 
 <!-- ===== ポップアップ ===== -->
-<div class="popup" id="themePopup">
-  <label class="theme-option">
-    <input type="radio" name="theme" value="natural" checked>
-    <span class="label-text">ナチュラル</span>
-  </label>
-  <label class="theme-option">
-    <input type="radio" name="theme" value="modern">
-    <span class="label-text">モダン</span>
-  </label>
-</div>
-
 <div class="popup" id="stylePopup">
   <label class="color-field">
     <span class="label">Background</span>
-    <div id="bgPicker"></div>
+    <div class="color-picker-box" id="bgPickerBox"></div>
   </label>
+
   <label>
     <span class="label">Font</span>
     <select id="fontSelect">
@@ -120,13 +110,15 @@
       <option value="'Sawarabi Gothic', sans-serif">Sawarabi Gothic</option>
     </select>
   </label>
+
   <label class="color-field">
     <span class="label">Font Color</span>
-    <div id="fontColorPicker"></div>
+    <div class="color-picker-box" id="fontColorPickerBox"></div>
   </label>
+
   <label class="color-field">
     <span class="label">Profile Background</span>
-    <div id="profileBgPicker"></div>
+    <div class="color-picker-box" id="profileBgPickerBox"></div>
   </label>
 </div>
 
@@ -141,7 +133,7 @@
   </label>
   <label class="color-field">
     <span class="label">Background</span>
-    <div id="announcementBgPicker"></div>
+    <div class="color-picker-box" id="announcementBgPickerBox"></div>
   </label>
 </div>
 

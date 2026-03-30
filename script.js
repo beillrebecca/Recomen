@@ -471,10 +471,12 @@ function initPickr() {
     const el = document.querySelector(cfg.el);
     if (!el) return;
 
-    const pickr = Pickr.create({
+ const pickr = Pickr.create({
   el: el,
   theme: 'nano',
   default: '#ffffff',
+  
+  position: 'top', // ← これ追加（超重要）
 
   closeOnScroll: false,
 

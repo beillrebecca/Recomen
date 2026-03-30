@@ -459,7 +459,19 @@ Object.keys(popups).forEach(btnId => {
 });
 
 // 外クリックで閉じる（シンプル版）
-document.addEventListener('click', () => {
+document.addEventListener('click', (e) => {
+
+  // ポップアップ内クリックは無視
+  if (e.target.closest('.popup')) return;
+
+  // 編集ボタンは無視
+  if (
+    e.target.closest('#themeButton') ||
+    e.target.closest('#styleButton') ||
+    e.target.closest('#announcementButton')
+  ) return;
+
+  // それ以外だけ閉じる
   document.querySelectorAll('.popup').forEach(p => {
     p.classList.remove('active');
   });

@@ -60,39 +60,38 @@ function saveIcon(item) {
 // =========================
 // 🔗 カードリンク編集ポップアップ（新規追加）
 // =========================
-function showLinkEditPopupForCard(popupEl, buttonEl, card) {
-  // 仮表示して高さを取得
-  popupEl.style.visibility = 'hidden';
-  popupEl.classList.add('active');
+let currentCard = null;
 
-  const rect = buttonEl.getBoundingClientRect();
-  const top = rect.top + window.scrollY - popupEl.offsetHeight - 8;
-  const left = rect.left + window.scrollX + rect.width / 2 - popupEl.offsetWidth / 2;
+function showLinkEditPopup(card) {
+  const modal = document.getElementById("linkModal");
+  const input = document.getElementById("linkModalInput");
+  const btn = document.getElementById("linkModalSaveBtn");
 
-  popupEl.style.top = `${top}px`;
-  popupEl.style.left = `${left}px`;
-  popupEl.style.visibility = 'visible';
+  currentCard = card;
 
-  const input = popupEl.querySelector("input");
-  const btn = popupEl.querySelector("button");
   const linkDisplay = card.querySelector(".link-display");
-
   input.value = linkDisplay ? linkDisplay.textContent : "";
+
+  modal.classList.add("active");
   input.focus();
 
-  // 既存のクリックイベントを削除してからセット
-  btn.onclick = null;
   btn.onclick = () => {
     let newLink = input.value.trim();
-    if (newLink && !newLink.startsWith("http")) newLink = "https://" + newLink;
-    if (linkDisplay) linkDisplay.textContent = newLink || "リンクを入力";
+    if (newLink && !newLink.startsWith("http")) {
+      newLink = "https://" + newLink;
+    }
 
-    // items配列にも反映
+    if (linkDisplay) {
+      linkDisplay.textContent = newLink || "リンクを入力";
+      linkDisplay.href = newLink || "#";
+    }
+
     const showcaseEl = document.getElementById("showcase");
-    const index = Array.from(showcaseEl.children).indexOf(card);
+    const cards = Array.from(showcaseEl.querySelectorAll(".card"));
+    const index = cards.indexOf(currentCard);
     if (items[index]) items[index].link = newLink;
 
-    popupEl.classList.remove('active');
+    modal.classList.remove("active");
   };
 }
 

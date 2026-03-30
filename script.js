@@ -546,24 +546,24 @@ function initPickr() {
   });
 }
 
-    pickr.on('show', () => {
-  setTimeout(() => {
-    const app = document.querySelector('.pcr-app');
-    if (!app) return;
+    pickr.on('show', (instance) => {
+  const app = instance.getRoot().app;
+  if (!app) return;
 
-    const rect = app.getBoundingClientRect();
+  app.style.position = 'fixed';
 
-    // 👇 下にはみ出たら上に持ち上げる
-    if (rect.bottom > window.innerHeight) {
-      const overflow = rect.bottom - window.innerHeight + 8;
-      app.style.top = (rect.top - overflow) + 'px';
-    }
+  const rect = app.getBoundingClientRect();
 
-    // 👇 上にはみ出たら下に
-    if (rect.top < 0) {
-      app.style.top = '8px';
-    }
-  }, 0);
+  // 下にはみ出たら上へ
+  if (rect.bottom > window.innerHeight) {
+    const overflow = rect.bottom - window.innerHeight + 8;
+    app.style.top = (rect.top - overflow) + 'px';
+  }
+
+  // 上にはみ出たら下へ
+  if (rect.top < 8) {
+    app.style.top = '8px';
+  }
 });
 
 

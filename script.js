@@ -168,16 +168,26 @@ function renderShowcaseLight() {
 // カードクリック操作
 // =========================
 let activeCard = null;
+
 function initCardClicks() {
   const showcaseEl = document.getElementById("showcase");
   if (!showcaseEl) return;
 
   const itemImgInput = document.getElementById("itemImgInput");
   if (!itemImgInput) return;
+
+  // 画像アップロードイベントの初期化
   if (!itemImgInput.dataset.init) {
     itemImgInput.addEventListener('change', event => {
       const file = event.target.files[0];
-      if (!file || !activeCard) return;
+      if (!file) return;
+
+      // activeCard がセットされていなければ警告して終了
+      if (!activeCard) {
+        alert("画像を貼りたいカードを先にクリックしてください");
+        itemImgInput.value = "";
+        return;
+      }
 
       const reader = new FileReader();
       reader.onload = ev => {
@@ -186,21 +196,25 @@ function initCardClicks() {
       };
       reader.readAsDataURL(file);
 
+      // リセット
       itemImgInput.value = "";
       activeCard = null;
     });
     itemImgInput.dataset.init = 'true';
   }
 
+  // ショーケース内クリック処理
   showcaseEl.addEventListener("click", e => {
 
-  // 🖼 画像
-  if (e.target.closest(".image")) {
-    e.stopPropagation();
-    activeCard = e.target.closest(".card");
-    if (itemImgInput) itemImgInput.click();
-    return;
-  }
+    // 🖼 画像
+    const imageEl = e.target.closest(".image");
+    if (imageEl) {
+      e.stopPropagation();
+      activeCard = e.target.closest(".card");
+      if (itemImgInput) itemImgInput.click();
+      return;
+    }
+
 
   // ❤️ ハート
   const heart = e.target.closest(".icon-heart");

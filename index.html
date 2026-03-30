@@ -86,65 +86,64 @@
     <button id="editToggle" class="edit-toggle-btn">ショーケースを編集</button>
 
     <!-- 編集項目ボタン群（初期は折りたたまれて隠れる） -->
+<div class="custom-bar-wrapper">
+  <div class="custom-bar">
     <div class="edit-items" id="editItems">
-  <button class="edit-item" id="themeButton">テーマ</button>
-  <button class="edit-item" id="styleButton">スタイル</button>
-  <button class="edit-item" id="announcementButton">アナウンスバー</button>
-</div>
-
+      <button class="edit-item" id="themeButton">テーマ</button>
+      <button class="edit-item" id="styleButton">スタイル</button>
+      <button class="edit-item" id="announcementButton">アナウンスバー</button>
+    </div>
   </div> <!-- /.custom-bar -->
 </div> <!-- /.custom-bar-wrapper -->
 
 <!-- ===== ポップアップ ===== -->
-<div class="popup-container">
-  <div class="popup" id="themePopup">
-    <label class="theme-option">
-      <input type="radio" name="theme" value="natural" checked>
-      <span class="label-text">ナチュラル</span>
-    </label>
-    <label class="theme-option">
-      <input type="radio" name="theme" value="modern">
-      <span class="label-text">モダン</span>
-    </label>
-  </div>
+<div class="popup" id="themePopup">
+  <label class="theme-option">
+    <input type="radio" name="theme" value="natural" checked>
+    <span class="label-text">ナチュラル</span>
+  </label>
+  <label class="theme-option">
+    <input type="radio" name="theme" value="modern">
+    <span class="label-text">モダン</span>
+  </label>
+</div>
 
-  <div class="popup" id="stylePopup">
-    <label class="color-field">
-      <span class="label">Background</span>
-      <div id="bgPicker"></div>
-    </label>
-    <label>
-      <span class="label">Font</span>
-      <select id="fontSelect">
-        <option value="'Source Han Sans JP', sans-serif">Source Han Sans JP</option>
-        <option value="'IPAex Mincho', serif">IPAex Mincho</option>
-        <option value="'Sawarabi Gothic', sans-serif">Sawarabi Gothic</option>
-      </select>
-    </label>
-    <label class="color-field">
-      <span class="label">Font Color</span>
-      <div id="fontColorPicker"></div>
-    </label>
-    <label class="color-field">
-      <span class="label">Profile Background</span>
-      <div id="profileBgPicker"></div>
-    </label>
-  </div>
+<div class="popup" id="stylePopup">
+  <label class="color-field">
+    <span class="label">Background</span>
+    <div id="bgPicker"></div>
+  </label>
+  <label>
+    <span class="label">Font</span>
+    <select id="fontSelect">
+      <option value="'Source Han Sans JP', sans-serif">Source Han Sans JP</option>
+      <option value="'IPAex Mincho', serif">IPAex Mincho</option>
+      <option value="'Sawarabi Gothic', sans-serif">Sawarabi Gothic</option>
+    </select>
+  </label>
+  <label class="color-field">
+    <span class="label">Font Color</span>
+    <div id="fontColorPicker"></div>
+  </label>
+  <label class="color-field">
+    <span class="label">Profile Background</span>
+    <div id="profileBgPicker"></div>
+  </label>
+</div>
 
-  <div class="popup" id="announcementPopup">
-    <label class="toggle-field">
-      <span class="label">Show Announcement</span>
-      <input type="checkbox" id="announcementToggle" checked>
-    </label>
-    <label>
-      <span class="label">Text</span>
-      <input type="text" id="bannerTextInput" placeholder="アナウンスバーのテキスト" value="アナウンスバーのテキスト">
-    </label>
-    <label class="color-field">
-      <span class="label">Background</span>
-      <div id="announcementBgPicker"></div>
-    </label>
-  </div>
+<div class="popup" id="announcementPopup">
+  <label class="toggle-field">
+    <span class="label">Show Announcement</span>
+    <input type="checkbox" id="announcementToggle" checked>
+  </label>
+  <label>
+    <span class="label">Text</span>
+    <input type="text" id="bannerTextInput" placeholder="アナウンスバーのテキスト" value="アナウンスバーのテキスト">
+  </label>
+  <label class="color-field">
+    <span class="label">Background</span>
+    <div id="announcementBgPicker"></div>
+  </label>
 </div>
 
    <!-- カードリンク編集用ポップアップ -->

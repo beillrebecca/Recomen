@@ -213,11 +213,11 @@ function initCardClicks() {
   }
 
   // 🔗 リンク
-  const linkBtn = e.target.closest(".edit-link-btn");
-  if (linkBtn) {
-    const card = e.target.closest(".card");
-    showLinkEditPopup(card);
-    return;
+  const linkInput = e.target.closest(".card-link-input");
+  if (linkInput) {
+  const card = e.target.closest(".card");
+  showLinkEditPopup(card);
+  return;
   }
 
   // ✏️ 名前

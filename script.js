@@ -220,6 +220,8 @@ function initCardClicks() {
 
   // ショーケース内クリック処理
   showcaseEl.addEventListener("click", e => {
+    
+    if (e.target.closest('.pcr-app')) return;
 
     // 🖼 画像クリック
     const imageEl = e.target.closest(".image");

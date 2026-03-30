@@ -666,6 +666,7 @@ html, body{
   left: 0;
   width: 100%;
   display: flex;
+  justify-content: center; /* ← これ追加 */
   gap: 10px;
 
   max-height: 0;

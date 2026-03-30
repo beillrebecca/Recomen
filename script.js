@@ -475,12 +475,19 @@ document.addEventListener("DOMContentLoaded", () => {
   // =========================
 // カスタムバー編集開閉
 // =========================
+// =========================
+// カスタムバー編集開閉
+// =========================
 const editToggle = document.getElementById('editToggle');
 const editItems = document.getElementById('editItems');
 
 if (editToggle && editItems) {
   editToggle.addEventListener('click', e => {
     e.stopPropagation();
+
+    // ポップアップ閉じる
+    document.querySelectorAll('.popup').forEach(p => p.classList.remove('active'));
+
     if (editItems.classList.contains('active')) {
       editItems.classList.remove('active');
       editItems.style.maxHeight = '0';
@@ -489,29 +496,17 @@ if (editToggle && editItems) {
       editItems.style.maxHeight = editItems.scrollHeight + 'px';
     }
   });
-
-  document.addEventListener("click", e => {
-    if (!e.target.closest("#editItems") && !e.target.closest("#editToggle")) {
-      editItems.classList.remove("active");
-      editItems.style.maxHeight = '0';
-    }
-  });
 }
 
-  // 共通関数：ボタンの真上にポップアップ表示
+// 共通関数：ボタンの真上にポップアップ表示
 function showPopupAboveButton(popupEl, buttonEl) {
-  // 仮表示して高さを取得
-  popupEl.style.visibility = 'hidden';  // 透明にして
-  popupEl.classList.add('active');       // display:block にする
+  popupEl.style.visibility = 'hidden';
+  popupEl.classList.add('active');
   const rect = buttonEl.getBoundingClientRect();
-
   const top = rect.top + window.scrollY - popupEl.offsetHeight - 8;
   const left = rect.left + window.scrollX + rect.width / 2 - popupEl.offsetWidth / 2;
-
   popupEl.style.top = `${top}px`;
   popupEl.style.left = `${left}px`;
-
-  // 仮表示解除 → 完全に表示
   popupEl.style.visibility = 'visible';
 }
 
@@ -530,25 +525,19 @@ Object.keys(popups).forEach(btnId => {
   btn.addEventListener('click', e => {
     e.stopPropagation();
 
-    // 全てのポップアップを閉じる
-    document.querySelectorAll('.popup').forEach(p => p.classList.remove('active'));
+    // 他のポップアップを閉じる
+    document.querySelectorAll('.popup').forEach(p => {
+      if (p !== popup) p.classList.remove('active');
+    });
 
     // 今クリックしたボタンの真上に表示
     showPopupAboveButton(popup, btn);
   });
 });
 
-// 外クリックで閉じる（シンプル版）
-document.addEventListener('click', (e) => {
-  if (e.target.closest('.popup')) return; // ポップアップ内は無視
-  if (
-    e.target.closest('#themeButton') ||
-    e.target.closest('#styleButton') ||
-    e.target.closest('#announcementButton')
-  ) return; // 編集ボタンも無視
+// ※ 外クリックで閉じる処理は削除！
+// ショーケースや他の部分を触ってもポップアップは閉じない
 
-  document.querySelectorAll('.popup').forEach(p => p.classList.remove('active'));
-});
 
   // アナウンスバー入力反映
   const bannerInput = document.getElementById('bannerTextInput');

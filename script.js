@@ -320,7 +320,10 @@ function showLinkEditPopup(card) {
     if (newLink && !newLink.startsWith("http")) newLink = "https://" + newLink;
 
     // カード内表示
-    if (linkDisplay) linkDisplay.textContent = newLink || "リンクを入力";
+    if (linkDisplay) {
+    linkDisplay.textContent = newLink || "リンクを入力";
+    linkDisplay.href = newLink || "#"; // ←これ追加
+    }
 
     // items 配列にも反映
     const showcaseEl = document.getElementById("showcase");

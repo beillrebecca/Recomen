@@ -417,31 +417,27 @@ function initPickr() {
   const pickrConfigs = [
     // ショーケース背景だけに適用
     { 
-      el: '#bgPickerBox', 
-      apply: color => {
-        const showcase = document.getElementById('showcase');
-        if (showcase) showcase.style.backgroundColor = color.toHEXA().toString();
-      }
-    },
-    // フォントカラーは全体
-    { 
-      el: '#fontColorPickerBox', 
-      apply: color => document.body.style.color = color.toHEXA().toString() 
-    },
-    // プロフィール背景
-    { 
-      el: '#profileBgPickerBox', 
-      apply: color => {
-        const profile = document.getElementById('profileSection');
-        if(profile) profile.style.backgroundColor = color.toHEXA().toString();
-      }
-    },
-    // アナウンスバー背景
-    { 
-      el: '#announcementBgPickerBox', 
-      apply: color => {
-        const banner = document.getElementById('announcementBar');
-        if(banner) banner.style.backgroundColor = color.toHEXA().toString();
+      el: '#fontColorPickerBox',
+  apply: color => {
+    const hex = color.toHEXA().toString();
+
+    // プロフィール
+    const profileName = document.getElementById('profileName');
+    const profileBio = document.getElementById('profileBio');
+    if(profileName) profileName.style.color = hex;
+    if(profileBio) profileBio.style.color = hex;
+
+    // フォローモーダル文字
+    document.querySelectorAll('.followers-modal, .following-modal').forEach(modal => {
+      modal.style.color = hex;
+    });
+
+    // アイテム名と値段
+    document.querySelectorAll('.card-name, .card-price').forEach(el => {
+      el.style.color = hex;
+    });
+
+    // ⚠️ ポップアップや他のUIには影響しない
       }
     }
   ];

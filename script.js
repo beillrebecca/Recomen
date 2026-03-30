@@ -278,6 +278,15 @@ function initCardClicks() {
     if (newPrice !== null) priceEl.textContent = newPrice;
     return;
   }
+  
+  // 🔗 リンク（表示テキストをタップ）
+  const linkEl = e.target.closest(".link-display");
+  if (linkEl) {
+  e.preventDefault(); // ← ページ遷移を止める
+  const card = e.target.closest(".card");
+  showLinkEditPopup(card);
+  return;
+  }
 
   // 🔗 リンク
   const linkBtn = e.target.closest(".edit-link-btn");

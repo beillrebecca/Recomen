@@ -488,8 +488,20 @@ if (editToggle && editItems) {
   });
 }
 
-  // ポップアップ開閉処理（テーマ・スタイル・アナウンス）
-  const popups = {
+  // 共通関数：ボタンの真上にポップアップ表示
+function showPopupAboveButton(popupEl, buttonEl) {
+  const rect = buttonEl.getBoundingClientRect();
+
+  const top = rect.top + window.scrollY - popupEl.offsetHeight - 8; // ボタン上に8px
+  const left = rect.left + window.scrollX + rect.width / 2 - popupEl.offsetWidth / 2; // 中央揃え
+
+  popupEl.style.top = `${top}px`;
+  popupEl.style.left = `${left}px`;
+  popupEl.classList.add('active');
+}
+
+// ポップアップ開閉処理（テーマ・スタイル・アナウンス）
+const popups = {
   themeButton: 'themePopup',
   styleButton: 'stylePopup',
   announcementButton: 'announcementPopup'
@@ -503,33 +515,24 @@ Object.keys(popups).forEach(btnId => {
   btn.addEventListener('click', e => {
     e.stopPropagation();
 
-    // 全部閉じる
-    document.querySelectorAll('.popup').forEach(p => {
-      p.classList.remove('active');
-    });
+    // 全てのポップアップを閉じる
+    document.querySelectorAll('.popup').forEach(p => p.classList.remove('active'));
 
-    // 今のだけ開く
-    popup.classList.toggle('active');
+    // 今クリックしたボタンの真上に表示
+    showPopupAboveButton(popup, btn);
   });
 });
 
 // 外クリックで閉じる（シンプル版）
 document.addEventListener('click', (e) => {
-
-  // ポップアップ内クリックは無視
-  if (e.target.closest('.popup')) return;
-
-  // 編集ボタンは無視
+  if (e.target.closest('.popup')) return; // ポップアップ内は無視
   if (
     e.target.closest('#themeButton') ||
     e.target.closest('#styleButton') ||
     e.target.closest('#announcementButton')
-  ) return;
+  ) return; // 編集ボタンも無視
 
-  // それ以外だけ閉じる
-  document.querySelectorAll('.popup').forEach(p => {
-    p.classList.remove('active');
-  });
+  document.querySelectorAll('.popup').forEach(p => p.classList.remove('active'));
 });
 
   // アナウンスバー入力反映

@@ -143,6 +143,7 @@ function initCardClicks() {
   if (!showcaseEl) return;
 
   const itemImgInput = document.getElementById("itemImgInput");
+  if (!itemImgInput) return;
   if (!itemImgInput.dataset.init) {
     itemImgInput.addEventListener('change', event => {
       const file = event.target.files[0];

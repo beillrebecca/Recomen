@@ -566,6 +566,12 @@ function showPopupAboveButton(popupEl, buttonEl) {
   const rect = buttonEl.getBoundingClientRect();
   let top = rect.top - popupEl.offsetHeight - 8; // ボタンの上に8px余白
   let left = rect.left + rect.width / 2 - popupEl.offsetWidth / 2;
+  
+  // 👇 これ追加（超重要）
+  if (top < 8) {
+    top = rect.bottom + 8; // 下に出す
+  }
+
 
   // 画面端に収める
   const minLeft = 8; // 左端の余白

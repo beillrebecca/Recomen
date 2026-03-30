@@ -638,6 +638,24 @@ Object.keys(popups).forEach(btnId => {
   }
   
   // =========================
+// テーマ切替
+// =========================
+document.querySelectorAll('input[name="theme"]').forEach(radio => {
+  radio.addEventListener('change', e => {
+    const theme = e.target.value;
+
+    // 一旦リセット
+    document.body.classList.remove('theme-natural', 'theme-modern');
+
+    // 適用
+    document.body.classList.add(`theme-${theme}`);
+  });
+});
+
+document.body.classList.add('theme-natural');
+
+
+  // =========================
 // 保存ボタンイベント
 // =========================
 const saveBtn = document.getElementById("saveBtn");

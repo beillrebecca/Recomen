@@ -625,7 +625,7 @@ html, body{
   left: 0;
   width: 100%;
   z-index: 1000;
-  background: red; /* ← 強制可視化 */
+  /* background: red; ← デバッグ用、不要なら削除 */
 }
 
 /* カスタムバー本体 */
@@ -638,8 +638,7 @@ html, body{
   height: 60px; /* 折りたたみ時 */
   padding: 6px 16px;
   box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
-  transition: height 0.3s ease;
-  z-index: 1000;
+  z-index: 1000; /* カスタムバー自身 */
 }
 
 /* 編集ボタン */
@@ -712,20 +711,16 @@ html, body{
    ポップアップ共通
 ========================= */
 .popup {
-  position: absolute;
+  position: absolute; /* 親は fixed なので画面基準 */
   display: none;
   width: 280px;
   max-width: calc(100vw - 16px);
-  max-height: 80vh;       /* 高さ制限 */
-  overflow-y: auto;       /* 高さオーバー時スクロール */
   padding: 6px;
   background: #e6f9d9;
   border: 1px solid #c5e5b1;
   border-radius: 6px;
   font-size: 12px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-  z-index: 2000;
-  box-sizing: border-box;
   pointer-events: auto;
 }
 
@@ -759,8 +754,13 @@ html, body{
 }
 
 .popup-container {
-  position: relative;
-  z-index: 1200;
+  position: fixed; /* relative → fixed に変更 */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; /* 画面全体を覆う */
+  pointer-events: none; /* 背景クリックで閉じやすく */
+  z-index: 2000; /* カスタムバーより上 */
 }
 
 #themePopup {

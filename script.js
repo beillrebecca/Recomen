@@ -415,14 +415,31 @@ function loadAppState() {
 // =========================
 function initPickr() {
   const pickrConfigs = [
-    { el: '#bgPickerBox', apply: color => document.body.style.backgroundColor = color.toHEXA().toString() },
-    { el: '#fontColorPickerBox', apply: color => document.body.style.color = color.toHEXA().toString() },
-    { el: '#profileBgPickerBox', apply: color => {
+    // ショーケース背景だけに適用
+    { 
+      el: '#bgPickerBox', 
+      apply: color => {
+        const showcase = document.getElementById('showcase');
+        if (showcase) showcase.style.backgroundColor = color.toHEXA().toString();
+      }
+    },
+    // フォントカラーは全体
+    { 
+      el: '#fontColorPickerBox', 
+      apply: color => document.body.style.color = color.toHEXA().toString() 
+    },
+    // プロフィール背景
+    { 
+      el: '#profileBgPickerBox', 
+      apply: color => {
         const profile = document.getElementById('profileSection');
         if(profile) profile.style.backgroundColor = color.toHEXA().toString();
       }
     },
-    { el: '#announcementBgPickerBox', apply: color => {
+    // アナウンスバー背景
+    { 
+      el: '#announcementBgPickerBox', 
+      apply: color => {
         const banner = document.getElementById('announcementBar');
         if(banner) banner.style.backgroundColor = color.toHEXA().toString();
       }
@@ -435,13 +452,12 @@ function initPickr() {
 
     const pickr = Pickr.create({
       el: el,
-      theme: 'nano',  // ヘッドで読み込んだ nano.css
+      theme: 'nano',
       default: '#ffffff',
       components: {
         preview: true,
         opacity: true,
         hue: true,
-
         interaction: {
           hex: true,
           rgba: true,
@@ -451,7 +467,6 @@ function initPickr() {
       }
     });
 
-    // 色が決定されたら適用
     pickr.on('save', color => {
       cfg.apply(color);
       pickr.hide();

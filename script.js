@@ -391,6 +391,23 @@ function applyColor(pickerId, color) {
 }
 
 // =========================
+// DOMContentLoaded 初期化
+// =========================
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("JS読み込まれた");
+
+  initColorPickers();
+
+  const fontSelect = document.getElementById('fontSelect');
+  if (fontSelect) fontSelect.addEventListener('change', e => document.documentElement.style.setProperty('--font-family', e.target.value));
+
+  setupImageUpload(document.getElementById('headerImg'), document.getElementById('headerImgInput'));
+  setupImageUpload(document.getElementById('avatarImg'), document.getElementById('avatarImgInput'));
+
+  loadAppState();
+  initCardClicks();
+  
+  // =========================
 // カスタムバー編集開閉
 // =========================
 const editToggle = document.getElementById('editToggle');
@@ -415,23 +432,6 @@ if (editToggle && editItems) {
     }
   });
 }
-
-// =========================
-// DOMContentLoaded 初期化
-// =========================
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("JS読み込まれた");
-
-  initColorPickers();
-
-  const fontSelect = document.getElementById('fontSelect');
-  if (fontSelect) fontSelect.addEventListener('change', e => document.documentElement.style.setProperty('--font-family', e.target.value));
-
-  setupImageUpload(document.getElementById('headerImg'), document.getElementById('headerImgInput'));
-  setupImageUpload(document.getElementById('avatarImg'), document.getElementById('avatarImgInput'));
-
-  loadAppState();
-  initCardClicks();
 
   // ポップアップ開閉処理（テーマ・スタイル・アナウンス）
   const popups = {

@@ -589,6 +589,15 @@ document.addEventListener("DOMContentLoaded", () => {
   initCardClicks();
   
 // =========================
+// リンク編集モーダル：背景クリックで閉じる
+// =========================
+document.getElementById("linkModal").addEventListener("click", e => {
+  if (e.target.id === "linkModal") {
+    e.currentTarget.classList.remove("active");
+  }
+});
+  
+// =========================
 // カスタムバー編集開閉
 // =========================
 const editToggle = document.getElementById('editToggle');
@@ -727,7 +736,6 @@ window.addEventListener('scroll', () => {
     showPopupAboveButton(popup, btn);
   });
 });
-
 
 
 });

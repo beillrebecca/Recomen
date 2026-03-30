@@ -417,6 +417,14 @@ function initPickr() {
   const pickrConfigs = [
     // ショーケース背景だけに適用
     { 
+      el: '#bgPickerBox',
+    apply: color => {
+      const hex = color.toHEXA().toString();
+      const showcase = document.getElementById('showcase');
+      if(showcase) showcase.style.backgroundColor = hex;
+    }
+  },
+  {
       el: '#fontColorPickerBox',
   apply: color => {
     const hex = color.toHEXA().toString();

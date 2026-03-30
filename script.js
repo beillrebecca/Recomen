@@ -277,13 +277,13 @@ function initCardClicks() {
 
   // 🔗 リンク
   const linkBtn = e.target.closest(".edit-link-btn");
-if (linkBtn) {
+  if (linkBtn) {
   e.stopPropagation();
   const card = e.target.closest(".card");
-  const popupEl = document.getElementById("linkEditPopup");
-  showLinkEditPopupForCard(popupEl, linkBtn, card);
+  showLinkEditPopup(card); // ← 正しい関数名
   return;
-}
+  }
+
 
   // ✏️ 名前
   const nameEl = e.target.closest(".card-name");

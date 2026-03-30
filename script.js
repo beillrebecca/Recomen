@@ -439,8 +439,16 @@ function initPickr() {
 
     // ⚠️ ポップアップや他のUIには影響しない
       }
+    },
+  {
+    el: '#announcementFontColorPickerBox',
+    apply: color => {
+      const hex = color.toHEXA().toString();
+      const bannerText = document.querySelector('#announcementBar .banner-text');
+      if (bannerText) bannerText.style.color = hex;
     }
-  ];
+  }
+];
 
   pickrConfigs.forEach(cfg => {
     const el = document.querySelector(cfg.el);

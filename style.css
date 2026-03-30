@@ -695,6 +695,7 @@ html, body{
   align-items: center;
   white-space: nowrap;
   transition: background 0.2s;
+  pointer-events: auto;
 }
 
 .edit-item:hover {

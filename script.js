@@ -456,6 +456,14 @@ function initPickr() {
       if (bannerText) bannerText.style.color = hex;
     }
   }
+  {
+  el: '#announcementBgPickerBox',
+  apply: color => {
+    const hex = color.toHEXA().toString();
+    const banner = document.getElementById('announcementBar');
+    if (banner) banner.style.backgroundColor = hex;
+  }
+}
 ];
 
   pickrConfigs.forEach(cfg => {

@@ -553,9 +553,12 @@ if (editToggle && editItems) {
 function showPopupAboveButton(popupEl, buttonEl) {
   popupEl.style.visibility = 'hidden';
   popupEl.classList.add('active');
+
   const rect = buttonEl.getBoundingClientRect();
-  const top = rect.top + window.scrollY - popupEl.offsetHeight - 8;
-  const left = rect.left + window.scrollX + rect.width / 2 - popupEl.offsetWidth / 2;
+  const top = rect.top - popupEl.offsetHeight - 8; // window.scrollY を除外
+  const left = rect.left + rect.width / 2 - popupEl.offsetWidth / 2; // window.scrollX を除外
+
+  popupEl.style.position = 'fixed'; // ここを追加
   popupEl.style.top = `${top}px`;
   popupEl.style.left = `${left}px`;
   popupEl.style.visibility = 'visible';

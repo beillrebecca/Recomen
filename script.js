@@ -430,31 +430,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ポップアップ開閉処理（テーマ・スタイル・アナウンス）
   const popups = {
-    themeButton: 'themePopup',
-    styleButton: 'stylePopup',
-    announcementButton: 'announcementPopup'
-  };
+  themeButton: 'themePopup',
+  styleButton: 'stylePopup',
+  announcementButton: 'announcementPopup'
+};
 
-  Object.keys(popups).forEach(btnId => {
-    const btn = document.getElementById(btnId);
-    const popup = document.getElementById(popups[btnId]);
-    if (!btn || !popup) return;
+Object.keys(popups).forEach(btnId => {
+  const btn = document.getElementById(btnId);
+  const popup = document.getElementById(popups[btnId]);
+  if (!btn || !popup) return;
 
-    btn.addEventListener('click', e => {
-      e.stopPropagation();
-      // 他のポップアップは閉じる
-      document.querySelectorAll('.popup').forEach(p => { if(p!==popup) p.style.display='none'; });
-      // トグル表示
-      popup.style.display = (popup.style.display==='block') ? 'none' : 'block';
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+
+    // 全部閉じる
+    document.querySelectorAll('.popup').forEach(p => {
+      p.classList.remove('active');
     });
-  });
 
-  // ポップアップ外クリックで閉じる
-  document.addEventListener('click', e => {
-    if(!e.target.closest('.popup') && !Object.keys(popups).some(id => e.target.closest('#'+id))) {
-      document.querySelectorAll('.popup').forEach(p => p.style.display='none');
-    }
+    // 今のだけ開く
+    popup.classList.toggle('active');
   });
+});
+
+// 外クリックで閉じる（シンプル版）
+document.addEventListener('click', () => {
+  document.querySelectorAll('.popup').forEach(p => {
+    p.classList.remove('active');
+  });
+});
 
   // アナウンスバー入力反映
   const bannerInput = document.getElementById('bannerTextInput');

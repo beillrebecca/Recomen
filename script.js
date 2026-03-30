@@ -566,6 +566,30 @@ if (saveBtn) {
   });
 }
 
+// =========================
+// 画像アップロード共通関数
+// =========================
+function setupImageUpload(imgEl, inputEl) {
+  if (!imgEl || !inputEl) return;
+
+  inputEl.addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = ev => {
+      imgEl.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+
+    // 入力をリセット
+    inputEl.value = "";
+  });
+
+  // 画像クリックでファイル選択を開く
+  imgEl.addEventListener('click', () => inputEl.click());
+}
+
 initPickr();  // カラーピッカーを初期化
 
 });

@@ -403,8 +403,8 @@ html, body{
   display: flex;
   align-items: center;
   gap: 6px;
-  flex: 1;
-  max-width: 120px;
+  width: 120px;      /* ← 固定 */
+  flex-shrink: 0;    /* ← 縮まない */
 }
 
 .link-display {
@@ -419,6 +419,55 @@ html, body{
   overflow: hidden;
   text-overflow: ellipsis;
   cursor: pointer;
+  min-width: 0;
+}
+
+/* 背景（うっすら暗く） */
+.link-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(0,0,0,0.3);
+  z-index: 3000;
+}
+
+/* 表示 */
+.link-modal.active {
+  display: flex;
+}
+
+/* 白いボックス */
+.link-modal-content {
+  background: #fff;
+  padding: 16px;
+  border-radius: 10px;
+  width: 260px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* 入力 */
+.link-modal-content input {
+  padding: 8px;
+  font-size: 14px;
+}
+
+/* ボタン */
+.link-modal-content button {
+  padding: 8px;
+  background: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
 }
 
 .edit-link-btn {

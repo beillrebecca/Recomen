@@ -599,6 +599,10 @@ html, body{
   position: relative;
   padding: 6px 6px 0; /* 上下の余白を少し減らした */
 }
+.image img {
+  pointer-events: auto; /* クリックできるように */
+  cursor: pointer;      /* ポインター表示 */
+}
 .card .modern-clicks{
   position: absolute;      /* 画像内での絶対位置 */
   top: 4px;

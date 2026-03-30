@@ -71,8 +71,7 @@
   <!-- カードは JS で追加される -->
 
   <!-- 画像アップロード用（非表示） -->
-  <input type="file" id="itemImgInput" accept="image/*" style="position:absolute; opacity:0; pointer-events:none;">
-</div>
+  
 
 <!-- ===== 保存ボタン（ショーケース外・中央） ===== -->
 <div class="showcase-save-wrapper">
@@ -174,6 +173,10 @@
   <button style="margin-left:8px; padding:6px 12px;">決定</button>
 </div>
 
+  <!-- ページの一番下に置く -->
+<input type="file" id="itemImgInput" accept="image/*" style="display:none;">
+  
+  
   <!-- ===== スクリプト ===== -->
   <script src="script.js"></script>
 

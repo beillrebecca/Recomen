@@ -58,6 +58,36 @@ function saveIcon(item) {
 }
 
 // =========================
+// 🔗 カードリンク編集ポップアップ（新規追加）
+// =========================
+function showLinkEditPopupForCard(popupEl, buttonEl, card) {
+  const rect = buttonEl.getBoundingClientRect();
+  popupEl.style.top = `${rect.top - popupEl.offsetHeight - 8}px`; // ボタン上に表示
+  popupEl.style.left = `${rect.left + rect.width/2 - popupEl.offsetWidth/2}px`;
+  popupEl.classList.add('active');
+
+  const input = popupEl.querySelector("input");
+  const btn = popupEl.querySelector("button");
+  const linkDisplay = card.querySelector(".link-display");
+
+  input.value = linkDisplay ? linkDisplay.textContent : "";
+  input.focus();
+
+  btn.onclick = () => {
+    let newLink = input.value.trim();
+    if (newLink && !newLink.startsWith("http")) newLink = "https://" + newLink;
+
+    if (linkDisplay) linkDisplay.textContent = newLink || "リンクを入力";
+
+    const showcaseEl = document.getElementById("showcase");
+    const index = Array.from(showcaseEl.children).indexOf(card);
+    if (items[index]) items[index].link = newLink;
+
+    popupEl.classList.remove('active');
+  };
+}
+
+// =========================
 // カード作成
 // =========================
 function createCard(item) {
@@ -213,10 +243,11 @@ function initCardClicks() {
   }
 
   // 🔗 リンク
-  const linkInput = e.target.closest(".card-link-input");
-  if (linkInput) {
+  const linkBtn = e.target.closest(".edit-link-btn");
+  if (linkBtn) {
   const card = e.target.closest(".card");
-  showLinkEditPopup(card);
+  const popupEl = document.getElementById("linkEditPopup");
+  showLinkEditPopupForCard(popupEl, linkBtn, card); // 新関数呼び出し
   return;
   }
 

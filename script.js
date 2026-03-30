@@ -62,8 +62,8 @@ function saveIcon(item) {
 // =========================
 function showLinkEditPopupForCard(popupEl, buttonEl, card) {
   const rect = buttonEl.getBoundingClientRect();
-  popupEl.style.top = `${rect.top - popupEl.offsetHeight - 8}px`; // ボタン上に表示
-  popupEl.style.left = `${rect.left + rect.width/2 - popupEl.offsetWidth/2}px`;
+  popupEl.style.top = `${rect.top + window.scrollY - popupEl.offsetHeight - 8}px`;
+  popupEl.style.left = `${rect.left + window.scrollX + rect.width/2 - popupEl.offsetWidth/2}px`;
   popupEl.classList.add('active');
 
   const input = popupEl.querySelector("input");

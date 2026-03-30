@@ -717,11 +717,6 @@ html, body{
   display: block;
 }
 
-.popup-container,
-.edit-items {
-  display: none !important;
-}
-
 /* 吹き出し矢印（枠） */
 .popup::before {
   content: "";
@@ -747,7 +742,8 @@ html, body{
 }
 
 .popup-container {
-  display: none;
+  position: relative;
+  z-index: 1200;
 }
 
 #themePopup {

@@ -777,26 +777,6 @@ html, body{
 
 
 /* =========================
-   カラーピッカー
-========================= */
-.color-picker{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-  margin-top:6px;
-}
-.color-picker div{
-  width:28px;
-  height:28px;
-  border-radius:50%;
-  border:1px solid #ccc;
-  cursor:pointer;
-}
-.color-picker div.selected{
-  border:2px solid #000;
-}
-
-/* =========================
    ショーケース内 追加ボタン
 ========================= */
 .showcase-add-card-wrapper{

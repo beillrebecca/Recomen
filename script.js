@@ -537,6 +537,25 @@ function initPickr() {
   });
 }
 
+    pickr.on('show', () => {
+  setTimeout(() => {
+    const app = document.querySelector('.pcr-app');
+    if (!app) return;
+
+    const rect = app.getBoundingClientRect();
+
+    // 👇 下にはみ出たら上に持ち上げる
+    if (rect.bottom > window.innerHeight) {
+      const overflow = rect.bottom - window.innerHeight + 8;
+      app.style.top = (rect.top - overflow) + 'px';
+    }
+
+    // 👇 上にはみ出たら下に
+    if (rect.top < 0) {
+      app.style.top = '8px';
+    }
+  }, 0);
+});
 
 
 // =========================

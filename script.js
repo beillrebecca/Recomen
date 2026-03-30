@@ -535,6 +535,12 @@ Object.keys(popups).forEach(btnId => {
 
     // 今クリックしたボタンの真上に表示
     showPopupAboveButton(popup, btn);
+
+    // ここを追加 → 編集項目ボタンを押したらカスタムバーを折りたたむ
+    if (editItems.classList.contains('active')) {
+      editItems.classList.remove('active');
+      editItems.style.maxHeight = '0';
+    }
   });
 });
 

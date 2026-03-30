@@ -413,47 +413,53 @@ function loadAppState() {
 // =========================
 // 共通関数（画像アップロード・カラーピッカー）
 // =========================
-function setupImageUpload(imgEl, inputEl) {
-  if (!imgEl || !inputEl) return;
-  imgEl.addEventListener('click', () => inputEl.click());
-  inputEl.addEventListener('change', e => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = ev => imgEl.src = ev.target.result;
-    reader.readAsDataURL(file);
-  });
-}
+function initPickr() {
+  const pickrConfigs = [
+    { el: '#bgPickerBox', apply: color => document.body.style.backgroundColor = color.toHEXA().toString() },
+    { el: '#fontColorPickerBox', apply: color => document.body.style.color = color.toHEXA().toString() },
+    { el: '#profileBgPickerBox', apply: color => {
+        const profile = document.getElementById('profileSection');
+        if(profile) profile.style.backgroundColor = color.toHEXA().toString();
+      }
+    },
+    { el: '#announcementBgPickerBox', apply: color => {
+        const banner = document.getElementById('announcementBar');
+        if(banner) banner.style.backgroundColor = color.toHEXA().toString();
+      }
+    }
+  ];
 
-function initColorPickers() {
-  const colors = ["#ffffff","#f28b82","#fbbc04","#fff475","#ccff90","#a7ffeb","#cbf0f8","#aecbfa","#d7aefb","#fdcfe8","#e6c9a8","#e8eaed"];
-  const pickers = ["bgPicker","fontColorPicker","profileBgPicker","announcementBgPicker"];
-  pickers.forEach(pickerId => {
-    const container = document.getElementById(pickerId);
-    if (!container) return;
-    container.innerHTML = "";
-    container.classList.add("color-picker");
-    colors.forEach(color => {
-      const div = document.createElement("div");
-      div.style.backgroundColor = color;
-      div.addEventListener("click", () => {
-        container.querySelectorAll("div").forEach(d => d.classList.remove("selected"));
-        div.classList.add("selected");
-        applyColor(pickerId, color);
-      });
-      container.appendChild(div);
+  pickrConfigs.forEach(cfg => {
+    const el = document.querySelector(cfg.el);
+    if (!el) return;
+
+    const pickr = Pickr.create({
+      el: el,
+      theme: 'nano',  // ヘッドで読み込んだ nano.css
+      default: '#ffffff',
+      components: {
+        preview: true,
+        opacity: true,
+        hue: true,
+
+        interaction: {
+          hex: true,
+          rgba: true,
+          input: true,
+          save: true
+        }
+      }
+    });
+
+    // 色が決定されたら適用
+    pickr.on('save', color => {
+      cfg.apply(color);
+      pickr.hide();
     });
   });
 }
 
-function applyColor(pickerId, color) {
-  switch(pickerId){
-    case "bgPicker": document.body.style.backgroundColor = color; break;
-    case "fontColorPicker": document.body.style.color = color; break;
-    case "profileBgPicker": const profile=document.getElementById("profileSection"); if(profile) profile.style.backgroundColor=color; break;
-    case "announcementBgPicker": const banner=document.getElementById("announcementBar"); if(banner) banner.style.backgroundColor=color; break;
-  }
-}
+
 
 // =========================
 // DOMContentLoaded 初期化
@@ -472,9 +478,6 @@ document.addEventListener("DOMContentLoaded", () => {
   loadAppState();
   initCardClicks();
   
-  // =========================
-// カスタムバー編集開閉
-// =========================
 // =========================
 // カスタムバー編集開閉
 // =========================

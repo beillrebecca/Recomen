@@ -365,11 +365,29 @@ function saveAppState_FULL() {
     }));
 
     const state = {
+      // 🔴 アイテム系
       items,
+
+      // 🔴 プロフィール系
       headerImg: document.getElementById("headerImg")?.src || null,
       avatarImg: document.getElementById("avatarImg")?.src || null,
       profileName: document.getElementById("profileName")?.textContent || "",
-      profileBio: document.getElementById("profileBio")?.textContent || ""
+      profileBio: document.getElementById("profileBio")?.textContent || "",
+
+      // 🔴 テーマ
+      theme: document.querySelector('input[name="theme"]:checked')?.value || "natural",
+
+      // 🔴 スタイル
+      showcaseBg: document.getElementById("showcase")?.style.backgroundColor || "",
+      fontFamily: document.documentElement.style.getPropertyValue('--font-family') || "",
+      fontColor: document.getElementById("profileName")?.style.color || "",
+      profileBg: document.getElementById("profileSection")?.style.backgroundColor || "",
+
+      // 🔴 アナウンスバー
+      announcementVisible: document.getElementById("announcementToggle")?.checked || false,
+      announcementText: document.querySelector('#announcementBar .banner-text')?.textContent || "",
+      announcementBg: document.getElementById("announcementBar")?.style.backgroundColor || "",
+      announcementFontColor: document.querySelector('#announcementBar .banner-text')?.style.color || ""
     };
 
     localStorage.setItem("recomenState", JSON.stringify(state));

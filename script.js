@@ -308,7 +308,7 @@ function showLinkEditPopup(card) {
   input.value = linkDisplay ? linkDisplay.textContent : "";
 
   // ポップアップ表示
-  popup.style.display = "block";
+  popup.classList.add('active');
   input.focus();
 
   btn.onclick = () => {
@@ -320,7 +320,8 @@ function showLinkEditPopup(card) {
 
     // items 配列にも反映
     const showcaseEl = document.getElementById("showcase");
-    const index = Array.from(showcaseEl.children).indexOf(card);
+    const cards = Array.from(showcaseEl.querySelectorAll(".card"));
+    const index = cards.indexOf(card);
     if (items[index]) items[index].link = newLink;
 
     // ポップアップ非表示

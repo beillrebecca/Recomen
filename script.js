@@ -534,23 +534,25 @@ function initPickr() {
     });
 
     // 👇 これを中に入れるのがポイント！！
-    pickr.on('show', (instance) => {
-      const app = instance.getRoot().app;
-      if (!app) return;
+    pickr.on('show', () => {
+  const app = pickr.getRoot().app; // ← ここ修正！！
+  if (!app) return;
 
-      app.style.position = 'fixed';
+  app.style.position = 'fixed';
 
-      const rect = app.getBoundingClientRect();
+  const rect = app.getBoundingClientRect();
 
-      if (rect.bottom > window.innerHeight) {
-        const overflow = rect.bottom - window.innerHeight + 8;
-        app.style.top = (rect.top - overflow) + 'px';
-      }
+  // 下にはみ出たら上へ
+  if (rect.bottom > window.innerHeight) {
+    const overflow = rect.bottom - window.innerHeight + 8;
+    app.style.top = (rect.top - overflow) + 'px';
+  }
 
-      if (rect.top < 8) {
-        app.style.top = '8px';
-      }
-    });
+  // 上にはみ出たら下へ
+  if (rect.top < 8) {
+    app.style.top = '8px';
+  }
+});
 
   });
 }

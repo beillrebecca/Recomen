@@ -490,14 +490,19 @@ if (editToggle && editItems) {
 
   // 共通関数：ボタンの真上にポップアップ表示
 function showPopupAboveButton(popupEl, buttonEl) {
+  // 仮表示して高さを取得
+  popupEl.style.visibility = 'hidden';  // 透明にして
+  popupEl.classList.add('active');       // display:block にする
   const rect = buttonEl.getBoundingClientRect();
 
-  const top = rect.top + window.scrollY - popupEl.offsetHeight - 8; // ボタン上に8px
-  const left = rect.left + window.scrollX + rect.width / 2 - popupEl.offsetWidth / 2; // 中央揃え
+  const top = rect.top + window.scrollY - popupEl.offsetHeight - 8;
+  const left = rect.left + window.scrollX + rect.width / 2 - popupEl.offsetWidth / 2;
 
   popupEl.style.top = `${top}px`;
   popupEl.style.left = `${left}px`;
-  popupEl.classList.add('active');
+
+  // 仮表示解除 → 完全に表示
+  popupEl.style.visibility = 'visible';
 }
 
 // ポップアップ開閉処理（テーマ・スタイル・アナウンス）

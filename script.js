@@ -182,17 +182,23 @@ function initCardClicks() {
       const file = event.target.files[0];
       if (!file) return;
 
-      // activeCard がセットされていなければ警告して終了
       if (!activeCard) {
         alert("画像を貼りたいカードを先にクリックしてください");
         itemImgInput.value = "";
         return;
       }
 
+      const imgTag = activeCard.querySelector("img");
+      if (!imgTag) {
+        alert("カードに画像タグが見つかりません");
+        itemImgInput.value = "";
+        activeCard = null;
+        return;
+      }
+
       const reader = new FileReader();
       reader.onload = ev => {
-        const imgTag = activeCard.querySelector("img");
-        if (imgTag) imgTag.src = ev.target.result;
+        imgTag.src = ev.target.result;
       };
       reader.readAsDataURL(file);
 
@@ -206,11 +212,15 @@ function initCardClicks() {
   // ショーケース内クリック処理
   showcaseEl.addEventListener("click", e => {
 
-    // 🖼 画像
+    // 🖼 画像クリック
     const imageEl = e.target.closest(".image");
     if (imageEl) {
       e.stopPropagation();
-      activeCard = e.target.closest(".card");
+      const card = imageEl.closest(".card");
+      if (!card) return; // 念のため null チェック
+      activeCard = card;
+
+      // input ファイル選択を発火
       if (itemImgInput) itemImgInput.click();
       return;
     }

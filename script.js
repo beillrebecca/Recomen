@@ -558,4 +558,16 @@ document.addEventListener('click', (e) => {
       bannerSpan.textContent = e.target.value;
     });
   }
+  
+  // =========================
+// 保存ボタンイベント
+// =========================
+const saveBtn = document.getElementById("saveBtn");
+if (saveBtn) {
+  saveBtn.addEventListener("click", () => {
+    saveAppState_FULL();
+  });
+}
+
 });
+

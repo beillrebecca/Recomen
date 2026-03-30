@@ -621,6 +621,7 @@ html, body{
   left: 0;
   width: 100%;
   z-index: 1000;
+  background: red; /* ← 強制可視化 */
 }
 
 /* カスタムバー本体 */

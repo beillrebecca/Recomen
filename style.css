@@ -617,6 +617,37 @@ html, body{
 }
 
 /* =========================
+   ナチュラルテーマ
+========================= */
+body.theme-natural .card {
+  background: #fff;
+  box-shadow: 0 4px 10px rgba(0,0,0,.12);
+  padding: 10px;
+  border-radius: 16px;
+}
+
+/* =========================
+   モダンテーマ
+========================= */
+body.theme-modern .card {
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  border-radius: 0;
+}
+
+body.theme-modern .card-actions {
+  justify-content: space-evenly;
+  padding: 0;
+  margin: 8px 0 0 0;
+}
+
+body.theme-modern .card-actions svg {
+  width: 26px;
+  height: 26px;
+}
+
+/* =========================
    カスタムバー（ボトム固定）
 ========================= */
 .custom-bar-wrapper {

@@ -674,6 +674,11 @@ html, body{
   pointer-events: auto;
 }
 
+/* これ追加👇（重要） */
+.edit-items.active .edit-item {
+  pointer-events: auto;
+}
+
 /* 各編集項目ボタン */
 .edit-item {
   flex: 1; /* 均等幅 */

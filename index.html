@@ -133,18 +133,29 @@
 </div>
 
 <div class="popup" id="announcementPopup">
+  <!-- Show Announcement チェックボックス -->
   <label class="toggle-field">
-    <span class="label">Show Announcement</span>
     <input type="checkbox" id="announcementToggle" checked>
+    <span class="label">Show Announcement</span>
   </label>
-  <label>
-    <span class="label">Text</span>
+
+  <!-- Text 入力 横並び -->
+  <div class="announcement-text-row">
+    <label for="bannerTextInput">Text</label>
     <input type="text" id="bannerTextInput" placeholder="アナウンスバーのテキスト" value="アナウンスバーのテキスト">
-  </label>
-  <label class="color-field">
-    <span class="label">Background</span>
+  </div>
+
+  <!-- フォントカラー 横並び -->
+  <div class="announcement-fontcolor-row">
+    <label for="announcementFontColorPickerBox">Fonts Color</label>
+    <div class="color-picker-box" id="announcementFontColorPickerBox"></div>
+  </div>
+
+  <!-- Background 横並び -->
+  <div class="announcement-bg-row">
+    <label for="announcementBgPickerBox">Background</label>
     <div class="color-picker-box" id="announcementBgPickerBox"></div>
-  </label>
+  </div>
 </div>
 
    <!-- カードリンク編集用ポップアップ -->

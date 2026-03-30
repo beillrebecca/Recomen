@@ -475,6 +475,8 @@ function initPickr() {
       el: el,
       theme: 'nano',
       default: '#ffffff',
+        // 👇 これ追加
+      closeOnScroll: false,
       components: {
         preview: true,
         opacity: true,

@@ -379,26 +379,6 @@ html, body{
   flex-shrink: 0; /* ← 値段は縮まない */
 }
 
-.card-link-input{
-  flex:1 1 auto; /* 伸縮可能だけど右にはみ出さない */
-  min-width:0;
-  max-width:100px; /* ← 横幅の上限を設定して狭める */
-  border:1px solid #dcdcdc;
-  border-radius:8px;
-  background:#fff;
-  padding:6px 8px;
-  font-size:12px;
-  color:#1a73e8; /* ← リンク風の青 */
-  outline:none;
-  box-sizing:border-box;
-  pointer-events: none; /* 直接編集不可 */
-  cursor: pointer;       /* クリック可能っぽく見せる */
-}
-
-.card-link-input::placeholder{
-  color:#6ea8fe;
-}
-
 .link-wrapper {
   display: flex;
   align-items: center;

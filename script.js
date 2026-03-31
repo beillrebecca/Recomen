@@ -554,7 +554,7 @@ if (state.fontColor) {
   const profileBio = document.getElementById('profileBio');
   if (profileName) profileName.style.color = state.fontColor;
   if (profileBio) profileBio.style.color = state.fontColor;
-
+}
 
 // フォローフォロワー表示はCSS変数で制御
 if (state.fontColorVar) {

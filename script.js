@@ -347,7 +347,7 @@ function saveAppState_FULL() {
       id: items[index]?.id || Date.now() + index,
       name: card.querySelector(".card-name")?.textContent.trim() || "アイテム名",
       price: card.querySelector(".card-price")?.textContent.trim() || "¥0",
-      link: card.querySelector(".link-display")?.href || "",
+      link: card.querySelector(".link-display")?.textContent || "",
       img: card.querySelector("img")?.src || "",
       liked: card.querySelector(".icon-heart")?.classList.contains("liked") || false,
       saved: card.querySelector(".icon-save")?.classList.contains("saved") || false,
@@ -826,6 +826,14 @@ window.addEventListener('scroll', () => {
 
     const btn = document.getElementById(btnId);
     if (!btn) return;
+    
+    // フォントカラー再適用
+    const saved = JSON.parse(localStorage.getItem("recomenState") || "{}");
+    if (saved.fontColor) {
+    document.querySelectorAll('.card-name, .card-price').forEach(el => {
+    el.style.color = saved.fontColor;
+  });
+}
 
     showPopupAboveButton(popup, btn);
   });

@@ -827,13 +827,32 @@ Object.keys(popups).forEach(btnId => {
 
 
   // アナウンスバー入力反映
-  const bannerInput = document.getElementById('bannerTextInput');
-  const bannerSpan = document.querySelector('#announcementBar .banner-text');
-  if(bannerInput && bannerSpan){
-    bannerInput.addEventListener('input', e => {
-      bannerSpan.textContent = e.target.value;
-    });
-  }
+const bannerInput = document.getElementById('bannerTextInput');
+const bannerSpan = document.querySelector('#announcementBar .banner-text');
+if (bannerInput && bannerSpan) {
+  const updateBannerAnimation = () => {
+    const bar = document.getElementById('announcementBar');
+    if (!bar) return;
+
+    const textWidth = bannerSpan.offsetWidth;
+    const barWidth = bar.offsetWidth;
+
+    const speed = 50; // px/秒
+    const duration = (barWidth + textWidth) / speed;
+
+    bannerSpan.style.animation = `bannerScroll ${duration}s linear infinite`;
+  };
+
+  // 初回アニメーション設定
+  updateBannerAnimation();
+
+  // テキスト更新時も再計算
+  bannerInput.addEventListener('input', e => {
+    bannerSpan.textContent = e.target.value;
+    // テキスト幅が変わったのでアニメーション再設定
+    updateBannerAnimation();
+  });
+}
   
   // =========================
 // テーマ切替

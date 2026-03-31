@@ -1,3 +1,4 @@
+alert("JS読み込まれた");
 window.onerror = function(msg, url, line) {
   alert("エラー発生👇\n" + msg + "\n行:" + line);
 };

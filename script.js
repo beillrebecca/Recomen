@@ -463,10 +463,30 @@ function getDefaultItems() {
 }
 
 function loadAppState() {
-  const saved = localStorage.getItem("recomenState");
-  if (saved) {
-    try {
-      const state = JSON.parse(saved);
+  let state = null;
+
+  try {
+    state = JSON.parse(localStorage.getItem("recomenState"));
+  } catch(e) {
+    console.warn("保存データ破損 or 空です:", e);
+  }
+
+  if (!state) {
+    state = {
+      items: getDefaultItems(),
+      profileName: "プロフィール名",
+      profileBio: "プロフィール紹介",
+      theme: "natural",
+      fontFamily: "'Source Han Sans JP', sans-serif",
+      fontColor: "#000",
+      profileBg: "#fff",
+      announcementVisible: true,
+      announcementText: "アナウンスバーのテキスト",
+      announcementBg: "#f0f0f0",
+      announcementFontColor: "#000",
+      showcaseBg: "#fff"
+    };
+  }
       items = (state.items && state.items.length > 0) ? state.items : getDefaultItems();
       document.getElementById("headerImg").src = state.headerImg || document.getElementById("headerImg").src;
       document.getElementById("avatarImg").src = state.avatarImg || document.getElementById("avatarImg").src;

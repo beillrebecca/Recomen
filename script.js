@@ -309,15 +309,23 @@ function initCardClicks() {
 // ポップアップリンク編集（カードDOM版）
 // =========================
 function showLinkEditPopup(card) {
-  const popup = document.getElementById("linkEditPopup");
-  const input = popup.querySelector("input");
-  const btn = popup.querySelector("button");
+  const popup = document.getElementById("linkModal"); // ←ここを修正
+  if (!popup) {
+    console.error("linkModal が存在しません");
+    return;
+  }
 
-  // 現在のリンクを取得
+  const input = document.getElementById("linkModalInput"); // input もID指定に変更
+  const btn = document.getElementById("linkModalSaveBtn"); // button もID指定
+
+  if (!input || !btn) {
+    console.error("popup 内の input または button が見つかりません");
+    return;
+  }
+
   const linkDisplay = card.querySelector(".link-display");
   input.value = linkDisplay ? linkDisplay.textContent : "";
 
-  // ポップアップ表示
   popup.classList.add('active');
   input.focus();
 
@@ -325,20 +333,17 @@ function showLinkEditPopup(card) {
     let newLink = input.value.trim();
     if (newLink && !newLink.startsWith("http")) newLink = "https://" + newLink;
 
-    // カード内表示
     if (linkDisplay) {
-    linkDisplay.textContent = newLink || "リンクを入力";
-    linkDisplay.href = newLink || "#"; // ←これ追加
+      linkDisplay.textContent = newLink || "リンクを入力";
+      linkDisplay.href = newLink || "#"; 
     }
 
-    // items 配列にも反映
     const showcaseEl = document.getElementById("showcase");
     const cards = Array.from(showcaseEl.querySelectorAll(".card"));
     const index = cards.indexOf(card);
     if (items[index]) items[index].link = newLink;
 
-    // ポップアップ非表示
-    popup.style.display = "none";
+    popup.classList.remove('active'); // 非表示
   };
 }
 

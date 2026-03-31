@@ -369,7 +369,7 @@ html, body{
   justify-content:space-between;
   gap:8px;
   margin-top:8px;
-  overflow: hidden;   /* ← 追加（超重要） */
+  min-width: 0; /* ← これが本質 */
 }
 
 .card-price{
@@ -385,7 +385,8 @@ html, body{
   align-items: center;
   gap: 6px;
   width: 120px;      /* ← 固定 */
-  flex-shrink: 0;    /* ← 縮まない */
+  flex-shrink: 1;   /* ← これに変更 */
+  min-width: 0;     /* ← 追加 */
 }
 
 .link-display {

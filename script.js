@@ -525,23 +525,34 @@ function initPickr() {
 
     // 👇 これを中に入れるのがポイント！！
     pickr.on('show', () => {
-  const app = pickr.getRoot().app; // ← ここ修正！！
+  const app = pickr.getRoot().app;
   if (!app) return;
 
   app.style.position = 'fixed';
 
   const rect = app.getBoundingClientRect();
 
+  let top = rect.top;
+  let left = rect.left;
+
   // 下にはみ出たら上へ
   if (rect.bottom > window.innerHeight) {
-    const overflow = rect.bottom - window.innerHeight + 8;
-    app.style.top = (rect.top - overflow) + 'px';
+    top = window.innerHeight - rect.height - 8;
   }
 
   // 上にはみ出たら下へ
-  if (rect.top < 8) {
-    app.style.top = '8px';
+  if (top < 8) {
+    top = 8;
   }
+
+  // 左右も制御（←これ重要）
+  if (left < 8) left = 8;
+  if (left + rect.width > window.innerWidth) {
+    left = window.innerWidth - rect.width - 8;
+  }
+
+  app.style.top = `${top}px`;
+  app.style.left = `${left}px`;
 });
 
   });

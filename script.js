@@ -911,13 +911,6 @@ window.addEventListener('scroll', () => {
     const btn = document.getElementById(btnId);
     if (!btn) return;
     
-    // フォントカラー再適用
-    const saved = JSON.parse(localStorage.getItem("recomenState") || "{}");
-    if (saved.fontColor) {
-    document.querySelectorAll('.card-name, .card-price').forEach(el => {
-    el.style.color = saved.fontColor;
-  });
-}
 
     showPopupAboveButton(popup, btn);
   });

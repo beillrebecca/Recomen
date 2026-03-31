@@ -351,15 +351,16 @@ function saveAppState_FULL() {
     const cards = showcase.querySelectorAll(".card");
 
     items = Array.from(cards).map((card, index) => ({
-      id: items[index]?.id || Date.now() + index,
-      name: card.querySelector(".card-name")?.textContent.trim() || "アイテム名",
-      price: card.querySelector(".card-price")?.textContent.trim() || "¥0",
-      link: card.querySelector(".link-display")?.textContent || "",
-      img: card.querySelector("img")?.src || "",
-      liked: card.querySelector(".icon-heart")?.classList.contains("liked") || false,
-      saved: card.querySelector(".icon-save")?.classList.contains("saved") || false,
-      clicks: parseInt(card.querySelector(".modern-clicks")?.textContent || "0")
-    }));
+    id: items[index]?.id || Date.now() + index,
+    name: card.querySelector(".card-name")?.textContent.trim() || "アイテム名",
+    price: card.querySelector(".card-price")?.textContent.trim() || "¥0",
+    link: card.querySelector(".link-display")?.textContent || "",
+    img: card.querySelector("img")?.src || "",
+    liked: card.querySelector(".icon-heart")?.classList.contains("liked") || false,
+    saved: card.querySelector(".icon-save")?.classList.contains("saved") || false,
+    clicks: parseInt(card.querySelector(".modern-clicks")?.textContent || "0"),
+    fontColor: getComputedStyle(card.querySelector(".card-name"))?.color || "#000000"  // ←ここを追加
+  }));
 
     const state = {
       // 🔴 アイテム系
@@ -470,6 +471,15 @@ if (state.fontColor) {
   // カードの文字
   document.querySelectorAll('.card-name, .card-price').forEach(el => {
     if (el) el.style.color = state.fontColor;
+  });
+  
+  items.forEach((item, index) => {
+    const card = document.querySelectorAll(".card")[index];
+    if (!card) return;
+    const nameEl = card.querySelector(".card-name");
+    const priceEl = card.querySelector(".card-price");
+    if (nameEl) nameEl.style.color = item.fontColor || "";
+    if (priceEl) priceEl.style.color = item.fontColor || "";
   });
 }
 

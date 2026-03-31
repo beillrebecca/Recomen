@@ -145,6 +145,21 @@ function createCard(item) {
 // ショーケース描画
 // =========================
 function renderShowcaseLight() {
+  
+  // 🔴 カード描画後に色を適用（これが正解の場所）
+setTimeout(() => {
+  items.forEach((item, index) => {
+    const card = document.querySelectorAll(".card")[index];
+    if (!card) return;
+
+    const nameEl = card.querySelector(".card-name");
+    const priceEl = card.querySelector(".card-price");
+
+    if (nameEl) nameEl.style.color = item.fontColorName || "";
+    if (priceEl) priceEl.style.color = item.fontColorPrice || "";
+  });
+}, 0);
+
   const showcase = document.getElementById("showcase");
   if (!showcase) return;
 

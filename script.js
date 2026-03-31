@@ -347,7 +347,7 @@ function saveAppState_FULL() {
       id: items[index]?.id || Date.now() + index,
       name: card.querySelector(".card-name")?.textContent.trim() || "アイテム名",
       price: card.querySelector(".card-price")?.textContent.trim() || "¥0",
-      link: card.querySelector(".link-display")?.textContent || "",
+      link: card.querySelector(".link-display")?.href || "",
       img: card.querySelector("img")?.src || "",
       liked: card.querySelector(".icon-heart")?.classList.contains("liked") || false,
       saved: card.querySelector(".icon-save")?.classList.contains("saved") || false,
@@ -370,7 +370,7 @@ function saveAppState_FULL() {
       // 🔴 スタイル
       showcaseBg: document.getElementById("showcase")?.style.backgroundColor || "",
       fontFamily: document.documentElement.style.getPropertyValue('--font-family') || "",
-      fontColor: document.getElementById("profileName")?.style.color || "",
+      fontColor: getComputedStyle(document.getElementById("profileName")).color || "",
       profileBg: document.getElementById("profileSection")?.style.backgroundColor || "",
 
       // 🔴 アナウンスバー

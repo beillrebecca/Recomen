@@ -621,9 +621,9 @@ function initPickr() {
     const hex = color.toHEXA().toString();
     const profile = document.getElementById('profileSection');
     if (profile) {
-      // !important を付けて強制的に背景色を上書き
       profile.style.setProperty('background-color', hex, 'important');
-      state.profileBg = hex; // ←これを追加
+      // 🔹 state → appState に変更
+      appState.profileBg = hex; 
     }
   }
 }

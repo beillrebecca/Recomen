@@ -392,7 +392,7 @@ function saveAppState_FULL() {
      return "";
      })(),
   
-     profileBg: getComputedStyle(document.querySelector(".profile")).getPropertyValue('--profile-bg') || "#ffffff",
+     profileBg: getComputedStyle(document.getElementById('profileSection'))?.backgroundColor || "#ffffff",
 
       // 🔴 アナウンスバー
       announcementVisible: document.getElementById("announcementToggle")?.checked || false,
@@ -483,7 +483,10 @@ if (state.fontColorVar) {
 // プロフィール背景
 if (state.profileBg) {
   const profile = document.getElementById('profileSection');
-  if (profile) profile.style.backgroundColor = state.profileBg;
+  if (profile) {
+    profile.style.backgroundColor = state.profileBg;
+    profile.style.setProperty('--profile-bg', state.profileBg);
+  }
 }
 
 // =========================
@@ -602,6 +605,7 @@ function initPickr() {
     if (profile) {
       // !important を付けて強制的に背景色を上書き
       profile.style.setProperty('background-color', hex, 'important');
+      state.profileBg = hex; // ←これを追加
     }
   }
 }

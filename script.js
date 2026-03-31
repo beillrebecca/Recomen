@@ -361,8 +361,10 @@ function saveAppState_FULL() {
     const showcase = document.getElementById("showcase");
     const cards = showcase.querySelectorAll(".card");
 
-    items = Array.from(cards).map((card, index) => ({
-    id: items[index]?.id || Date.now() + index,
+    items = Array.from(cards).map(card => {
+    const cardId = card.dataset.itemId || Date.now(); // dataset から取得
+    return {
+    id: Number(cardId), // 数字に変換
     name: card.querySelector(".card-name")?.textContent.trim() || "アイテム名",
     price: card.querySelector(".card-price")?.textContent.trim() || "¥0",
     link: card.querySelector(".link-display")?.textContent || "",
@@ -371,7 +373,8 @@ function saveAppState_FULL() {
     saved: card.querySelector(".icon-save")?.classList.contains("saved") || false,
     clicks: parseInt(card.querySelector(".modern-clicks")?.textContent || "0"),
     fontColor: getComputedStyle(card.querySelector(".card-name"))?.color || ""
-  }));
+  };
+});
 
     const state = {
       // 🔴 アイテム系

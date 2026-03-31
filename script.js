@@ -391,7 +391,8 @@ function saveAppState_FULL() {
      if (stats) return getComputedStyle(stats).getPropertyValue('--font-color').trim();
      return "";
      })(),
-  profileBg: getComputedStyle(document.getElementById("profileSection"))?.backgroundColor || "",
+  
+     profileBg: getComputedStyle(document.querySelector(".profile")).getPropertyValue('--profile-bg') || "#ffffff",
 
       // 🔴 アナウンスバー
       announcementVisible: document.getElementById("announcementToggle")?.checked || false,

@@ -164,7 +164,6 @@ function renderShowcaseLight() {
     if (nameEl) nameEl.style.color = item.fontColorName || "";
     if (priceEl) priceEl.style.color = item.fontColorPrice || "";
   });
-}, 0);
 
   // 「新しいアイテム追加」ボタン
   const addWrapper = document.createElement("div");

@@ -459,10 +459,10 @@ if (state.fontFamily) {
 }
 
 // フォントカラー
-  if (state.fontColor) {
+if (state.fontColor) {
+  // プロフィール名・紹介文
   const profileName = document.getElementById('profileName');
   const profileBio = document.getElementById('profileBio');
-
   if (profileName) profileName.style.color = state.fontColor;
   if (profileBio) profileBio.style.color = state.fontColor;
 
@@ -470,12 +470,13 @@ if (state.fontFamily) {
   document.querySelectorAll('.card-name, .card-price').forEach(el => {
     if (el) el.style.color = state.fontColor;
   });
+}
 
-  // フォロー / フォロワー表示（子要素も含む）
-  document.querySelectorAll('.followers-modal, .following-modal, .followers-modal *, .following-modal *')
-    .forEach(el => {
-      if (el) el.style.color = state.fontColor;
-    });
+// フォローフォロワー表示はCSS変数で制御
+if (state.fontColorVar) {
+  document.querySelectorAll('.profile-stats').forEach(el => {
+    if (el) el.style.setProperty('--font-color', state.fontColorVar);
+  });
 }
 
 // プロフィール背景

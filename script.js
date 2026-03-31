@@ -500,12 +500,6 @@ if (state.fontColor) {
   if (profileName) profileName.style.color = state.fontColor;
   if (profileBio) profileBio.style.color = state.fontColor;
 
-  // カードの文字
-  document.querySelectorAll('.card-name, .card-price').forEach(el => {
-    if (el) el.style.color = state.fontColor;
-  });
-  
-  
 
 // フォローフォロワー表示はCSS変数で制御
 if (state.fontColorVar) {

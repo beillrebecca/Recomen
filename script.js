@@ -286,7 +286,6 @@ function initCardClicks() {
   const card = e.target.closest(".card");
   const popup = document.getElementById("linkEditPopup"); // ← ここを追加
 
-  showLinkEditPopupForCard(popup, linkEl, card); // popupを渡す
   return;
   }
 

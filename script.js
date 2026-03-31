@@ -738,6 +738,10 @@ initPickr();  // カラーピッカーを初期化
 
 window.addEventListener('scroll', () => {
   document.querySelectorAll('.popup.active').forEach(popup => {
+
+    // 👇 これ追加！！（Pickr開いてる時は何もしない）
+    if (document.querySelector('.pcr-app')) return;
+
     const btnId = Object.keys(popups).find(key => popups[key] === popup.id);
     if (!btnId) return;
 

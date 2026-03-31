@@ -467,8 +467,9 @@ const toggle = document.getElementById("announcementToggle");
 // ON/OFF
 if (bar && toggle) {
   toggle.checked = state.announcementVisible;
+
+  // 👇 これだけでOK（表示もここで処理される）
   toggle.dispatchEvent(new Event('change'));
-  bar.style.display = state.announcementVisible ? "block" : "none";
 }
 
 // テキスト

@@ -369,6 +369,7 @@ html, body{
   justify-content:space-between;
   gap:8px;
   margin-top:8px;
+  overflow: hidden;   /* ← 追加（超重要） */
 }
 
 .card-price{

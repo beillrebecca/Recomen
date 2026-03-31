@@ -537,8 +537,8 @@ function initPickr() {
         if(profileName) profileName.style.color = hex;
         if(profileBio) profileBio.style.color = hex;
 
-        document.querySelectorAll('.followers-modal, .following-modal').forEach(modal => {
-          modal.style.color = hex;
+        document.querySelectorAll('.followers-modal, .following-modal, .followers-modal *, .following-modal *').forEach(el => {
+        el.style.color = hex;
         });
 
         document.querySelectorAll('.card-name, .card-price').forEach(el => {

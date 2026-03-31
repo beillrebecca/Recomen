@@ -105,6 +105,9 @@ function createCard(item) {
   const card = document.createElement("div");
   card.className = "card";
 
+  // 🔴 ここでカードに item の id を保持
+  card.dataset.itemId = item.id;
+
   card.innerHTML = `
     <div class="image">
       <img src="${item.img || 'https://dummyimage.com/300x300/eeeeee/999999&text=📷'}" alt="">

@@ -574,13 +574,16 @@ function initPickr() {
       }
     },
     {
-      el: '#profileBgPickerBox',
-      apply: color => {
-        const hex = color.toHEXA().toString();
-        const profile = document.getElementById('profileSection');
-        if (profile) profile.style.backgroundColor = hex;
-      }
+  el: '#profileBgPickerBox',
+  apply: color => {
+    const hex = color.toHEXA().toString();
+    const profile = document.getElementById('profileSection');
+    if (profile) {
+      // !important を付けて強制的に背景色を上書き
+      profile.style.setProperty('background-color', hex, 'important');
     }
+  }
+}
   ];
 
   pickrConfigs.forEach(cfg => {

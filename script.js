@@ -410,6 +410,83 @@ function loadAppState() {
       document.getElementById("avatarImg").src = state.avatarImg || document.getElementById("avatarImg").src;
       document.getElementById("profileName").textContent = state.profileName || "プロフィール名";
       document.getElementById("profileBio").textContent = state.profileBio || "プロフィール紹介";
+      
+      // =========================
+// 🔴 スタイル復元
+// =========================
+
+// テーマ
+if (state.theme) {
+  document.body.classList.remove('theme-natural', 'theme-modern');
+  document.body.classList.add(`theme-${state.theme}`);
+
+  const radio = document.querySelector(`input[name="theme"][value="${state.theme}"]`);
+  if (radio) radio.checked = true;
+}
+
+// ショーケース背景
+if (state.showcaseBg) {
+  const showcase = document.getElementById("showcase");
+  if (showcase) showcase.style.backgroundColor = state.showcaseBg;
+}
+
+// フォント
+if (state.fontFamily) {
+  document.documentElement.style.setProperty('--font-family', state.fontFamily);
+
+  const fontSelect = document.getElementById('fontSelect');
+  if (fontSelect) fontSelect.value = state.fontFamily;
+}
+
+// フォントカラー
+if (state.fontColor) {
+  const profileName = document.getElementById('profileName');
+  const profileBio = document.getElementById('profileBio');
+
+  if (profileName) profileName.style.color = state.fontColor;
+  if (profileBio) profileBio.style.color = state.fontColor;
+
+  document.querySelectorAll('.card-name, .card-price').forEach(el => {
+    el.style.color = state.fontColor;
+  });
+}
+
+// プロフィール背景
+if (state.profileBg) {
+  const profile = document.getElementById('profileSection');
+  if (profile) profile.style.backgroundColor = state.profileBg;
+}
+
+// =========================
+// 🔴 アナウンスバー復元
+// =========================
+
+const bar = document.getElementById("announcementBar");
+const toggle = document.getElementById("announcementToggle");
+
+// ON/OFF
+if (bar && toggle) {
+  toggle.checked = state.announcementVisible;
+  bar.style.display = state.announcementVisible ? "block" : "none";
+}
+
+// テキスト
+const bannerText = document.querySelector('#announcementBar .banner-text');
+if (bannerText) {
+  bannerText.textContent = state.announcementText || "";
+}
+
+// 背景色
+if (state.announcementBg && bar) {
+  bar.style.backgroundColor = state.announcementBg;
+}
+
+// 文字色
+if (state.announcementFontColor && bannerText) {
+  bannerText.style.color = state.announcementFontColor;
+}
+
+
     } catch (e) {
       console.error("保存データ読み込み失敗", e);
       items = getDefaultItems();

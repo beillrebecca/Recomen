@@ -373,7 +373,9 @@ function saveAppState_FULL() {
       // 🔴 スタイル
       showcaseBg: document.getElementById("showcase")?.style.backgroundColor || "",
       fontFamily: document.documentElement.style.getPropertyValue('--font-family') || "",
-      fontColor: getComputedStyle(document.getElementById("profileName")).color || "",
+      fontColor: getComputedStyle(document.getElementById("profileName"))?.color
+                 || getComputedStyle(document.querySelector(".card-name"))?.color
+                 || "",
       profileBg: getComputedStyle(document.getElementById("profileSection"))?.backgroundColor || "",
 
       // 🔴 アナウンスバー

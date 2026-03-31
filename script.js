@@ -463,15 +463,19 @@ function getDefaultItems() {
 }
 
 function loadAppState() {
-  let state = null;
+  alert("loadAppState 開始");
 
+  let state = null;
   try {
     state = JSON.parse(localStorage.getItem("recomenState"));
+    alert("localStorage からデータ取得 OK");
   } catch(e) {
+    alert("保存データ破損 or 空です");
     console.warn("保存データ破損 or 空です:", e);
   }
 
   if (!state) {
+    alert("state が空なので初期化します");
     state = {
       items: getDefaultItems(),
       profileName: "プロフィール名",
@@ -487,7 +491,27 @@ function loadAppState() {
       showcaseBg: "#fff"
     };
   }
-      items = (state.items && state.items.length > 0) ? state.items : getDefaultItems();
+
+  alert("items 初期化前");
+  items = (state.items && state.items.length > 0) ? state.items : getDefaultItems();
+  alert("items 初期化後");
+
+  const headerImgEl = document.getElementById("headerImg");
+  if (headerImgEl) headerImgEl.src = state.headerImg || headerImgEl.src;
+
+  const avatarImgEl = document.getElementById("avatarImg");
+  if (avatarImgEl) avatarImgEl.src = state.avatarImg || avatarImgEl.src;
+
+  const profileNameEl = document.getElementById("profileName");
+  if (profileNameEl) profileNameEl.textContent = state.profileName || "プロフィール名";
+
+  const profileBioEl = document.getElementById("profileBio");
+  if (profileBioEl) profileBioEl.textContent = state.profileBio || "プロフィール紹介";
+
+  alert("プロフィール初期化完了");
+
+  // 🔴 この後に renderShowcaseLight() など描画関数が続く
+}
       document.getElementById("headerImg").src = state.headerImg || document.getElementById("headerImg").src;
       document.getElementById("avatarImg").src = state.avatarImg || document.getElementById("avatarImg").src;
       document.getElementById("profileName").textContent = state.profileName || "プロフィール名";

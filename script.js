@@ -377,10 +377,16 @@ function saveAppState_FULL() {
       // 🔴 スタイル
       showcaseBg: document.getElementById("showcase")?.style.backgroundColor || "",
       fontFamily: document.documentElement.style.getPropertyValue('--font-family') || "",
-      fontColor: getComputedStyle(document.getElementById("profileName"))?.color
-                 || getComputedStyle(document.querySelector(".card-name"))?.color
-                 || "",
-      profileBg: getComputedStyle(document.getElementById("profileSection"))?.backgroundColor || "",
+      fontColor: (() => {
+      const profile = document.getElementById("profileName");
+      if (profile) return getComputedStyle(profile).color;
+
+      const card = document.querySelector(".card-name");
+      if (card) return getComputedStyle(card).color;
+
+      return "";
+   })(),
+profileBg: getComputedStyle(document.getElementById("profileSection"))?.backgroundColor || "",
 
       // 🔴 アナウンスバー
       announcementVisible: document.getElementById("announcementToggle")?.checked || false,

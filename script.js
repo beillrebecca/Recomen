@@ -1,4 +1,7 @@
-alert("JS読み込まれた");
+function loadAppState() {
+  alert("loadAppState 呼ばれました");
+  // ここから処理スタート
+}
 window.onerror = function(msg, url, line) {
   alert("エラー発生👇\n" + msg + "\n行:" + line);
 };

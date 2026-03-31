@@ -189,6 +189,8 @@ function renderShowcaseLight() {
       liked: false,
       saved: false,
       clicks: 0
+      fontColorName: "#000",
+      fontColorPrice: "#000"
     };
     items.push(newItem);
     try {

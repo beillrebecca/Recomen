@@ -451,7 +451,13 @@ if (state.fontColor) {
   if (profileName) profileName.style.color = state.fontColor;
   if (profileBio) profileBio.style.color = state.fontColor;
 
+  // カードの文字
   document.querySelectorAll('.card-name, .card-price').forEach(el => {
+    el.style.color = state.fontColor;
+  });
+
+  // フォロー / フォロワー表示
+  document.querySelectorAll('.followers-modal, .following-modal').forEach(el => {
     el.style.color = state.fontColor;
   });
 }

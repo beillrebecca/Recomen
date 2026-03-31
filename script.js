@@ -550,23 +550,26 @@ function initPickr() {
       }
     },
     {
-      el: '#fontColorPickerBox',
-      apply: color => {
-        const hex = color.toHEXA().toString();
+    el: '#fontColorPickerBox',
+    apply: color => {
+    const hex = color.toHEXA().toString();
 
-        const profileName = document.getElementById('profileName');
-        const profileBio = document.getElementById('profileBio');
-        if(profileName) profileName.style.color = hex;
-        if(profileBio) profileBio.style.color = hex;
+    // プロフィール
+    const profileName = document.getElementById('profileName');
+    const profileBio = document.getElementById('profileBio');
+    if(profileName) profileName.style.setProperty('color', hex);
+    if(profileBio) profileBio.style.setProperty('color', hex);
 
-        document.querySelectorAll('.followers-modal, .following-modal, .followers-modal *, .following-modal *').forEach(el => {
-        el.style.color = hex;
-        });
+    // カード
+    document.querySelectorAll('.card-name, .card-price').forEach(el => {
+      el.style.setProperty('color', hex);
+    });
 
-        document.querySelectorAll('.card-name, .card-price').forEach(el => {
-          el.style.color = hex;
-        });
-      }
+    // フォロー/フォロワー表示（CSS変数を更新）
+    document.querySelectorAll('.profile-stats').forEach(el => {
+      el.style.setProperty('--font-color', hex);
+    });
+    }
     },
     {
       el: '#announcementFontColorPickerBox',

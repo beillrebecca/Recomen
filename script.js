@@ -281,9 +281,12 @@ function initCardClicks() {
   // 🔗 リンク（表示テキストをタップ）
   const linkEl = e.target.closest(".link-display");
   if (linkEl) {
-  e.preventDefault(); // ← ページ遷移を止める
+  e.preventDefault(); // ページ遷移を止める
+
   const card = e.target.closest(".card");
-  showLinkEditPopup(card);
+  const popup = document.getElementById("linkEditPopup"); // ← ここを追加
+
+  showLinkEditPopupForCard(popup, linkEl, card); // popupを渡す
   return;
   }
 

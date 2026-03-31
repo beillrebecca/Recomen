@@ -467,6 +467,7 @@ const toggle = document.getElementById("announcementToggle");
 // ON/OFF
 if (bar && toggle) {
   toggle.checked = state.announcementVisible;
+  toggle.dispatchEvent(new Event('change'));
   bar.style.display = state.announcementVisible ? "block" : "none";
 }
 

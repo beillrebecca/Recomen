@@ -454,7 +454,7 @@ if (state.fontFamily) {
 }
 
 // フォントカラー
-if (state.fontColor) {
+  if (state.fontColor) {
   const profileName = document.getElementById('profileName');
   const profileBio = document.getElementById('profileBio');
 
@@ -463,13 +463,14 @@ if (state.fontColor) {
 
   // カードの文字
   document.querySelectorAll('.card-name, .card-price').forEach(el => {
-    el.style.color = state.fontColor;
+    if (el) el.style.color = state.fontColor;
   });
 
-  // フォロー / フォロワー表示
-  document.querySelectorAll('.followers-modal, .following-modal').forEach(el => {
-    el.style.color = state.fontColor;
-  });
+  // フォロー / フォロワー表示（子要素も含む）
+  document.querySelectorAll('.followers-modal, .following-modal, .followers-modal *, .following-modal *')
+    .forEach(el => {
+      if (el) el.style.color = state.fontColor;
+    });
 }
 
 // プロフィール背景

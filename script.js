@@ -359,7 +359,7 @@ function saveAppState_FULL() {
     liked: card.querySelector(".icon-heart")?.classList.contains("liked") || false,
     saved: card.querySelector(".icon-save")?.classList.contains("saved") || false,
     clicks: parseInt(card.querySelector(".modern-clicks")?.textContent || "0"),
-    fontColor: getComputedStyle(card.querySelector(".card-name"))?.color || "#000000"  // ←ここを追加
+    fontColor: getComputedStyle(card.querySelector(".card-name"))?.color || ""
   }));
 
     const state = {

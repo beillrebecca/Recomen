@@ -997,15 +997,16 @@ body.dark-mode .icon-save.saved{
   white-space: nowrap;
   top: 50%;
   transform: translateY(-50%);
+  left: 100%; /* 右端外からスタート */
   animation: bannerScroll 10s linear infinite;
 }
 
 @keyframes bannerScroll {
   0% {
-    transform: translate(100%, -50%);
+    left: 100%; /* 右端外 */
   }
   100% {
-    transform: translate(-100%, -50%);
+    left: -100%; /* 左端外 */
   }
 }
 

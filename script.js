@@ -385,8 +385,13 @@ function saveAppState_FULL() {
       if (card) return getComputedStyle(card).color;
 
       return "";
-   })(),
-profileBg: getComputedStyle(document.getElementById("profileSection"))?.backgroundColor || "",
+     })(),
+     fontColorVar: (() => {
+     const stats = document.querySelector(".profile-stats");
+     if (stats) return getComputedStyle(stats).getPropertyValue('--font-color').trim();
+     return "";
+     })(),
+  profileBg: getComputedStyle(document.getElementById("profileSection"))?.backgroundColor || "",
 
       // 🔴 アナウンスバー
       announcementVisible: document.getElementById("announcementToggle")?.checked || false,

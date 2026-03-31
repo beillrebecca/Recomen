@@ -154,7 +154,6 @@ function renderShowcaseLight() {
   items.forEach(item => showcase.appendChild(createCard(item)));
   
   // 🔴 カード描画後に色を適用（これが正解の場所）
-setTimeout(() => {
   items.forEach((item, index) => {
     const card = document.querySelectorAll(".card")[index];
     if (!card) return;

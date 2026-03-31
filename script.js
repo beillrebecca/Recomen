@@ -145,36 +145,39 @@ function createCard(item) {
 // ショーケース描画
 // =========================
 function renderShowcaseLight() {
-
   const showcase = document.getElementById("showcase");
   if (!showcase) return;
 
-  showcase.innerHTML = ""; // 念のためリセット
+  showcase.innerHTML = ""; // まずリセット
 
-  items.forEach(item => showcase.appendChild(createCard(item)));
-  
-  // 🔴 カード描画後に色を適用（これが正解の場所）
+  // 🔹 安全にカード描画
   items.forEach((item, index) => {
-    const card = document.querySelectorAll(".card")[index];
-    if (!card) return;
+    try {
+      const card = createCard(item);
+      showcase.appendChild(card);
 
-    const nameEl = card.querySelector(".card-name");
-    const priceEl = card.querySelector(".card-price");
+      const nameEl = card.querySelector(".card-name");
+      const priceEl = card.querySelector(".card-price");
 
-    if (nameEl) nameEl.style.color = item.fontColorName || "";
-    if (priceEl) priceEl.style.color = item.fontColorPrice || "";
+      if (nameEl && typeof item.fontColorName === "string") nameEl.style.color = item.fontColorName;
+      if (priceEl && typeof item.fontColorPrice === "string") priceEl.style.color = item.fontColorPrice;
+
+    } catch (err) {
+      console.error("カード描画失敗", item, err);
+    }
   });
 
-  // 「新しいアイテム追加」ボタン
+  // 🔹 「新しいアイテム追加」ボタン
   const addWrapper = document.createElement("div");
   addWrapper.className = "showcase-add-card-wrapper";
+
   const addBtn = document.createElement("button");
   addBtn.id = "addCardBtn";
   addBtn.className = "showcase-add-card-btn";
   addBtn.textContent = "＋ 新しいアイテムを追加";
+
   addWrapper.appendChild(addBtn);
   showcase.appendChild(addWrapper);
-
 
   addBtn.addEventListener("click", () => {
     const newItem = {
@@ -188,8 +191,12 @@ function renderShowcaseLight() {
       clicks: 0
     };
     items.push(newItem);
-    const newCard = createCard(newItem);
-    showcase.insertBefore(newCard, addWrapper);
+    try {
+      const newCard = createCard(newItem);
+      showcase.insertBefore(newCard, addWrapper);
+    } catch (err) {
+      console.error("新規カード追加失敗", newItem, err);
+    }
   });
 }
 

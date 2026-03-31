@@ -361,18 +361,21 @@ function saveAppState_FULL() {
     const showcase = document.getElementById("showcase");
     const cards = showcase.querySelectorAll(".card");
 
-    items = Array.from(cards).map(card => {
-    const cardId = card.dataset.itemId || Date.now(); // dataset から取得
-    return {
-    id: Number(cardId), // 数字に変換
-    name: card.querySelector(".card-name")?.textContent.trim() || "アイテム名",
-    price: card.querySelector(".card-price")?.textContent.trim() || "¥0",
+    items = Array.from(cards).map((card, index) => {
+  const nameEl = card.querySelector(".card-name");
+  const priceEl = card.querySelector(".card-price");
+
+  return {
+    id: items[index]?.id || Date.now() + index,
+    name: nameEl?.textContent.trim() || "アイテム名",
+    price: priceEl?.textContent.trim() || "¥0",
     link: card.querySelector(".link-display")?.textContent || "",
     img: card.querySelector("img")?.src || "",
     liked: card.querySelector(".icon-heart")?.classList.contains("liked") || false,
     saved: card.querySelector(".icon-save")?.classList.contains("saved") || false,
     clicks: parseInt(card.querySelector(".modern-clicks")?.textContent || "0"),
-    fontColor: getComputedStyle(card.querySelector(".card-name"))?.color || ""
+    fontColorName: nameEl ? getComputedStyle(nameEl).color : "",
+    fontColorPrice: priceEl ? getComputedStyle(priceEl).color : ""
   };
 });
 
@@ -488,14 +491,15 @@ if (state.fontColor) {
   });
   
   items.forEach((item, index) => {
-    const card = document.querySelectorAll(".card")[index];
-    if (!card) return;
-    const nameEl = card.querySelector(".card-name");
-    const priceEl = card.querySelector(".card-price");
-    if (nameEl) nameEl.style.color = item.fontColor || "";
-    if (priceEl) priceEl.style.color = item.fontColor || "";
-  });
-}
+  const card = document.querySelectorAll(".card")[index];
+  if (!card) return;
+
+  const nameEl = card.querySelector(".card-name");
+  const priceEl = card.querySelector(".card-price");
+
+  if (nameEl) nameEl.style.color = item.fontColorName || "";
+  if (priceEl) priceEl.style.color = item.fontColorPrice || "";
+});
 
 // フォローフォロワー表示はCSS変数で制御
 if (state.fontColorVar) {

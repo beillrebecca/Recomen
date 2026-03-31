@@ -374,7 +374,7 @@ function saveAppState_FULL() {
       showcaseBg: document.getElementById("showcase")?.style.backgroundColor || "",
       fontFamily: document.documentElement.style.getPropertyValue('--font-family') || "",
       fontColor: getComputedStyle(document.getElementById("profileName")).color || "",
-      profileBg: document.getElementById("profileSection")?.style.backgroundColor || "",
+      profileBg: getComputedStyle(document.getElementById("profileSection"))?.backgroundColor || "",
 
       // 🔴 アナウンスバー
       announcementVisible: document.getElementById("announcementToggle")?.checked || false,

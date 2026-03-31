@@ -12,6 +12,9 @@ let items = [
   { id: 4, name: "アイテム4", price: "¥0", link: "", img: "", liked: false, saved: false, clicks: 0 }
 ];
 
+// 🔴 グローバルで state を保持する
+let appState = {};
+
 // =========================
 // SVG アイコン生成（状態反映版）
 // =========================

@@ -915,6 +915,28 @@ function initFollowModal() {
   }
 }
   
+  // 🔴 閉じる処理（ここに入れる！！）
+  [followModal, followerModal].forEach(modal => {
+    if (!modal) return;
+
+    // ×ボタン
+    const closeBtn = modal.querySelector('.close-btn');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        modal.style.display = "none";
+      });
+    }
+
+    // 背景クリック
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = "none";
+      }
+    });
+  });
+}
+
+
 // =========================
 // リンク編集モーダル：背景クリックで閉じる
 // =========================

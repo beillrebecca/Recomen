@@ -1106,19 +1106,6 @@ if (!document.body.classList.contains('theme-natural') &&
     const i = like.dataset.i;
     const comment = items[currentCommentIndex].comments[i];
 
-    comment.likes = (comment.likes || 0) + 1;
-
-    openComments(currentCommentIndex);
-  });
-
-  // 👇これ（いいね処理）
-  document.getElementById("commentList").addEventListener("click", e => {
-    const like = e.target.closest(".comment-like");
-    if (!like) return;
-
-    const i = like.dataset.i;
-    const comment = items[currentCommentIndex].comments[i];
-
     comment.liked = !comment.liked;
     comment.likes = comment.liked ? (comment.likes || 0) + 1 : Math.max((comment.likes || 1) - 1, 0);
 

@@ -1021,7 +1021,8 @@ if (!document.body.classList.contains('theme-natural') &&
     const i = like.dataset.i;
     const comment = items[currentCommentIndex].comments[i];
 
-    comment.likes = (comment.likes || 0) + 1;
+    comment.liked = !comment.liked;
+    comment.likes = comment.liked ? (comment.likes || 0) + 1 : Math.max((comment.likes || 1) - 1, 0);
 
     openComments(currentCommentIndex);
   });

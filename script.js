@@ -932,11 +932,14 @@ function initFollowModal() {
 // =========================
 // リンク編集モーダル：背景クリックで閉じる
 // =========================
-document.getElementById("linkModal").addEventListener("click", e => {
-  if (e.target.id === "linkModal") {
-    e.currentTarget.classList.remove("active");
-  }
-});
+const linkModal = document.getElementById("linkModal");
+if (linkModal) {
+  linkModal.addEventListener("click", e => {
+    if (e.target.id === "linkModal") {
+      linkModal.classList.remove("active");
+    }
+  });
+}
   
 // =========================
 // カスタムバー編集開閉

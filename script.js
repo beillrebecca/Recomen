@@ -913,13 +913,11 @@ function initFollowModal() {
       followerModal.style.display = "flex";
     });
   }
-}
-  
+
   // 🔴 閉じる処理（ここに入れる！！）
   [followModal, followerModal].forEach(modal => {
     if (!modal) return;
 
-    // ×ボタン
     const closeBtn = modal.querySelector('.close-btn');
     if (closeBtn) {
       closeBtn.addEventListener('click', () => {
@@ -927,7 +925,6 @@ function initFollowModal() {
       });
     }
 
-    // 背景クリック
     modal.addEventListener('click', (e) => {
       if (e.target === modal) {
         modal.style.display = "none";

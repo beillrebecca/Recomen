@@ -16,6 +16,8 @@ let items = [
   { id: 4, name: "アイテム4", price: "¥0", link: "", img: "", liked: false, saved: false, clicks: 0 }
 ];
 
+let currentCommentIndex = null;
+
 // 🔴 グローバルで state を保持する
 let appState = {};
 

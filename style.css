@@ -759,7 +759,7 @@ body.theme-modern .card-actions svg {
 ========================= */
 .custom-bar-wrapper {
   position: fixed;
-  bottom: 60; /* ボトムバーの上に浮かせる */
+  bottom: 60px; /* ボトムバーの上に浮かせる */
   left: 0;
   width: 100%;
   z-index: 1000; /* ボトムバーより高く */

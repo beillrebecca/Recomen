@@ -371,6 +371,33 @@ if (linkEl) {
 }
 
 // =========================
+// コメント表示
+// =========================
+function openComments(index) {
+  const modal = document.getElementById("commentModal");
+  const list = document.getElementById("commentList");
+
+  modal.style.display = "flex";
+  list.innerHTML = "";
+
+  const item = items[index];
+  if (!item.comments) item.comments = [];
+
+  item.comments.forEach((c, i) => {
+    const div = document.createElement("div");
+
+    div.innerHTML = `
+      <strong>${c.user}</strong> ${c.text}
+      <span class="comment-like" data-i="${i}">
+        ❤️ ${c.likes || 0}
+      </span>
+    `;
+
+    list.appendChild(div);
+  });
+}
+
+// =========================
 // ポップアップリンク編集（カードDOM版）
 // =========================
 function showLinkEditPopup(card) {

@@ -319,15 +319,18 @@ if (share) {
     return;
   }
 
-  // 🔴 ネイティブ共有（スマホ）
+  // 🔴 カード名取得
+  const name = card.querySelector(".card-name")?.textContent || "おすすめアイテム";
+
+  // 🔴 ネイティブ共有
   if (navigator.share) {
     navigator.share({
-      title: "おすすめアイテム",
-      text: "この商品チェックしてみて！",
+      title: name,
+      text: name,
       url: url
     }).catch(err => console.log("共有キャンセル", err));
   } else {
-    // 🔴 fallback（PCなど）
+    // fallback（コピー）
     navigator.clipboard.writeText(url);
     alert("リンクをコピーしました！");
   }

@@ -926,8 +926,7 @@ function initFollowModal() {
 }
 
   initFollowModal();
-  
-});
+
 
 // =========================
 // リンク編集モーダル：背景クリックで閉じる

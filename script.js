@@ -389,11 +389,16 @@ function openComments(index) {
     const div = document.createElement("div");
 
     div.innerHTML = `
-      <strong>${c.user}</strong> ${c.text}
-      <span class="comment-like" data-i="${i}">
-        ❤️ ${c.likes || 0}
-      </span>
-    `;
+  <strong>${c.user}</strong> ${c.text}
+  <span class="comment-like ${c.liked ? 'liked' : ''}" data-i="${i}">
+    <svg viewBox="0 0 24 24" class="comment-heart">
+      <path d="M20.8 4.6a5 5 0 0 0-7.1 0L12 6.3l-1.7-1.7
+        a5 5 0 0 0-7.1 7.1L12 21l8.8-9.3
+        a5 5 0 0 0 0-7.1z"/>
+    </svg>
+    ${c.likes ? `<span class="like-count">${c.likes}</span>` : ""}
+  </span>
+`;
 
     list.appendChild(div);
   });

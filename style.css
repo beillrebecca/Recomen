@@ -520,6 +520,10 @@ html, body{
   transform: scale(1.1);
 }
 
+.icon-delete:active {
+  transform: scale(0.9);
+}
+
 .icon-heart,
 .icon-comment,
 .icon-share,

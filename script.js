@@ -176,8 +176,13 @@ function renderShowcaseLight() {
       const nameEl = card.querySelector(".card-name");
       const priceEl = card.querySelector(".card-price");
 
-      if (nameEl && typeof item.fontColorName === "string") nameEl.style.color = item.fontColorName;
-      if (priceEl && typeof item.fontColorPrice === "string") priceEl.style.color = item.fontColorPrice;
+      if (nameEl && item.fontColorName) {
+      nameEl.style.color = item.fontColorName;
+      }
+
+      if (priceEl && item.fontColorPrice) {
+      priceEl.style.color = item.fontColorPrice;
+      }
 
     } catch (err) {
       console.error("カード描画失敗", item, err);

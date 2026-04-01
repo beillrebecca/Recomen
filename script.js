@@ -192,7 +192,7 @@ function renderShowcaseLight() {
       img: "",
       liked: false,
       saved: false,
-      clicks: 0
+      clicks: 0,
       fontColorName: "#000",
       fontColorPrice: "#000"
     };

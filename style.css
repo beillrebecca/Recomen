@@ -266,12 +266,6 @@ html, body{
   padding: 16px;
 }
 
-.modal-content {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
 .close-btn {
   align-self: flex-end;
   background: none;

@@ -202,29 +202,26 @@ function renderShowcaseLight() {
   showcase.appendChild(addWrapper);
 
   addBtn.addEventListener("click", () => {
-    const newItem = {
-      id: Date.now(),
-      name: `アイテム${items.length + 1}`,
-      price: "¥0",
-      link: "",
-      img: "",
-      liked: false,
-      saved: false,
-      clicks: 0,
-      fontColorName: "#000",
-      fontColorPrice: "#000",
-      comments: [],
-      likes: 0
-    };
-    items.push(newItem);
-    try {
-      const newCard = createCard(newItem, items.length - 1);
-      showcase.insertBefore(newCard, addWrapper);
-    } catch (err) {
-      console.error("新規カード追加失敗", newItem, err);
-    }
-  });
-}
+  const newItem = {
+    id: Date.now(),
+    name: `アイテム${items.length + 1}`,
+    price: "¥0",
+    link: "",
+    img: "",
+    liked: false,
+    saved: false,
+    clicks: 0,
+    fontColorName: "#000",
+    fontColorPrice: "#000",
+    comments: [],
+    likes: 0
+  };
+
+  items.push(newItem);
+
+  // 🔥 ここが超重要
+  renderShowcaseLight();
+});
 
 // =========================
 // カードクリック操作

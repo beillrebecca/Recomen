@@ -966,6 +966,30 @@ if (!document.body.classList.contains('theme-natural') &&
   document.body.classList.add('theme-natural');
 }
 
+// =========================
+  // コメント送信
+  // =========================
+  document.getElementById("commentSendBtn").addEventListener("click", () => {
+    const input = document.getElementById("commentInput");
+    const text = input.value.trim();
+    if (!text) return;
+
+    const user = document.getElementById("profileName")?.textContent || "ユーザー";
+
+    if (!items[currentCommentIndex].comments) {
+      items[currentCommentIndex].comments = [];
+    }
+
+    items[currentCommentIndex].comments.push({
+      user: user,
+      text: text,
+      likes: 0
+    });
+
+    input.value = "";
+    openComments(currentCommentIndex);
+  });
+
 
   // =========================
 // 保存ボタンイベント

@@ -80,44 +80,6 @@ function deleteIcon() {
 }
 
 // =========================
-// 🔗 カードリンク編集ポップアップ（新規追加）
-// =========================
-let currentCard = null;
-
-function showLinkEditPopup(card) {
-  const modal = document.getElementById("linkModal");
-  const input = document.getElementById("linkModalInput");
-  const btn = document.getElementById("linkModalSaveBtn");
-
-  currentCard = card;
-
-  const linkDisplay = card.querySelector(".link-display");
-  input.value = linkDisplay ? linkDisplay.textContent : "";
-
-  modal.classList.add("active");
-  input.focus();
-
-  btn.onclick = () => {
-    let newLink = input.value.trim();
-    if (newLink && !newLink.startsWith("http")) {
-      newLink = "https://" + newLink;
-    }
-
-    if (linkDisplay) {
-      linkDisplay.textContent = newLink || "リンクを入力";
-      linkDisplay.href = newLink || "#";
-    }
-
-    const showcaseEl = document.getElementById("showcase");
-    const cards = Array.from(showcaseEl.querySelectorAll(".card"));
-    const index = cards.indexOf(currentCard);
-    if (items[index]) items[index].link = newLink;
-
-    modal.classList.remove("active");
-  };
-}
-
-// =========================
 // カード作成
 // =========================
 function createCard(item, index) {

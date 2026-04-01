@@ -305,6 +305,36 @@ function initCardClicks() {
     return;
   }
   
+  // 🔗 シェア
+const share = e.target.closest(".icon-share");
+if (share) {
+  const card = e.target.closest(".card");
+  if (!card) return;
+
+  const linkEl = card.querySelector(".link-display");
+  const url = linkEl?.href;
+
+  if (!url || url === "#") {
+    alert("リンクが設定されていません");
+    return;
+  }
+
+  // 🔴 ネイティブ共有（スマホ）
+  if (navigator.share) {
+    navigator.share({
+      title: "おすすめアイテム",
+      text: "この商品チェックしてみて！",
+      url: url
+    }).catch(err => console.log("共有キャンセル", err));
+  } else {
+    // 🔴 fallback（PCなど）
+    navigator.clipboard.writeText(url);
+    alert("リンクをコピーしました！");
+  }
+
+  return;
+}
+  
   // 💬 コメント
 const commentBtn = e.target.closest(".icon-comment");
 if (commentBtn) {

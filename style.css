@@ -254,20 +254,16 @@ html, body{
 /* =========================
    モーダル
 ========================= */
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-
-  background: rgba(0,0,0,0.4); /* ←これ超重要（背景） */
-
-  justify-content: center;
-  align-items: center;
-
-  z-index: 1400;
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  height: auto;          /* 100% → auto に変更 */
+  min-width: 300px;      /* 任意の幅 */
+  max-height: 80vh;      /* 高さ制限 */
+  background: #fff;      /* 背景色必須！ */
+  border-radius: 8px;
+  overflow-y: auto;      /* 中身が多い場合スクロール */
+  padding: 16px;
 }
 
 .modal-content {

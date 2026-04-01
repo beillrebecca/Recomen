@@ -496,9 +496,28 @@ html, body{
 }
 
 /* いいね状態 */
-.icon-heart.liked{
-  fill:red;
-  stroke:red;
+.icon-heart {
+  width: 20px;
+  height: 20px;
+  stroke: #555;
+  fill: none;
+  cursor: pointer;
+  transition: transform 0.15s ease, fill 0.15s ease, stroke 0.15s ease;
+}
+
+/* いいね状態 */
+.icon-heart.liked {
+  fill: #ed4956;     /* インスタ風赤 */
+  stroke: #ed4956;
+  animation: likePop 0.25s ease;
+}
+
+/* アニメーション */
+@keyframes likePop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.35); }
+  70%  { transform: scale(0.9); }
+  100% { transform: scale(1); }
 }
 
 .like-wrapper {
@@ -510,10 +529,8 @@ html, body{
 .like-count {
   font-size: 11px;
   color: #666;
-}
-
-.icon-heart.liked {
-  animation: pop 0.2s ease;
+  min-width: 10px;
+  text-align: left;
 }
 
 @keyframes pop {

@@ -820,6 +820,16 @@ function setupImageUpload(imgEl, inputEl) {
 document.addEventListener("DOMContentLoaded", () => {
   console.log("JS読み込まれた");
 
+ // 🔴 コメント閉じる処理
+  const commentModal = document.getElementById("commentModal");
+  const commentClose = document.getElementById("commentClose");
+
+  if (commentClose && commentModal) {
+    commentClose.addEventListener("click", () => {
+      commentModal.style.display = "none";
+    });
+  }
+
 
   const fontSelect = document.getElementById('fontSelect');
   if (fontSelect) fontSelect.addEventListener('change', e => document.documentElement.style.setProperty('--font-family', e.target.value));

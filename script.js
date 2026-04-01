@@ -121,37 +121,39 @@ function showLinkEditPopup(card) {
 // カード作成
 // =========================
 function createCard(item, index) {
+  const card = document.createElement("div"); // ←これも必要！
+  card.className = "card";
+
   card.innerHTML = `
+    ${index >= 4 ? deleteIcon() : ""}
 
-  ${index >= 4 ? deleteIcon() : ""}  <!-- ←ここ追加 -->
-
-  <div class="image">
-    <img src="${item.img || 'https://dummyimage.com/300x300/eeeeee/999999&text=📷'}" alt="">
-    <span class="modern-clicks">${item.clicks || 0}</span>
-  </div>
-
-  <div class="card-name" contenteditable="true">
-    ${item.name || "アイテム名"}
-  </div>
-
-  <div class="price-link-wrapper">
-    <div class="card-price">${item.price || "¥0"}</div>
-
-    <div class="link-wrapper">
-      <a class="link-display" href="${item.link || '#'}" target="_blank">
-       ${item.link || "リンクを入力"}
-      </a>
-      <button class="edit-link-btn">編集</button>
+    <div class="image">
+      <img src="${item.img || 'https://dummyimage.com/300x300/eeeeee/999999&text=📷'}" alt="">
+      <span class="modern-clicks">${item.clicks || 0}</span>
     </div>
-  </div>
 
-  <div class="card-actions">
-    ${heartIcon(item)}
-    ${commentIcon()}
-    ${shareIcon()}
-    ${saveIcon(item)}
-  </div>
-`;
+    <div class="card-name" contenteditable="true">
+      ${item.name || "アイテム名"}
+    </div>
+
+    <div class="price-link-wrapper">
+      <div class="card-price">${item.price || "¥0"}</div>
+
+      <div class="link-wrapper">
+        <a class="link-display" href="${item.link || '#'}" target="_blank">
+         ${item.link || "リンクを入力"}
+        </a>
+        <button class="edit-link-btn">編集</button>
+      </div>
+    </div>
+
+    <div class="card-actions">
+      ${heartIcon(item)}
+      ${commentIcon()}
+      ${shareIcon()}
+      ${saveIcon(item)}
+    </div>
+  `;
 
   return card;
 }

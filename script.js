@@ -154,6 +154,7 @@ function createCard(item) {
       ${commentIcon()}
       ${shareIcon()}
       ${saveIcon(item)}
+      ${deleteIcon()}
     </div>
   `;
 

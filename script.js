@@ -855,13 +855,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
  // 🔴 コメント閉じる処理
   const commentModal = document.getElementById("commentModal");
-  const commentClose = document.getElementById("commentClose");
+const commentClose = document.getElementById("commentClose");
 
-  if (commentClose && commentModal) {
-    commentClose.addEventListener("click", () => {
+if (commentClose && commentModal) {
+  commentClose.addEventListener("click", (e) => {
+    e.stopPropagation(); // ← これ超重要
+    commentModal.style.display = "none";
+  });
+}
+
+// 背景クリックでも閉じる
+if (commentModal) {
+  commentModal.addEventListener("click", (e) => {
+    if (e.target === commentModal) {
       commentModal.style.display = "none";
-    });
-  }
+    }
+  });
+}
 
 
   const fontSelect = document.getElementById('fontSelect');

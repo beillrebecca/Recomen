@@ -501,6 +501,17 @@ html, body{
   stroke:red;
 }
 
+.like-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.like-count {
+  font-size: 11px;
+  color: #666;
+}
+
 /* 保存状態 */
 .icon-save.saved{
   fill:#000;

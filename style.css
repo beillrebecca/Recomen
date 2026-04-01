@@ -598,6 +598,31 @@ html, body{
   font-size:16px;
 }
 
+.comment-like {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+.comment-heart {
+  width: 14px;
+  height: 14px;
+  stroke: #999;
+  fill: none;
+}
+
+.comment-like.liked .comment-heart {
+  stroke: #e0245e;
+  fill: #e0245e;
+}
+
+.like-count {
+  font-size: 12px;
+  color: #555;
+}
+
 /* =========================
    カード（詳細）スタイル
 ========================= */

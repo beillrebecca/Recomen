@@ -529,10 +529,14 @@ html, body{
 }
 
 .icon-delete {
+  position: absolute;
+  top: 8px;
+  left: 8px;
   width: 18px;
   height: 18px;
-  stroke: #888;
+  stroke: rgba(0,0,0,0.3); /* 薄グレー */
   cursor: pointer;
+  z-index: 10;
   transition: 0.2s;
 }
 

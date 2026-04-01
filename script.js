@@ -138,7 +138,7 @@ function renderShowcaseLight() {
       const nameEl = card.querySelector(".card-name");
       const priceEl = card.querySelector(".card-price");
 
-      if (nameEl && item.fontColorName) {
+      if (nameEl && typeof item.fontColorName === "string")
       nameEl.style.color = item.fontColorName;
       }
 

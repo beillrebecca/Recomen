@@ -888,6 +888,33 @@ if (commentModal) {
   loadAppState();
   initCardClicks();
   
+  // =========================
+// フォロー / フォロワーモーダル制御
+// =========================
+function initFollowModal() {
+  const followingBtn = document.getElementById('followingBtn');
+  const followersBtn = document.getElementById('followersBtn');
+
+  const followModal = document.getElementById('followModal');
+  const followerModal = document.getElementById('followerModal');
+
+  // フォロー開く
+  if (followingBtn && followModal) {
+    followingBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      followModal.style.display = "flex";
+    });
+  }
+
+  // フォロワー開く
+  if (followersBtn && followerModal) {
+    followersBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      followerModal.style.display = "flex";
+    });
+  }
+}
+  
 // =========================
 // リンク編集モーダル：背景クリックで閉じる
 // =========================

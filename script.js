@@ -120,43 +120,38 @@ function showLinkEditPopup(card) {
 // =========================
 // カード作成
 // =========================
-function createCard(item) {
-  const card = document.createElement("div");
-  card.className = "card";
-
-  // 🔴 ここでカードに item の id を保持
-  card.dataset.itemId = item.id;
-
+function createCard(item, index) {
   card.innerHTML = `
-    <div class="image">
-      <img src="${item.img || 'https://dummyimage.com/300x300/eeeeee/999999&text=📷'}" alt="">
-      <span class="modern-clicks">${item.clicks || 0}</span>
-    </div>
 
-    <div class="card-name" contenteditable="true">
-      ${item.name || "アイテム名"}
-    </div>
+  ${index >= 4 ? deleteIcon() : ""}  <!-- ←ここ追加 -->
 
-    <div class="price-link-wrapper">
-      <div class="card-price">${item.price || "¥0"}</div>
+  <div class="image">
+    <img src="${item.img || 'https://dummyimage.com/300x300/eeeeee/999999&text=📷'}" alt="">
+    <span class="modern-clicks">${item.clicks || 0}</span>
+  </div>
 
-      <!-- ポップアップ式リンク入力 -->
-      <div class="link-wrapper">
-        <a class="link-display" href="${item.link || '#'}" target="_blank">
-         ${item.link || "リンクを入力"}
-        </a>
-        <button class="edit-link-btn">編集</button>
-      </div>
-    </div>
+  <div class="card-name" contenteditable="true">
+    ${item.name || "アイテム名"}
+  </div>
 
-    <div class="card-actions">
-      ${heartIcon(item)}
-      ${commentIcon()}
-      ${shareIcon()}
-      ${saveIcon(item)}
-      ${deleteIcon()}
+  <div class="price-link-wrapper">
+    <div class="card-price">${item.price || "¥0"}</div>
+
+    <div class="link-wrapper">
+      <a class="link-display" href="${item.link || '#'}" target="_blank">
+       ${item.link || "リンクを入力"}
+      </a>
+      <button class="edit-link-btn">編集</button>
     </div>
-  `;
+  </div>
+
+  <div class="card-actions">
+    ${heartIcon(item)}
+    ${commentIcon()}
+    ${shareIcon()}
+    ${saveIcon(item)}
+  </div>
+`;
 
   return card;
 }
@@ -173,7 +168,7 @@ function renderShowcaseLight() {
   // 🔹 安全にカード描画
   items.forEach((item, index) => {
     try {
-      const card = createCard(item);
+      const card = createCard(item, index);
       showcase.appendChild(card);
 
       const nameEl = card.querySelector(".card-name");

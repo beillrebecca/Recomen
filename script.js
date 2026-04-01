@@ -894,41 +894,33 @@ if (commentModal) {
 function initFollowModal() {
   const followingBtn = document.getElementById('followingBtn');
   const followersBtn = document.getElementById('followersBtn');
-
   const followModal = document.getElementById('followModal');
   const followerModal = document.getElementById('followerModal');
 
-  // フォロー開く
-  if (followingBtn && followModal) {
-    followingBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      followModal.style.display = "flex";
-    });
+  console.log('followingBtn:', followingBtn, 'followModal:', followModal);
+
+  if (!followingBtn || !followModal) {
+    console.warn('フォローボタンまたはモーダルが取得できません');
+    return;
   }
 
-  // フォロワー開く
-  if (followersBtn && followerModal) {
-    followersBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      followerModal.style.display = "flex";
-    });
-  }
+  followingBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    followModal.style.display = "flex";
+  });
 
-  // 🔴 閉じる処理（ここに入れる！！）
+  followersBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    followerModal.style.display = "flex";
+  });
+
   [followModal, followerModal].forEach(modal => {
     if (!modal) return;
-
     const closeBtn = modal.querySelector('.close-btn');
-    if (closeBtn) {
-      closeBtn.addEventListener('click', () => {
-        modal.style.display = "none";
-      });
-    }
+    closeBtn?.addEventListener('click', () => modal.style.display = 'none');
 
     modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        modal.style.display = "none";
-      }
+      if (e.target === modal) modal.style.display = 'none';
     });
   });
 }

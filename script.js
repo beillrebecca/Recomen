@@ -185,6 +185,8 @@ function renderShowcaseLight() {
   renderShowcaseLight();
 });
 
+}
+
 // =========================
 // カードクリック操作
 // =========================

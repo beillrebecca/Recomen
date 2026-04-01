@@ -992,6 +992,34 @@ if (!document.body.classList.contains('theme-natural') &&
 
 
   // =========================
+  // コメントいいね
+  // =========================
+  document.getElementById("commentList").addEventListener("click", e => {
+    const like = e.target.closest(".comment-like");
+    if (!like) return;
+
+    const i = like.dataset.i;
+    const comment = items[currentCommentIndex].comments[i];
+
+    comment.likes = (comment.likes || 0) + 1;
+
+    openComments(currentCommentIndex);
+  });
+
+  // 👇これ（いいね処理）
+  document.getElementById("commentList").addEventListener("click", e => {
+    const like = e.target.closest(".comment-like");
+    if (!like) return;
+
+    const i = like.dataset.i;
+    const comment = items[currentCommentIndex].comments[i];
+
+    comment.likes = (comment.likes || 0) + 1;
+
+    openComments(currentCommentIndex);
+  });
+
+  // =========================
 // 保存ボタンイベント
 // =========================
 const saveBtn = document.getElementById("saveBtn");

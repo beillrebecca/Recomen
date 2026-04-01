@@ -26,12 +26,15 @@ let appState = {};
 // =========================
 function heartIcon(item) {
   return `
-    <svg class="icon-heart ${item.liked ? 'liked' : ''}" viewBox="0 0 24 24" stroke-width="1.3"
-      stroke-linecap="round" stroke-linejoin="round">
-      <path d="M20.8 4.6a5 5 0 0 0-7.1 0L12 6.3l-1.7-1.7
-        a5 5 0 0 0-7.1 7.1L12 21l8.8-9.3
-        a5 5 0 0 0 0-7.1z"/>
-    </svg>
+    <div class="like-wrapper">
+      <svg class="icon-heart ${item.liked ? 'liked' : ''}" viewBox="0 0 24 24" stroke-width="1.3"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20.8 4.6a5 5 0 0 0-7.1 0L12 6.3l-1.7-1.7
+          a5 5 0 0 0-7.1 7.1L12 21l8.8-9.3
+          a5 5 0 0 0 0-7.1z"/>
+      </svg>
+      <span class="like-count">${item.likes || ""}</span>
+    </div>
   `;
 }
 
@@ -287,22 +290,32 @@ function initCardClicks() {
 
   // ❤️ ハート
   const heart = e.target.closest(".icon-heart");
-  if (heart) {
-    const path = heart.querySelector("path");
+if (heart) {
+  const card = e.target.closest(".card");
 
-    heart.classList.toggle("liked");
+  const showcaseEl = document.getElementById("showcase");
+  const cards = Array.from(showcaseEl.querySelectorAll(".card"));
+  const index = cards.indexOf(card);
 
-    if (path) {
-      if (heart.classList.contains("liked")) {
-        path.setAttribute("fill", "red");
-        path.setAttribute("stroke", "red");
-      } else {
-        path.setAttribute("fill", "none");
-        path.setAttribute("stroke", "#000");
-      }
-    }
-    return;
+  if (!items[index]) return;
+
+  const item = items[index];
+
+  // トグル
+  item.liked = !item.liked;
+
+  // 数字処理
+  if (item.liked) {
+    item.likes = (item.likes || 0) + 1;
+  } else {
+    item.likes = Math.max((item.likes || 1) - 1, 0);
   }
+
+  // 再描画（これが一番確実）
+  renderShowcaseLight();
+
+  return;
+}
 
   // 💾 保存
   const save = e.target.closest(".icon-save");

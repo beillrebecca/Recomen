@@ -759,10 +759,10 @@ body.theme-modern .card-actions svg {
 ========================= */
 .custom-bar-wrapper {
   position: fixed;
-  bottom: 0;
+  bottom: 60; /* ボトムバーの上に浮かせる */
   left: 0;
   width: 100%;
-  z-index: 1000;
+  z-index: 1000; /* ボトムバーより高く */
   /* background: red; ← デバッグ用、不要なら削除 */
 }
 
@@ -815,7 +815,7 @@ body.theme-modern .card-actions svg {
 }
 
 .edit-items.active {
-  max-height: 60px;
+  max-height: 80px;
   pointer-events: auto;
   z-index: 1200;
 }

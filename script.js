@@ -218,7 +218,7 @@ function renderShowcaseLight() {
     };
     items.push(newItem);
     try {
-      const newCard = createCard(newItem);
+      const newCard = createCard(newItem, items.length - 1);
       showcase.insertBefore(newCard, addWrapper);
     } catch (err) {
       console.error("新規カード追加失敗", newItem, err);

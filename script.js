@@ -466,19 +466,23 @@ function getDefaultItems() {
 }
 
 function loadAppState() {
-  alert("loadAppState 開始");
+  alert("① loadAppState 開始");
 
   let state = null;
+
   try {
-    state = JSON.parse(localStorage.getItem("recomenState"));
-    alert("localStorage からデータ取得 OK");
-  } catch(e) {
-    alert("保存データ破損 or 空です");
-    console.warn("保存データ破損 or 空です:", e);
+    const saved = localStorage.getItem("recomenState");
+    alert("② localStorage取得: " + (saved ? "あり" : "なし"));
+
+    state = saved ? JSON.parse(saved) : null;
+  } catch (e) {
+    alert("❌ JSONパース失敗");
+    state = null;
   }
 
+  // 初期化
   if (!state) {
-    alert("state が空なので初期化します");
+    alert("③ state 初期化");
     state = {
       items: getDefaultItems(),
       profileName: "プロフィール名",
@@ -495,10 +499,14 @@ function loadAppState() {
     };
   }
 
-  alert("items 初期化前");
-  items = (state.items && state.items.length > 0) ? state.items : getDefaultItems();
-  alert("items 初期化後");
+  // アイテム
+  alert("④ itemsセット前");
+  items = (state.items && state.items.length > 0)
+    ? state.items
+    : getDefaultItems();
+  alert("⑤ itemsセット後: " + items.length);
 
+  // プロフィール
   const headerImgEl = document.getElementById("headerImg");
   if (headerImgEl) headerImgEl.src = state.headerImg || headerImgEl.src;
 
@@ -511,106 +519,57 @@ function loadAppState() {
   const profileBioEl = document.getElementById("profileBio");
   if (profileBioEl) profileBioEl.textContent = state.profileBio || "プロフィール紹介";
 
-  alert("プロフィール初期化完了");
+  alert("⑥ プロフィールOK");
 
-  // 🔴 この後に renderShowcaseLight() など描画関数が続く
-}
-      document.getElementById("headerImg").src = state.headerImg || document.getElementById("headerImg").src;
-      document.getElementById("avatarImg").src = state.avatarImg || document.getElementById("avatarImg").src;
-      document.getElementById("profileName").textContent = state.profileName || "プロフィール名";
-      document.getElementById("profileBio").textContent = state.profileBio || "プロフィール紹介";
-      
-      // =========================
-// 🔴 スタイル復元
-// =========================
+  // テーマ
+  if (state.theme) {
+    document.body.classList.remove('theme-natural', 'theme-modern');
+    document.body.classList.add(`theme-${state.theme}`);
+  }
 
-// テーマ
-if (state.theme) {
-  document.body.classList.remove('theme-natural', 'theme-modern');
-  document.body.classList.add(`theme-${state.theme}`);
-
-  const radio = document.querySelector(`input[name="theme"][value="${state.theme}"]`);
-  if (radio) radio.checked = true;
-}
-
-// ショーケース背景
-if (state.showcaseBg) {
+  // ショーケース背景
   const showcase = document.getElementById("showcase");
-  if (showcase) showcase.style.backgroundColor = state.showcaseBg;
-}
-
-// フォント
-if (state.fontFamily) {
-  document.documentElement.style.setProperty('--font-family', state.fontFamily);
-
-  const fontSelect = document.getElementById('fontSelect');
-  if (fontSelect) fontSelect.value = state.fontFamily;
-}
-
-// フォントカラー
-if (state.fontColor) {
-  // プロフィール名・紹介文
-  const profileName = document.getElementById('profileName');
-  const profileBio = document.getElementById('profileBio');
-  if (profileName) profileName.style.color = state.fontColor;
-  if (profileBio) profileBio.style.color = state.fontColor;
-}
-
-// フォローフォロワー表示はCSS変数で制御
-if (state.fontColorVar) {
-  document.querySelectorAll('.profile-stats').forEach(el => {
-    if (el) el.style.setProperty('--font-color', state.fontColorVar);
-  });
-}
-
-// プロフィール背景
-if (state.profileBg) {
-  const profile = document.getElementById('profileSection');
-  if (profile) {
-    profile.style.backgroundColor = state.profileBg;
-    profile.style.setProperty('--profile-bg', state.profileBg);
+  if (showcase && state.showcaseBg) {
+    showcase.style.backgroundColor = state.showcaseBg;
   }
-}
 
-// =========================
-// 🔴 アナウンスバー復元
-// =========================
-
-const bar = document.getElementById("announcementBar");
-const toggle = document.getElementById("announcementToggle");
-
-// ON/OFF
-if (bar && toggle) {
-  toggle.checked = state.announcementVisible;
-
-  // 👇 これだけでOK（表示もここで処理される）
-  toggle.dispatchEvent(new Event('change'));
-}
-
-// テキスト
-const bannerText = document.querySelector('#announcementBar .banner-text');
-if (bannerText) {
-  bannerText.textContent = state.announcementText || "";
-}
-
-// 背景色
-if (state.announcementBg && bar) {
-  bar.style.backgroundColor = state.announcementBg;
-}
-
-// 文字色
-if (state.announcementFontColor && bannerText) {
-  bannerText.style.color = state.announcementFontColor;
-}
-
-
-    } catch (e) {
-      console.error("保存データ読み込み失敗", e);
-      items = getDefaultItems();
-    }
-  } else {
-    items = getDefaultItems();
+  // フォント
+  if (state.fontFamily) {
+    document.documentElement.style.setProperty('--font-family', state.fontFamily);
   }
+
+  // フォントカラー
+  if (state.fontColor) {
+    const profileName = document.getElementById('profileName');
+    const profileBio = document.getElementById('profileBio');
+
+    if (profileName) profileName.style.color = state.fontColor;
+    if (profileBio) profileBio.style.color = state.fontColor;
+  }
+
+  // プロフィール背景
+  if (state.profileBg) {
+    const profile = document.getElementById('profileSection');
+    if (profile) profile.style.backgroundColor = state.profileBg;
+  }
+
+  // アナウンスバー
+  const bar = document.getElementById("announcementBar");
+  const bannerText = document.querySelector('#announcementBar .banner-text');
+
+  if (bannerText) {
+    bannerText.textContent = state.announcementText || "";
+  }
+
+  if (bar && state.announcementBg) {
+    bar.style.backgroundColor = state.announcementBg;
+  }
+
+  if (bannerText && state.announcementFontColor) {
+    bannerText.style.color = state.announcementFontColor;
+  }
+
+  alert("⑦ スタイル系OK");
 
   // 最低4枚確保
   while (items.length < 4) {
@@ -626,7 +585,11 @@ if (state.announcementFontColor && bannerText) {
     });
   }
 
+  alert("⑧ カード数最終: " + items.length);
+
+  // 🔴 ここが超重要
   renderShowcaseLight();
+  alert("⑨ renderShowcaseLight 実行完了");
 }
 
 // =========================

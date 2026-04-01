@@ -507,6 +507,19 @@ html, body{
   stroke:#000;
 }
 
+.icon-delete {
+  width: 18px;
+  height: 18px;
+  stroke: #888;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.icon-delete:hover {
+  stroke: #ff4d4d;
+  transform: scale(1.1);
+}
+
 .icon-heart,
 .icon-comment,
 .icon-share,

@@ -196,7 +196,7 @@ function renderShowcaseLight() {
       saved: false,
       clicks: 0,
       fontColorName: "#000",
-      fontColorPrice: "#000"
+      fontColorPrice: "#000",
       comments: []
     };
     items.push(newItem);

@@ -759,7 +759,7 @@ body.theme-modern .card-actions svg {
 ========================= */
 .custom-bar-wrapper {
   position: fixed;
-  bottom: 60px; /* ボトムバーの上に浮かせる */
+  bottom: 0; /* ボトムバーの上に浮かせる */
   left: 0;
   width: 100%;
   z-index: 1100; /* ボトムバーより高く */
@@ -955,7 +955,7 @@ body.theme-modern .card-actions svg {
 
 /* メインコンテンツ下に余白を確保 */
 .main-content-wrapper {
-  padding-bottom: 110px; /* カスタムバー + 保存ボタン分のスペース */
+  padding-bottom: 80px; /* カスタムバー + 保存ボタン分のスペース */
 }
 
 /* 保存ボタンをカード欄の下中央に揃える */

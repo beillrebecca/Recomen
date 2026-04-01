@@ -310,17 +310,34 @@ function initCardClicks() {
     return;
   }
   
-  // 🔗 リンク（表示テキストをタップ）
-  const linkEl = e.target.closest(".link-display");
-  if (linkEl) {
-  e.preventDefault(); // ページ遷移を止める
+  // 🔗 リンククリック（カウント＋遷移）
+const linkEl = e.target.closest(".link-display");
+if (linkEl) {
+  e.preventDefault();
 
   const card = e.target.closest(".card");
-  const popup = document.getElementById("linkEditPopup");
-  
-  // ポップアップを表示する関数がある場合
-  if (typeof showLinkEditPopup === "function") {
-    showLinkEditPopup(card);
+  if (!card) return;
+
+  // 🔴 クリック数取得＆更新
+  const clicksEl = card.querySelector(".modern-clicks");
+  let current = parseInt(clicksEl.textContent) || 0;
+  current++;
+  clicksEl.textContent = current;
+
+  // 🔴 itemsにも反映
+  const showcaseEl = document.getElementById("showcase");
+  const cards = Array.from(showcaseEl.querySelectorAll(".card"));
+  const index = cards.indexOf(card);
+  if (items[index]) {
+    items[index].clicks = current;
+  }
+
+  // 🔴 リンクへ遷移
+  const url = linkEl.href;
+  if (url && url !== "#") {
+    setTimeout(() => {
+      window.open(url, "_blank");
+    }, 150);
   }
 
   return;

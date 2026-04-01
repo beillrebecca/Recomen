@@ -195,6 +195,7 @@ function renderShowcaseLight() {
       clicks: 0,
       fontColorName: "#000",
       fontColorPrice: "#000"
+      comments: []
     };
     items.push(newItem);
     try {
@@ -300,6 +301,21 @@ function initCardClicks() {
       path.setAttribute("fill", save.classList.contains("saved") ? "#000" : "none");
     }
     return;
+  }
+  
+  // 💬 コメント
+const commentBtn = e.target.closest(".icon-comment");
+if (commentBtn) {
+  const card = e.target.closest(".card");
+
+  const showcaseEl = document.getElementById("showcase");
+  const cards = Array.from(showcaseEl.querySelectorAll(".card"));
+  const index = cards.indexOf(card);
+
+  currentCommentIndex = index;
+
+  openComments(index);
+  return;
   }
 
   // 💰 価格

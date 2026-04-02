@@ -1147,3 +1147,40 @@ window.addEventListener('scroll', () => {
 
 });
 
+
+// =========================
+// ログイン処理
+// =========================
+const loginBtn = document.getElementById("loginBtn");
+const guestBtn = document.getElementById("guestBtn");
+const goSignup = document.getElementById("goSignup");
+
+if(loginBtn){
+  loginBtn.addEventListener("click", () => {
+    const user = document.getElementById("username").value;
+    const pass = document.getElementById("password").value;
+
+    if(user && pass){
+      localStorage.setItem("loginUser", user);
+      location.href = "home.html";
+    }else{
+      alert("入力してください");
+    }
+  });
+}
+
+// ゲストログイン
+if(guestBtn){
+  guestBtn.addEventListener("click", () => {
+    localStorage.setItem("loginUser", "guest");
+    location.href = "home.html";
+  });
+}
+
+// 新規登録ページへ
+if(goSignup){
+  goSignup.addEventListener("click", () => {
+    location.href = "signup.html";
+  });
+}
+

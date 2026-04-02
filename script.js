@@ -1,14 +1,12 @@
-const currentPage = location.pathname;
+const path = location.pathname;
 
-// ログインページ以外だけチェック
-if(!currentPage.includes("login.html") && !currentPage.includes("signup.html")){
-  
-  const user = localStorage.getItem("loginUser");
+// 今いるページを判定
+const isLoginPage = path.endsWith("login.html");
+const isSignupPage = path.endsWith("signup.html");
 
-  if(!user){
-    location.href = "login.html";
-  }
-}
+// ログイン・新規登録ページ以外だけチェック
+if(!isLoginPage && !isSignupPage){
+  const user = localStorage.getItem("
 
 window.onerror = function(msg, url, line) {
   alert("エラー発生👇\n" + msg + "\n行:" + line);

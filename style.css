@@ -968,7 +968,8 @@ body.theme-modern .card-actions svg {
 
 /* メインコンテンツ下に余白を確保 */
 .main-content-wrapper {
-  70px; /* カスタムバー高さ60px + 保存ボタン余白10px */
+  padding-bottom: 140px; /* 保存ボタン + カスタムバー + ボトムバー余白 */
+  box-sizing: border-box;
 }
 
 /* 保存ボタンをカード欄の下中央に揃える */
@@ -976,8 +977,9 @@ body.theme-modern .card-actions svg {
   display: flex;
   justify-content: center; /* 横中央 */
   width: 100%; /* 必ず横幅いっぱいにする */
-  padding: 8px 0; /* 上下余白 */
+  padding: 16px 0 0 0; /* 上余白を16pxにして重ならないように */
   box-sizing: border-box;
+  z-index: 1150; /* カスタムバーより上 */
 }
 
 #saveBtn {

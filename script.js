@@ -1,27 +1,3 @@
-alert("script.js 読み込み済み");
-
-const goSignup = document.getElementById("goSignup");
-if(goSignup){
-  alert("goSignup 要素取得OK");
-} else {
-  alert("goSignup 要素が取得できません");
-}
-
-const path = location.pathname;
-
-// 今いるページを判定
-const isLoginPage = path.endsWith("login.html");
-const isSignupPage = path.endsWith("signup.html");
-
-// ログイン・新規登録ページ以外だけチェック
-if(!isLoginPage && !isSignupPage){
-  const user = localStorage.getItem("loginUser");
-  if(!user){
-    alert("ログインしていないので login.html に移動します");
-    location.href = "login.html";
-  }
-}
-
 // JS の最後にエラーハンドリング
 window.onerror = function(msg, url, line) {
   alert("エラー発生👇\n" + msg + "\n行:" + line);
@@ -883,28 +859,6 @@ function setupImageUpload(imgEl, inputEl) {
 document.addEventListener("DOMContentLoaded", () => {
   console.log("JS読み込まれた");
   
-  
-// =========================
-// 🔹 新規登録ボタン処理（Signup）
-// =========================
-const signupBtn = document.getElementById("signupBtn");
-if (signupBtn) {
-  signupBtn.addEventListener("click", () => {
-    alert("登録ボタン押されました！");
-  });
-} else {
-  alert("signupBtn が取得できません");
-}
-
-// =========================
-  // 🔹 goSignup ボタン確認（既存コード）
-  // =========================
-  const goSignup = document.getElementById("goSignup");
-  if(goSignup){
-    console.log("goSignup 要素取得OK");
-  } else {
-    console.log("goSignup 要素が取得できません");
-  }
 
 
 
@@ -1194,64 +1148,5 @@ window.addEventListener('scroll', () => {
   });
 });
 
-
-// =========================
-// 🔹新規登録処理（Signup）
-// =========================
-const signupBtn = document.getElementById("signupBtn");
-
-if(signupBtn){
-  signupBtn.addEventListener("click", () => {
-    const user = document.getElementById("newUsername").value;
-    const pass = document.getElementById("newPassword").value;
-
-    if(user && pass){
-      // すでにユーザー情報がある場合は上書きする簡易版
-      localStorage.setItem("loginUser", user);
-      localStorage.setItem("loginPass", pass); // 簡易パス保存（本番では暗号化必要）
-      alert("登録完了！ログインしてください");
-      location.href = "login.html";
-    }else{
-      alert("全て入力してください");
-    }
-  });
-}
-
-// =========================
-// 🔹ログイン処理
-// =========================
-const loginBtn = document.getElementById("loginBtn");
-const guestBtn = document.getElementById("guestBtn");
-const goSignup = document.getElementById("goSignup");
-
-if(loginBtn){
-  loginBtn.addEventListener("click", () => {
-    const user = document.getElementById("username").value;
-    const pass = document.getElementById("password").value;
-    const storedUser = localStorage.getItem("loginUser");
-    const storedPass = localStorage.getItem("loginPass");
-
-    if(user === storedUser && pass === storedPass){
-      location.href = "home.html";
-    }else{
-      alert("ユーザー名かパスワードが違います");
-    }
-  });
-}
-
-// ゲストログイン
-if(guestBtn){
-  guestBtn.addEventListener("click", () => {
-    localStorage.setItem("loginUser", "guest");
-    location.href = "index.html";
-  });
-}
-
-// 新規登録ページへ
-if(goSignup){
-  goSignup.addEventListener("click", () => {
-    location.href = "signup.html";
-  });
-}
 
 });

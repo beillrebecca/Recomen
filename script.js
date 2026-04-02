@@ -1,3 +1,11 @@
+alert("script.js 読み込み済み");
+
+const goSignup = document.getElementById("goSignup");
+if(goSignup){
+  alert("goSignup 要素取得OK");
+} else {
+  alert("goSignup 要素が取得できません");
+}
 const path = location.pathname;
 
 // 今いるページを判定

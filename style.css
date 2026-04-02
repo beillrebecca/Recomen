@@ -13,7 +13,7 @@
   --showcase-bg:#f6f6f6;
   --card-bg:#ffffff;
   
-  --bottom-bar-height: 60px;
+  --bottom-bar-height: 50px;
 }
 
 .profile,
@@ -786,7 +786,7 @@ body.theme-modern .card-actions svg {
   bottom: var(--bottom-bar-height);
   left: 0;
   width: 100%;
-  height: 60px;
+  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1009,7 +1009,7 @@ body.theme-modern .card-actions svg {
   bottom:0;
   left:0;
   width:100%;
-  height: var(--bottom-bar-height);
+  height: 50;
   background:#fff;
   box-shadow:none;
   display:flex;

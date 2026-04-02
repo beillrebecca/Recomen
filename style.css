@@ -791,7 +791,7 @@ body.theme-modern .card-actions svg {
   background: #f3e8ff;
   height: 60px;
   padding: 6px 16px;
-  z-index: 1100;
+  z-index: 1999;
   /* 隙間っぽく見える原因を完全排除 */
   margin: 0;
   border: none;
@@ -1021,7 +1021,7 @@ body.theme-modern .card-actions svg {
   align-items:center;
   margin: 0;
   border: none;
-  z-index:1000;
+  z-index:2000;
 }
 .bottom-bar button{
   border:none;

@@ -772,7 +772,7 @@ body.theme-modern .card-actions svg {
 ========================= */
 .custom-bar-wrapper {
   position: fixed;
-  bottom: 58px; /* ボトムバーの上にぴったり */
+  bottom: 60px; /* ボトムバーとぴったり */
   left: 0;
   width: 100%;
   z-index: 1100; /* ボトムバーより前面 */
@@ -788,7 +788,7 @@ body.theme-modern .card-actions svg {
   background: #f3e8ff;
   height: 60px; /* 折りたたみ時 */
   padding: 6px 16px;
-  box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
+  box-shadow: none; /* 一時確認用 */
   z-index: 1100; /* カスタムバー自身 */
 }
 
@@ -968,7 +968,7 @@ body.theme-modern .card-actions svg {
 
 /* メインコンテンツ下に余白を確保 */
 .main-content-wrapper {
-  padding-bottom: 80px; /* カスタムバー + 保存ボタン分のスペース */
+  70px; /* カスタムバー高さ60px + 保存ボタン余白10px */
 }
 
 /* 保存ボタンをカード欄の下中央に揃える */

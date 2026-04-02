@@ -781,15 +781,18 @@ body.theme-modern .card-actions svg {
 
 /* カスタムバー本体 */
 .custom-bar {
-  position: sticky;
+  position: fixed; /* ← sticky → fixed に変更 */
+  bottom: 60px;    /* ボトムバーの上 */
+  left: 0;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   background: #f3e8ff;
-  height: 60px; /* 折りたたみ時 */
+  height: 60px;
   padding: 6px 16px;
-  box-shadow: none; /* 一時確認用 */
-  z-index: 1100; /* カスタムバー自身 */
+  box-shadow: 0 -1px 4px rgba(0,0,0,0.05); /* 軽い影で隙間感を消す */
+  z-index: 1100;
 }
 
 /* 編集ボタン */
@@ -968,7 +971,7 @@ body.theme-modern .card-actions svg {
 
 /* メインコンテンツ下に余白を確保 */
 .main-content-wrapper {
-  padding-bottom: 140px; /* 保存ボタン + カスタムバー + ボトムバー余白 */
+  padding-bottom: 180px; /* 保存ボタン + カスタムバー + ボトムバー余白 */
   box-sizing: border-box;
 }
 
@@ -977,7 +980,7 @@ body.theme-modern .card-actions svg {
   display: flex;
   justify-content: center; /* 横中央 */
   width: 100%; /* 必ず横幅いっぱいにする */
-  padding: 16px 0 0 0; /* 上余白を16pxにして重ならないように */
+  padding: 16px 0; /* 上下余白を十分確保 */
   box-sizing: border-box;
   z-index: 1150; /* カスタムバーより上 */
 }

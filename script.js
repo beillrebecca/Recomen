@@ -1183,7 +1183,7 @@ if(loginBtn){
 if(guestBtn){
   guestBtn.addEventListener("click", () => {
     localStorage.setItem("loginUser", "guest");
-    location.href = "home.html";
+    location.href = "index.html";
   });
 }
 

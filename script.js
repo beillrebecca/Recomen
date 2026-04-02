@@ -1190,12 +1190,13 @@ if(loginBtn){
   loginBtn.addEventListener("click", () => {
     const user = document.getElementById("username").value;
     const pass = document.getElementById("password").value;
+    const storedUser = localStorage.getItem("loginUser");
+    const storedPass = localStorage.getItem("loginPass");
 
-    if(user && pass){
-      localStorage.setItem("loginUser", user);
+    if(user === storedUser && pass === storedPass){
       location.href = "home.html";
     }else{
-      alert("入力してください");
+      alert("ユーザー名かパスワードが違います");
     }
   });
 }

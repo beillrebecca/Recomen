@@ -1157,6 +1157,27 @@ window.addEventListener('scroll', () => {
 
 });
 
+// =========================
+// 新規登録処理（Signup）
+// =========================
+const signupBtn = document.getElementById("signupBtn");
+
+if(signupBtn){
+  signupBtn.addEventListener("click", () => {
+    const user = document.getElementById("newUsername").value;
+    const pass = document.getElementById("newPassword").value;
+
+    if(user && pass){
+      // すでにユーザー情報がある場合は上書きする簡易版
+      localStorage.setItem("loginUser", user);
+      localStorage.setItem("loginPass", pass); // 簡易パス保存（本番では暗号化必要）
+      alert("登録完了！ログインしてください");
+      location.href = "login.html";
+    }else{
+      alert("全て入力してください");
+    }
+  });
+}
 
 // =========================
 // ログイン処理

@@ -796,6 +796,11 @@ body.theme-modern .card-actions svg {
   z-index: 1999;
 }
 
+.custom-bar > * {
+  pointer-events: auto;
+  transform: translateY(-60px);
+}
+
 /* 編集ボタン */
 .edit-toggle-btn {
   display: block;

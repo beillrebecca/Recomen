@@ -782,21 +782,21 @@ body.theme-modern .card-actions svg {
 /* カスタムバー本体 */
 .custom-bar {
   position: fixed; /* ← sticky → fixed に変更 */
-  bottom: 60px;    /* ボトムバーの上 */
+  bottom: 0;    /* ボトムバーの上 */
   left: 0;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #f3e8ff;
-  height: 60px;
-  padding: 6px 0; /* ← 左右の余白消す */
+  background: transparent;
+  height: 120px; /* ← 60 + 60 */
   z-index: 1999;
   /* 隙間っぽく見える原因を完全排除 */
   margin: 0;
   border: none;
   box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
   transform: none;
+  pointer-events: none;    /* ← 下クリック通す */
   justify-content: center; /* ← これ追加 */
 }
 

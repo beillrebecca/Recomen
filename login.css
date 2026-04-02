@@ -1,0 +1,58 @@
+.login-container {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+.login-box {
+  width:320px;
+  padding:40px 30px;
+  background:#fff;
+  border:1px solid #ddd;
+  text-align:center;
+}
+
+.logo {
+  font-family:'Galada', cursive;
+  font-size:42px;
+  margin-bottom:30px;
+}
+
+.login-box input {
+  width:100%;
+  padding:10px;
+  margin-bottom:10px;
+  border:1px solid #ccc;
+  border-radius:6px;
+}
+
+#loginBtn {
+  width:100%;
+  padding:10px;
+  background:#0095f6;
+  color:#fff;
+  border:none;
+  border-radius:6px;
+  margin-top:10px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+#guestBtn {
+  width:100%;
+  padding:10px;
+  background:#eee;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  margin-top:10px;
+}
+
+#goSignup {
+  color:#007bff;
+  text-decoration: underline;
+  cursor:pointer;
+  margin-top:15px;
+  font-weight:500;
+}

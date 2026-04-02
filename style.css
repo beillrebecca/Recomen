@@ -782,7 +782,7 @@ body.theme-modern .card-actions svg {
 /* カスタムバー本体 */
 .custom-bar {
   position: fixed; /* ← sticky → fixed に変更 */
-  bottom: 59px;    /* ボトムバーの上 */
+  bottom: 60px;    /* ボトムバーの上 */
   left: 0;
   width: 100%;
   display: flex;
@@ -1024,15 +1024,6 @@ body.theme-modern .card-actions svg {
   margin: 0;
   border: none;
   z-index:2000;
-}
-.bottom-bar::before {
-  content: "";
-  position: absolute;
-  top: -2px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: #fff;
 }
 .bottom-bar button{
   border:none;

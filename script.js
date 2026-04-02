@@ -882,6 +882,19 @@ function setupImageUpload(imgEl, inputEl) {
 // =========================
 document.addEventListener("DOMContentLoaded", () => {
   console.log("JS読み込まれた");
+  
+  
+// =========================
+// 🔹 新規登録ボタン処理（Signup）
+// =========================
+const signupBtn = document.getElementById("signupBtn");
+if (signupBtn) {
+  signupBtn.addEventListener("click", () => {
+    alert("登録ボタン押されました！");
+  });
+} else {
+  alert("signupBtn が取得できません");
+}
 
  // 🔴 コメント閉じる処理
   const commentModal = document.getElementById("commentModal");

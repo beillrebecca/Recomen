@@ -795,7 +795,7 @@ body.theme-modern .card-actions svg {
   /* 隙間っぽく見える原因を完全排除 */
   margin: 0;
   border: none;
-  box-shadow: none; /* ← 一旦完全に消す */
+  box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
 }
 
 /* 編集ボタン */
@@ -1018,6 +1018,8 @@ body.theme-modern .card-actions svg {
   display:flex;
   justify-content:space-around;
   align-items:center;
+  margin: 0;
+  border: none;
   z-index:1000;
 }
 .bottom-bar button{

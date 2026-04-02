@@ -896,6 +896,18 @@ if (signupBtn) {
   alert("signupBtn が取得できません");
 }
 
+// =========================
+  // 🔹 goSignup ボタン確認（既存コード）
+  // =========================
+  const goSignup = document.getElementById("goSignup");
+  if(goSignup){
+    console.log("goSignup 要素取得OK");
+  } else {
+    console.log("goSignup 要素が取得できません");
+  }
+
+
+
  // 🔴 コメント閉じる処理
   const commentModal = document.getElementById("commentModal");
 const commentClose = document.getElementById("commentClose");
@@ -1183,10 +1195,8 @@ window.addEventListener('scroll', () => {
 });
 
 
-});
-
 // =========================
-// 新規登録処理（Signup）
+// 🔹新規登録処理（Signup）
 // =========================
 const signupBtn = document.getElementById("signupBtn");
 
@@ -1208,7 +1218,7 @@ if(signupBtn){
 }
 
 // =========================
-// ログイン処理
+// 🔹ログイン処理
 // =========================
 const loginBtn = document.getElementById("loginBtn");
 const guestBtn = document.getElementById("guestBtn");
@@ -1244,3 +1254,4 @@ if(goSignup){
   });
 }
 
+});

@@ -771,7 +771,7 @@ body.theme-modern .card-actions svg {
    カスタムバー（ボトム固定）
 ========================= */
 .custom-bar-wrapper {
-  position: fixed;
+  position: static;
   bottom: 0; /* ボトムバーとぴったり */
   left: 0;
   width: 100%;
@@ -791,8 +791,11 @@ body.theme-modern .card-actions svg {
   background: #f3e8ff;
   height: 60px;
   padding: 6px 16px;
-  box-shadow: 0 -1px 4px rgba(0,0,0,0.05); /* 軽い影で隙間感を消す */
   z-index: 1100;
+  /* 隙間っぽく見える原因を完全排除 */
+  margin: 0;
+  border: none;
+  box-shadow: none; /* ← 一旦完全に消す */
 }
 
 /* 編集ボタン */

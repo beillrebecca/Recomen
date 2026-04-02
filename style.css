@@ -790,17 +790,20 @@ body.theme-modern .card-actions svg {
   align-items: center;
   background: #f3e8ff;
   height: 60px;
-  padding: 6px 16px;
+  padding: 6px 0; /* ← 左右の余白消す */
   z-index: 1999;
   /* 隙間っぽく見える原因を完全排除 */
   margin: 0;
   border: none;
   box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
   transform: translateY(1px);
+  justify-content: center; /* ← これ追加 */
 }
 
 /* 編集ボタン */
 .edit-toggle-btn {
+  display: block;
+  margin: 0 auto;
   padding: 10px 28px;
   font-size: 14px;
   border: none;

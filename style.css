@@ -1179,3 +1179,14 @@ body.dark-mode .icon-save.saved{
   color:#0095f6;
   cursor:pointer;
 }
+
+/* 新規登録ページに飛ぶ専用リンク */
+#goSignup {
+  color: #007bff;       /* 青色にしてリンク感 */
+  text-decoration: underline;
+  cursor: pointer;
+  margin-top: 15px;
+  text-align: center;
+  display: block;       /* 中央揃えにしやすくする */
+  font-weight: 500;
+}

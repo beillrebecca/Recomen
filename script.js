@@ -1,7 +1,13 @@
-const user = localStorage.getItem("loginUser");
+const currentPage = location.pathname;
 
-if(!user){
-  location.href = "login.html";
+// ログインページ以外だけチェック
+if(!currentPage.includes("login.html") && !currentPage.includes("signup.html")){
+  
+  const user = localStorage.getItem("loginUser");
+
+  if(!user){
+    location.href = "login.html";
+  }
 }
 
 window.onerror = function(msg, url, line) {

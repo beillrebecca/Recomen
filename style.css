@@ -975,7 +975,7 @@ body.theme-modern .card-actions svg {
 
 /* メインコンテンツ下に余白を確保 */
 .main-content-wrapper {
-  padding-bottom: 180px; /* 保存ボタン + カスタムバー + ボトムバー余白 */
+  padding-bottom: 120px; /* 保存ボタン + カスタムバー + ボトムバー余白 */
   box-sizing: border-box;
 }
 

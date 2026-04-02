@@ -1110,3 +1110,72 @@ body.dark-mode .icon-save.saved{
   }
 }
 
+/* =========================
+   ログインページ
+========================= */
+.login-container{
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#fafafa;
+}
+
+.login-box{
+  width:320px;
+  padding:40px 30px;
+  background:#fff;
+  border:1px solid #ddd;
+  text-align:center;
+}
+
+.logo{
+  font-family:'Galada', cursive;
+  font-size:40px;
+  margin-bottom:30px;
+}
+
+.login-box input{
+  width:100%;
+  padding:10px;
+  margin-bottom:10px;
+  border:1px solid #ccc;
+  border-radius:6px;
+}
+
+#loginBtn{
+  width:100%;
+  padding:10px;
+  background:#0095f6;
+  color:#fff;
+  border:none;
+  border-radius:6px;
+  margin-top:10px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.divider{
+  margin:20px 0;
+  font-size:12px;
+  color:#999;
+}
+
+.guest-btn{
+  width:100%;
+  padding:10px;
+  background:#eee;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+.signup-link{
+  margin-top:20px;
+  font-size:12px;
+}
+
+.signup-link span{
+  color:#0095f6;
+  cursor:pointer;
+}

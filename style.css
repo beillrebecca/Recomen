@@ -264,7 +264,7 @@ html, body{
   display: none;               /* 初期は非表示 */
   justify-content: center;
   align-items: center;
-  z-index: 2000;               /* カスタムバーより上 */
+  z-index: 900; /* ボトムバーより下に設定 */
 }
 
 .modal-content {
@@ -277,7 +277,7 @@ html, body{
   border-radius: 8px;
   overflow-y: auto;      /* 中身が多い場合スクロール */
   padding: 16px;
-  z-index: 1600;
+  z-index: 1000; /* ボトムバーと同じにして被らない */
 }
 
 .close-btn {
@@ -772,10 +772,10 @@ body.theme-modern .card-actions svg {
 ========================= */
 .custom-bar-wrapper {
   position: fixed;
-  bottom: 0; /* ボトムバーの上に浮かせる */
+  bottom: 60px; /* ボトムバーの上にぴったり */
   left: 0;
   width: 100%;
-  z-index: 1100; /* ボトムバーより高く */
+  z-index: 1100; /* ボトムバーより前面 */
   /* background: red; ← デバッグ用、不要なら削除 */
 }
 

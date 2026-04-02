@@ -1007,7 +1007,7 @@ body.theme-modern .card-actions svg {
   bottom:0;
   left:0;
   width:100%;
-  height: calc(60px + env(safe-area-inset-bottom));
+  height: 60px;
   background:#fff;
   box-shadow:none;
   display:flex;

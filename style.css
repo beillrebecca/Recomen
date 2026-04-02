@@ -772,7 +772,7 @@ body.theme-modern .card-actions svg {
 ========================= */
 .custom-bar-wrapper {
   position: fixed;
-  bottom: 59px; /* ボトムバーとぴったり */
+  bottom: 0; /* ボトムバーとぴったり */
   left: 0;
   width: 100%;
   z-index: 1100; /* ボトムバーより前面 */

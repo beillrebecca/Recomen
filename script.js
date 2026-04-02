@@ -6,6 +6,7 @@ if(goSignup){
 } else {
   alert("goSignup 要素が取得できません");
 }
+
 const path = location.pathname;
 
 // 今いるページを判定
@@ -14,8 +15,14 @@ const isSignupPage = path.endsWith("signup.html");
 
 // ログイン・新規登録ページ以外だけチェック
 if(!isLoginPage && !isSignupPage){
-  const user = localStorage.getItem("
+  const user = localStorage.getItem("loginUser");
+  if(!user){
+    alert("ログインしていないので login.html に移動します");
+    location.href = "login.html";
+  }
+}
 
+// JS の最後にエラーハンドリング
 window.onerror = function(msg, url, line) {
   alert("エラー発生👇\n" + msg + "\n行:" + line);
 };

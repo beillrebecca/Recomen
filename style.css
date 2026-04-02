@@ -791,14 +791,10 @@ body.theme-modern .card-actions svg {
   justify-content: center;
   align-items: flex-start;
 
-  background: transparent;
+  background: #f3e8ff;
   pointer-events: none;
-  z-index: 1999;
-}
-
-.custom-bar > * {
-  pointer-events: auto;
   transform: translateY(-60px);
+  z-index: 1999;
 }
 
 /* 編集ボタン */

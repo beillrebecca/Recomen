@@ -1,3 +1,9 @@
+const user = localStorage.getItem("loginUser");
+
+if(!user){
+  location.href = "login.html";
+}
+
 window.onerror = function(msg, url, line) {
   alert("エラー発生👇\n" + msg + "\n行:" + line);
 };
